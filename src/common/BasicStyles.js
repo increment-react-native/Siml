@@ -74,7 +74,7 @@ export default {
     marginBottom: 20,
     alignItems: 'center',
     justifyContent: 'center',
-    borderRadius: 5
+    borderRadius: 50
   },
   btnPrimary: {
     backgroundColor: Color.primary
@@ -84,6 +84,9 @@ export default {
   },
   btnWarning: {
     backgroundColor: Color.warning
+  },
+  btnBlue: {
+    backgroundColor: Color.blue
   },
   textWhite: {
     color: Color.white

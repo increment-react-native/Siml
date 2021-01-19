@@ -1,7 +1,7 @@
 import {createStackNavigator} from 'react-navigation-stack';
-import Login from 'modules/login';
-import ForgotPassword from 'modules/basics/ForgotPassword';
-import Register from 'modules/basics/Register';
+import Login from '../modules/basics/Login';
+import ForgotPassword from '../modules/basics/ForgotPassword';
+import Register from '../modules/basics/Register';
 import Drawer from './Drawer';
 // login stack
 const LoginStack = createStackNavigator(
