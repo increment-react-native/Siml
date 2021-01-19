@@ -42,6 +42,20 @@ export default {
     messageGroup: 'App\\Events\\MessageGroup',
     rider: 'App\\Events\\Rider',
   },
+  DrawerMenu: [
+    {
+      title: 'Welcome',
+      route: 'Homepage',
+    },
+    {
+      title: 'Dashboard',
+      route: 'Homepage',
+    },
+    {
+      title: 'Settings',
+      route: 'Homepage',
+    }
+  ],
   tutorials: [
     // {
     //   key: 1,
