@@ -4,9 +4,9 @@ import {createStackNavigator} from 'react-navigation-stack';
 import {createDrawerNavigator} from 'react-navigation-drawer';
 import {FontAwesomeIcon} from '@fortawesome/react-native-fontawesome';
 import {faBars, faChevronLeft} from '@fortawesome/free-solid-svg-icons';
-import Slider from 'modules/slider';
+import Slider from 'components/Slider';
 import {Color, BasicStyles} from 'common';
-import Homepage from 'modules/homepage';
+import Homepage from 'src/modules/basics/Welcome.js';
 import OptionRight from './OptionRight';
 import {connect} from 'react-redux';
 

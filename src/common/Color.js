@@ -1,5 +1,5 @@
-let primary = '#cae166'
-let secondary = '#7575C7'
+let primary = '#54B2A7'
+let secondary = '#F4BCA8'
 let tertiary = '#5A84EE'
 export default {
   primaryDark: '#cae166',
@@ -16,7 +16,7 @@ export default {
   success: '#4BB543',
   goldenYellow: '#FFDF00',
   tertiary: tertiary,
-  blue: '#5A84EE',
+  blue: '#2F80ED',
   containerBackground: '#F1F1F1',
   setPrimary(color){
     this.primary = color
