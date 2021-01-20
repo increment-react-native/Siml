@@ -28,7 +28,7 @@ import LogoutIcon from 'assets/drawer/logout_icon.svg';
 export default {
   company: 'Increment Technologies',
   APP_NAME: '@Agicord_',
-  APP_NAME_BASIC: 'Agicord',
+  APP_NAME_BASIC: 'SIML',
   APP_EMAIL: 'support@traceag.com.au',
   APP_WEBSITE: 'support@traceag.com.au',
   APP_HOST: 'com.agricord',
