@@ -76,6 +76,16 @@ export default {
     justifyContent: 'center',
     borderRadius: 50
   },
+
+  fbButton: {
+    // height: 50,
+    backgroundColor: Color.primary,
+    width: width - 40,
+    marginBottom: 20,
+    alignItems: 'center',
+    justifyContent: 'center',
+    borderRadius: 50
+  },
   btnPrimary: {
     backgroundColor: Color.primary
   },
