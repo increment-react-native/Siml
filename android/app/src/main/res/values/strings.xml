@@ -1,3 +1,5 @@
 <resources>
     <string name="app_name">Siml</string>
+    <string name="facebook_app_id">426969685087880</string>
+    <string name="fb_login_protocol_scheme">fb426969685087880</string>
 </resources>

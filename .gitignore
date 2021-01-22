@@ -65,3 +65,4 @@ src/modules/basics/
 src/services/api/
 /ios/Agricord.xcodeproj/project.pbxproj
 /ios/Podfile.lock
+android/java_pid10028.hprof
