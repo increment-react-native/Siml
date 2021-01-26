@@ -73,15 +73,15 @@ const mapDispatchToProps = (dispatch) => {
 
 const QRCodeButton = connect(mapStateToProps, mapDispatchToProps)(QRCode)
 const _StackNavigator = createStackNavigator({
-  Homepage: {
-    screen: Homepage,
-    navigationOptions: ({navigation}) => {
-      console.log({navigation});
-      return {
-        headerShown: false,
-      };
-    }
-  },
+  // Homepage: {
+  //   screen: Homepage,
+  //   navigationOptions: ({navigation}) => {
+  //     console.log(navigation.navigate);
+  //     return {
+  //       headerShown: false,
+  //     };
+  //   }
+  // },
   // Requests: {
   //   screen: Requests,
   //   navigationOptions: ({ navigation }) => ({
@@ -91,8 +91,16 @@ const _StackNavigator = createStackNavigator({
   //     headerTransparent: true
   //   }),
   // },
-
-  Terms: {
+  Homepage: {
+    screen: Homepage,
+    navigationOptions: ({ navigation }) => ({
+      title: 'HomePage',
+      headerLeft: <MenuDrawerStructure navigationProps={navigation} />,
+      headerRight: <OptionRight navigationProps={navigation} />,
+      headerTransparent: true
+    }),
+  },
+  TermsAndConditions: {
     screen: TermsAndConditions,
     navigationOptions: ({ navigation }) => ({
       title: 'Terms & condition',
@@ -283,17 +291,17 @@ const Drawer = createDrawerNavigator(
         drawerLabel: 'Terms and Condition',
       },
     },
-    Homepage: {
-      screen: _StackNavigator,
-      navigationOptions: {
-        drawerLabel: '',
-      },
-    }
+    // Homepage: {
+    //   screen: _StackNavigator,
+    //   navigationOptions: {
+    //     drawerLabel: '',
+    //   },
+    // }
   },
   {
     contentComponent: Slider,
     drawerWidth: width,
-    initialRouteName: 'Homepage',
+    // initialRouteName: 'Homepage',
   },
 );
 

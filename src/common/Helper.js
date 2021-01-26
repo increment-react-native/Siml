@@ -57,7 +57,7 @@ export default {
     },
     {
       title: 'Terms & Conditions',
-      route: 'Homepage',
+      route: 'TermsAndConditions',
     },
     {
       title: 'Privacy Policy',
