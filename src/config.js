@@ -1,11 +1,11 @@
-let LIVE_BACKEND_URL = 'https://api.wearesiml.com.au/api/public/increment/v1';
+let LIVE_BACKEND_URL = 'https://api.app.wearesiml.com/public/increment/v1';
 let DEV_BACKEND_URL = 'http://localhost/Siml/api/public/increment/v1';
 let isDev = false;
 let BACKEND_URL = isDev ? DEV_BACKEND_URL : LIVE_BACKEND_URL;
 export default {
   IS_DEV: BACKEND_URL,
   BACKEND_URL: BACKEND_URL,
-  TEST: true,
+  TEST: false,
   GOOGLE: {
     API_KEY: 'AIzaSyDrRdwTpaLeofZGsv39i0OuMpDLiIQJIIk',
   },
