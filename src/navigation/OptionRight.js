@@ -73,7 +73,7 @@ class NavigationDrawerStructureRight extends Component {
 
 {/* *********************************************************************************************************************************************** */}
 
-      {this.props.state.user ?  <View style={{
+      {/* {this.props.state.user ?  <View style={{
           width: '15%', 
         }}>
           <TouchableOpacity onPress={() => this.goTo('Cart')}>
@@ -105,7 +105,7 @@ class NavigationDrawerStructureRight extends Component {
               }
             </View>
           </TouchableOpacity>   
-        </View> : null}
+        </View> : null} */}
         
       </View>
     );
