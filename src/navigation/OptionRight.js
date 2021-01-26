@@ -46,7 +46,7 @@ class NavigationDrawerStructureRight extends Component {
        
       }}>
 {/* ********************************************************Address Area Edit Here*************************************************************************************** */}
-      <TouchableOpacity
+      {/* <TouchableOpacity
         onPress={() => this.goTo('ChangeAddress')}
         style={{
           width: '85%'
@@ -68,7 +68,7 @@ class NavigationDrawerStructureRight extends Component {
               {this.props.state.location ? this.props.state.location.route : "Current Location"}
             </Text>
           </View>
-        </TouchableOpacity>
+        </TouchableOpacity> */}
 
 
 {/* *********************************************************************************************************************************************** */}
