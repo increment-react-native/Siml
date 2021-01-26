@@ -44,11 +44,23 @@ export default {
   },
   DrawerMenu: [
     {
-      title: 'Welcome',
+      title: 'Homepage',
       route: 'Homepage',
     },
     {
-      title: 'Dashboard',
+      title: 'Messages',
+      route: 'Homepage',
+    },
+    {
+      title: 'Connections',
+      route: 'Homepage',
+    },
+    {
+      title: 'Terms & Conditions',
+      route: 'TermsAndConditions',
+    },
+    {
+      title: 'Privacy Policy',
       route: 'Homepage',
     },
     {

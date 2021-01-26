@@ -1,18 +1,31 @@
-import React, {Component} from 'react';
-import {View, TouchableOpacity, Dimensions} from 'react-native';
-import {createStackNavigator} from 'react-navigation-stack';
-import {createDrawerNavigator} from 'react-navigation-drawer';
-import {FontAwesomeIcon} from '@fortawesome/react-native-fontawesome';
-import {faBars, faChevronLeft} from '@fortawesome/free-solid-svg-icons';
+import React, { Component } from 'react';
+import { View, TouchableOpacity, Dimensions } from 'react-native';
+import { createStackNavigator } from 'react-navigation-stack';
+import { createDrawerNavigator } from 'react-navigation-drawer';
+import { FontAwesomeIcon } from '@fortawesome/react-native-fontawesome';
+import { faBars, faQrcode } from '@fortawesome/free-solid-svg-icons';
 import Slider from 'components/Slider';
-import {Color, BasicStyles} from 'common';
+import { Color, BasicStyles } from 'common';
 import Homepage from 'src/modules/basics/Welcome.js';
+// import Requests from 'modules/request';
+// import Dashboard from 'modules/dashboard';
+import Messenger from 'modules/messenger';
+// import Welcome from 'modules/Welcome';
+import Notification from 'modules/notification';
+import Profile from 'modules/profile';
+import Settings from 'modules/settings';
+// import { Product, Marketplace, Checkout } from 'components';
+// import Billing from 'modules/profile/Billing.js';
+// import Circle from 'modules/circle/index.js';
 import OptionRight from './OptionRight';
-import {connect} from 'react-redux';
+import TermsAndConditions from 'modules/termsAndConditions';
 
-const width = Math.round(Dimensions.get('window').width);
+import Style from './Style.js';
+import { connect } from 'react-redux'
 
-class MenuDrawerContentStructure extends Component {
+// const width = Math.round(Dimensions.get('window').width);
+const width = '70%';
+class MenuDrawerStructure extends Component {
   constructor(props) {
     super(props);
     this.state = {
@@ -22,70 +35,273 @@ class MenuDrawerContentStructure extends Component {
   toggleDrawer = () => {
     this.props.navigationProps.toggleDrawer();
   };
+
   render() {
-    const {theme} = this.props.state;
-    const {color} = this.props;
     return (
-      <View style={{flexDirection: 'row'}}>
-        {this.state.loginState === true && (
-          <TouchableOpacity onPress={this.toggleDrawer.bind(this)}>
-            {/*Donute Button Image */}
-            <FontAwesomeIcon
-              icon={faBars}
-              size={BasicStyles.iconSize}
-              style={[
-                BasicStyles.iconStyle,
-                {
-                  color: color ? color : theme ? theme.primary : Color.primary,
-                },
-              ]}
-            />
-          </TouchableOpacity>
-        )}
-      </View>
+      <View
+        style={{
+          flexDirection: 'row',
+        }}></View>
     );
   }
 }
 
-const mapStateToProps = state => ({state: state});
+class QRCode extends Component {
+  render() {
+    return (
+      <TouchableOpacity onPress={() => {
+        this.props.setQRCodeModal(true)
+      }}>
+        <View style={{ paddingRight: 8 }} >
+          <FontAwesomeIcon icon={faQrcode} size={BasicStyles.iconSize + 5} style={{ color: 'black', marginRight: 10 }} />
+        </View>
+      </TouchableOpacity>
+    )
+  }
+}
 
-const mapDispatchToProps = dispatch => {
-  const {actions} = require('@redux');
+const mapStateToProps = (state) => ({ state: state });
+
+const mapDispatchToProps = (dispatch) => {
+  const { actions } = require('@redux');
   return {
-    setActiveRoute: route => dispatch(actions.setActiveRoute(route)),
+    setQRCodeModal: (isVisible) => {
+      dispatch(actions.setQRCodeModal({ isVisible: isVisible }))
+    },
   };
 };
 
-let MenuDrawerStructure = connect(
-  mapStateToProps,
-  mapDispatchToProps,
-)(MenuDrawerContentStructure);
-
-const Homepage_StackNavigator = createStackNavigator({
+const QRCodeButton = connect(mapStateToProps, mapDispatchToProps)(QRCode)
+const _StackNavigator = createStackNavigator({
+  // Homepage: {
+  //   screen: Homepage,
+  //   navigationOptions: ({navigation}) => {
+  //     console.log(navigation.navigate);
+  //     return {
+  //       headerShown: false,
+  //     };
+  //   }
+  // },
+  // Requests: {
+  //   screen: Requests,
+  //   navigationOptions: ({ navigation }) => ({
+  //     title: null,
+  //     headerLeft: <MenuDrawerStructure navigationProps={navigation} />,
+  //     headerRight: <OptionRight navigationProps={navigation} />,
+  //     headerTransparent: true
+  //   }),
+  // },
   Homepage: {
     screen: Homepage,
-    navigationOptions: ({navigation}) => {
-      console.log({navigation});
-      return {
-        headerShown: false,
-      };
-    },
+    navigationOptions: ({ navigation }) => ({
+      title: 'HomePage',
+      headerLeft: <MenuDrawerStructure navigationProps={navigation} />,
+      headerRight: <OptionRight navigationProps={navigation} />,
+      headerTransparent: true
+    }),
+  },
+  TermsAndConditions: {
+    screen: TermsAndConditions,
+    navigationOptions: ({ navigation }) => ({
+      title: 'Terms & condition',
+      headerLeft: <MenuDrawerStructure navigationProps={navigation} />,
+      headerRight: <OptionRight navigationProps={navigation} />,
+      headerTransparent: true
+    }),
+  },
+  // Circle: {
+  //   screen: Circle,
+  //   navigationOptions: ({ navigation }) => ({
+  //     title: null,
+  //     headerLeft: <MenuDrawerStructure navigationProps={navigation} />,
+  //     headerRight: <OptionRight navigationProps={navigation} />,
+  //     headerTransparent: true
+  //   }),
+  // },
+  // Dashboard: {
+  //   screen: Dashboard,
+  //   navigationOptions: ({ navigation }) => ({
+  //     title: null,
+  //     headerLeft: <OptionRight navigationProps={navigation} />,
+  //     headerRight: (
+  //       <QRCodeButton />
+  //     ),
+  //     headerTransparent: true
+  //   }),
+  // },
+  Notification: {
+    screen: Notification,
+    navigationOptions: ({ navigation }) => ({
+      title: null,
+      headerLeft: <MenuDrawerStructure navigationProps={navigation} />,
+      headerRight: <OptionRight navigationProps={navigation} />,
+      headerTransparent: true
+    }),
+  },
+  Messenger: {
+    screen: Messenger,
+    navigationOptions: ({ navigation }) => ({
+      title: null,
+      headerLeft: <MenuDrawerStructure navigationProps={navigation} />,
+      headerRight: <OptionRight navigationProps={navigation} />,
+      headerTransparent: true
+    }),
+  },
+  Profile: {
+    screen: Profile,
+    navigationOptions: ({ navigation }) => ({
+      title: null,
+      headerLeft: <MenuDrawerStructure navigationProps={navigation} />,
+      headerRight: <OptionRight navigationProps={navigation} />,
+      headerStyle: Style.headerStyle,
+      headerTintColor: Color.primary,
+    }),
+  },
+  // Marketplace: {
+  //   screen: Marketplace,
+  //   navigationOptions: ({ navigation }) => ({
+  //     title: null,
+  //     headerLeft: <MenuDrawerStructure navigationProps={navigation} />,
+  //     headerRight: <OptionRight navigationProps={navigation} />,
+  //     headerStyle: Style.headerStyle,
+  //     headerTintColor: Color.primary,
+  //   }),
+  // },
+  // Product: {
+  //   screen: Product,
+  //   navigationOptions: ({ navigation }) => ({
+  //     title: null,
+  //     headerLeft: <MenuDrawerStructure navigationProps={navigation} />,
+  //     headerRight: <OptionRight navigationProps={navigation} />,
+  //     headerStyle: Style.headerStyle,
+  //     headerTintColor: Color.primary,
+  //   }),
+  // },
+  // Checkout: {
+  //   screen: Checkout,
+  //   navigationOptions: ({ navigation }) => ({
+  //     title: null,
+  //     headerLeft: <MenuDrawerStructure navigationProps={navigation} />,
+  //     headerRight: <OptionRight navigationProps={navigation} />,
+  //     headerStyle: Style.headerStyle,
+  //     headerTintColor: Color.primary,
+  //   }),
+  // },
+  // Billing: {
+  //   screen: Billing,
+  //   navigationOptions: ({ navigation }) => ({
+  //     title: null,
+  //     headerLeft: <MenuDrawerStructure navigationProps={navigation} />,
+  //     headerRight: <OptionRight navigationProps={navigation} />,
+  //     headerStyle: Style.headerStyle,
+  //     headerTintColor: Color.primary,
+  //   }),
+  // },
+  Settings: {
+    screen: Settings,
+    navigationOptions: ({ navigation }) => ({
+      title: null,
+      headerLeft: <MenuDrawerStructure navigationProps={navigation} />,
+      headerRight: <OptionRight navigationProps={navigation} />,
+      headerTransparent: true
+    }),
+  },
+  TermsAndConditions: {
+    screen: TermsAndConditions,
+    navigationOptions: ({ navigation }) => ({
+      title: null,
+      headerLeft: <MenuDrawerStructure navigationProps={navigation} />,
+      headerRight: <OptionRight navigationProps={navigation} />,
+      headerTransparent: true
+    }),
   },
 });
 
 const Drawer = createDrawerNavigator(
   {
-    Homepage: {
-      screen: Homepage_StackNavigator,
+    Requests: {
+      screen: _StackNavigator,
       navigationOptions: {
-        drawerLabel: '',
+        drawerLabel: 'Requests',
       },
-    }
+    },
+    Circle: {
+      screen: _StackNavigator,
+      navigationOptions: {
+        drawerLabel: 'Circle',
+      },
+    },
+    Dashboard: {
+      screen: _StackNavigator,
+      navigationOptions: {
+        drawerLabel: 'Dashboard',
+      },
+    },
+    Messenger: {
+      screen: _StackNavigator,
+      navigationOptions: {
+        drawerLabel: 'Messages',
+      },
+    },
+    Profile: {
+      screen: _StackNavigator,
+      navigationOptions: {
+        drawerLabel: 'Profile',
+      },
+    },
+    Notification: {
+      screen: _StackNavigator,
+      navigationOptions: {
+        drawerLabel: 'Notification',
+      },
+    },
+    // Marketplace: {
+    //   screen: _StackNavigator,
+    //   navigationOptions: {
+    //     drawerLabel: 'Marketplace',
+    //   },
+    // },
+    // Product: {
+    //   screen: _StackNavigator,
+    //   navigationOptions: {
+    //     drawerLabel: 'Product',
+    //   },
+    // },
+    // Checkout: {
+    //   screen: _StackNavigator,
+    //   navigationOptions: {
+    //     drawerLabel: 'Checkout',
+    //   },
+    // },
+    // Billing: {
+    //   screen: _StackNavigator,
+    //   navigationOptions: {
+    //     drawerLabel: 'Billing',
+    //   },
+    // },
+    Settings: {
+      screen: _StackNavigator,
+      navigationOptions: {
+        drawerLabel: 'Settings',
+      },
+    },
+    TermsAndConditions: {
+      screen: _StackNavigator,
+      navigationOptions: {
+        drawerLabel: 'Terms and Condition',
+      },
+    },
+    // Homepage: {
+    //   screen: _StackNavigator,
+    //   navigationOptions: {
+    //     drawerLabel: '',
+    //   },
+    // }
   },
   {
     contentComponent: Slider,
     drawerWidth: width,
-    initialRouteName: 'Homepage',
+    // initialRouteName: 'Homepage',
   },
 );
 
