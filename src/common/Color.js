@@ -17,7 +17,7 @@ export default {
   goldenYellow: '#FFDF00',
   tertiary: tertiary,
   blue: '#2F80ED',
-  containerBackground: '#F1F1F1',
+  containerBackground: '#fff',
   setPrimary(color){
     this.primary = color
   },

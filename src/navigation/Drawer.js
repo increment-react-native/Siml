@@ -4,9 +4,9 @@ import { createStackNavigator } from 'react-navigation-stack';
 import { createDrawerNavigator } from 'react-navigation-drawer';
 import { FontAwesomeIcon } from '@fortawesome/react-native-fontawesome';
 import { faBars, faQrcode } from '@fortawesome/free-solid-svg-icons';
-import Slider from 'components/Slider';
+import Slider from 'modules/slider';
 import { Color, BasicStyles } from 'common';
-import Homepage from 'src/modules/basics/Welcome.js';
+import Homepage from 'modules/homepage/Tab';
 import Messenger from 'src/modules/basics/Welcome.js';
 import Notification from 'src/modules/basics/Welcome.js';
 import Profile from 'src/modules/basics/Welcome.js';
@@ -40,20 +40,6 @@ class MenuDrawerStructure extends Component {
   }
 }
 
-class QRCode extends Component {
-  render() {
-    return (
-      <TouchableOpacity onPress={() => {
-        this.props.setQRCodeModal(true)
-      }}>
-        <View style={{ paddingRight: 8 }} >
-          <FontAwesomeIcon icon={faQrcode} size={BasicStyles.iconSize + 5} style={{ color: 'black', marginRight: 10 }} />
-        </View>
-      </TouchableOpacity>
-    )
-  }
-}
-
 const mapStateToProps = (state) => ({ state: state });
 
 const mapDispatchToProps = (dispatch) => {
@@ -65,26 +51,7 @@ const mapDispatchToProps = (dispatch) => {
   };
 };
 
-const QRCodeButton = connect(mapStateToProps, mapDispatchToProps)(QRCode)
 const _StackNavigator = createStackNavigator({
-  // Homepage: {
-  //   screen: Homepage,
-  //   navigationOptions: ({navigation}) => {
-  //     console.log(navigation.navigate);
-  //     return {
-  //       headerShown: false,
-  //     };
-  //   }
-  // },
-  // Requests: {
-  //   screen: Requests,
-  //   navigationOptions: ({ navigation }) => ({
-  //     title: null,
-  //     headerLeft: <MenuDrawerStructure navigationProps={navigation} />,
-  //     headerRight: <OptionRight navigationProps={navigation} />,
-  //     headerTransparent: true
-  //   }),
-  // },
   Homepage: {
     screen: Homepage,
     navigationOptions: ({ navigation }) => ({
@@ -94,116 +61,28 @@ const _StackNavigator = createStackNavigator({
       headerTransparent: true
     }),
   },
+  Messenger: {
+    screen: Homepage,
+    navigationOptions: ({ navigation }) => ({
+      title: null,
+      headerLeft: <MenuDrawerStructure navigationProps={navigation} />,
+      headerRight: <OptionRight navigationProps={navigation} />,
+      headerTransparent: true
+    }),
+  },
+  Settings: {
+    screen: Homepage,
+    navigationOptions: ({ navigation }) => ({
+      title: null,
+      headerLeft: <MenuDrawerStructure navigationProps={navigation} />,
+      headerRight: <OptionRight navigationProps={navigation} />,
+      headerTransparent: true
+    }),
+  },
   TermsAndConditions: {
-    screen: TermsAndConditions,
+    screen: Homepage,
     navigationOptions: ({ navigation }) => ({
       title: 'Terms & condition',
-      headerLeft: <MenuDrawerStructure navigationProps={navigation} />,
-      headerRight: <OptionRight navigationProps={navigation} />,
-      headerTransparent: true
-    }),
-  },
-  // Circle: {
-  //   screen: Circle,
-  //   navigationOptions: ({ navigation }) => ({
-  //     title: null,
-  //     headerLeft: <MenuDrawerStructure navigationProps={navigation} />,
-  //     headerRight: <OptionRight navigationProps={navigation} />,
-  //     headerTransparent: true
-  //   }),
-  // },
-  // Dashboard: {
-  //   screen: Dashboard,
-  //   navigationOptions: ({ navigation }) => ({
-  //     title: null,
-  //     headerLeft: <OptionRight navigationProps={navigation} />,
-  //     headerRight: (
-  //       <QRCodeButton />
-  //     ),
-  //     headerTransparent: true
-  //   }),
-  // },
-  Notification: {
-    screen: Notification,
-    navigationOptions: ({ navigation }) => ({
-      title: null,
-      headerLeft: <MenuDrawerStructure navigationProps={navigation} />,
-      headerRight: <OptionRight navigationProps={navigation} />,
-      headerTransparent: true
-    }),
-  },
-  Messenger: {
-    screen: Messenger,
-    navigationOptions: ({ navigation }) => ({
-      title: null,
-      headerLeft: <MenuDrawerStructure navigationProps={navigation} />,
-      headerRight: <OptionRight navigationProps={navigation} />,
-      headerTransparent: true
-    }),
-  },
-  Profile: {
-    screen: Profile,
-    navigationOptions: ({ navigation }) => ({
-      title: null,
-      headerLeft: <MenuDrawerStructure navigationProps={navigation} />,
-      headerRight: <OptionRight navigationProps={navigation} />,
-      headerStyle: Style.headerStyle,
-      headerTintColor: Color.primary,
-    }),
-  },
-  // Marketplace: {
-  //   screen: Marketplace,
-  //   navigationOptions: ({ navigation }) => ({
-  //     title: null,
-  //     headerLeft: <MenuDrawerStructure navigationProps={navigation} />,
-  //     headerRight: <OptionRight navigationProps={navigation} />,
-  //     headerStyle: Style.headerStyle,
-  //     headerTintColor: Color.primary,
-  //   }),
-  // },
-  // Product: {
-  //   screen: Product,
-  //   navigationOptions: ({ navigation }) => ({
-  //     title: null,
-  //     headerLeft: <MenuDrawerStructure navigationProps={navigation} />,
-  //     headerRight: <OptionRight navigationProps={navigation} />,
-  //     headerStyle: Style.headerStyle,
-  //     headerTintColor: Color.primary,
-  //   }),
-  // },
-  // Checkout: {
-  //   screen: Checkout,
-  //   navigationOptions: ({ navigation }) => ({
-  //     title: null,
-  //     headerLeft: <MenuDrawerStructure navigationProps={navigation} />,
-  //     headerRight: <OptionRight navigationProps={navigation} />,
-  //     headerStyle: Style.headerStyle,
-  //     headerTintColor: Color.primary,
-  //   }),
-  // },
-  // Billing: {
-  //   screen: Billing,
-  //   navigationOptions: ({ navigation }) => ({
-  //     title: null,
-  //     headerLeft: <MenuDrawerStructure navigationProps={navigation} />,
-  //     headerRight: <OptionRight navigationProps={navigation} />,
-  //     headerStyle: Style.headerStyle,
-  //     headerTintColor: Color.primary,
-  //   }),
-  // },
-  Settings: {
-    screen: Settings,
-    navigationOptions: ({ navigation }) => ({
-      title: null,
-      headerLeft: <MenuDrawerStructure navigationProps={navigation} />,
-      headerRight: <OptionRight navigationProps={navigation} />,
-      headerTransparent: true
-    }),
-  },
-  TermsAndConditions: {
-    screen: TermsAndConditions,
-    navigationOptions: ({ navigation }) => ({
-      title: null,
       headerLeft: <MenuDrawerStructure navigationProps={navigation} />,
       headerRight: <OptionRight navigationProps={navigation} />,
       headerTransparent: true
@@ -213,22 +92,10 @@ const _StackNavigator = createStackNavigator({
 
 const Drawer = createDrawerNavigator(
   {
-    Requests: {
+    Homepage: {
       screen: _StackNavigator,
       navigationOptions: {
-        drawerLabel: 'Requests',
-      },
-    },
-    Circle: {
-      screen: _StackNavigator,
-      navigationOptions: {
-        drawerLabel: 'Circle',
-      },
-    },
-    Dashboard: {
-      screen: _StackNavigator,
-      navigationOptions: {
-        drawerLabel: 'Dashboard',
+        drawerLabel: 'Homepage',
       },
     },
     Messenger: {
@@ -249,30 +116,6 @@ const Drawer = createDrawerNavigator(
         drawerLabel: 'Notification',
       },
     },
-    // Marketplace: {
-    //   screen: _StackNavigator,
-    //   navigationOptions: {
-    //     drawerLabel: 'Marketplace',
-    //   },
-    // },
-    // Product: {
-    //   screen: _StackNavigator,
-    //   navigationOptions: {
-    //     drawerLabel: 'Product',
-    //   },
-    // },
-    // Checkout: {
-    //   screen: _StackNavigator,
-    //   navigationOptions: {
-    //     drawerLabel: 'Checkout',
-    //   },
-    // },
-    // Billing: {
-    //   screen: _StackNavigator,
-    //   navigationOptions: {
-    //     drawerLabel: 'Billing',
-    //   },
-    // },
     Settings: {
       screen: _StackNavigator,
       navigationOptions: {
@@ -285,17 +128,11 @@ const Drawer = createDrawerNavigator(
         drawerLabel: 'Terms and Condition',
       },
     },
-    // Homepage: {
-    //   screen: _StackNavigator,
-    //   navigationOptions: {
-    //     drawerLabel: '',
-    //   },
-    // }
   },
   {
     contentComponent: Slider,
     drawerWidth: width,
-    // initialRouteName: 'Homepage',
+    initialRouteName: 'Homepage'
   },
 );
 

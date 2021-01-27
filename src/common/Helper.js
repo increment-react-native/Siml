@@ -3,11 +3,11 @@ import Color from './Color.js';
 
 export default {
   company: 'Increment Technologies',
-  APP_NAME: '@Agicord_',
+  APP_NAME: '@SIML_',
   APP_NAME_BASIC: 'SIML',
   APP_EMAIL: 'support@traceag.com.au',
   APP_WEBSITE: 'support@traceag.com.au',
-  APP_HOST: 'com.agricord',
+  APP_HOST: 'com.siml',
   pusher: {
     broadcast_type: 'pusher',
     channel: 'runway',
