@@ -25,7 +25,7 @@ export default {
     },
     {
       title: 'Messages',
-      route: 'Homepage',
+      route: 'Messenger',
     },
     {
       title: 'Connections',

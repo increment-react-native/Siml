@@ -7,6 +7,7 @@ import { faBars, faQrcode } from '@fortawesome/free-solid-svg-icons';
 import Slider from 'modules/slider';
 import { Color, BasicStyles } from 'common';
 import Homepage from 'modules/homepage/Tab';
+import TabSecondLayer from 'modules/homepage/TabSecondLayer';
 import Messenger from 'src/modules/basics/Welcome.js';
 import Notification from 'src/modules/basics/Welcome.js';
 import Profile from 'src/modules/basics/Welcome.js';
@@ -55,14 +56,14 @@ const _StackNavigator = createStackNavigator({
   Homepage: {
     screen: Homepage,
     navigationOptions: ({ navigation }) => ({
-      title: 'HomePage',
+      title: null,
       headerLeft: <MenuDrawerStructure navigationProps={navigation} />,
       headerRight: <OptionRight navigationProps={navigation} />,
       headerTransparent: true
     }),
   },
   Messenger: {
-    screen: Homepage,
+    screen: TabSecondLayer,
     navigationOptions: ({ navigation }) => ({
       title: null,
       headerLeft: <MenuDrawerStructure navigationProps={navigation} />,
@@ -71,7 +72,7 @@ const _StackNavigator = createStackNavigator({
     }),
   },
   Settings: {
-    screen: Homepage,
+    screen: TabSecondLayer,
     navigationOptions: ({ navigation }) => ({
       title: null,
       headerLeft: <MenuDrawerStructure navigationProps={navigation} />,
@@ -80,9 +81,9 @@ const _StackNavigator = createStackNavigator({
     }),
   },
   TermsAndConditions: {
-    screen: Homepage,
+    screen: TabSecondLayer,
     navigationOptions: ({ navigation }) => ({
-      title: 'Terms & condition',
+      title: null,
       headerLeft: <MenuDrawerStructure navigationProps={navigation} />,
       headerRight: <OptionRight navigationProps={navigation} />,
       headerTransparent: true
@@ -95,37 +96,37 @@ const Drawer = createDrawerNavigator(
     Homepage: {
       screen: _StackNavigator,
       navigationOptions: {
-        drawerLabel: 'Homepage',
+        drawerLabel: '',
       },
     },
     Messenger: {
       screen: _StackNavigator,
       navigationOptions: {
-        drawerLabel: 'Messages',
+        drawerLabel: '',
       },
     },
     Profile: {
       screen: _StackNavigator,
       navigationOptions: {
-        drawerLabel: 'Profile',
+        drawerLabel: '',
       },
     },
     Notification: {
       screen: _StackNavigator,
       navigationOptions: {
-        drawerLabel: 'Notification',
+        drawerLabel: '',
       },
     },
     Settings: {
       screen: _StackNavigator,
       navigationOptions: {
-        drawerLabel: 'Settings',
+        drawerLabel: '',
       },
     },
     TermsAndConditions: {
       screen: _StackNavigator,
       navigationOptions: {
-        drawerLabel: 'Terms and Condition',
+        drawerLabel: '',
       },
     },
   },
