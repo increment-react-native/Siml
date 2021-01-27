@@ -1,29 +1,5 @@
 import React from 'react';
 import Color from './Color.js';
-import {
-  faEdit,
-  faComments,
-  faCheck,
-  faPaperPlane,
-  faUser,
-  faMapMarker,
-  faCreditCard,
-  faQuestionCircle,
-  faUsers,
-  faFile,
-  faHome,
-} from '@fortawesome/free-solid-svg-icons';
-
-import TasksIcon from 'assets/drawer/tasks_icon.svg';
-import InventoryIcon from 'assets/drawer/inventory_icon.svg';
-import OrdersIcon from 'assets/drawer/orders_icon.svg';
-import SettingsIcon from 'assets/drawer/settings_icon.svg';
-import TasksActive from 'assets/drawer/tasks_active.svg';
-import InventoryActive from 'assets/drawer/inventory_active.svg';
-import OrdersActive from 'assets/drawer/orders_active.svg';
-import SettingsActive from 'assets/drawer/settings_active.svg';
-import CompleteTaskIcon from 'assets/drawer/complete_task_icon.svg';
-import LogoutIcon from 'assets/drawer/logout_icon.svg';
 
 export default {
   company: 'Increment Technologies',
