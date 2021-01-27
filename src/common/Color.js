@@ -1,5 +1,5 @@
-let primary = '#54B2A7'
-let secondary = '#F4BCA8'
+let primary = '#5842D7'
+let secondary = '#BF97F2'
 let tertiary = '#5A84EE'
 export default {
   primaryDark: '#cae166',
