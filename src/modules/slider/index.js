@@ -90,7 +90,10 @@ class Slider extends Component {
               })
             }
             <View style={styles.navSectionStyle}>
-              <Text style={styles.navItemStyle} onPress={() => this.logoutAction()}>
+              <Text style={[styles.navItemStyle, {
+                color: Color.danger,
+                fontWeight: 'bold'
+              }]} onPress={() => this.logoutAction()}>
                 Logout
               </Text>
             </View>

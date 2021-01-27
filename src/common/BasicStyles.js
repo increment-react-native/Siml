@@ -76,7 +76,6 @@ export default {
     justifyContent: 'center',
     borderRadius: 50
   },
-
   fbButton: {
     // height: 50,
     backgroundColor: Color.primary,
@@ -239,5 +238,13 @@ export default {
     flexDirection:'row',
     paddingTop: 15,
     paddingBottom: 15
-  }
+  },
+  standardButton: {
+    height: 50,
+    backgroundColor: Color.primary,
+    width: '100%',
+    alignItems: 'center',
+    justifyContent: 'center',
+    borderRadius: 25
+  },
 }
