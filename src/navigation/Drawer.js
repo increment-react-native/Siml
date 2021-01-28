@@ -7,7 +7,7 @@ import { faBars, faQrcode } from '@fortawesome/free-solid-svg-icons';
 import Slider from 'modules/slider';
 import { Color, BasicStyles } from 'common';
 import Homepage from 'modules/homepage/Tab';
-import TabSecondLayer from 'modules/homepage/TabSecondLayer';
+// import TabSecondLayer from 'modules/homepage/TabSecondLayer';
 import Messenger from 'src/modules/basics/Welcome.js';
 import Notification from 'src/modules/basics/Welcome.js';
 import Profile from 'src/modules/basics/Welcome.js';
@@ -63,7 +63,7 @@ const _StackNavigator = createStackNavigator({
     }),
   },
   Messenger: {
-    screen: TabSecondLayer,
+    screen: Homepage,
     navigationOptions: ({ navigation }) => ({
       title: null,
       headerLeft: <MenuDrawerStructure navigationProps={navigation} />,
@@ -72,7 +72,7 @@ const _StackNavigator = createStackNavigator({
     }),
   },
   Settings: {
-    screen: TabSecondLayer,
+    screen: Homepage,
     navigationOptions: ({ navigation }) => ({
       title: null,
       headerLeft: <MenuDrawerStructure navigationProps={navigation} />,
@@ -81,7 +81,7 @@ const _StackNavigator = createStackNavigator({
     }),
   },
   TermsAndConditions: {
-    screen: TabSecondLayer,
+    screen: Homepage,
     navigationOptions: ({ navigation }) => ({
       title: null,
       headerLeft: <MenuDrawerStructure navigationProps={navigation} />,

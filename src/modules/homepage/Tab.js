@@ -6,6 +6,8 @@ import HomePage from 'modules/homepage/Stack';
 import { FontAwesomeIcon } from '@fortawesome/react-native-fontawesome';
 import { faHome, faBell, faUsers } from '@fortawesome/free-solid-svg-icons';
 import { Color } from 'common'
+import { Platform } from 'react-native';
+import Style from './Style';
 
 
 const Tab = createBottomTabNavigator();
@@ -46,6 +48,7 @@ export default function TabNavigator(props) {
               icon={faUsers}
               size={30}
               color={Color.gray}
+              style={Style.footerIcon}
               />,
           }}
         />
@@ -64,6 +67,7 @@ export default function TabNavigator(props) {
               icon={faBell}
               size={30}
               color={Color.gray}
+              style={Style.footerIcon}
               />,
           }}
         />
@@ -82,6 +86,7 @@ export default function TabNavigator(props) {
               icon={faBell}
               size={30}
               color={Color.gray}
+              style={Style.footerIcon}
               />,
           }}
         />

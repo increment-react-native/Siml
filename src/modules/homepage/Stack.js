@@ -13,6 +13,9 @@ const width = Math.round(Dimensions.get('window').width)
 const TasksStack = createStackNavigator();
 
 const Stack = props => {
+  const toggle = () => {
+    console.log('toggle')
+  }
   return (
     <TasksStack.Navigator>
       <TasksStack.Screen
@@ -34,7 +37,9 @@ const Stack = props => {
               <View
                 style={{flex: 1, flexDirection: 'row', alignItems: 'center'}}>
                 <TouchableOpacity
-                  onPress={() => props.parentNav.toggleDrawer()}
+                  onPress={() => {
+                    props.parentNav.toggleDrawer()
+                  }}
                   style={{
                     height: 50,
                     width: 50,
@@ -42,7 +47,9 @@ const Stack = props => {
                     backgroundColor: Color.primary,
                     borderRadius: 25,
                     justifyContent: 'center',
-                    alignItems: 'center'
+                    alignItems: 'center',
+                    position: 'relative',
+                    zIndex: 10001
                   }}
                   >
                   <FontAwesomeIcon
