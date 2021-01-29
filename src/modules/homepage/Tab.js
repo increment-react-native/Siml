@@ -3,6 +3,7 @@ import {NavigationContainer} from '@react-navigation/native';
 import {createBottomTabNavigator} from '@react-navigation/bottom-tabs';
 import {NavigationActions, StackActions} from 'react-navigation';
 import HomePage from 'modules/homepage/Stack';
+import Swiper from 'modules/swiper/index.js';
 import { FontAwesomeIcon } from '@fortawesome/react-native-fontawesome';
 import { faHome, faBell, faUsers } from '@fortawesome/free-solid-svg-icons';
 import { Color } from 'common'
@@ -52,11 +53,12 @@ export default function TabNavigator(props) {
         <Tab.Screen
           name="HomePage1"
           children={route => (
-            <HomePage
-              {...route}
-              initialPage={props.navigation.state.routeName}
-              parentNav={props.navigation}
-            />
+            <Swiper/>
+            // <HomePage
+            //   {...route}
+            //   initialPage={props.navigation.state.routeName}
+            //   parentNav={props.navigation}
+            // />
           )}
           options={{
             tabBarIcon: () => 
