@@ -11,7 +11,7 @@ import Homepage from 'modules/homepage/Tab';
 import Messenger from 'src/modules/basics/Welcome.js';
 import Notification from 'src/modules/basics/Welcome.js';
 import Profile from 'src/modules/basics/Welcome.js';
-import Settings from 'src/modules/basics/Welcome.js';
+import Settings from 'modules/display/Stack';
 import OptionRight from './OptionRight';
 import TermsAndConditions from 'src/modules/basics/Welcome.js';
 
@@ -55,39 +55,31 @@ const mapDispatchToProps = (dispatch) => {
 const _StackNavigator = createStackNavigator({
   Homepage: {
     screen: Homepage,
-    navigationOptions: ({ navigation }) => ({
-      title: null,
-      headerLeft: <MenuDrawerStructure navigationProps={navigation} />,
-      headerRight: <OptionRight navigationProps={navigation} />,
-      headerTransparent: true
+    navigationOptions: ({navigation}) => ({
+      headerShown: false,
     }),
+    params: {initialRouteName: 'Homepage'},
   },
   Messenger: {
     screen: Homepage,
-    navigationOptions: ({ navigation }) => ({
-      title: null,
-      headerLeft: <MenuDrawerStructure navigationProps={navigation} />,
-      headerRight: <OptionRight navigationProps={navigation} />,
-      headerTransparent: true
+    navigationOptions: ({navigation}) => ({
+      headerShown: false,
     }),
+    params: {initialRouteName: 'Homepage'},
   },
   Settings: {
     screen: Homepage,
-    navigationOptions: ({ navigation }) => ({
-      title: null,
-      headerLeft: <MenuDrawerStructure navigationProps={navigation} />,
-      headerRight: <OptionRight navigationProps={navigation} />,
-      headerTransparent: true
+    navigationOptions: ({navigation}) => ({
+      headerShown: false,
     }),
+    params: {initialRouteName: 'Homepage'},
   },
   TermsAndConditions: {
     screen: Homepage,
-    navigationOptions: ({ navigation }) => ({
-      title: null,
-      headerLeft: <MenuDrawerStructure navigationProps={navigation} />,
-      headerRight: <OptionRight navigationProps={navigation} />,
-      headerTransparent: true
+    navigationOptions: ({navigation}) => ({
+      headerShown: false,
     }),
+    params: {initialRouteName: 'Homepage'},
   },
 });
 

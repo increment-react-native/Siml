@@ -9,7 +9,7 @@ export default {
     width: width - 40,
     paddingLeft: 10,
     marginBottom: 20,
-    borderRadius: 5
+    borderRadius: 25
   },
   formControlModal: {
     height: 50,
@@ -18,7 +18,7 @@ export default {
     width: '90%',
     marginLeft: '5%',
     marginBottom: 20,
-    borderRadius: 5,
+    borderRadius: 25,
     paddingLeft: 10
   },
   formControlCreate: {
@@ -27,7 +27,7 @@ export default {
     borderWidth: 1,
     width: '100%',
     marginBottom: 20,
-    borderRadius: 5,
+    borderRadius: 25,
     paddingLeft: 10
   },
   pickerStyle: {

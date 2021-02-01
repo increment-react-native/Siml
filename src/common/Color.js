@@ -1,6 +1,7 @@
 let primary = '#5842D7'
-let secondary = '#BF97F2'
-let tertiary = '#5A84EE'
+let secondary = '#FFCC00'
+let tertiary = '#4CCBA6'
+let fourth = '#F88BFF'
 export default {
   primaryDark: '#cae166',
   primary: primary,
@@ -18,6 +19,7 @@ export default {
   tertiary: tertiary,
   blue: '#2F80ED',
   containerBackground: '#fff',
+  fourth: fourth,
   setPrimary(color){
     this.primary = color
   },
@@ -26,5 +28,8 @@ export default {
   },
   setTertiary(color){
     this.tertiary = color
+  },
+  setFourth(color){
+    fourth = color
   }
 }

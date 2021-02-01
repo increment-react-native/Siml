@@ -22,7 +22,10 @@ class Slider extends Component {
         index: 0,
         key: null,
         actions: [
-            NavigationActions.navigate({routeName: route}),
+            NavigationActions.navigate({routeName: route, params: {
+              initialRouteName: route ? route : 'HomePage',
+              index: 0
+            }}),
         ]
       })
     });

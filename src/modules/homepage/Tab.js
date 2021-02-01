@@ -3,6 +3,7 @@ import {NavigationContainer} from '@react-navigation/native';
 import {createBottomTabNavigator} from '@react-navigation/bottom-tabs';
 import {NavigationActions, StackActions} from 'react-navigation';
 import HomePage from 'modules/homepage/Stack';
+import DisplayStack from 'modules/display/Stack';
 import { FontAwesomeIcon } from '@fortawesome/react-native-fontawesome';
 import { faHome, faBell, faUsers } from '@fortawesome/free-solid-svg-icons';
 import { Color } from 'common'
@@ -33,7 +34,7 @@ export default function TabNavigator(props) {
           },
         }}>
         <Tab.Screen
-          name="HomePage"
+          name="Connections"
           children={route => (
             <HomePage
               {...route}
@@ -42,7 +43,7 @@ export default function TabNavigator(props) {
             />
           )}
           options={{
-            tabBarLabel: 'SETTINGS',
+            tabBarLabel: 'Connections',
             tabBarIcon: () => 
             <FontAwesomeIcon
               icon={faUsers}
@@ -53,9 +54,9 @@ export default function TabNavigator(props) {
           }}
         />
         <Tab.Screen
-          name="HomePage1"
+          name="Settings"
           children={route => (
-            <HomePage
+            <DisplayStack
               {...route}
               initialPage={props.navigation.state.routeName}
               parentNav={props.navigation}
@@ -72,7 +73,7 @@ export default function TabNavigator(props) {
           }}
         />
         <Tab.Screen
-          name="HomePage2"
+          name="Notifications"
           children={route => (
             <HomePage
               {...route}

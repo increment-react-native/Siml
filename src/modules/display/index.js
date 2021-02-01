@@ -2,7 +2,6 @@ import React, { Component } from 'react';
 import { View, Text, TextInput, StyleSheet, Dimensions, ScrollView } from 'react-native';
 import { connect } from 'react-redux'
 import ThemeSettingTile from 'modules/display/ThemeSettingTile.js';
-import { H1 } from 'native-base';
 const height = Math.round(Dimensions.get('window').height);
 
 const dummyThemeData = [
@@ -56,7 +55,8 @@ class Display extends Component {
           <View
           style={{
             height: height + 25,
-            flex: 1
+            flex: 1,
+            marginTop: 60
           }}
 
           >

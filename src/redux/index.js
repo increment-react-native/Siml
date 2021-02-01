@@ -6,6 +6,7 @@ const types = {
   LOGOUT: 'LOGOUT',
   LOGIN: 'LOGIN',
   UPDATE_USER: 'UPDATE_USER',
+  SET_THEME: 'SET_THEME',
 };
 
 export const actions = {
@@ -18,11 +19,15 @@ export const actions = {
   updateUser: user => {
     return {type: types.UPDATE_USER, user};
   },
+  setTheme(theme) {
+    return {type: types.SET_THEME, theme};
+  },
 };
 
 const initialState = {
   token: null,
   user: null,
+  theme: null
 };
 
 storeData = async (key, value) => {
@@ -35,16 +40,7 @@ storeData = async (key, value) => {
 
 const reducer = (state = initialState, action) => {
   const { type, user, token } = action;
-  const { unread } = action;
-  const { notification } = action;
   const { theme } = action;
-  const { productFilter } = action;
-  const { cartItems, location } = action;
-  const { messages, message } = action;
-  const { messengerGroup, messagesOnGroup } = action;
-  const { selectedOrder } = action;
-  const { task, setting, paddock } = action;
-  const { product } = action;
   switch (type) {
     case types.LOGOUT:
       AsyncStorage.clear();
@@ -58,6 +54,20 @@ const reducer = (state = initialState, action) => {
       return {
         ...state,
         user,
+      };
+    case types.SET_THEME:
+      console.log('tertiary', theme.tertiary);
+      storeData('primary', theme.primary);
+      storeData('secondary', theme.secondary);
+      storeData('tertiary', theme.tertiary);
+      storeData('fourth', theme.fourth);
+      Color.setPrimary(theme.primary);
+      Color.setSecondary(theme.secondary);
+      Color.setTertiary(theme.tertiary);  
+      Color.setFourth(theme.fourth);
+      return {
+        ...state,
+        theme,
       };
     default:
       return {...state, nav: state.nav};
