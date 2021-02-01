@@ -4,6 +4,7 @@ import {createBottomTabNavigator} from '@react-navigation/bottom-tabs';
 import {NavigationActions, StackActions} from 'react-navigation';
 import HomePage from 'modules/homepage/Stack';
 import DisplayStack from 'modules/display/Stack';
+import TermsAndConditions from 'modules/termsAndConditions/Stack'
 import { FontAwesomeIcon } from '@fortawesome/react-native-fontawesome';
 import { faHome, faBell, faUsers } from '@fortawesome/free-solid-svg-icons';
 import { Color } from 'common'
@@ -73,9 +74,9 @@ export default function TabNavigator(props) {
           }}
         />
         <Tab.Screen
-          name="Notifications"
+          name="TermsAndConditions"
           children={route => (
-            <HomePage
+            <TermsAndConditions
               {...route}
               initialPage={props.navigation.state.routeName}
               parentNav={props.navigation}

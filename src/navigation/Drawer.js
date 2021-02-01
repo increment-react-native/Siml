@@ -13,7 +13,7 @@ import Notification from 'src/modules/basics/Welcome.js';
 import Profile from 'src/modules/basics/Welcome.js';
 import Settings from 'modules/display/Stack';
 import OptionRight from './OptionRight';
-import TermsAndConditions from 'src/modules/basics/Welcome.js';
+import TermsAndConditions from 'modules/termsAndConditions/Stack';
 
 import Style from './Style.js';
 import { connect } from 'react-redux'

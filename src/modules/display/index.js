@@ -55,8 +55,7 @@ class Display extends Component {
           <View
           style={{
             height: height + 25,
-            flex: 1,
-            marginTop: 60
+            flex: 1
           }}
 
           >

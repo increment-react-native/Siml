@@ -31,7 +31,7 @@ const Stack = props => {
             headerTitle: () => (
               <StackHeaderTitle title={null}/>
             ),
-            headerTransparent: true,
+            // headerTransparent: true,
             headerLeft: () => (
               <NavigatorHeader {...props} />
             ),
