@@ -1,5 +1,7 @@
 import React from 'react';
 import Color from './Color.js';
+import { faHome, faEnvelope, faUsers, faPalette, faShieldAlt, faHandshake } from '@fortawesome/free-solid-svg-icons';
+import { faComment } from '@fortawesome/free-regular-svg-icons';
 
 export default {
   company: 'Increment Technologies',
@@ -22,26 +24,32 @@ export default {
     {
       title: 'Homepage',
       route: 'Homepage',
+      icon: faHome
     },
     {
       title: 'Messages',
       route: 'Messenger',
+      icon: faComment
     },
     {
       title: 'Connections',
       route: 'Homepage',
+      icon: faUsers
+    },
+    {
+      title: 'Settings',
+      route: 'Settings',
+      icon: faPalette
     },
     {
       title: 'Terms & Conditions',
       route: 'TermsAndConditions',
+      icon: faHandshake
     },
     {
       title: 'Privacy Policy',
       route: 'Homepage',
-    },
-    {
-      title: 'Settings',
-      route: 'Homepage',
+      icon: faShieldAlt
     }
   ],
   tutorials: [

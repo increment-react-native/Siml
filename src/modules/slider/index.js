@@ -82,7 +82,14 @@ class Slider extends Component {
             {Helper.DrawerMenu.length > 0 &&
               Helper.DrawerMenu.map((item, index) => {
                 return(
-                <View style={styles.navSectionStyle} key={index}>
+                <View style={[styles.navSectionStyle, {
+                  flexDirection: 'row',
+                  alignItems: 'center'
+                }]} key={index}>
+                  <FontAwesomeIcon icon={item.icon} style={[item.iconStyle, {
+                    color: theme ? theme.primary : Color.primary,
+                    marginLeft: 10
+                  }]}/>
                   <Text style={styles.navItemStyle} onPress={() => this.navigateToScreen(item.route)}>
                     {item.title}
                   </Text>
