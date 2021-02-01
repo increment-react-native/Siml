@@ -15,7 +15,7 @@ class HomePage extends Component{
           justifyContent: 'center',
           alignItems: 'center',
           height: 200,
-          marginTop: 50
+          backgroundColor: Color.primary
         }}>
           <TouchableOpacity
             style={{

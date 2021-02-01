@@ -7,6 +7,10 @@ export default {
   },
   MainContainer: {
     flex: 1,
-    backgroundColor: Color.white
+    backgroundColor: Color.white,
+    zIndex: 0
   },
+  footerIcon: {
+    marginTop: Platform.OS == 'ios' ? 30 : 0
+  }
 }
