@@ -1,6 +1,7 @@
 import React, { Component } from 'react';
 import { View, Text, TextInput, StyleSheet, Dimensions, ScrollView } from 'react-native';
 import { connect } from 'react-redux'
+import { Color } from 'common'
 import ThemeSettingTile from 'modules/display/ThemeSettingTile.js';
 const height = Math.round(Dimensions.get('window').height);
 
@@ -51,7 +52,11 @@ class Display extends Component {
     return (
       <View>
         <ScrollView
-          showsVerticalScrollIndicator={false}>
+          showsVerticalScrollIndicator={false}
+          style={{
+            backgroundColor: Color.containerBackground
+          }}
+          >
           <View
           style={{
             height: height + 25,

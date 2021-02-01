@@ -1,11 +1,13 @@
 import React, { Component } from 'react';
 import { ScrollView, View, Text, StyleSheet } from 'react-native';
-import { BasicStyles } from 'common'
+import { BasicStyles, Color } from 'common'
 
 class TermsAndConditions extends Component {
   render() {
     return (
-      <ScrollView>
+      <ScrollView style={{
+        backgroundColor: Color.containerBackground
+      }}>
         <View style={styles.TermsAndConditionsContainer}>
           <View style={styles.SectionContainer}>
             <View style={[styles.SectionDescriptionContainer, {

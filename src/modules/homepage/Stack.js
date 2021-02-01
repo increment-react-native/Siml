@@ -32,6 +32,10 @@ const Stack = props => {
               <StackHeaderTitle title={null}/>
             ),
             // headerTransparent: true,
+            headerStyle: {
+              shadowColor: 'transparent',
+              elevation: 0
+            },
             headerLeft: () => (
               <NavigatorHeader {...props} />
             ),
