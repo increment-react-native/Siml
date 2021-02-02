@@ -3,7 +3,7 @@ import Style from './Style.js';
 import { View, Image, Text, TouchableOpacity, ScrollView} from 'react-native';
 import { Routes, Color, Helper, BasicStyles } from 'common';
 import {FontAwesomeIcon} from '@fortawesome/react-native-fontawesome';
-import {faBars, faChevronLeft, faTicketAlt, faShoppingBag} from '@fortawesome/free-solid-svg-icons';
+import {faBars, faUtensils, faChevronLeft, faTicketAlt, faShoppingBag} from '@fortawesome/free-solid-svg-icons';
 import Footer from 'modules/generic/Footer'
 class HomePage extends Component{
   constructor(props){
@@ -71,6 +71,7 @@ class HomePage extends Component{
                 alignItems: 'center'
               }}>
                  <TouchableOpacity
+                  onPress={() => this.redirect('restaurantStack')}
                   style={{
                     height: 70,
                     width: 70,
@@ -79,7 +80,7 @@ class HomePage extends Component{
                     justifyContent: 'center',
                     alignItems: 'center'
                   }}>
-                    <FontAwesomeIcon icon={faBars} size={30} color={Color.white}/>
+                    <FontAwesomeIcon icon={faUtensils} size={30} color={Color.white}/>
                   </TouchableOpacity>
               </View>
               <View style={{
@@ -92,7 +93,7 @@ class HomePage extends Component{
                 borderLeftWidth: 1,
               }}>
                 <TouchableOpacity
-                  onPress={() => this.redirect('restaurantStack')}
+                onPress={() => this.redirect('eventsStack')}
                   style={{
                     height: 70,
                     width: 70,
@@ -110,6 +111,7 @@ class HomePage extends Component{
                 alignItems: 'center'
               }}>
                 <TouchableOpacity
+                  onPress={() => this.redirect('retailsStack')}
                   style={{
                     height: 70,
                     width: 70,
