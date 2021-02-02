@@ -1,7 +1,7 @@
 import {createStackNavigator} from 'react-navigation-stack';
-import Login from 'src/modules/accounts/Login';
-import ForgotPassword from 'src/modules/accounts/ForgotPassword';
-import Register from 'src/modules/accounts/Register';
+import Login from 'src/modules/account/Login';
+import ForgotPassword from 'src/modules/account/ForgotPassword';
+import Register from 'src/modules/account/Register';
 import NotificationStack from 'src/modules/notification/Drawer';
 import Drawer from './Drawer';
 // login stack
