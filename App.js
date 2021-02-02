@@ -8,10 +8,24 @@ import {createAppContainer} from 'react-navigation';
 import AsyncStorage from '@react-native-community/async-storage';
 import {Helper} from 'common';
 import {Tutorial} from 'components';
+import Footer from 'src/modules/generic/Footer'
 const AppContainer = createAppContainer(AppNavigation);
 
+// function ReduxNavigation(props) {
+//   return <AppContainer />;
+// }
+
 function ReduxNavigation(props) {
-  return <AppContainer />;
+  const { layer } = props.state;
+  return (
+      <View
+        style={{
+          flex: 1,
+          backgroundColor: '#ffffff',
+        }}>
+        <AppContainer />
+      </View>
+    )
 }
 
 const mapStateToProps = (state) => ({state: state});

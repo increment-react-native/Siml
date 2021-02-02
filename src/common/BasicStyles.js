@@ -159,6 +159,7 @@ export default {
   standardSubTitleFontSize: 14,
   standardHeaderFontSize: 18,
   standardBorderRadius: 12,
+  headerBackIconSize: 30,
   headerDrawerStyle: {
     headerStyle: {
       elevation: 10,

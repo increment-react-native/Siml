@@ -6,7 +6,7 @@ import {connect} from 'react-redux';
 import { BasicStyles, Color } from 'common';
 const width = Math.round(Dimensions.get('window').width)
 
-class NavigatorHeader extends Component {
+class Header extends Component {
   constructor(props) {
     super(props);
   }
@@ -19,7 +19,7 @@ class NavigatorHeader extends Component {
         style={{flex: 1, flexDirection: 'row', alignItems: 'center'}}>
         <TouchableOpacity
           onPress={() => {
-            this.props.parentNav.toggleDrawer()
+            this.props.navigation.toggleDrawer()
           }}
           style={{
             height: 50,
@@ -46,7 +46,7 @@ class NavigatorHeader extends Component {
         </TouchableOpacity>
 
         <TouchableOpacity
-          onPress={() => this.props.parentNav.toggleDrawer()}
+          onPress={() => this.props.navigation.toggleDrawer()}
           style={{
             justifyContent: 'center',
             alignItems: 'center',
@@ -68,7 +68,7 @@ class NavigatorHeader extends Component {
         </TouchableOpacity>
 
         <TouchableOpacity
-          onPress={() => this.props.parentNav.toggleDrawer()}
+          onPress={() => this.props.navigation.toggleDrawer()}
           style={{
             justifyContent: 'center',
             alignItems: 'center',
@@ -101,4 +101,4 @@ const mapDispatchToProps = (dispatch) => {
   };
 };
 
-export default connect(mapStateToProps, mapDispatchToProps)(NavigatorHeader);
+export default connect(mapStateToProps, mapDispatchToProps)(Header);

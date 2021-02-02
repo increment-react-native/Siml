@@ -33,7 +33,7 @@ export default {
     },
     {
       title: 'Connections',
-      route: 'Homepage',
+      route: 'Connections',
       icon: faUsers
     },
     {
@@ -48,7 +48,7 @@ export default {
     },
     {
       title: 'Privacy Policy',
-      route: 'Homepage',
+      route: 'Privacy',
       icon: faShieldAlt
     }
   ],

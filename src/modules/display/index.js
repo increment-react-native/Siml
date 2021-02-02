@@ -3,6 +3,7 @@ import { View, Text, TextInput, StyleSheet, Dimensions, ScrollView } from 'react
 import { connect } from 'react-redux'
 import { Color } from 'common'
 import ThemeSettingTile from 'modules/display/ThemeSettingTile.js';
+import Footer from 'modules/generic/Footer'
 const height = Math.round(Dimensions.get('window').height);
 
 const dummyThemeData = [
@@ -50,7 +51,9 @@ class Display extends Component {
   };
   render() {
     return (
-      <View>
+      <View style={{
+        flex: 1
+      }}>
         <ScrollView
           showsVerticalScrollIndicator={false}
           style={{
@@ -67,6 +70,8 @@ class Display extends Component {
             {this.displayThemeTiles()}
           </View>
         </ScrollView>
+        
+        <Footer layer={1} {...this.props}/>
       </View>
     )
   }

@@ -6,14 +6,14 @@ import { FontAwesomeIcon } from '@fortawesome/react-native-fontawesome';
 import { faBars, faQrcode } from '@fortawesome/free-solid-svg-icons';
 import Slider from 'modules/slider';
 import { Color, BasicStyles } from 'common';
-import Homepage from 'modules/homepage/Tab';
-// import TabSecondLayer from 'modules/homepage/TabSecondLayer';
-import Messenger from 'src/modules/basics/Welcome.js';
-import Notification from 'src/modules/basics/Welcome.js';
-import Profile from 'src/modules/basics/Welcome.js';
-import Settings from 'modules/display/Stack';
+import Homepage from 'modules/homepage';
+import Messenger from 'src/modules/messenger';
+import Connections from 'src/modules/connection';
+import Settings from 'modules/display';
+import Privacy from 'modules/privacy';
 import OptionRight from './OptionRight';
-import TermsAndConditions from 'modules/termsAndConditions/Stack';
+import TermsAndConditions from 'modules/termsAndConditions';
+import Header from 'src/modules/generic/Header'
 
 import Style from './Style.js';
 import { connect } from 'react-redux'
@@ -56,30 +56,68 @@ const _StackNavigator = createStackNavigator({
   Homepage: {
     screen: Homepage,
     navigationOptions: ({navigation}) => ({
-      headerShown: false,
+      title: null,
+      headerLeft: <Header navigation={navigation} />,
+      headerStyle: {
+        shadowColor: 'transparent',
+        elevation: 0
+      }
     }),
-    params: {initialRouteName: 'Homepage'},
   },
   Messenger: {
-    screen: Homepage,
+    screen: Messenger,
     navigationOptions: ({navigation}) => ({
-      headerShown: false,
+      title: null,
+      headerLeft: <Header navigation={navigation} />,
+      headerStyle: {
+        shadowColor: 'transparent',
+        elevation: 0
+      }
     }),
-    params: {initialRouteName: 'Homepage'},
+  },
+  Connections: {
+    screen: Connections,
+    navigationOptions: ({navigation}) => ({
+      title: null,
+      headerLeft: <Header navigation={navigation} />,
+      headerStyle: {
+        shadowColor: 'transparent',
+        elevation: 0
+      }
+    }),
   },
   Settings: {
-    screen: Homepage,
+    screen: Settings,
     navigationOptions: ({navigation}) => ({
-      headerShown: false,
+      title: null,
+      headerLeft: <Header navigation={navigation} />,
+      headerStyle: {
+        shadowColor: 'transparent',
+        elevation: 0
+      }
     }),
-    params: {initialRouteName: 'Homepage'},
   },
   TermsAndConditions: {
-    screen: Homepage,
+    screen: TermsAndConditions,
     navigationOptions: ({navigation}) => ({
-      headerShown: false,
+      title: null,
+      headerLeft: <Header navigation={navigation} />,
+      headerStyle: {
+        shadowColor: 'transparent',
+        elevation: 0
+      }
     }),
-    params: {initialRouteName: 'Homepage'},
+  },
+  Privacy: {
+    screen: Privacy,
+    navigationOptions: ({navigation}) => ({
+      title: null,
+      headerLeft: <Header navigation={navigation} />,
+      headerStyle: {
+        shadowColor: 'transparent',
+        elevation: 0
+      }
+    }),
   },
 });
 
@@ -116,6 +154,12 @@ const Drawer = createDrawerNavigator(
       },
     },
     TermsAndConditions: {
+      screen: _StackNavigator,
+      navigationOptions: {
+        drawerLabel: '',
+      },
+    },
+    Privacy: {
       screen: _StackNavigator,
       navigationOptions: {
         drawerLabel: '',

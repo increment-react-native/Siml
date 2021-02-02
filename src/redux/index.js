@@ -7,6 +7,7 @@ const types = {
   LOGIN: 'LOGIN',
   UPDATE_USER: 'UPDATE_USER',
   SET_THEME: 'SET_THEME',
+  SET_LAYER: 'SET_LAYER'
 };
 
 export const actions = {
@@ -22,12 +23,16 @@ export const actions = {
   setTheme(theme) {
     return {type: types.SET_THEME, theme};
   },
+  setLayer(layer) {
+    return {type: types.SET_LAYER, layer};
+  },
 };
 
 const initialState = {
   token: null,
   user: null,
-  theme: null
+  theme: null,
+  layer: null
 };
 
 storeData = async (key, value) => {
@@ -40,7 +45,7 @@ storeData = async (key, value) => {
 
 const reducer = (state = initialState, action) => {
   const { type, user, token } = action;
-  const { theme } = action;
+  const { theme, layer } = action;
   switch (type) {
     case types.LOGOUT:
       AsyncStorage.clear();
@@ -68,6 +73,11 @@ const reducer = (state = initialState, action) => {
       return {
         ...state,
         theme,
+      };
+    case types.SET_LAYER:
+      return {
+        ...state,
+        layer,
       };
     default:
       return {...state, nav: state.nav};
