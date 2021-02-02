@@ -180,7 +180,7 @@ class Swiper extends Component{
     
             </View>
             <View style={{ flex: 1 }}>
-              {this.state.currentIndex <= Images.length - 1 ? this.renderUsers() : this.renderUsers()}
+              {this.renderUsers()}
             </View>
             <View style={{ height: 60 }}>
     

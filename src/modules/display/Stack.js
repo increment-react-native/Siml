@@ -1,26 +1,24 @@
 import React from 'react';
-import {View, Text, TouchableOpacity, TouchableHighlight, Dimensions} from 'react-native';
+import {View, Text, TouchableOpacity} from 'react-native';
+import {FontAwesomeIcon} from '@fortawesome/react-native-fontawesome';
+import {faBars, faChevronLeft} from '@fortawesome/free-solid-svg-icons';
 import {createStackNavigator} from '@react-navigation/stack';
 import {BasicStyles} from 'common';
-import HomePageScreen from './index';
+import DisplayThemes from './';
 import {connect} from 'react-redux';
 import StackHeaderTitle from 'modules/generic/StackHeaderTitle';
-import { Color } from 'common';
 import NavigatorHeader from 'modules/generic/NavigatorHeader';
-const width = Math.round(Dimensions.get('window').width)
 
-const TasksStack = createStackNavigator();
 
-const Stack = props => {
-  const toggle = () => {
-    console.log('toggle')
-  }
+const stackNavigator = createStackNavigator();
+
+const DisplayScreen = props => {
   return (
-    <TasksStack.Navigator>
-      <TasksStack.Screen
-        name="HomePage"
+    <stackNavigator.Navigator>
+      <stackNavigator.Screen
+        name="Theme"
         children={route => (
-          <HomePageScreen
+          <DisplayThemes
             {...route}
             parentNav={props.parentNav}
             initialPage={props.initialPage}
@@ -43,7 +41,7 @@ const Stack = props => {
         }}
       />
       
-    </TasksStack.Navigator>
+    </stackNavigator.Navigator>
   );
 };
 
@@ -57,4 +55,4 @@ const mapDispatchToProps = dispatch => {
 export default connect(
   mapStateToProps,
   mapDispatchToProps,
-)(Stack);
+)(DisplayScreen);

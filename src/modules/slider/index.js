@@ -22,7 +22,10 @@ class Slider extends Component {
         index: 0,
         key: null,
         actions: [
-            NavigationActions.navigate({routeName: route}),
+            NavigationActions.navigate({routeName: route, params: {
+              initialRouteName: route ? route : 'HomePage',
+              index: 0
+            }}),
         ]
       })
     });
@@ -82,7 +85,14 @@ class Slider extends Component {
             {Helper.DrawerMenu.length > 0 &&
               Helper.DrawerMenu.map((item, index) => {
                 return(
-                <View style={styles.navSectionStyle} key={index}>
+                <View style={[styles.navSectionStyle, {
+                  flexDirection: 'row',
+                  alignItems: 'center'
+                }]} key={index}>
+                  <FontAwesomeIcon icon={item.icon} style={[item.iconStyle, {
+                    color: theme ? theme.primary : Color.primary,
+                    marginLeft: 10
+                  }]}/>
                   <Text style={styles.navItemStyle} onPress={() => this.navigateToScreen(item.route)}>
                     {item.title}
                   </Text>

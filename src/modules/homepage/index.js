@@ -10,12 +10,13 @@ class HomePage extends Component{
   }
   render() {
     return (
-      <View style={Style.MainContainer}>
+      <View style={[Style.MainContainer, {
+        backgroundColor: Color.containerBackground
+      }]}>
         <View style={{
           justifyContent: 'center',
           alignItems: 'center',
           height: 200,
-          backgroundColor: Color.primary
         }}>
           <TouchableOpacity
             style={{

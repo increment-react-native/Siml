@@ -2,25 +2,25 @@ import React from 'react';
 import {View, Text, TouchableOpacity, TouchableHighlight, Dimensions} from 'react-native';
 import {createStackNavigator} from '@react-navigation/stack';
 import {BasicStyles} from 'common';
-import HomePageScreen from './index';
+import Screen from './index';
 import {connect} from 'react-redux';
 import StackHeaderTitle from 'modules/generic/StackHeaderTitle';
 import { Color } from 'common';
 import NavigatorHeader from 'modules/generic/NavigatorHeader';
 const width = Math.round(Dimensions.get('window').width)
 
-const TasksStack = createStackNavigator();
+const StackNavigator = createStackNavigator();
 
 const Stack = props => {
   const toggle = () => {
     console.log('toggle')
   }
   return (
-    <TasksStack.Navigator>
-      <TasksStack.Screen
-        name="HomePage"
+    <StackNavigator.Navigator>
+      <StackNavigator.Screen
+        name="Terms & Conditions"
         children={route => (
-          <HomePageScreen
+          <Screen
             {...route}
             parentNav={props.parentNav}
             initialPage={props.initialPage}
@@ -43,7 +43,7 @@ const Stack = props => {
         }}
       />
       
-    </TasksStack.Navigator>
+    </StackNavigator.Navigator>
   );
 };
 
