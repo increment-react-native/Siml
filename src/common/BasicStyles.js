@@ -248,4 +248,13 @@ export default {
     justifyContent: 'center',
     borderRadius: 25
   },
+
+  circleButton : {
+    height: 60,
+    backgroundColor: Color.primary,
+    width: '100%',
+    alignItems: 'center',
+    justifyContent: 'center',
+    borderRadius: 50
+  }
 }
