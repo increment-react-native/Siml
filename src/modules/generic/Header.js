@@ -46,7 +46,7 @@ class Header extends Component {
         </TouchableOpacity>
 
         <TouchableOpacity
-          onPress={() => this.props.navigation.toggleDrawer()}
+          onPress={() => this.props.navigation.navigate('historyStack')}
           style={{
             justifyContent: 'center',
             alignItems: 'center',
@@ -68,7 +68,7 @@ class Header extends Component {
         </TouchableOpacity>
 
         <TouchableOpacity
-          onPress={() => this.props.navigation.toggleDrawer()}
+          onPress={() => this.props.navigation.navigate('cartStack')}
           style={{
             justifyContent: 'center',
             alignItems: 'center',

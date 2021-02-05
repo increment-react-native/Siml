@@ -131,6 +131,7 @@ class HomePage extends Component{
               marginTop: 50
             }}>
               <TouchableOpacity
+                onPress={() => this.redirect('historyStack')}
                 style={{
                   ...BasicStyles.standardButton,
                   backgroundColor: Color.danger,
