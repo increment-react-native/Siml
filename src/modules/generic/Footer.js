@@ -3,6 +3,7 @@ import {View, Text, TouchableOpacity, Platform} from 'react-native';
 import {FontAwesomeIcon} from '@fortawesome/react-native-fontawesome';
 import {faUsers, faHome, faBell, faComment} from '@fortawesome/free-solid-svg-icons';
 import {createStackNavigator} from '@react-navigation/stack';
+import {NavigationActions, StackActions} from 'react-navigation';
 import {BasicStyles, Color} from 'common';
 import {connect} from 'react-redux';
 
@@ -14,6 +15,24 @@ class Footer extends Component {
 
   redirect(route, layer){
     this.props.navigation.navigate(route)
+  }
+
+  navigateToScreen = (route) => {
+    this.props.navigation.toggleDrawer();
+    const navigateAction = NavigationActions.navigate({
+      routeName: 'drawerStack',
+      action: StackActions.reset({
+        index: 0,
+        key: null,
+        actions: [
+            NavigationActions.navigate({routeName: route, params: {
+              initialRouteName: route,
+              index: 0
+            }}),
+        ]
+      })
+    });
+    this.props.navigation.dispatch(navigateAction);
   }
 
   render (){
@@ -82,7 +101,7 @@ class Footer extends Component {
 
 
           <TouchableOpacity
-          onPress={() => this.redirect('Status')}
+          onPress={() => this.navigateToScreen('Status')}
           style={{
             justifyContent: 'center',
             alignItems: 'center',

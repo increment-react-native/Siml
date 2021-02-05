@@ -11,6 +11,7 @@ import Messenger from 'src/modules/messenger';
 import Connections from 'src/modules/connection';
 import Settings from 'modules/display';
 import Privacy from 'modules/privacy';
+import Status from 'modules/status';
 import OptionRight from './OptionRight';
 import TermsAndConditions from 'modules/termsAndConditions';
 import Header from 'src/modules/generic/Header'
@@ -119,6 +120,17 @@ const _StackNavigator = createStackNavigator({
       }
     }),
   },
+  Status: {
+    screen: Status,
+    navigationOptions: ({navigation}) => ({
+      title: null,
+      headerLeft: <Header navigation={navigation} />,
+      headerStyle: {
+        shadowColor: 'transparent',
+        elevation: 0
+      }
+    }),
+  },
 });
 
 const Drawer = createDrawerNavigator(
@@ -160,6 +172,12 @@ const Drawer = createDrawerNavigator(
       },
     },
     Privacy: {
+      screen: _StackNavigator,
+      navigationOptions: {
+        drawerLabel: '',
+      },
+    },
+    Status: {
       screen: _StackNavigator,
       navigationOptions: {
         drawerLabel: '',
