@@ -16,7 +16,16 @@ class Header extends Component {
   render() {
     return (
       <View
-        style={{flex: 1, flexDirection: 'row', alignItems: 'center'}}>
+        style={{
+          flex: 1,
+          flexDirection: 'row',
+          alignItems: 'center',
+          shadowRadius: 0,
+          shadowOffset: {
+              height: 0,
+          },
+          borderBottomWidth: 0
+          }}>
         <TouchableOpacity
           onPress={() => {
             this.props.navigation.toggleDrawer()

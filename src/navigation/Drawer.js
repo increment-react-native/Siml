@@ -59,10 +59,7 @@ const _StackNavigator = createStackNavigator({
     navigationOptions: ({navigation}) => ({
       title: null,
       headerLeft: <Header navigation={navigation} />,
-      headerStyle: {
-        shadowColor: 'transparent',
-        elevation: 0
-      }
+      ...BasicStyles.drawerHeader
     }),
   },
   Messenger: {
@@ -70,10 +67,7 @@ const _StackNavigator = createStackNavigator({
     navigationOptions: ({navigation}) => ({
       title: null,
       headerLeft: <Header navigation={navigation} />,
-      headerStyle: {
-        shadowColor: 'transparent',
-        elevation: 0
-      }
+      ...BasicStyles.drawerHeader
     }),
   },
   Connections: {
@@ -81,10 +75,7 @@ const _StackNavigator = createStackNavigator({
     navigationOptions: ({navigation}) => ({
       title: null,
       headerLeft: <Header navigation={navigation} />,
-      headerStyle: {
-        shadowColor: 'transparent',
-        elevation: 0
-      }
+      ...BasicStyles.drawerHeader
     }),
   },
   Settings: {
@@ -92,10 +83,7 @@ const _StackNavigator = createStackNavigator({
     navigationOptions: ({navigation}) => ({
       title: null,
       headerLeft: <Header navigation={navigation} />,
-      headerStyle: {
-        shadowColor: 'transparent',
-        elevation: 0
-      }
+      ...BasicStyles.drawerHeader
     }),
   },
   TermsAndConditions: {
@@ -103,10 +91,7 @@ const _StackNavigator = createStackNavigator({
     navigationOptions: ({navigation}) => ({
       title: null,
       headerLeft: <Header navigation={navigation} />,
-      headerStyle: {
-        shadowColor: 'transparent',
-        elevation: 0
-      }
+      ...BasicStyles.drawerHeader
     }),
   },
   Privacy: {
@@ -114,10 +99,7 @@ const _StackNavigator = createStackNavigator({
     navigationOptions: ({navigation}) => ({
       title: null,
       headerLeft: <Header navigation={navigation} />,
-      headerStyle: {
-        shadowColor: 'transparent',
-        elevation: 0
-      }
+      ...BasicStyles.drawerHeader
     }),
   },
   Status: {
@@ -125,10 +107,7 @@ const _StackNavigator = createStackNavigator({
     navigationOptions: ({navigation}) => ({
       title: null,
       headerLeft: <Header navigation={navigation} />,
-      headerStyle: {
-        shadowColor: 'transparent',
-        elevation: 0
-      }
+      ...BasicStyles.drawerHeader
     }),
   },
 });

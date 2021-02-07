@@ -160,24 +160,32 @@ export default {
   standardHeaderFontSize: 18,
   standardBorderRadius: 12,
   headerBackIconSize: 30,
+  drawerHeader: {
+    headerStyle: {
+      shadowColor: 'transparent',
+      elevation: 0,
+      borderBottomWidth: 0
+    }
+  },
   headerDrawerStyle: {
     headerStyle: {
-      elevation: 10,
+      elevation: 0,
       backgroundColor: Color.white,
       height: 60,
       justifyContent: 'center',
       alignItems: 'center',
-      fontSize: 18
+      fontSize: 18,
+      borderBottomWidth: 0
     },
     headerTitleContainerStyle: {
       backgroundColor: Color.white,
       justifyContent: 'center',
       alignItems: 'center',
-      paddingRight: Platform.OS == 'ios' ? 0 : 64
+      paddingRight: Platform.OS == 'ios' ? 0 : 64,
     },
     headerTitleStyle: {
       fontWeight: 'bold',
-    },  
+    },
   },
   headerDrawerStyleNoPadding: {
     headerStyle: {
