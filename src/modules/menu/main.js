@@ -20,7 +20,7 @@ class Main extends Component{
           <ImageBackground
             style={Style.ImageMain}
             source={require('assets/test2.jpg')}
-            imageStyle={{borderRadius: 20}}
+            imageStyle={{borderRadius: 13}}
           >
           <View style={{position: 'absolute', top: 10}}>
             <Active></Active>

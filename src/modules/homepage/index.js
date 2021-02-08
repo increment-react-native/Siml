@@ -29,7 +29,8 @@ class HomePage extends Component{
               justifyContent: 'center',
               alignItems: 'center',
               height: 200,
-            }}>
+              }}
+            >
               <TouchableOpacity
                 style={{
                   height: 100,
@@ -37,7 +38,8 @@ class HomePage extends Component{
                   borderRadius: 50,
                   borderColor: Color.primary,
                   borderWidth: 2
-                }}>
+                }}
+                onPress={() => this.props.navigation.push('profileStack')}>
                 <Image source={require('assets/logo.png')} style={{
                   height: 100,
                   width: 100

@@ -4,10 +4,12 @@ import ForgotPassword from 'src/modules/account/ForgotPassword';
 import Register from 'src/modules/account/Register';
 import NotificationStack from 'src/modules/notification/Drawer';
 import RestaurantStack from 'src/modules/restaurants/Drawer';
+import MenuStack from 'src/modules/menu/index';
 import EventsStack from 'src/modules/events/Drawer';
 import RetailsStack from 'src/modules/retails/Drawer';
 import CartStack from 'src/modules/cart/Drawer'
 import HistoryStack from 'src/modules/history/Drawer'
+import ProfileStack from 'src/modules/profile/Drawer'
 import Drawer from './Drawer';
 // login stack
 const LoginStack = createStackNavigator(
@@ -54,7 +56,9 @@ const PrimaryNav = createStackNavigator(
     eventsStack: {screen: EventsStack},
     retailsStack: {screen: RetailsStack},
     cartStack: {screen: CartStack},
-    historyStack: {screen: HistoryStack}
+    historyStack: {screen: HistoryStack},
+    menuStack: {screen: MenuStack},
+    profileStack: {screen: ProfileStack}
   },
   {
     // Default config for all screens

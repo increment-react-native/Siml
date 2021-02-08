@@ -3,13 +3,10 @@ import {NavigationContainer} from '@react-navigation/native';
 import {createBottomTabNavigator} from '@react-navigation/bottom-tabs';
 import {NavigationActions, StackActions} from 'react-navigation';
 import HomePage from 'modules/homepage/Stack';
-import DisplayStack from 'modules/display/Stack';
-import TermsAndConditions from 'modules/termsAndConditions/Stack'
 import { FontAwesomeIcon } from '@fortawesome/react-native-fontawesome';
 import { faHome, faBell, faUsers } from '@fortawesome/free-solid-svg-icons';
-import { Color } from 'common'
-import { Platform } from 'react-native';
-import Style from './Style';
+import { Color } from 'common';
+import Menu from 'modules/menu/index';
 
 
 const Tab = createBottomTabNavigator();
@@ -35,7 +32,7 @@ export default function TabNavigator(props) {
           },
         }}>
         <Tab.Screen
-          name="Connections"
+          name="HomePage"
           children={route => (
             <HomePage
               {...route}
@@ -44,24 +41,19 @@ export default function TabNavigator(props) {
             />
           )}
           options={{
-            tabBarLabel: 'Connections',
+            tabBarLabel: 'SETTINGS',
             tabBarIcon: () => 
             <FontAwesomeIcon
               icon={faUsers}
               size={30}
               color={Color.gray}
-              style={Style.footerIcon}
               />,
           }}
         />
         <Tab.Screen
-          name="Settings"
+          name="HomePage1"
           children={route => (
-            <DisplayStack
-              {...route}
-              initialPage={props.navigation.state.routeName}
-              parentNav={props.navigation}
-            />
+            <Menu/>
           )}
           options={{
             tabBarIcon: () => 
@@ -69,14 +61,13 @@ export default function TabNavigator(props) {
               icon={faBell}
               size={30}
               color={Color.gray}
-              style={Style.footerIcon}
               />,
           }}
         />
         <Tab.Screen
-          name="TermsAndConditions"
+          name="HomePage2"
           children={route => (
-            <TermsAndConditions
+            <HomePage
               {...route}
               initialPage={props.navigation.state.routeName}
               parentNav={props.navigation}
@@ -88,7 +79,6 @@ export default function TabNavigator(props) {
               icon={faBell}
               size={30}
               color={Color.gray}
-              style={Style.footerIcon}
               />,
           }}
         />

@@ -9,6 +9,10 @@ class Restaurants extends Component {
     super(props);
   }
 
+  redirect(route, layer){
+    this.props.navigation.navigate(route)
+  }
+
   render() {
     return (
       <View style={{
@@ -33,6 +37,7 @@ class Restaurants extends Component {
                 marginLeft: '35%'
             }}>
                 <TouchableOpacity
+                onPress={() => this.redirect('menuStack')}
                 style={{
                     height: 70,
                     width: 70,
