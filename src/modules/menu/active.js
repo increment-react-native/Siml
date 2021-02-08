@@ -7,18 +7,17 @@ class Active extends Component{
     super(props);
     this.state = {
       index: 0,
-      size: ['test', 'test1', 'test2', 'test4', 'test5']
+      size: ['test', 'test',]
     }
   }
 
   render() {
-    const width = Math.round(Dimensions.get('window').width) - 45
+    const width = Math.round(Dimensions.get('window').width) - 60
     return (
-        <View style={{width: '100%', flexDirection: 'row', padding: 5}}>
+        <View style={{flexDirection: 'row', paddingTop: 2, padding: 4}}>
           {this.state.size.length > 0 && this.state.size.map((item, index) => {
             return (
-              <View key={index} style={{backgroundColor: this.state.index === index ? 'white' : '#bfbfbf', height: 5, borderWidth: 1, borderRadius: 5, borderColor: 'white', width: (width/this.state.size.length)- width%this.state.size.length, marginRight: 3}}>
-                <Text></Text>
+              <View key={index} style={{backgroundColor: this.state.index === index ? 'white' : '#bfbfbf', height: 3, borderWidth: .5, borderRadius: 5, borderColor: this.state.index === index ? 'white' : '#bfbfbf', width: Number.parseInt(width/this.state.size.length - 2, 10), marginRight: 3}}>
               </View>
             )
           })}

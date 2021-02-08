@@ -21,7 +21,7 @@ class FloatingButton extends Component{
             width:100,
             left: 70,
             height:100,
-            backgroundColor:'#FEE686',
+            backgroundColor:'#F7B567',
             borderRadius:100,
           }}
         >
@@ -40,7 +40,7 @@ class FloatingButton extends Component{
             width:100,
             right: -50,
             height:100,
-            backgroundColor:'#FEE686',
+            backgroundColor:'#F7B567',
             borderRadius:100,
           }}
         >
