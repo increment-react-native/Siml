@@ -35,10 +35,9 @@ class Groups extends Component{
     }
     this.setState({isLoading: true});
     CommonRequest.retrieveMessengerGroups(user, response => {
-      this.setState({isLoading: false, data: response.data});
+      this.setState({isLoading: false});
       const { setMessenger } = this.props;
       const { messenger } = this.props.state;
-      console.log('messenger test', setMessenger, 'sadffffffffff', messenger, 'data', response.data)
       if(response.data !== null){
         var counter = 0
         for (var i = 0; i < response.data.length; i++) {
@@ -46,6 +45,9 @@ class Groups extends Component{
           counter += parseInt(item.total_unread_messages)
         }
         setMessenger(counter, messenger.messages)
+        this.setState({data: response.data})
+      }else{
+        this.setState({data: null})
       }
     })
   }
