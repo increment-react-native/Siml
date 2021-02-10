@@ -3,7 +3,7 @@ import {View, TouchableOpacity, Text} from 'react-native';
 import {createStackNavigator} from 'react-navigation-stack';
 import {FontAwesomeIcon} from '@fortawesome/react-native-fontawesome';
 import {faChevronLeft, faBars} from '@fortawesome/free-solid-svg-icons';
-import Screen from 'modules/privacy';
+import Screen from 'modules/messenger/Messages.js';
 import {NavigationActions} from 'react-navigation';
 import {BasicStyles} from 'common';
 import {connect} from 'react-redux';
@@ -44,7 +44,7 @@ const TermsAndConditionsStack = createStackNavigator({
   termsAndConditionsScreen: {
     screen: Screen,
     navigationOptions: ({navigation}) => ({
-      title: 'Terms And Conditions',
+      title: 'Messages',
       headerLeft: <HeaderOptionsConnect navigationProps={navigation} />,
       ...BasicStyles.headerDrawerStyle
     }),
