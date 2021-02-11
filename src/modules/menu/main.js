@@ -15,9 +15,8 @@ class Main extends Component{
 
   render() {
     return (
-				<ScrollView>
-					<View>
-          <ImageBackground
+			<View>
+        <ImageBackground
             style={Style.ImageMain}
             source={require('assets/test2.jpg')}
             imageStyle={{borderRadius: 13}}
@@ -76,9 +75,8 @@ class Main extends Component{
             color={'white'}
           />
           </View>
-          </ImageBackground>
-					</View>
-				</ScrollView>
+        </ImageBackground>
+			</View>
     )
   }
 

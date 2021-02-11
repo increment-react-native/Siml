@@ -2,7 +2,7 @@ import React, { Component } from 'react';
 import { View, Image, Text, TouchableOpacity, TextInput, ScrollView} from 'react-native';
 import { Routes, Color, Helper, BasicStyles } from 'common';
 import {FontAwesomeIcon} from '@fortawesome/react-native-fontawesome';
-import {faCheckCircle} from '@fortawesome/free-solid-svg-icons';
+import {faCheckCircle, faEdit} from '@fortawesome/free-solid-svg-icons';
 import Style from './Style';
 import CustomizedButton from 'modules/generic/CustomizedButton';
 class Profile extends Component{
@@ -47,6 +47,7 @@ class Profile extends Component{
                   height: 180,
                   width: 180
                 }}/>
+                <FontAwesomeIcon style={{marginRight: 5, position: 'absolute', right: 5, bottom: 15}} icon={faEdit} size={20} color={Color.blue}/>
               </TouchableOpacity>
             </View>
             <View style={{
