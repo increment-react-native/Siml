@@ -29,7 +29,7 @@ const Stack = props => {
         options={({route}) => {
           return {
             headerTitle: () => (
-              <StackHeaderTitle title={null}/>
+              <StackHeaderTitle title={"Connections"}/>
             ),
             // headerTransparent: true,
             headerStyle: {
