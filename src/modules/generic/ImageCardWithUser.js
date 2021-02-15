@@ -10,6 +10,7 @@ class ImageCardWithUser extends Component{
   constructor(props){
     super(props);
     this.state = {
+      isActive: false
     }
   }
 
@@ -22,9 +23,12 @@ class ImageCardWithUser extends Component{
       }}>
         {
           data && (
-            <View style={{
-              position: 'relative'
-            }}>
+            <TouchableOpacity
+              style={{
+                position: 'relative'
+              }}
+              onPress={(data) => this.props.onClick(data)}
+              >
               <Image
                 source={data.image}
                   style={{
@@ -79,7 +83,7 @@ class ImageCardWithUser extends Component{
                     </TouchableOpacity>
                   )
                 }
-            </View>
+            </TouchableOpacity>
           )      
         }
 			</View>

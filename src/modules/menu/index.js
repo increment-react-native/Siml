@@ -26,7 +26,7 @@ class Menu extends Component{
     return (
       <View>
         <View>
-          <Header></Header>
+          <Header {...this.props}></Header>
         </View>
         <ScrollView>
         <View style={{marginBottom: -70}}><Swiper></Swiper></View>

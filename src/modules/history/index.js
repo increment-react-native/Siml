@@ -8,6 +8,7 @@ import {FontAwesomeIcon} from '@fortawesome/react-native-fontawesome';
 import {faBars, faUtensils, faChevronLeft, faTicketAlt, faShoppingBag} from '@fortawesome/free-solid-svg-icons';
 import { connect } from 'react-redux';
 import ImageCardWithUser from 'modules/generic/ImageCardWithUser';
+import CardModal from 'modules/modal/Swipe.js';
 const height = Math.round(Dimensions.get('window').height);
 class History extends Component{
   constructor(props) {
@@ -15,7 +16,8 @@ class History extends Component{
     this.state = {
       activeIndex: 0,
       data: [],
-      isLoading: false
+      isLoading: false,
+      isVisible: false
     };   
   }
 
@@ -26,6 +28,7 @@ class History extends Component{
   }
 
   renderData(data){
+    const { isVisible } = this.state;
     return(
       <SafeAreaView>
         <ScrollView
@@ -37,13 +40,27 @@ class History extends Component{
           }}>
             {
               data.map((item, index) => (
-                <ImageCardWithUser data={item} style={{
+                <ImageCardWithUser
+                data={item} style={{
                   marginBottom: 20
-                }}/>
+                }}
+                onClick={(item) => {
+                  this.setState({
+                    isVisible: true
+                  })
+                }}
+                />
               ))
             }
           </View>
         </ScrollView>
+        {isVisible && <CardModal
+          visisble={isVisible}
+          onClose={() => {
+          this.setState({
+            isVisible: false
+          })
+        }}/>}
       </SafeAreaView>
     )
   }

@@ -264,5 +264,10 @@ export default {
     alignItems: 'center',
     justifyContent: 'center',
     borderRadius: 50
+  },
+  standardWidth: {
+    width: '90%',
+    marginLeft: '5%',
+    marginRight: '5%'
   }
 }

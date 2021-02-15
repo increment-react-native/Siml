@@ -8,6 +8,7 @@ import {FontAwesomeIcon} from '@fortawesome/react-native-fontawesome';
 import {faBars, faUtensils, faChevronLeft, faTicketAlt, faShoppingBag} from '@fortawesome/free-solid-svg-icons';
 import { connect } from 'react-redux';
 import ImageCardWithUser from 'modules/generic/ImageCardWithUser';
+import CardModal from 'modules/modal/Swipe.js';
 const height = Math.round(Dimensions.get('window').height);
 class TopChoice extends Component{
   constructor(props) {
@@ -15,7 +16,8 @@ class TopChoice extends Component{
     this.state = {
       activeIndex: 0,
       data: [],
-      isLoading: false
+      isLoading: false,
+      isVisible: false
     };   
   }
 
@@ -40,9 +42,16 @@ class TopChoice extends Component{
           }}>
             {
               data.map((item, index) => (
-                <ImageCardWithUser data={item} style={{
-                  marginBottom: 20
-                }}/>
+                <ImageCardWithUser
+                  data={item} style={{
+                    marginBottom: 20
+                  }}
+                  onClick={(item) => {
+                    this.setState({
+                      isVisible: true
+                    })
+                  }}
+                  />
               ))
             }
           </View>
@@ -51,7 +60,7 @@ class TopChoice extends Component{
     )
   }
   render() {
-    const { activeIndex, label, isLoading } = this.state;
+    const { activeIndex, label, isLoading, isVisible } = this.state;
     const paginationProps = [
       {
         icon: faUtensils
@@ -96,6 +105,13 @@ class TopChoice extends Component{
         backgroundColor: Color.containerBackground
       }]}>
         {data && this.renderData(data)}
+        {isVisible && <CardModal
+          visisble={isVisible}
+          onClose={() => {
+          this.setState({
+            isVisible: false
+          })
+        }}/>}
       </View>
     );
   }

@@ -6,6 +6,7 @@ import {FontAwesomeIcon} from '@fortawesome/react-native-fontawesome';
 import {faCalendarAlt} from '@fortawesome/free-solid-svg-icons';
 import { connect } from 'react-redux';
 import ImageCardWithUser from 'modules/generic/ImageCardWithUser';
+import CardModal from 'modules/modal/Swipe.js';
 const height = Math.round(Dimensions.get('window').height);
 class Notifications extends Component{
   constructor(props) {
@@ -13,7 +14,8 @@ class Notifications extends Component{
     this.state = {
       activeIndex: 0,
       data: [],
-      isLoading: false
+      isLoading: false,
+      isVisible: false
     };   
   }
 
@@ -24,6 +26,7 @@ class Notifications extends Component{
   }
 
   renderData(data){
+    const { isVisible } = this.state;
     return(
       <SafeAreaView>
         <ScrollView
@@ -69,11 +72,23 @@ class Notifications extends Component{
               data.map((item, index) => (
                 <ImageCardWithUser data={item} style={{
                   marginBottom: 20
+                }}
+                onClick={(item) => {
+                  this.setState({
+                    isVisible: true
+                  })
                 }}/>
               ))
             }
           </View>
         </ScrollView>
+        {isVisible && <CardModal
+          visisble={isVisible}
+          onClose={() => {
+          this.setState({
+            isVisible: false
+          })
+        }}/>}
       </SafeAreaView>
     )
   }

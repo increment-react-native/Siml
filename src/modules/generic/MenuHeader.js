@@ -2,6 +2,7 @@ import React, {Component} from 'react';
 import {View, TouchableOpacity, Text, Dimensions} from 'react-native';
 import {FontAwesomeIcon} from '@fortawesome/react-native-fontawesome';
 import {faComments, faUsers, faReply} from '@fortawesome/free-solid-svg-icons';
+import {NavigationActions, StackActions} from 'react-navigation';
 import {connect} from 'react-redux';
 import { BasicStyles, Color } from 'common';
 const width = Math.round(Dimensions.get('window').width)
@@ -14,8 +15,26 @@ class Header extends Component {
     }
   }
   back = () => {
-    this.props.navigationProps.pop();
+    this.props.navigation.pop();
   };
+
+  redirect = (route) => {
+    const navigateAction = NavigationActions.navigate({
+      routeName: 'drawerStack',
+      action: StackActions.reset({
+        index: 0,
+        key: null,
+        actions: [
+            NavigationActions.navigate({routeName: route, params: {
+              initialRouteName: route,
+              index: 0
+            }}),
+        ]
+      })
+    });
+    this.props.navigation.dispatch(navigateAction);
+  }
+
   render() {
     return (
       <View style={{flex: 1, flexDirection: 'row', width: width, position: 'absolute', backgroundColor: 'white', zIndex: 1000}}>
@@ -32,6 +51,8 @@ class Header extends Component {
                   position: 'relative',
                   zIndex: 10001
                 }}
+
+                onPress={() => this.redirect('Connections')}
                 >
                 <FontAwesomeIcon
                   icon={faUsers}
@@ -55,6 +76,7 @@ class Header extends Component {
                  right: 10,
                  marginLeft: 12,
                }}
+                onPress={() => this.redirect('Messenger')}
                >
                <FontAwesomeIcon
                  icon={faReply}
@@ -82,6 +104,8 @@ class Header extends Component {
                   position: 'relative',
                   zIndex: 10001
                 }}
+
+                onPress={() => this.redirect('Connections')}
                 >
                 <FontAwesomeIcon
                   icon={faUsers}
@@ -107,6 +131,7 @@ class Header extends Component {
                 width: 50,
                 right: 5
               }}
+              onPress={() => this.redirect('Messenger')}
               >
               <FontAwesomeIcon
                 icon={faComments}
