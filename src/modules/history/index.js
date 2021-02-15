@@ -65,7 +65,7 @@ class History extends Component{
       image: require('assets/test2.jpg'),
       date: 'January 29, 2021',
       location: 'Cebu City',
-      superlike: false,
+      superlike: true,
       users: [{
         name: 'Test'
       }, {
@@ -75,14 +75,18 @@ class History extends Component{
       image: require('assets/test.jpg'),
       date: 'January 29, 2021',
       location: 'Cebu City',
-      superlike: false,
-      users: []
+      superlike: true,
+      users: [{
+        name: 'Test'
+      }]
     }, {
       image: require('assets/test.jpg'),
       date: 'January 29, 2021',
       location: 'Cebu City',
-      superlike: false,
-      users: []
+      superlike: true,
+      users: [{
+        name: 'Test'
+      }]
     }]
     return (
       <View style={[Style.MainContainer, {

@@ -62,20 +62,23 @@ class ImageCardWithUser extends Component{
                     <GroupUsers data={data.users}/>
                   </View>
                 </View>
-
-                <TouchableOpacity style={{
-                  position: 'absolute',
-                  top: 10,
-                  right: 10,
-                  height: 50,
-                  width: 50,
-                  borderRadius: 25,
-                  backgroundColor: Color.primary,
-                  justifyContent: 'center',
-                  alignItems: 'center'
-                }}>
-                  <FontAwesomeIcon icon={faStar} color={Color.white} size={30}/>
-                </TouchableOpacity>
+                {
+                  data.superlike == true && (
+                    <TouchableOpacity style={{
+                      position: 'absolute',
+                      top: 10,
+                      right: 10,
+                      height: 50,
+                      width: 50,
+                      borderRadius: 25,
+                      backgroundColor: Color.primary,
+                      justifyContent: 'center',
+                      alignItems: 'center'
+                    }}>
+                      <FontAwesomeIcon icon={faStar} color={Color.white} size={30}/>
+                    </TouchableOpacity>
+                  )
+                }
             </View>
           )      
         }
