@@ -33,7 +33,10 @@ class TopChoice extends Component{
           >
           <View style={{
             height: height,
-            marginTop: 50
+            marginTop: 50,
+            width: '90%',
+            marginLeft: '5%',
+            marginRight: '5%'
           }}>
             {
               data.map((item, index) => (
