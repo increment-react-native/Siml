@@ -1,7 +1,7 @@
 import React, {Component} from 'react';
 import {View, TouchableOpacity, Text, Dimensions} from 'react-native';
 import {FontAwesomeIcon} from '@fortawesome/react-native-fontawesome';
-import {faBars, faChevronLeft, faClock, faShoppingBag} from '@fortawesome/free-solid-svg-icons';
+import {faBars, faChevronLeft, faClock, faShoppingBag, faStar} from '@fortawesome/free-solid-svg-icons';
 import {connect} from 'react-redux';
 import { BasicStyles, Color } from 'common';
 const width = Math.round(Dimensions.get('window').width)
@@ -54,6 +54,30 @@ class Header extends Component {
           />
         </TouchableOpacity>
 
+
+        <TouchableOpacity
+          onPress={() => this.props.navigation.navigate('topChoiceStack')}
+          style={{
+            justifyContent: 'center',
+            alignItems: 'center',
+            height: 50,
+            width: 50,
+            marginLeft: width - (105 + 100),
+          }}
+          >
+          <FontAwesomeIcon
+            icon={faStar}
+            size={BasicStyles.iconSize}
+            style={[
+              BasicStyles.iconStyle,
+              {
+                color: Color.gray,
+              },
+            ]}
+          />
+        </TouchableOpacity>
+
+
         <TouchableOpacity
           onPress={() => this.props.navigation.navigate('historyStack')}
           style={{
@@ -61,7 +85,6 @@ class Header extends Component {
             alignItems: 'center',
             height: 50,
             width: 50,
-            marginLeft: width - (55 + 100),
           }}
           >
           <FontAwesomeIcon
