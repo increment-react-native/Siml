@@ -3,6 +3,7 @@ import { View, TouchableOpacity, Image, Dimensions, Text, TextInput } from 'reac
 import {FontAwesomeIcon} from '@fortawesome/react-native-fontawesome';
 import {faCheck, faTimes, faStar, faEllipsisH} from '@fortawesome/free-solid-svg-icons';
 import { BasicStyles, Color } from 'common';
+import { connect } from 'react-redux';
 const height = Math.round(Dimensions.get('window').height);
 import UserImage from 'components/User/Image';
 
@@ -111,6 +112,7 @@ class PostCard extends Component{
 
 
   renderComments = (data) => {
+    const { user } = this.props.state;
     return(
       <View style={{
           width: '100%',
@@ -124,16 +126,26 @@ class PostCard extends Component{
           }}>
             {this.renderHeader(data)}
             {this.renderBody(data)}
-            <View style={{
-              width: '100%'
-            }}>
-              <TextInput style={{
-                width: '100%',
-                height: 50
-              }}
-              placeholder={'Type reply here'}
-              />
-            </View>
+            {
+              user && (
+                <View style={{
+                  width: '100%',
+                  borderTopWidth: 1,
+                  borderTopColor: Color.lightGray,
+                  flexDirection: 'row',
+                  alignItems: 'center'
+                }}>
+                  <UserImage user={user} size={30}/>
+                  <TextInput style={{
+                    width: '100%',
+                    height: 50
+                  }}
+                  placeholder={'Type reply here'}
+                  />
+                </View>
+              )
+            }
+            
           </View>
       </View>
     )
@@ -159,4 +171,14 @@ class PostCard extends Component{
   }
 }
 
-export default PostCard;
+const mapStateToProps = state => ({state: state});
+
+const mapDispatchToProps = dispatch => {
+  const {actions} = require('@redux');
+  return {};
+};
+
+export default connect(
+  mapStateToProps,
+  mapDispatchToProps,
+)(PostCard);
