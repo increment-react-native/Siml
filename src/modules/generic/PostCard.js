@@ -71,7 +71,6 @@ class PostCard extends Component{
           ...BasicStyles.standardWidth,
           flexDirection: 'row',
           alignItems: 'center',
-          paddingTop: 20,
           paddingBottom: 20,
           flexDirection: 'row'
         }}>
@@ -79,10 +78,10 @@ class PostCard extends Component{
             width: 70,
             alignItems: 'center',
             justifyContent: 'center',
-            borderRadius: 50,
+            borderRadius: 20,
             borderColor: data.like_status == true ? Color.primary : Color.lightGray,
             borderWidth: 1,
-            height: 50,
+            height: 40,
             marginRight: 5,
             backgroundColor: data.like_status == true ? Color.primary : Color.white
           }}
@@ -101,10 +100,10 @@ class PostCard extends Component{
             width: 70,
             alignItems: 'center',
             justifyContent: 'center',
-            borderRadius: 50,
+            borderRadius: 20,
             borderColor: data.joined_status == true ? Color.primary : Color.lightGray,
             borderWidth: 1,
-            height: 50,
+            height: 40,
             marginRight: 5,
             backgroundColor: data.joined_status == true ? Color.primary : Color.white
           }}
