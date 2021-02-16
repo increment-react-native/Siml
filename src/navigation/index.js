@@ -8,6 +8,7 @@ import MenuStack from 'src/modules/menu/index';
 import EventsStack from 'src/modules/events/Drawer';
 import RetailsStack from 'src/modules/retails/Drawer';
 import CartStack from 'src/modules/cart/Drawer'
+import CheckoutStack from 'src/modules/checkout/Drawer'
 import HistoryStack from 'src/modules/history/Drawer'
 import TopChoiceStack from 'src/modules/topChoice/Drawer'
 import ProfileStack from 'src/modules/profile/Drawer'
@@ -77,6 +78,7 @@ const PrimaryNav = createStackNavigator(
     viewProfileStack: {screen: ViewProfileStack},
     locationStack: {screen: LocationWithMapStack},
     addLocationStack: {screen: AddLocationStack},
+    checkoutStack: {screen: CheckoutStack}
   },
   {
     // Default config for all screens

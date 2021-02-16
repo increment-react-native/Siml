@@ -4,7 +4,7 @@ import { View, Image, Text, TouchableOpacity} from 'react-native';
 import { Routes, Color, Helper, BasicStyles } from 'common';
 import {FontAwesomeIcon} from '@fortawesome/react-native-fontawesome';
 import {faBars, faChevronLeft} from '@fortawesome/free-solid-svg-icons';
-class Carts extends Component{
+class Checkout extends Component{
   constructor(props){
     super(props);
   }
@@ -124,11 +124,11 @@ class Carts extends Component{
             >
               <Text style={{
                 color: Color.white
-              }}>Proceed to checkout</Text>
+              }}>Place Order</Text>
             </TouchableOpacity>
         </View>
       </View>
     );
   }
 }
-export default Carts;
+export default Checkout;
