@@ -3,10 +3,16 @@ import { ScrollView, View, Text, StyleSheet, TouchableOpacity, Image } from 'rea
 import { BasicStyles, Color } from 'common'
 import Footer from 'modules/generic/Footer'
 import Style from './Style'
+import LocationInput from 'components/InputField/LocationInput'
+import DateTimePicker from 'components/DateTime/index.js'
+import TextInputWithLabel from '../../components/Form/TextInputWithLabel';
 
 class Restaurants extends Component {
   constructor(props) {
     super(props);
+    this.state = {
+      location: null
+    }
   }
 
   redirect(route, layer){
@@ -26,7 +32,10 @@ class Restaurants extends Component {
         showsVerticalScrollIndicator={false}
         >
         <View>
-        <Text>Restaurants</Text>
+          <Text>
+            <LocationInput title={'Location'} onTyping={(input) => this.setState({ location: input })}/>
+          </Text>
+          <DateTimePicker label={'Date and Time'}></DateTimePicker>
         </View>
 
         <View style={{
