@@ -6,7 +6,9 @@ import Tab from 'modules/generic/TabOptions';
 import FLoatingButton from 'modules/generic/CircleButton';
 import Main from './main';
 import Information from './information';
-import Footer from 'modules/generic/Footer'
+import Footer from 'modules/generic/Footer';
+import Header from '../generic/MenuHeader';
+import Swiper from 'modules/swiper';
 
 class Menu extends Component{
   constructor(props){
@@ -23,12 +25,21 @@ class Menu extends Component{
   render() {
     return (
       <View>
-      <ScrollView>
-        <View  style={{padding: 20}}>
-          <View>
+        <View>
+          <Header {...this.props}></Header>
+        </View>
+        <ScrollView>
+        <View style={{marginBottom: -70}}><Swiper></Swiper></View>
+        <View 
+        style={{padding: 20}}
+        >
+        <View>
+          {/* <View>
             <Main></Main>
-            </View>
-          <View style={{marginTop: 10}}>
+          </View> */}
+          <View
+          // style={{paddingTop: 20}}
+          >
             <Tab level={1} choice={['Menu', 'Information']} onClick={this.choiceHandler}></Tab>
           </View>
           <View style={{marginBottom: 200}}>
@@ -43,6 +54,7 @@ class Menu extends Component{
           </View>
           <FLoatingButton></FLoatingButton>
         </View>
+      </View>
       </ScrollView>
       <Footer layer={1} {...this.props}/>
       </View>

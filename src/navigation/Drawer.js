@@ -7,13 +7,13 @@ import { faBars, faQrcode } from '@fortawesome/free-solid-svg-icons';
 import Slider from 'modules/slider';
 import { Color, BasicStyles } from 'common';
 import Homepage from 'modules/homepage';
-import Messenger from 'src/modules/messenger';
 import Connections from 'src/modules/connection';
 import Settings from 'modules/display';
 import Privacy from 'modules/privacy';
 import Status from 'modules/status';
 import OptionRight from './OptionRight';
 import TermsAndConditions from 'modules/termsAndConditions';
+import Messenger from 'modules/messenger';
 import Header from 'src/modules/generic/Header'
 
 import Style from './Style.js';

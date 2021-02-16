@@ -131,7 +131,7 @@ class Swiper extends Component{
             return (
               <Animated.View
                 {...this.PanResponder.panHandlers}
-                key={item.id} style={[this.rotateAndTranslate, { height: ScreenHeight - 120, width: ScreenWidth, padding: 10, position: 'absolute' }]}>
+                key={item.id} style={[this.rotateAndTranslate, { height: ScreenHeight - 120, width: ScreenWidth, paddingLeft: 15, paddingRight: 15}]}>
                 <Animated.View style={{ opacity: this.likeOpacity, transform: [{ rotate: '-30deg' }], position: 'absolute', top: 50, left: 40, zIndex: 1000 }}>
                   <Text style={{ borderWidth: 1, borderColor: this.state.isMoveRight ? 'green' : 'transparent', color: 'green', fontSize: 32, fontWeight: '800', padding: 10 }}>{this.state.isMoveRight ? 'LIKE' : null}</Text>
                 </Animated.View>

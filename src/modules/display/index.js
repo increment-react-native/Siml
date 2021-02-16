@@ -8,9 +8,14 @@ const height = Math.round(Dimensions.get('window').height);
 
 const dummyThemeData = [
   {
-    title: 'Increment Mode',
+    title: 'Test Mode',
     details: 'Add description here',
     colors: ['#5842D7', '#FFCC00', '#4CCBA6', '#F88BFF'],
+  },
+  {
+    title: 'Test Mode 1',
+    details: 'Add description here',
+    colors: ['#4CCBA6', '#FFCC00', '#5842D7', '#F88BFF'],
   }
 ];
 class Display extends Component {

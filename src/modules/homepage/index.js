@@ -95,7 +95,7 @@ class HomePage extends Component{
                 borderLeftWidth: 1,
               }}>
                 <TouchableOpacity
-                onPress={() => this.redirect('eventsStack')}
+                onPress={() => this.redirect('restaurantStack')}
                   style={{
                     height: 70,
                     width: 70,
@@ -113,7 +113,7 @@ class HomePage extends Component{
                 alignItems: 'center'
               }}>
                 <TouchableOpacity
-                  onPress={() => this.redirect('retailsStack')}
+                  onPress={() => this.redirect('restaurantStack')}
                   style={{
                     height: 70,
                     width: 70,

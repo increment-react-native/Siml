@@ -1,132 +1,147 @@
 import React, { Component } from 'react';
 import Style from './Style.js';
-import { View, Image, Text, TouchableOpacity} from 'react-native';
+import { View, Image, Text, TouchableOpacity, ScrollView, SafeAreaView, Dimensions} from 'react-native';
 import { Routes, Color, Helper, BasicStyles } from 'common';
+import Pagination from 'components/Pagination/Icons';
+import { Pager, PagerProvider } from '@crowdlinker/react-native-pager';
 import {FontAwesomeIcon} from '@fortawesome/react-native-fontawesome';
-import {faBars, faChevronLeft} from '@fortawesome/free-solid-svg-icons';
+import {faBars, faUtensils, faChevronLeft, faTicketAlt, faShoppingBag} from '@fortawesome/free-solid-svg-icons';
+import { connect } from 'react-redux';
+import ImageCardWithUser from 'modules/generic/ImageCardWithUser';
+import CardModal from 'modules/modal/Swipe.js';
+const height = Math.round(Dimensions.get('window').height);
 class History extends Component{
-  constructor(props){
+  constructor(props) {
     super(props);
+    this.state = {
+      activeIndex: 0,
+      data: [],
+      isLoading: false,
+      isVisible: false
+    };   
+  }
+
+  onPageChange(index){
+    this.setState({
+      activeIndex: index
+    })
+  }
+
+  renderData(data){
+    const { isVisible } = this.state;
+    return(
+      <SafeAreaView>
+        <ScrollView
+          showsVerticalScrollIndicator={false}
+          >
+          <View style={{
+            height: height,
+            marginTop: 50
+          }}>
+            {
+              data.map((item, index) => (
+                <ImageCardWithUser
+                data={item} style={{
+                  marginBottom: 20
+                }}
+                onClick={(item) => {
+                  this.setState({
+                    isVisible: true
+                  })
+                }}
+                />
+              ))
+            }
+          </View>
+        </ScrollView>
+        {isVisible && <CardModal
+          visisble={isVisible}
+          onClose={() => {
+          this.setState({
+            isVisible: false
+          })
+        }}/>}
+      </SafeAreaView>
+    )
   }
   render() {
+    const { activeIndex, label, isLoading } = this.state;
+    const paginationProps = [
+      {
+        icon: faUtensils
+      },
+      {
+        icon: faTicketAlt
+      },
+      {
+        icon: faShoppingBag
+      }
+    ]
+
+    const data = [{
+      image: require('assets/test2.jpg'),
+      date: 'January 29, 2021',
+      location: 'Cebu City',
+      superlike: true,
+      users: [{
+        name: 'Test'
+      }, {
+        name: 'Test'
+      }]
+    }, {
+      image: require('assets/test.jpg'),
+      date: 'January 29, 2021',
+      location: 'Cebu City',
+      superlike: true,
+      users: [{
+        name: 'Test'
+      }]
+    }, {
+      image: require('assets/test.jpg'),
+      date: 'January 29, 2021',
+      location: 'Cebu City',
+      superlike: true,
+      users: [{
+        name: 'Test'
+      }]
+    }]
     return (
       <View style={[Style.MainContainer, {
         backgroundColor: Color.containerBackground
       }]}>
-        <View style={{
-          justifyContent: 'center',
-          alignItems: 'center',
-          height: 200,
-        }}>
-          <TouchableOpacity
-            style={{
-              height: 100,
-              width: 100,
-              borderRadius: 50,
-              borderColor: Color.primary,
-              borderWidth: 2
-            }}>
-            <Image source={require('assets/logo.png')} style={{
-              height: 100,
-              width: 100
-            }}/>
-          </TouchableOpacity>
-        </View>
-        <View style={{
-          width: '100%'
-        }}>
-          <Text style={{
-            textAlign: 'center',
-            fontWeight: 'bold'
-          }}>History</Text>
-        </View>
+          <View style={BasicStyles.paginationHolder}>
+            <Pagination
+              activeIndex={activeIndex}
+              onChange={(index) => this.onPageChange(index)}
+              pages={paginationProps}
+            />
+          </View>
+          <PagerProvider activeIndex={activeIndex}>
+            <Pager panProps={{enabled: false}}>
+              <View style={Style.sliderContainer}>
+                {data && this.renderData(data)}
+              </View>
+              <View style={Style.sliderContainer}>
+                {data && this.renderData(data)}
+              </View>
 
-
-        <View style={{
-          width: '80%',
-          marginLeft: '10%',
-          marginRight: '10%',
-          marginTop: 50,
-          borderRadius: BasicStyles.standardBorderRadius,
-          height: 120,
-          borderColor: Color.primary,
-          borderWidth: 1,
-          flexDirection: 'row',
-        }}>
-          <View style={{
-            width: '33%',
-            justifyContent: 'center',
-            alignItems: 'center'
-          }}>
-             <TouchableOpacity
-              style={{
-                height: 70,
-                width: 70,
-                borderRadius: 35,
-                backgroundColor: Color.primary,
-                justifyContent: 'center',
-                alignItems: 'center'
-              }}>
-                <FontAwesomeIcon icon={faBars} size={30} color={Color.white}/>
-              </TouchableOpacity>
-          </View>
-          <View style={{
-            width: '33%',
-            justifyContent: 'center',
-            alignItems: 'center',
-            borderRightColor: Color.primary,
-            borderRightWidth: 1,
-            borderLeftColor: Color.primary,
-            borderLeftWidth: 1,
-          }}>
-            <TouchableOpacity
-              style={{
-                height: 70,
-                width: 70,
-                borderRadius: 35,
-                backgroundColor: Color.primary,
-                justifyContent: 'center',
-                alignItems: 'center'
-              }}>
-                <FontAwesomeIcon icon={faBars} size={30} color={Color.white}/>
-              </TouchableOpacity>
-          </View>
-          <View style={{
-            width: '33%',
-            justifyContent: 'center',
-            alignItems: 'center'
-          }}>
-            <TouchableOpacity
-              style={{
-                height: 70,
-                width: 70,
-                borderRadius: 35,
-                backgroundColor: Color.primary,
-                justifyContent: 'center',
-                alignItems: 'center'
-              }}>
-                <FontAwesomeIcon icon={faBars} size={30} color={Color.white}/>
-              </TouchableOpacity>
-          </View>
-        </View>
-        <View style={{
-          width: '50%',
-          marginLeft: '25%',
-          marginRight: '25%',
-          marginTop: 50
-        }}>
-          <TouchableOpacity
-            style={{
-              ...BasicStyles.standardButton,
-              backgroundColor: Color.danger,
-            }}>
-              <Text style={{
-                color: Color.white
-              }}>Upcoming</Text>
-            </TouchableOpacity>
-        </View>
+              <View style={Style.sliderContainer}>
+                {data && this.renderData(data)}
+              </View>
+            </Pager>
+          </PagerProvider>
       </View>
     );
   }
 }
-export default History;
+const mapStateToProps = state => ({state: state});
+
+const mapDispatchToProps = dispatch => {
+  const {actions} = require('@redux');
+  return {};
+};
+
+export default connect(
+  mapStateToProps,
+  mapDispatchToProps,
+)(History);

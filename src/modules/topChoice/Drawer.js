@@ -3,9 +3,9 @@ import {View, TouchableOpacity, Text} from 'react-native';
 import {createStackNavigator} from 'react-navigation-stack';
 import {FontAwesomeIcon} from '@fortawesome/react-native-fontawesome';
 import {faChevronLeft, faBars} from '@fortawesome/free-solid-svg-icons';
-import Screen from 'modules/messenger/Messages.js';
+import Screen from 'modules/topChoice';
 import {NavigationActions} from 'react-navigation';
-import {BasicStyles} from 'common';
+import {BasicStyles, Color} from 'common';
 import {connect} from 'react-redux';
 
 class HeaderOptions extends Component {
@@ -40,11 +40,11 @@ const mapDispatchToProps = (dispatch) => {
 };
 let HeaderOptionsConnect  = connect(mapStateToProps, mapDispatchToProps)(HeaderOptions);
 
-const TermsAndConditionsStack = createStackNavigator({
-  termsAndConditionsScreen: {
+const TopChoiceStack = createStackNavigator({
+  historyScreen: {
     screen: Screen,
     navigationOptions: ({navigation}) => ({
-      title: 'Messages',
+      title: 'Top Choice',
       headerLeft: <HeaderOptionsConnect navigationProps={navigation} />,
       ...BasicStyles.headerDrawerStyle
     }),
@@ -54,4 +54,4 @@ const TermsAndConditionsStack = createStackNavigator({
 export default connect(
   mapStateToProps,
   mapDispatchToProps,
-)(TermsAndConditionsStack);
+)(TopChoiceStack);
