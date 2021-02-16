@@ -123,42 +123,47 @@ class PostCard extends Component{
   }
 
 
-  renderComments = (data) => {
+  renderComments = (comments) => {
     const { user } = this.props.state;
     return(
       <View style={{
           width: '100%',
-          flexDirection: 'row',
           alignItems: 'center',
           borderTopColor: Color.lightGray,
           borderTopWidth: 1
         }}>
-          <View style={{
-            ...BasicStyles.standardWidth
-          }}>
-            {this.renderHeader(data)}
-            {this.renderBody(data)}
-            {
-              user && (
-                <View style={{
+          {
+            (comments && comments.length > 0) && comments.map((item, index) => (
+              <View style={{
+                ...BasicStyles.standardWidth
+              }}>
+                {this.renderHeader(item)}
+                {this.renderBody(item)}
+              </View>
+            ))
+          }
+
+          {
+            user && (
+              <View style={{
+                width: '90%',
+                borderTopWidth: comments.length == 0 ? 0 : 1,
+                borderTopColor: Color.lightGray,
+                flexDirection: 'row',
+                alignItems: 'center',
+                marginLeft: '5%',
+                marginRight: '5%'
+              }}>
+                <UserImage user={user} size={30}/>
+                <TextInput style={{
                   width: '100%',
-                  borderTopWidth: 1,
-                  borderTopColor: Color.lightGray,
-                  flexDirection: 'row',
-                  alignItems: 'center'
-                }}>
-                  <UserImage user={user} size={30}/>
-                  <TextInput style={{
-                    width: '100%',
-                    height: 50
-                  }}
-                  placeholder={'Type reply here'}
-                  />
-                </View>
-              )
-            }
-            
-          </View>
+                  height: 50
+                }}
+                placeholder={'Type reply here'}
+                />
+              </View>
+            )
+          }
       </View>
     )
   }
@@ -177,7 +182,7 @@ class PostCard extends Component{
         {this.renderHeader(data)}
         {this.renderBody(data)}
         {this.renderActions(data)}
-        {this.renderComments(data)}
+        {this.renderComments(data.comments)}
 			</View>
     )
   }

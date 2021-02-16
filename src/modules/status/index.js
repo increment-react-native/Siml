@@ -15,7 +15,8 @@ const sample = [{
   },
   date: 'Just now',
   message: 'Anyone interested going out tonight? Just join my SIML below.',
-  joined_status: true
+  joined_status: true,
+  comments: []
 }, {
   id: 2,
   user: {
@@ -24,7 +25,16 @@ const sample = [{
   },
   date: 'Just now',
   message: 'Anyone interested going out tonight? Just join my SIML below.',
-  joined_status: false
+  joined_status: false,
+  comments: [{
+    id: 3,
+    user: {
+      username: 'Kennette Canales',
+      profile: null
+    },
+    date: '1 minute ago',
+    message: 'Anyone interested going out tonight? Just join my SIML below.',
+  }]
 }, {
   id: 3,
   user: {
@@ -33,7 +43,16 @@ const sample = [{
   },
   date: '1 minute ago',
   message: 'Anyone interested going out tonight? Just join my SIML below.',
-  joined_status: false
+  joined_status: false,
+  comments: [{
+    id: 3,
+    user: {
+      username: 'Kennette Canales',
+      profile: null
+    },
+    date: '1 minute ago',
+    message: 'Anyone interested going out tonight? Just join my SIML below.',
+  }]
 }]
 class Status extends Component{
   constructor(props){
