@@ -15,6 +15,9 @@ class Slider extends Component {
     super(props);
   }
   navigateToScreen = (route) => {
+    if(route == 'share'){
+      return
+    }
     this.props.navigation.toggleDrawer();
     const navigateAction = NavigationActions.navigate({
       routeName: 'drawerStack',
@@ -87,7 +90,8 @@ class Slider extends Component {
                 return(
                 <View style={[styles.navSectionStyle, {
                   flexDirection: 'row',
-                  alignItems: 'center'
+                  alignItems: 'center',
+                  borderBottomWidth: item.borderBottom == true ? 1 : 0
                 }]} key={index}>
                   <FontAwesomeIcon icon={item.icon} style={[item.iconStyle, {
                     color: theme ? theme.primary : Color.primary,
@@ -99,7 +103,9 @@ class Slider extends Component {
                 </View>)
               })
             }
-            <View style={styles.navSectionStyle}>
+            <View style={[styles.navSectionStyle, {
+              borderBottomWidth: 0
+            }]}>
               <Text style={[styles.navItemStyle, {
                 color: Color.danger,
                 fontWeight: 'bold'

@@ -18,16 +18,16 @@ class FloatingButton extends Component{
           style={{
             alignItems:'center',
             justifyContent:'center',
-            width:100,
+            width:80,
             left: 70,
-            height:100,
+            height:80,
             backgroundColor:'#F7B567',
-            borderRadius:100,
+            borderRadius:40,
           }}
         >
           <FontAwesomeIcon
             icon={faTimes}
-            size={50}
+            size={40}
             color={'white'}
           />
           </TouchableOpacity>
@@ -37,16 +37,16 @@ class FloatingButton extends Component{
           style={{
             alignItems:'center',
             justifyContent:'center',
-            width:100,
+            width:80,
             right: -50,
-            height:100,
+            height:80,
             backgroundColor:'#F7B567',
-            borderRadius:100,
+            borderRadius: 40,
           }}
         >
           <FontAwesomeIcon
             icon={faCheck}
-            size={50}
+            size={40}
             color={'white'}
           />
           </TouchableOpacity>

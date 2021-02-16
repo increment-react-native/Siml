@@ -1,6 +1,6 @@
 import React from 'react';
 import Color from './Color.js';
-import { faHome, faEnvelope, faUsers, faPalette, faShieldAlt, faHandshake } from '@fortawesome/free-solid-svg-icons';
+import { faHome, faEnvelope, faUsers, faPalette, faShieldAlt, faHandshake, faShare } from '@fortawesome/free-solid-svg-icons';
 import { faComment } from '@fortawesome/free-regular-svg-icons';
 
 export default {
@@ -24,32 +24,44 @@ export default {
     {
       title: 'Homepage',
       route: 'Homepage',
-      icon: faHome
+      icon: faHome,
+      borderBottom: false
     },
     {
       title: 'Messages',
       route: 'Messenger',
-      icon: faComment
+      icon: faComment,
+      borderBottom: false
     },
     {
       title: 'Connections',
       route: 'Connections',
-      icon: faUsers
+      icon: faUsers,
+      borderBottom: false
     },
     {
-      title: 'Settings',
+      title: 'Theme Settings',
       route: 'Settings',
-      icon: faPalette
+      icon: faPalette,
+      borderBottom: false
+    },
+    {
+      title: 'Share Profile',
+      route: 'share',
+      icon: faShare,
+      borderBottom: true
     },
     {
       title: 'Terms & Conditions',
       route: 'TermsAndConditions',
-      icon: faHandshake
+      icon: faHandshake,
+      borderBottom: false
     },
     {
       title: 'Privacy Policy',
       route: 'Privacy',
-      icon: faShieldAlt
+      icon: faShieldAlt,
+      borderBottom: false
     }
   ],
   tutorials: [

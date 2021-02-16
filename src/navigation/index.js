@@ -11,6 +11,7 @@ import CartStack from 'src/modules/cart/Drawer'
 import HistoryStack from 'src/modules/history/Drawer'
 import TopChoiceStack from 'src/modules/topChoice/Drawer'
 import ProfileStack from 'src/modules/profile/Drawer'
+import ViewProfileStack from 'src/modules/viewProfile/Drawer'
 import Drawer from './Drawer';
 // login stack
 const LoginStack = createStackNavigator(
@@ -60,7 +61,8 @@ const PrimaryNav = createStackNavigator(
     historyStack: {screen: HistoryStack},
     menuStack: {screen: MenuStack},
     profileStack: {screen: ProfileStack},
-    topChoiceStack: {screen: TopChoiceStack}
+    topChoiceStack: {screen: TopChoiceStack},
+    viewProfileStack: {screen: ViewProfileStack}
   },
   {
     // Default config for all screens
