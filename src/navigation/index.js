@@ -8,12 +8,14 @@ import MenuStack from 'src/modules/menu/index';
 import EventsStack from 'src/modules/events/Drawer';
 import RetailsStack from 'src/modules/retails/Drawer';
 import CartStack from 'src/modules/cart/Drawer'
+import CheckoutStack from 'src/modules/checkout/Drawer'
 import HistoryStack from 'src/modules/history/Drawer'
 import TopChoiceStack from 'src/modules/topChoice/Drawer'
 import ProfileStack from 'src/modules/profile/Drawer'
+import LocationStack from 'components/Location/LocationWithMap'
+import AddLocationStack from 'modules/addLocation/AddLocationDrawer.js';
 import ViewProfileStack from 'src/modules/viewProfile/Drawer'
 import Drawer from './Drawer';
-import CheckoutStack from 'src/modules/checkout/Drawer'
 // login stack
 const LoginStack = createStackNavigator(
   {
@@ -47,6 +49,16 @@ const RegisterStack = createStackNavigator(
   },
 );
 
+const LocationWithMapStack = createStackNavigator(
+  {
+    LocationWithMapScreen: {screen: LocationStack},
+  },
+  {
+    headerMode: 'none',
+    navigationOptions: {},
+  },
+);
+
 // Manifest of possible screens
 const PrimaryNav = createStackNavigator(
   {
@@ -64,6 +76,8 @@ const PrimaryNav = createStackNavigator(
     profileStack: {screen: ProfileStack},
     topChoiceStack: {screen: TopChoiceStack},
     viewProfileStack: {screen: ViewProfileStack},
+    locationStack: {screen: LocationWithMapStack},
+    addLocationStack: {screen: AddLocationStack},
     checkoutStack: {screen: CheckoutStack}
   },
   {
