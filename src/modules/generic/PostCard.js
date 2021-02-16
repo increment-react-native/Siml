@@ -80,12 +80,20 @@ class PostCard extends Component{
             alignItems: 'center',
             justifyContent: 'center',
             borderRadius: 50,
-            borderColor: Color.lightGray,
+            borderColor: data.like_status == true ? Color.primary : Color.lightGray,
             borderWidth: 1,
             height: 50,
-            marginRight: 5
-          }}>
-            <Text>Like</Text>
+            marginRight: 5,
+            backgroundColor: data.like_status == true ? Color.primary : Color.white
+          }}
+            onPress={() => this.props.onLike({
+              ...data,
+              like_status: !data.like_status
+            })}
+          >
+            <Text style={{
+              color: data.like_status == true ? Color.white : Color.black
+            }}>{data.like_status == true ? 'Liked' : 'Like'}</Text>
           </TouchableOpacity>
 
 
@@ -94,12 +102,16 @@ class PostCard extends Component{
             alignItems: 'center',
             justifyContent: 'center',
             borderRadius: 50,
-            borderColor: Color.lightGray,
+            borderColor: data.joined_status == true ? Color.primary : Color.lightGray,
             borderWidth: 1,
             height: 50,
             marginRight: 5,
             backgroundColor: data.joined_status == true ? Color.primary : Color.white
-          }}>
+          }}
+          onPress={() => this.props.onJoin({
+            ...data,
+            joined_status: !data.joined_status
+          })}>
             <Text style={{
               color: data.joined_status == true ? Color.white : Color.black
             }}>{data.joined_status == true ? 'Joined' : 'Join'}</Text>

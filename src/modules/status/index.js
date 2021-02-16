@@ -7,36 +7,61 @@ import {faBars, faChevronLeft} from '@fortawesome/free-solid-svg-icons';
 import Footer from 'modules/generic/Footer'
 import PostCard from 'modules/generic/PostCard';
 const height = Math.round(Dimensions.get('window').height);
+const sample = [{
+  id: 1,
+  user: {
+    username: 'Gemma Pearson',
+    profile: null
+  },
+  date: 'Just now',
+  message: 'Anyone interested going out tonight? Just join my SIML below.',
+  joined_status: true
+}, {
+  id: 2,
+  user: {
+    username: 'Rebecca Pearson',
+    profile: null
+  },
+  date: 'Just now',
+  message: 'Anyone interested going out tonight? Just join my SIML below.',
+  joined_status: false
+}, {
+  id: 3,
+  user: {
+    username: 'Kennette Canales',
+    profile: null
+  },
+  date: '1 minute ago',
+  message: 'Anyone interested going out tonight? Just join my SIML below.',
+  joined_status: false
+}]
 class Status extends Component{
   constructor(props){
     super(props);
+    this.state = {
+      data: sample
+    }
   }
+
+  onChangeDataHandler = (item) => {
+    const { data } = this.state;
+    if(data == null){
+      return
+    }
+    let temp = data.map((iItem, iIndex) => {
+      if(iItem.id == item.id){
+        return item
+      }
+      return iItem
+    })
+
+    this.setState({
+      data: temp
+    })
+  }
+
   render() {
-    const data = [{
-      user: {
-        username: 'Gemma Pearson',
-        profile: null
-      },
-      date: 'Just now',
-      message: 'Anyone interested going out tonight? Just join my SIML below.',
-      joined_status: true
-    }, {
-      user: {
-        username: 'Rebecca Pearson',
-        profile: null
-      },
-      date: 'Just now',
-      message: 'Anyone interested going out tonight? Just join my SIML below.',
-      joined_status: false
-    }, {
-      user: {
-        username: 'Kennette Canales',
-        profile: null
-      },
-      date: '1 minute ago',
-      message: 'Anyone interested going out tonight? Just join my SIML below.',
-      joined_status: false
-    }]
+    const { data } = this.state; 
     return (
       <SafeAreaView>
         <ScrollView style={{
@@ -51,7 +76,11 @@ class Status extends Component{
           }}>
             {
               data && data.map((item, index) => (
-                <PostCard data={item} />
+                <PostCard
+                  data={item}
+                  onLike={(params) => this.onChangeDataHandler(params)}
+                  onJoin={(params) => this.onChangeDataHandler(params)}
+                  />
               ))
             }
           </View>
