@@ -16,6 +16,16 @@ const dummyThemeData = [
     title: 'Test Mode 1',
     details: 'Add description here',
     colors: ['#4CCBA6', '#FFCC00', '#5842D7', '#F88BFF'],
+  },
+  {
+    title: 'Test Mode 2',
+    details: 'Add description here',
+    colors: ['#FFCC00', '#4CCBA6', '#5842D7', '#F88BFF'],
+  },
+  {
+    title: 'Test Mode 2',
+    details: 'Add description here',
+    colors: ['#F88BFF', '#4CCBA6', '#5842D7', '#FFCC00'],
   }
 ];
 class Display extends Component {
