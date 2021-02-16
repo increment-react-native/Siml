@@ -11,6 +11,14 @@ export default {
     marginBottom: 20,
     borderRadius: 25
   },
+  formControls: {
+    height: 50,
+    borderBottomColor: Color.gray,
+    borderBottomWidth: 1,
+    width: width - 40,
+    paddingLeft: 10,
+    marginBottom: 20
+  },
   formControlModal: {
     height: 50,
     borderColor: Color.gray,
