@@ -5,6 +5,10 @@ import {FontAwesomeIcon} from '@fortawesome/react-native-fontawesome';
 import {faCheck, faTimes} from '@fortawesome/free-solid-svg-icons';
 import Ratings from 'components/Rating/StarsOnly';
 import { Color, BasicStyles } from 'common';
+import MenuCards from 'modules/menu/cards';
+import Tab from 'modules/generic/TabOptions';
+import FLoatingButton from 'modules/generic/CircleButton';
+import Information from 'modules/menu/information';
 
 const ScreenHeight = Dimensions.get('window').height
 const height = Dimensions.get('window').height
@@ -29,6 +33,7 @@ class Swiper extends Component{
             isMoveRight: false,
             scroll: true,
             pan: new Animated.ValueXY(),
+            choice: 'Menu'
         }
 
         this.rotate = this.position.x.interpolate({
@@ -69,6 +74,10 @@ class Swiper extends Component{
             extrapolate: 'clamp'
         })
         
+    }
+
+    choiceHandler = (value) => {
+      this.setState({choice: value})
     }
     componentWillMount(){
         this.PanResponder = PanResponder.create({
@@ -147,16 +156,16 @@ class Swiper extends Component{
           >
             <View style={{
                 position: 'absolute',
-                bottom: 100,
+                bottom: this.props.topFloatButton === true ? 100 : 15,
                 ...BasicStyles.standardWidth
               }}>
               <Text style={{color:  Color.white,  fontSize: BasicStyles.standardTitleFontSize, fontWeight: 'bold'}}>{item.title}</Text>
               <Text style={{color: Color.white}}>{item.location}</Text>
             </View>
-            <View style={{
+            {this.props.topFloatButton === true && (<View style={{
               ...BasicStyles.standardWidth,
               position: 'absolute',
-              bottom: 0,
+              bottom: -30,
               flexDirection: 'row',
               alignItems: 'center',
               justifyContent: 'space-between'
@@ -198,7 +207,7 @@ class Swiper extends Component{
                   color={'white'}
                 />
               </TouchableOpacity>
-            </View>
+            </View>)}
         </ImageBackground>
       )
     }
@@ -266,11 +275,37 @@ class Swiper extends Component{
           }
         }).reverse()
       }
+
+      renderMenu() {
+        return (
+          <View 
+            style={{padding: 20}}
+            >
+            <View>
+              <View style={ this.props.topFloatButton === true? {marginTop: 30} : {marginTop: 0}}>
+                <Tab level={1} choice={['Menu', 'Information']} onClick={this.choiceHandler}></Tab>
+              </View>
+              <View style={ this.props.bottomFloatButton === true? {marginBottom: 200} : {marginBottom: 0}}>
+                {this.state.choice == 'Menu' ? (
+                  <MenuCards/>
+                ) : 
+                  <Information 
+                    name={'Bangtan Sonyeondan'}
+                    hours={['7 AM - 7 PM (Weekdays)', '7 AM - 11 PM (Weekends)']}
+                    description={' is simply dummy text of the printing and typesetting industry. Lorem Ipsum has been the industrys standard dummy text ever since the 1500s. It is simply dummy text of the printing and typesetting industry.'}
+                  />}
+              </View>
+              {this.props.bottomFloatButton === true && (<FLoatingButton></FLoatingButton>)}
+            </View>
+          </View>
+        )
+      }
       
       render() {
         return (
-          <View style={{ flex: 1 }}>
+          <View style={{ flex: 1, backgroundColor: 'white' }}>
             {this.renderUsers()}
+            {this.renderMenu()}
           </View>
         );
       }

@@ -73,7 +73,7 @@ class Connections extends Component {
                   {
                       AcceptConnections.map((el, idx) => {
                         return(
-                          <TouchableOpacity>
+                          <TouchableOpacity onPress={() => {this.props.navigation.navigate('viewProfileStack')}}>
                               {/* <Card containerStyle={{padding:-5, borderRadius: 20}}> */}
                                 <ListItem key={idx}>
                                     <Image

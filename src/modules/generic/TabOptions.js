@@ -21,10 +21,10 @@ class Tab extends Component{
         {
           (this.props.level === 1) && (
             <View style={Style.Tab}>
-              <TouchableOpacity style={this.state.choice == this.props.choice[0] ? Style.MenuClicked : Style.Menu} onPress={() => this.choiceHandler('Menu')}>
+              <TouchableOpacity style={this.state.choice == this.props.choice[0] ? Style.MenuClicked : Style.Menu} onPress={() => this.choiceHandler(this.props.choice[0])}>
                 <Text style={this.state.choice == this.props.choice[0] ? {color: 'white', marginTop: 12} : {color: 'black', marginTop: 12}}>{this.props.choice[0]}</Text>
               </TouchableOpacity>
-              <TouchableOpacity style={this.state.choice == this.props.choice[1] ? Style.InformationClicked : Style.Information} onPress={() => this.choiceHandler('Information')}>
+              <TouchableOpacity style={this.state.choice == this.props.choice[1] ? Style.InformationClicked : Style.Information} onPress={() => this.choiceHandler(this.props.choice[1])}>
                 <Text style={this.state.choice == this.props.choice[1] ? {color: 'white', marginTop: 12} : {color: 'black', marginTop: 12}}>{this.props.choice[1]}</Text>
               </TouchableOpacity>
             </View>
