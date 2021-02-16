@@ -27,6 +27,10 @@ class Profile extends Component{
     this.setState({email: value})
   }
 
+  redirect = () => {
+    console.log("lalaine========");
+  }
+
   render() {
     return (
       <View style={[Style.MainContainer, {
@@ -102,7 +106,7 @@ class Profile extends Component{
               value={this.state.email}
               placeholder='   Enter Email'
             />
-          <CustomizedButton title={'Update'}></CustomizedButton>
+          <CustomizedButton onClick={this.redirect} title={'Update'}></CustomizedButton>
           </View>
         </ScrollView>
       </View>

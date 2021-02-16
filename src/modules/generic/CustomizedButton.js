@@ -32,6 +32,7 @@ class Button extends Component{
             backgroundColor: Color.primary,
             borderRadius:100,
           }}
+          onPress={() => {this.props.onClick()}}
           >
             <Text style={{color: 'white'}}>{this.props.title}</Text>
         </TouchableOpacity>
