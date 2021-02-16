@@ -8,6 +8,7 @@ import Style from './Style';
 import CustomizedButton from 'modules/generic/CustomizedButton';
 import ImageCardWithUser from 'modules/generic/ImageCardWithUser';
 import Tab from 'modules/generic/TabOptions';
+import CardModal from 'modules/modal/Swipe.js';
 class ViewProfile extends Component {
   constructor(props) {
     super(props);
@@ -21,7 +22,8 @@ class ViewProfile extends Component {
         { name: 'John Doe', address: 'Cebu City', numberOfConnection: 3, lastLogin: '2 d', uri: require('assets/test.jpg') },
         { name: 'John Doe', address: 'Cebu City', numberOfConnection: 3, lastLogin: '2 d', uri: require('assets/test.jpg') },
         { name: 'John Doe', address: 'Cebu City', numberOfConnection: 3, lastLogin: '2 d', uri: require('assets/test.jpg') },
-      ]
+      ],
+      isVisible: false
     }
   }
 
@@ -208,6 +210,13 @@ class ViewProfile extends Component {
             ) :
               this.renderConnections()}
           </View>
+          {this.state.isVisible && <CardModal
+          visisble={this.state.isVisible}
+          onClose={() => {
+          this.setState({
+            isVisible: false
+          })
+        }}/>}
         </ScrollView>
       </View>
     );
