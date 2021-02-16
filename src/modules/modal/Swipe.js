@@ -39,11 +39,14 @@ class Swipe extends Component {
           <View style={{
             marginBottom: 100
           }}>
-            <Swiper onClose={() => {
+            <Swiper
+             topFloatButton={true}
+             bottomFloatButton={false}
+             onClose={() => {
               this.props.onClose()
             }}/>
           </View>
-          <View style={{
+          {/* <View style={{
             width: '100%',
             paddingLeft: '5%',
             paddingRight: '5%',
@@ -63,7 +66,7 @@ class Swipe extends Component {
                   description={' is simply dummy text of the printing and typesetting industry. Lorem Ipsum has been the industrys standard dummy text ever since the 1500s. It is simply dummy text of the printing and typesetting industry.'}
                 />}
             </View>
-          </View>
+          </View> */}
         </ScrollView>
       </Modal>
     );
