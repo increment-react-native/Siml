@@ -6,7 +6,6 @@ export default {
     flex: 1
   },
   MainContainer: {
-    flex: 1,
     backgroundColor: Color.white,
     zIndex: 0
   },

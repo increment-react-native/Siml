@@ -1,6 +1,6 @@
 import React, { Component } from 'react';
 import Style from './Style.js';
-import { View, Image, Text, TouchableOpacity, ScrollView, TextInput, CheckBox } from 'react-native';
+import { View, Image, Text, TouchableOpacity, ScrollView, TextInput, CheckBox, Modal } from 'react-native';
 import { BottomSheet, ListItem } from 'react-native-elements';
 import { Routes, Color, Helper, BasicStyles } from 'common';
 import { FontAwesomeIcon } from '@fortawesome/react-native-fontawesome';
@@ -43,18 +43,18 @@ class Checkout extends Component {
     return (
       this.state.data.map(item => {
         return (
-          <View style={{ flexDirection: 'row', marginTop: 20 }}>
+          <View style={{ flexDirection: 'row', paddingBottom: 35}}>
             <Image source={require('assets/logo.png')} style={{
-              height: 100,
-              width: 90,
+              height: '160%',
+              width: '20%',
               marginRight: 30,
-              marginLeft: 30
+              marginLeft: 10
             }} />
-            <Text style={{ marginTop: 25 }}>{item.title}</Text>
+            <Text style={{ marginTop: 20 }}>{item.title}</Text>
             <Text style={{
               position: 'absolute',
               right: 10,
-              bottom: 10
+              bottom: 8
             }}>P 6, 000.00</Text>
           </View>
         )
@@ -64,74 +64,106 @@ class Checkout extends Component {
 
   renderPlaceOrder = () => {
     return (
-      <BottomSheet
-        isVisible={this.state.placeOrder}
-        containerStyle={{ backgroundColor: 'white' }}
-      >
-        <View style={{
-          backgroundColor: 'white',
-          paddingTop: 60,
-          borderTopRightRadius: 30,
-          borderTopLeftRadius: 30,
-          height: 900
-        }}>
+      <View>
+        <Modal
+          animationType="slide"
+          visible={this.state.placeOrder}
+          transparent={true}
+          >
           <View style={{
-            alignItems: 'center',
-            justifyContent: 'center',
-            textAlign: 'center'
-          }}>
-            <Text style={{ color: Color.primary }}>Thank you! Your order has been received.</Text>
-          </View>
-          <View style={{ padding: 25 }}>
-            {this.renderOrderDetails()}
-          </View>
-          <View style={{ padding: 25 }}>
-            <View style={{ flexDirection: 'row' }}>
-              <Text>Subtotal</Text>
-              <Text style={{
-                position: 'absolute',
-                right: 10
-              }}>P 6, 000.00</Text>
+            flex: 1,
+            backgroundColor: 'white',
+            position: 'absolute',
+            bottom: 0,
+            width: '100%',
+            backgroundColor: 'white',
+            borderTopEndRadius: 15,
+            borderTopStartRadius: 15,
+            height: 700
+          }}><ScrollView>
+            <View style={{
+              alignItems: 'center',
+              marginTop: 40}}>
+              <Text style={{ color: Color.primary }}>Thank you! Your order has been received.</Text>
+              <Text style={{ marginTop: 20 }}>ORDER NO:</Text>
+              <Text style={{ fontWeight: 'bold',  }}>1234</Text>
+              <Text style={{ marginTop: 15 }}>DATE & TIME:</Text>
+              <Text style={{ fontWeight: 'bold',  }}>Januray 20, 2021 3:30 PM</Text>
+              <Text style={{ marginTop: 15 }}>SHIPPING METHOD:</Text>
+              <Text style={{ fontWeight: 'bold',  }}>Shipping Method 1</Text>
+              <Text style={{ marginTop: 15 }}>PAYMENT METHOD:</Text>
+              <Text style={{ fontWeight: 'bold', marginBottom: 25 }}>Payment Method 1</Text>
             </View>
-            <View style={{ flexDirection: 'row' }}>
-              <Text style={{ color: Color.gray }}>Subtotal</Text>
-              <Text style={{
-                position: 'absolute',
-                right: 10,
-                color: Color.gray
-              }}>P 6, 000.00</Text>
+            <View style={{
+              paddingBottom: 10,
+              paddingLeft: 20,
+              paddingRight: 25,
+              borderBottomWidth: .3,
+              borderTopWidth: .3,
+              borderColor: Color.gray
+            }}>
+              <View style={{
+                alignItems: 'center',
+                justifyContent: 'center',
+                textAlign: 'center',
+              }}>
+                  <Text style={{ fontWeight: 'bold', marginTop: 10 }}>ORDER DETAILS</Text>
+              </View>
+              {this.renderOrderDetails()}
             </View>
-          <View style={{ flexDirection: 'row', marginTop: 15 }}>
-            <Text style={{ fontWeight: 'bold' }}>TOTAL</Text>
-            <Text style={{
-              position: 'absolute',
-              right: 10,
-              fontWeight: 'bold'
-            }}>P 6, 000.00</Text>
-          </View>
-        </View>
-        <View style={{
-          alignItems: 'center',
-          justifyContent: 'center',
-          textAlign: 'center'
-        }}>
-          <TouchableOpacity
-            style={{
+            <View style={{
+              paddingTop: 25,
+              paddingLeft: 25,
+              paddingRight: 25,
+             }}>
+              <View style={{ flexDirection: 'row' }}>
+                <Text>Subtotal</Text>
+                <Text style={{
+                  position: 'absolute',
+                  right: 10
+                }}>P 6, 000.00</Text>
+              </View>
+              <View style={{ flexDirection: 'row' }}>
+                <Text style={{ color: Color.gray }}>Subtotal</Text>
+                <Text style={{
+                  position: 'absolute',
+                  right: 10,
+                  color: Color.gray
+                }}>P 6, 000.00</Text>
+              </View>
+              <View style={{ flexDirection: 'row', marginTop: 15 }}>
+                <Text style={{ fontWeight: 'bold' }}>TOTAL</Text>
+                <Text style={{
+                  position: 'absolute',
+                  right: 10,
+                  fontWeight: 'bold'
+                }}>P 6, 000.00</Text>
+              </View>
+            </View>
+            <View style={{
               alignItems: 'center',
               justifyContent: 'center',
-              textAlign: 'center',
-              width: 80,
-              height: 80,
-              backgroundColor: Color.primary,
-              borderRadius: 40,
-            }}
-            onPress={() => { this.setState({ placeOrder: false }) }}
-          >
-            <Text style={{ color: 'white' }}>OK</Text>
-          </TouchableOpacity>
-        </View>
-        </View>
-      </BottomSheet >
+              textAlign: 'center'
+            }}>
+              <TouchableOpacity
+                style={{
+                  alignItems: 'center',
+                  justifyContent: 'center',
+                  textAlign: 'center',
+                  width: 80,
+                  height: 80,
+                  backgroundColor: Color.primary,
+                  borderRadius: 40,
+                }}
+                onPress={() => { this.setState({ placeOrder: false }) }}
+              >
+                <Text style={{ color: 'white' }}>OK</Text>
+              </TouchableOpacity>
+            </View>
+            </ScrollView>
+          </View>
+        </Modal >
+      </View>
     )
   }
 
@@ -139,9 +171,8 @@ class Checkout extends Component {
     return (
       <ScrollView>
         <View style={[Style.MainContainer, {
-          backgroundColor: Color.containerBackground,
-          padding: 15,
-          paddingBottom: 100
+          backgroundColor: this.state.placeOrder === true ? 'rgba(0,0,0,0.5)' : Color.containerBackground,
+          padding: 15
         }]}>
           <View style={{
             flexDirection: 'row',
@@ -242,10 +273,7 @@ class Checkout extends Component {
             }}><TextInput placeholder={'Notes about your delivery'}></TextInput></View>
           </View>
 
-          <View style={{
-            borderBottomWidth: 1,
-            borderColor: Color.gray
-          }}>
+          <View>
             <View style={{
               alignItems: 'center',
               marginTop: 15
@@ -307,7 +335,7 @@ class Checkout extends Component {
             </View>
           </View>
 
-          <View style={{ padding: 25 }}>
+          <View style={{ padding: 25, marginBottom: 40}}>
             <View style={{
               alignItems: 'center',
               marginBottom: 25
@@ -330,8 +358,8 @@ class Checkout extends Component {
               buttonOuterSize={20}
             />
           </View>
+          <CustomizedButton onClick={this.placeOrders} title={'Place Order'}></CustomizedButton>
           {this.renderPlaceOrder()}
-          <CustomizedButton onClick={this.placeOrders} title={'Proceed Checkout'}></CustomizedButton>
 
         </View>
       </ScrollView>

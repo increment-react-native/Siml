@@ -143,7 +143,7 @@ class Swiper extends Component{
             height: null,
             width: null,
             resizeMode: 'cover',
-            marginTop: height * 0.25
+            marginTop: this.props.bottomFloatButton === true? 50 : height * 0.25
           }}
           imageStyle={{
             flex: 1,
