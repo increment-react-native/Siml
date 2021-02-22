@@ -4,6 +4,7 @@ import ForgotPassword from 'src/modules/account/ForgotPassword';
 import Register from 'src/modules/account/Register';
 import NotificationStack from 'src/modules/notification/Drawer';
 import RestaurantStack from 'src/modules/restaurants/Drawer';
+import ConnectionStack from 'src/modules/connection/Drawer';
 import MenuStack from 'src/modules/menu/index';
 import EventsStack from 'src/modules/events/Drawer';
 import RetailsStack from 'src/modules/retails/Drawer';
@@ -78,7 +79,8 @@ const PrimaryNav = createStackNavigator(
     viewProfileStack: {screen: ViewProfileStack},
     locationStack: {screen: LocationWithMapStack},
     addLocationStack: {screen: AddLocationStack},
-    checkoutStack: {screen: CheckoutStack}
+    checkoutStack: {screen: CheckoutStack},
+    connectionStack: {screen: ConnectionStack}
   },
   {
     // Default config for all screens

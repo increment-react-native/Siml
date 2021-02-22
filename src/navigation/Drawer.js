@@ -15,6 +15,7 @@ import OptionRight from './OptionRight';
 import TermsAndConditions from 'modules/termsAndConditions';
 import Messenger from 'modules/messenger';
 import Header from 'src/modules/generic/Header'
+import SimlHeader from 'src/modules/generic/SimlHeader'
 
 import Style from './Style.js';
 import { connect } from 'react-redux'
@@ -74,7 +75,7 @@ const _StackNavigator = createStackNavigator({
     screen: Connections,
     navigationOptions: ({navigation}) => ({
       title: null,
-      headerLeft: <Header navigation={navigation} />,
+      headerRight: <SimlHeader navigation={navigation} />,
       ...BasicStyles.drawerHeader
     }),
   },

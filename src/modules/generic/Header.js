@@ -1,5 +1,5 @@
 import React, {Component} from 'react';
-import {View, TouchableOpacity, Text, Dimensions} from 'react-native';
+import {View, TouchableOpacity, Text, Dimensions, SafeAreaView} from 'react-native';
 import {FontAwesomeIcon} from '@fortawesome/react-native-fontawesome';
 import {faBars, faChevronLeft, faClock, faShoppingBag, faStar} from '@fortawesome/free-solid-svg-icons';
 import {connect} from 'react-redux';
@@ -53,7 +53,6 @@ class Header extends Component {
             ]}
           />
         </TouchableOpacity>
-
 
         <TouchableOpacity
           onPress={() => this.props.navigation.navigate('topChoiceStack')}

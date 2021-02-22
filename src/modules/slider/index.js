@@ -97,7 +97,7 @@ class Slider extends Component {
                     color: theme ? theme.primary : Color.primary,
                     marginLeft: 10
                   }]}/>
-                  <Text style={styles.navItemStyle} onPress={() => this.navigateToScreen(item.route)}>
+                  <Text style={styles.navItemStyle} onPress={() => item.title  == 'Connections' ? this.props.navigation.navigate('connectionStack') : this.navigateToScreen(item.route)}>
                     {item.title}
                   </Text>
                 </View>)

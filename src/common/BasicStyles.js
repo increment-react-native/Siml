@@ -187,6 +187,28 @@ export default {
       fontWeight: 'bold',
     },
   },
+
+  headerDrawerStyleRight: {
+    headerStyle: {
+      elevation: 0,
+      backgroundColor: Color.white,
+      height: 60,
+      justifyContent: 'center',
+      alignItems: 'center',
+      fontSize: 18,
+      borderBottomWidth: 0
+    },
+    headerTitleContainerStyle: {
+      backgroundColor: Color.white,
+      justifyContent: 'center',
+      alignItems: 'center',
+      paddingRight: Platform.OS == 'ios' ? 0 : 64,
+    },
+    headerTitleStyle: {
+      fontWeight: 'bold',
+      marginLeft: '40%'
+    },
+  },
   headerDrawerStyleNoPadding: {
     headerStyle: {
       elevation: 10,

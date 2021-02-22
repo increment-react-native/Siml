@@ -2,8 +2,13 @@ import React, { Component } from 'react';
 import { ScrollView, View, Text, StyleSheet, TouchableOpacity, Image, TextInput} from 'react-native';
 import { Card, ListItem, Button, Icon } from 'react-native-elements'
 import { BasicStyles, Color } from 'common'
+import { FontAwesomeIcon } from '@fortawesome/react-native-fontawesome';
+import { faEllipsisH } from '@fortawesome/free-solid-svg-icons';
 import Footer from 'modules/generic/Footer'
+import CardList from 'modules/generic/CardList'
+import Share from 'components/Share'
 import Style from './Style'
+import { connect } from 'react-redux';
 
 const navs = [
   {name: "Suggestions", flag: true},
@@ -24,7 +29,8 @@ class Connections extends Component {
     this.state= {
       prevActive: 0,
       currActive: 0,
-      search: null
+      search: null,
+      isShow: false
     }
   }
 
@@ -70,95 +76,13 @@ class Connections extends Component {
           {
             this.state.currActive == 0 ? (
               <View>
-                  {
-                      AcceptConnections.map((el, idx) => {
-                        return(
-                          <TouchableOpacity onPress={() => {this.props.navigation.navigate('viewProfileStack')}}>
-                              {/* <Card containerStyle={{padding:-5, borderRadius: 20}}> */}
-                                <ListItem key={idx}>
-                                    <Image
-                                        style={Style.circleImage}
-                                        // resizeMode="cover"
-                                        source={el.uri}
-                                    />
-                                    <View>
-                                      <View style={{flexDirection:'row'}}>
-                                        <View style={{width:200}}>
-                                          <Text style={{fontWeight: 'bold'}}>{el.name}</Text>
-                                          <Text style={{fontStyle: 'italic'}}>{el.address}</Text>
-                                          <Text style={{color: 'gray', fontSize: 10}}>{el.numberOfConnection} similar connections</Text>
-                                          <View style={{flexDirection:'row'}}>
-                                            <TouchableOpacity
-                                              onPress={()=> this.changeTab(idx)}
-                                              style={{
-                                                ...Style.actionBtn,
-                                                backgroundColor:Color.primary
-                                              }}
-                                            >
-                                              <Text style={{color: 'white'}}>Confirm</Text>
-                                            </TouchableOpacity>
-                                            <TouchableOpacity
-                                              onPress={()=> this.changeTab(idx)}
-                                              style={{
-                                                ...Style.actionBtn,
-                                                backgroundColor:Color.danger
-                                              }}
-                                            >
-                                              <Text style={{color: 'white'}}>Remove</Text>
-                                            </TouchableOpacity>
-                                          </View>
-                                        </View>
-                                        <View>
-                                          <Text>{el.lastLogin}</Text>
-                                        </View>
-                                      </View>
-                                    </View>
-                                </ListItem>
-                              {/* </Card> */}
-                          </TouchableOpacity>
-                        )
-                      })
-                    }
+                    <CardList data={AcceptConnections} hasAction={true} actionType={'text'}></CardList>
                     <View style={{marginTop: 50, paddingLeft: 30}}>
                       <Text style={{fontWeight: 'bold'}}>Connections you may know</Text>
                     </View>
 
                     <View>
-                    {
-                      AcceptConnections.map((el, idx) => {
-                        return(
-                          <TouchableOpacity>
-                              {/* <Card containerStyle={{padding:-5, borderRadius: 20}}> */}
-                                <ListItem key={idx}>
-                                    <Image
-                                        style={Style.circleImage}
-                                        // resizeMode="cover"
-                                        source={el.uri}
-                                    />
-                                    <View>
-                                      <View style={{flexDirection:'row'}}>
-                                        <View style={{width:130}}>
-                                          <Text style={{fontWeight: 'bold'}}>{el.name}</Text>
-                                          <Text style={{fontStyle: 'italic'}}>{el.address}</Text>
-                                          <Text style={{color: 'gray', fontSize: 10}}>{el.numberOfConnection} similar connections</Text>
-                                        </View>
-                                        <TouchableOpacity
-                                            onPress={()=> this.changeTab(idx)}
-                                            style={{
-                                              ...Style.actionBtn,
-                                              backgroundColor:Color.danger
-                                            }}
-                                          >
-                                            <Text style={{color: 'white'}}>Add</Text>
-                                          </TouchableOpacity>
-                                      </View>
-                                    </View>
-                                </ListItem>
-                              {/* </Card> */}
-                          </TouchableOpacity>
-                        )
-                      })
-                    }
+                    <CardList data={AcceptConnections} hasAction={false} actionType={'button'} actionContent={'text'}></CardList>
                     </View>
 
                   </View>
@@ -174,50 +98,26 @@ class Connections extends Component {
                 </View>
 
                     <View>
-                    {
-                      AcceptConnections.map((el, idx) => {
-                        return(
-                          <TouchableOpacity>
-                              {/* <Card containerStyle={{padding:-5, borderRadius: 20}}> */}
-                                <ListItem key={idx}>
-                                    <Image
-                                        style={Style.circleImage}
-                                        // resizeMode="cover"
-                                        source={el.uri}
-                                    />
-                                    <View>
-                                      <View style={{flexDirection:'row'}}>
-                                        <View style={{width:130}}>
-                                          <Text style={{fontWeight: 'bold'}}>{el.name}</Text>
-                                          <Text style={{fontStyle: 'italic'}}>{el.address}</Text>
-                                          <Text style={{color: 'gray', fontSize: 10}}>{el.numberOfConnection} similar connections</Text>
-                                        </View>
-                                        <TouchableOpacity
-                                            onPress={()=> this.changeTab(idx)}
-                                            style={{
-                                              ...Style.actionBtn,
-                                              backgroundColor:Color.danger
-                                            }}
-                                          >
-                                            <Text style={{color: 'white'}}>Add</Text>
-                                          </TouchableOpacity>
-                                      </View>
-                                    </View>
-                                </ListItem>
-                              {/* </Card> */}
-                          </TouchableOpacity>
-                        )
-                      })
-                    }
+                    <CardList data={AcceptConnections} hasAction={false} actionType={'button'} actionContent={'icon'} ></CardList>
                     </View>
               </View>
             )
           }
-          
+          <Share showModal={this.props.isShow}></Share>
         </ScrollView>
         <Footer layer={1} {...this.props}/>
       </View>
     );
   }
 }
-export default Connections;
+const mapStateToProps = state => ({ state: state });
+
+const mapDispatchToProps = dispatch => {
+  const { actions } = require('@redux');
+  return {
+    viewMenu: (isViewing) => dispatch(actions.viewMenu(isViewing))
+  };
+};
+export default connect(
+  mapStateToProps,
+  mapDispatchToProps)(Connections);

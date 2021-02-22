@@ -7,7 +7,8 @@ const types = {
   LOGIN: 'LOGIN',
   UPDATE_USER: 'UPDATE_USER',
   SET_THEME: 'SET_THEME',
-  SET_LAYER: 'SET_LAYER'
+  SET_LAYER: 'SET_LAYER',
+  VIEW_MENU: 'VIEW_MENU',
 };
 
 export const actions = {
@@ -26,13 +27,17 @@ export const actions = {
   setLayer(layer) {
     return {type: types.SET_LAYER, layer};
   },
+  viewMenu(isViewing){
+    return {type: types.VIEW_MENU, isViewing}
+  }
 };
 
 const initialState = {
   token: null,
   user: null,
   theme: null,
-  layer: null
+  layer: null,
+  isViewing: false
 };
 
 storeData = async (key, value) => {
@@ -46,6 +51,7 @@ storeData = async (key, value) => {
 const reducer = (state = initialState, action) => {
   const { type, user, token } = action;
   const { theme, layer } = action;
+  const { isViewing, request } = action;
   switch (type) {
     case types.LOGOUT:
       AsyncStorage.clear();
@@ -79,6 +85,11 @@ const reducer = (state = initialState, action) => {
         ...state,
         layer,
       };
+    case types.VIEW_MENU:
+      return {
+        ...state,
+        isViewing
+      }
     default:
       return {...state, nav: state.nav};
   }
