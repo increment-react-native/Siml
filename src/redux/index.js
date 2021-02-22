@@ -86,6 +86,7 @@ const reducer = (state = initialState, action) => {
         layer,
       };
     case types.VIEW_MENU:
+      console.log("[IS_VIEWING]", isViewing);
       return {
         ...state,
         isViewing
