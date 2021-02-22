@@ -28,11 +28,12 @@ export default {
     width: '35%',
     alignItems: 'center',
     justifyContent: 'center',
-    borderRadius: 25
+    borderRadius: 25,
+    marginLeft: 3
   },
   circleImage: {
-    width: 80,
-    height: 80,
+    width: 90,
+    height: 90,
     borderRadius: 50,
     borderColor: Color.primary,
     borderWidth: 3,
