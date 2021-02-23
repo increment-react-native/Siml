@@ -3,7 +3,7 @@ import {View, TouchableOpacity, Text} from 'react-native';
 import {createStackNavigator} from 'react-navigation-stack';
 import {FontAwesomeIcon} from '@fortawesome/react-native-fontawesome';
 import {faChevronLeft, faBars} from '@fortawesome/free-solid-svg-icons';
-import Screen from 'modules/history';
+import Screen from 'modules/eventName';
 import {NavigationActions} from 'react-navigation';
 import {BasicStyles, Color} from 'common';
 import {connect} from 'react-redux';
@@ -40,11 +40,11 @@ const mapDispatchToProps = (dispatch) => {
 };
 let HeaderOptionsConnect  = connect(mapStateToProps, mapDispatchToProps)(HeaderOptions);
 
-const HistoryStack = createStackNavigator({
-  historyScreen: {
+const EventNameStack = createStackNavigator({
+  cartScreen: {
     screen: Screen,
     navigationOptions: ({navigation}) => ({
-      title: navigation.state.params && navigation.state.params.title ? navigation.state.params.title : 'History',
+      title: 'Restaurant | Event Name',
       headerLeft: <HeaderOptionsConnect navigationProps={navigation} />,
       ...BasicStyles.headerDrawerStyle
     }),
@@ -54,4 +54,4 @@ const HistoryStack = createStackNavigator({
 export default connect(
   mapStateToProps,
   mapDispatchToProps,
-)(HistoryStack);
+)(EventNameStack);

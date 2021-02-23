@@ -1,6 +1,6 @@
 import React, { Component } from 'react';
 import Style from './Style.js';
-import { View, Image, Text, TouchableOpacity, ScrollView, TextInput, CheckBox, Modal } from 'react-native';
+import { View, Image, Text, TouchableOpacity, ScrollView, TextInput, CheckBox, Modal, TouchableWithoutFeedback } from 'react-native';
 import { BottomSheet, ListItem } from 'react-native-elements';
 import { Routes, Color, Helper, BasicStyles } from 'common';
 import { FontAwesomeIcon } from '@fortawesome/react-native-fontawesome';
@@ -62,6 +62,11 @@ class Checkout extends Component {
     )
   }
 
+  okay = () => {
+    this.setState({ placeOrder: false }) 
+    this.props.navigation.navigate('historyStack', {title: 'Upcoming', activeIndex: 2})
+  }
+
   renderPlaceOrder = () => {
     return (
       <View>
@@ -79,7 +84,7 @@ class Checkout extends Component {
             backgroundColor: 'white',
             borderTopEndRadius: 15,
             borderTopStartRadius: 15,
-            height: 700
+            height: '80%'
           }}><ScrollView>
             <View style={{
               alignItems: 'center',
@@ -155,7 +160,7 @@ class Checkout extends Component {
                   backgroundColor: Color.primary,
                   borderRadius: 40,
                 }}
-                onPress={() => { this.setState({ placeOrder: false }) }}
+                onPress={() => { this.okay() }}
               >
                 <Text style={{ color: 'white' }}>OK</Text>
               </TouchableOpacity>
@@ -170,8 +175,11 @@ class Checkout extends Component {
   render() {
     return (
       <ScrollView>
+        <TouchableWithoutFeedback
+              onPress={() =>this.setState({ placeOrder: false })}
+            >
         <View style={[Style.MainContainer, {
-          backgroundColor: this.state.placeOrder === true ? 'rgba(0,0,0,0.5)' : Color.containerBackground,
+          backgroundColor: this.state.placeOrder === true ? 'rgba(0,0,0,0.2)' : Color.containerBackground,
           padding: 15
         }]}>
           <View style={{
@@ -362,6 +370,7 @@ class Checkout extends Component {
           {this.renderPlaceOrder()}
 
         </View>
+        </TouchableWithoutFeedback>
       </ScrollView>
     );
   }
