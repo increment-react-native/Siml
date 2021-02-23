@@ -71,7 +71,7 @@ class ViewProfile extends Component {
                         <Text style={{ color: 'gray', fontSize: 10 }}>{el.numberOfConnection} similar connections</Text>
                       </View>
                       <TouchableOpacity
-                        onPress={() => this.changeTab(idx)}
+                        // onPress={() => this.changeTab(idx)}
                         style={{
                           ...Style.actionBtn,
                           backgroundColor:'#4DD965'

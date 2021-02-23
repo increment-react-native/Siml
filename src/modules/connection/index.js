@@ -76,13 +76,13 @@ class Connections extends Component {
           {
             this.state.currActive == 0 ? (
               <View>
-                    <CardList data={AcceptConnections} hasAction={true} actionType={'text'}></CardList>
+                    <CardList navigation={this.props.navigation} data={AcceptConnections} hasAction={true} actionType={'text'}></CardList>
                     <View style={{marginTop: 50, paddingLeft: 30}}>
                       <Text style={{fontWeight: 'bold'}}>Connections you may know</Text>
                     </View>
 
                     <View>
-                    <CardList data={AcceptConnections} hasAction={false} actionType={'button'} actionContent={'text'}></CardList>
+                    <CardList navigation={this.props.navigation} data={AcceptConnections} hasAction={false} actionType={'button'} actionContent={'text'}></CardList>
                     </View>
 
                   </View>
@@ -98,7 +98,7 @@ class Connections extends Component {
                 </View>
 
                     <View>
-                    <CardList data={AcceptConnections} hasAction={false} actionType={'button'} actionContent={'icon'} ></CardList>
+                    <CardList navigation={this.props.navigation} data={AcceptConnections} hasAction={false} actionType={'button'} actionContent={'icon'} ></CardList>
                     </View>
               </View>
             )
