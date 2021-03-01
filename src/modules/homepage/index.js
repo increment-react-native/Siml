@@ -10,7 +10,11 @@ class HomePage extends Component{
     super(props);
   }
   redirect(route, layer){
-    this.props.navigation.navigate(route)
+    if(route === 'historyStack') {
+      this.props.navigation.navigate(route, {title: 'Upcoming'})
+    } else {
+      this.props.navigation.navigate(route)
+    }
   }
 
   render() {

@@ -21,10 +21,28 @@ class History extends Component{
     };   
   }
 
+  componentDidMount() {
+    this.setState({activeIndex: this.props.navigation.state && this.props.navigation.state.params && this.props.navigation.state.params.activeIndex ? this.props.navigation.state.params.activeIndex : 0})
+  }
+
   onPageChange(index){
     this.setState({
       activeIndex: index
     })
+  }
+
+  onClick = () => {
+    if(this.props.navigation.state && this.props.navigation.state.params && this.props.navigation.state.params.title !== null) {
+      if(this.state.activeIndex === 0 || this.state.activeIndex === 1) {
+        this.props.navigation.navigate('eventNameStack');
+      } else {
+        this.props.navigation.navigate('retailNameStack');
+      }
+    } else {
+      this.setState({
+        isVisible: true
+      })
+    }
   }
 
   renderData(data){
@@ -44,10 +62,9 @@ class History extends Component{
                 data={item} style={{
                   marginBottom: 20
                 }}
+                redirectTo={this.props.navigation.state.params && this.props.navigation.state.params.title ? 'upcoming' : 'history'}
                 onClick={(item) => {
-                  this.setState({
-                    isVisible: true
-                  })
+                  this.onClick()
                 }}
                 />
               ))
