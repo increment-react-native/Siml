@@ -8,7 +8,7 @@ const types = {
   UPDATE_USER: 'UPDATE_USER',
   SET_THEME: 'SET_THEME',
   SET_LAYER: 'SET_LAYER',
-  VIEW_MENU: 'VIEW_MENU',
+  VIEW_SHARE: 'VIEW_SHARE',
 };
 
 export const actions = {
@@ -27,8 +27,8 @@ export const actions = {
   setLayer(layer) {
     return {type: types.SET_LAYER, layer};
   },
-  viewMenu(isViewing){
-    return {type: types.VIEW_MENU, isViewing}
+  viewShare(isViewing){
+    return {type: types.VIEW_SHARE, isViewing}
   }
 };
 
@@ -85,7 +85,7 @@ const reducer = (state = initialState, action) => {
         ...state,
         layer,
       };
-    case types.VIEW_MENU:
+    case types.VIEW_SHARE:
       console.log("[IS_VIEWING]", isViewing);
       return {
         ...state,
