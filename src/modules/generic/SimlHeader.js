@@ -1,5 +1,5 @@
 import React, {Component} from 'react';
-import {View, TouchableOpacity, Text, Dimensions} from 'react-native';
+import {View, TouchableOpacity, Text, Dimensions, Share} from 'react-native';
 import {FontAwesomeIcon} from '@fortawesome/react-native-fontawesome';
 import {faUsers, faHome, faBell, faComments, faReply, faShare} from '@fortawesome/free-solid-svg-icons';
 import {connect} from 'react-redux';
@@ -13,6 +13,30 @@ class Header extends Component {
   back = () => {
     this.props.navigationProps.pop();
   };
+
+  onShare = async () => {
+    const { user } = this.props.state;
+    if(user == null){
+      return
+    }
+    try {
+      const result = await Share.share({
+        message: 'https://wearesynqt/profile/' + user.code
+      });
+      if (result.action === Share.sharedAction) {
+        if (result.activityType) {
+          // shared with activity type of result.activityType
+        } else {
+          // shared
+        }
+      } else if (result.action === Share.dismissedAction) {
+        // dismissed
+      }
+    } catch (error) {
+      alert(error.message);
+    }
+  }
+
   render() {
     const { layer } = this.props;
     return (
@@ -28,7 +52,7 @@ class Header extends Component {
             }}>
 
           <TouchableOpacity
-          onPress={() => this.redirect('Status')}
+          onPress={() => this.onShare()}
           >
           <FontAwesomeIcon
             icon={faShare}

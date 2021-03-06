@@ -103,7 +103,6 @@ class Connections extends Component {
               </View>
             )
           }
-          <Share showModal={this.props.isShow}></Share>
         </ScrollView>
         <Footer layer={1} {...this.props}/>
       </View>

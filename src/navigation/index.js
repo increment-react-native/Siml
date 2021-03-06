@@ -18,6 +18,7 @@ import AddLocationStack from 'modules/addLocation/AddLocationDrawer.js';
 import ViewProfileStack from 'src/modules/viewProfile/Drawer'
 import RetailNameStack from 'src/modules/retailName/Drawer'
 import EventNameStack from 'src/modules/eventName/Drawer'
+import MessagesStack from 'modules/messenger/MessagesDrawer.js';
 import Drawer from './Drawer';
 // login stack
 const LoginStack = createStackNavigator(
@@ -84,7 +85,8 @@ const PrimaryNav = createStackNavigator(
     checkoutStack: {screen: CheckoutStack},
     connectionStack: {screen: ConnectionStack},
     retailNameStack: {screen: RetailNameStack},
-    eventNameStack: {screen: EventNameStack}
+    eventNameStack: {screen: EventNameStack},
+    messagesStack: {screen: MessagesStack},
   },
   {
     // Default config for all screens

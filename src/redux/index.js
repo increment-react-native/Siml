@@ -9,6 +9,12 @@ const types = {
   SET_THEME: 'SET_THEME',
   SET_LAYER: 'SET_LAYER',
   VIEW_MENU: 'VIEW_MENU',
+  SET_MESSENGER_GROUP: 'SET_MESSENGER_GROUP',
+  UPDATE_MESSENGER_GROUP: 'UPDATE_MESSENGER_GROUP',
+  SET_MESSAGES_ON_GROUP: 'SET_MESSAGES_ON_GROUP',
+  UPDATE_MESSAGES_ON_GROUP: 'UPDATE_MESSAGES_ON_GROUP',
+  UPDATE_MESSAGE_BY_CODE: 'UPDATE_MESSAGE_BY_CODE',
+  UPDATE_MESSAGES_ON_GROUP_BY_PAYLOAD: 'UPDATE_MESSAGES_ON_GROUP_BY_PAYLOAD',
 };
 
 export const actions = {
@@ -29,7 +35,28 @@ export const actions = {
   },
   viewMenu(isViewing){
     return {type: types.VIEW_MENU, isViewing}
-  }
+  },
+  setMessengerGroup(messengerGroup) {
+    return {type: types.SET_MESSENGER_GROUP, messengerGroup};
+  },
+  updateMessengerGroup(messengerGroup) {
+    return {type: types.UPDATE_MESSENGER_GROUP, messengerGroup};
+  },
+  updateMessagesOnGroupByPayload(messages) {
+    return {type: types.UPDATE_MESSAGES_ON_GROUP_BY_PAYLOAD, messages};
+  },
+  setMessagesOnGroup(messagesOnGroup) {
+    return {type: types.SET_MESSAGES_ON_GROUP, messagesOnGroup};
+  },
+  updateMessagesOnGroup(message) {
+    return {type: types.UPDATE_MESSAGES_ON_GROUP, message};
+  },
+  updateMessageByCode(message) {
+    return {type: types.UPDATE_MESSAGE_BY_CODE, message};
+  },
+  setMessenger(unread, messages) {
+    return {type: types.SET_MESSAGES, unread, messages};
+  },
 };
 
 const initialState = {
@@ -37,7 +64,14 @@ const initialState = {
   user: null,
   theme: null,
   layer: null,
-  isViewing: false
+  isViewing: false,
+  messenger: null,
+  messengerGroup: null,
+  messagesOnGroup: {
+    groupId: null,
+    messages: null,
+  },
+  unReadMessages: [],
 };
 
 storeData = async (key, value) => {
@@ -52,6 +86,8 @@ const reducer = (state = initialState, action) => {
   const { type, user, token } = action;
   const { theme, layer } = action;
   const { isViewing, request } = action;
+  const {messengerGroup, messagesOnGroup} = action;
+  const {messages, unread, message} = action;
   switch (type) {
     case types.LOGOUT:
       AsyncStorage.clear();
@@ -91,6 +127,75 @@ const reducer = (state = initialState, action) => {
         ...state,
         isViewing
       }
+    case types.SET_MESSAGES:
+      let messenger = {
+        unread,
+        messages,
+      };
+      console.log('messenger', true);
+      return {
+        ...state,
+        messenger,
+      };
+    case types.SET_MESSENGER_GROUP:
+      return {
+        ...state,
+        messengerGroup,
+      };
+    case types.UPDATE_MESSENGER_GROUP:
+      return {
+        ...state,
+        messengerGroup: {
+          ...state.messengerGroup,
+          created_at_human: messengerGroup.created_at_human,
+          rating: messengerGroup.rating,
+          status: parseInt(messengerGroup.status),
+          validations: messengerGroup.validations,
+        },
+      };
+    case types.SET_MESSAGES_ON_GROUP:
+      return {
+        ...state,
+        messagesOnGroup,
+      };
+    case types.UPDATE_MESSAGES_ON_GROUP:
+      let updatedMessagesOnGroup = null;
+      if (state.messagesOnGroup != null) {
+        let oldMessages = state.messagesOnGroup.messages;
+        if (oldMessages == null) {
+          let temp = [];
+          temp.push(message);
+          updatedMessagesOnGroup = {
+            ...state.messagesOnGroup,
+            messages: temp,
+          };
+        } else {
+          if (
+            parseInt(message.id) !=
+            parseInt(oldMessages[oldMessages.length - 1].id)
+          ) {
+            updatedMessagesOnGroup = {
+              ...state.messagesOnGroup,
+              messages: oldMessages.push(message),
+            };
+          } else {
+            updatedMessagesOnGroup = {
+              ...state.messagesOnGroup,
+            };
+          }
+        }
+      } else {
+        let temp = [];
+        temp.push(message);
+        updatedMessagesOnGroup = {
+          groupId: parseInt(message.messenger_group_id),
+          messages: temp,
+        };
+      }
+      return {
+        ...state,
+        updatedMessagesOnGroup,
+      };
     default:
       return {...state, nav: state.nav};
   }
