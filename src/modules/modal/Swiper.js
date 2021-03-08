@@ -2,7 +2,7 @@
 import React, {Component} from 'react'
 import {StyleSheet, Text, View, Dimensions, Image, Animated, PanResponder, ImageBackground, TouchableOpacity} from 'react-native';
 import {FontAwesomeIcon} from '@fortawesome/react-native-fontawesome';
-import {faCheck, faTimes} from '@fortawesome/free-solid-svg-icons';
+import {faCheck, faTimes, faStar} from '@fortawesome/free-solid-svg-icons';
 import Ratings from 'components/Rating/StarsOnly';
 import { Color, BasicStyles } from 'common';
 import MenuCards from 'modules/menu/cards';
@@ -161,6 +161,33 @@ class Swiper extends Component{
               }}>
               <Text style={{color:  Color.white,  fontSize: BasicStyles.standardTitleFontSize, fontWeight: 'bold'}}>{item.title}</Text>
               <Text style={{color: Color.white}}>{item.location}</Text>
+            </View>
+            <View style={{position: 'absolute', bottom: 20, right: 15, flexDirection: 'row'}}>
+              <FontAwesomeIcon
+                icon={faStar}
+                size={30}
+                color={'#FFCC00'}
+              />
+              <FontAwesomeIcon
+                icon={faStar}
+                size={30}
+                color={'#FFCC00'}
+              />
+              <FontAwesomeIcon
+                icon={faStar}
+                size={30}
+                color={'#FFCC00'}
+              />
+              <FontAwesomeIcon
+                icon={faStar}
+                size={30}
+                color={'white'}
+              />
+              <FontAwesomeIcon
+                icon={faStar}
+                size={30}
+                color={'white'}
+              />
             </View>
             {this.props.topFloatButton === true && (<View style={{
               ...BasicStyles.standardWidth,

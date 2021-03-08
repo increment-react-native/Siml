@@ -1,5 +1,5 @@
 import React, {Component} from 'react';
-import {View, TouchableOpacity, Text} from 'react-native';
+import {View, TouchableOpacity, Text, Share} from 'react-native';
 import {createStackNavigator} from 'react-navigation-stack';
 import {FontAwesomeIcon} from '@fortawesome/react-native-fontawesome';
 import {faChevronLeft, faBars, faShare} from '@fortawesome/free-solid-svg-icons';
@@ -21,11 +21,34 @@ class HeaderOptions extends Component {
     viewMenu(!this.props.state.isViewing) // new
   }
 
+  async onShare(){
+    const { user } = this.props.state;
+    if(user == null){
+      return
+    }
+    try {
+      const result = await Share.share({
+        message: 'https://payhiram.ph/profile/' + user.code
+      });
+      if (result.action === Share.sharedAction) {
+        if (result.activityType) {
+          // shared with activity type of result.activityType
+        } else {
+          // shared
+        }
+      } else if (result.action === Share.dismissedAction) {
+        // dismissed
+      }
+    } catch (error) {
+      alert(error.message);
+    }
+  }
+
   render() {
     const { theme } = this.props.state;
     return (
       <View style={{flexDirection: 'row', padding: 5}}>
-        <TouchableOpacity onPress={this.viewMenu.bind(this)}>
+        <TouchableOpacity onPress={() => this.onShare()}>
           {/*Donute Button Image */}
           <FontAwesomeIcon
             icon={faShare}
