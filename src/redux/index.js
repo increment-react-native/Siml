@@ -121,7 +121,7 @@ const reducer = (state = initialState, action) => {
         ...state,
         layer,
       };
-    case types.VIEW_MENU:
+    case types.VIEW_SHARE:
       console.log("[IS_VIEWING]", isViewing);
       return {
         ...state,
