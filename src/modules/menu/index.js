@@ -8,7 +8,15 @@ import Main from './main';
 import Information from './information';
 import Footer from 'modules/generic/Footer';
 import Header from '../generic/MenuHeader';
-import Swiper from 'modules/modal/Swiper';
+import Swipe from 'modules/modal/Swiper2';
+
+const Images = [
+  { id: "1", uri: require('assets/test.jpg'), title: "Italian Pizza", location: "Cebu City, Philippines"},
+  { id: "2", uri: require('assets/logo_white.png'), title: "Siml Logo", location: "Cebu City, Philippines" },
+  { id: "3", uri: require('assets/test2.jpg'), title: "French Burger", location: "Cebu City, Philippines" },
+  { id: "4", uri: require('assets/logo_white.png'), title: "Siml", location: "Cebu City, Philippines" },
+  { id: "5", uri: require('assets/test.jpg'), title: "Italian Pizza", location: "Cebu City, Philippines" },
+]
 
 class Menu extends Component{
   constructor(props){
@@ -20,13 +28,15 @@ class Menu extends Component{
 
   render() {
     return (
-      <View>
+      <View style={{flex: 1}}>
         <View>
           <Header {...this.props}></Header>
         </View>
-        <ScrollView>
-        <View><Swiper topFloatButton={false} bottomFloatButton={true}></Swiper></View>
-      </ScrollView>
+        {/* <ScrollView> */}
+        <View>
+          <Swipe topFloatButton={false} bottomFloatButton={true} images={Images}></Swipe>
+        </View>
+      {/* </ScrollView> */}
       <Footer layer={1} {...this.props}/>
       </View>
     )

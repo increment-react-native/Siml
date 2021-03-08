@@ -22,7 +22,7 @@ class CardList extends Component {
                     return (
                         <TouchableOpacity onPress={() => {this.props.navigation.navigate('viewProfileStack')}}>
                             {/* <Card containerStyle={{padding:-5, borderRadius: 20}}> */}
-                            <ListItem key={idx}>
+                            <ListItem key={idx} style={{width: width}}>
                                 <Image
                                     style={Style.circleImage}
                                     // resizeMode="cover"
@@ -62,7 +62,7 @@ class CardList extends Component {
                                     <View>
                                         {
                                             this.props.actionType == 'text' ? (
-                                                <Text style={{marginLeft: 20}}>{el.lastLogin}</Text>
+                                                <Text style={{marginLeft: 10}}>{el.lastLogin}</Text>
                                             ): (
                                                 <TouchableOpacity
                                                     onPress={()=> this.changeTab(idx)}
@@ -130,7 +130,7 @@ const Style = StyleSheet.create({
         borderRadius: 25,
         alignItems: 'center',
         justifyContent: 'center',
-        marginLeft: 80
+        marginLeft: 50
       },
       iconBtn: {
         width: 80,
