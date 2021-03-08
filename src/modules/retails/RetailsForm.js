@@ -1,12 +1,21 @@
 import React, { Component } from 'react';
-import { ScrollView, View, Text, StyleSheet, TouchableOpacity, Image } from 'react-native';
+import { ScrollView, View, Text, StyleSheet, TouchableOpacity, Image, TextInput } from 'react-native';
 import { BasicStyles, Color } from 'common'
+import LocationInput from 'components/InputField/LocationInput'
+import NumberInput from 'components/InputField/NumberInput'
+import InputSelect from 'components/InputField/InputSelect'
+import Range from 'components/InputField/Range'
+import Slider from 'components/InputField/Slider'
+import DateTimePicker from 'components/DateTime/index.js'
 import Footer from 'modules/generic/Footer'
 import Style from './Style'
 
 class Retails extends Component {
   constructor(props) {
     super(props);
+    this.state = {
+      input: null
+    }
   }
 
   render() {
@@ -22,7 +31,35 @@ class Retails extends Component {
         showsVerticalScrollIndicator={false}
         >
         <View>
-        <Text>Retails</Text>
+          <Text style={{color: 'black', marginLeft: 20, marginBottom: -10, marginTop: 20 }}>Category</Text>
+          <TextInput
+            style={[BasicStyles.formControls, {marginLeft: 20, width: 315 }]}
+            onChangeText={(input) => this.setInput(input)}
+            value={this.state.input}
+            placeholder={this.props.placeholder ? this.props.placeholder : 'Categories'}
+          />
+          <Text>
+            <InputSelect placeholder={'Product Type'} title={'Product Type'} />
+          </Text>
+          <Text>
+            <InputSelect placeholder={'Style'} title={'Style'} />
+          </Text>
+          <Text>
+            <InputSelect placeholder={'Brand'} title={'Brand'} />
+          </Text>
+          <Text>
+            <InputSelect placeholder={'Size'} title={'Size'} />
+          </Text>
+          <Text>
+            <InputSelect placeholder={'Body Fit'} title={'Body Fit'} />
+          </Text>
+          <Text>
+            <InputSelect placeholder={'Colour'} title={'Colour'} />
+          </Text>
+          <Text>
+            <Range placeholder={'$1-$100'} title={'Price Range'} />
+          </Text>
+
         </View>
 
         <View style={{

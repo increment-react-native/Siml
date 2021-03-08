@@ -31,6 +31,14 @@ export default {
     borderRadius: 25,
     paddingLeft: 10
   },
+  formControls: {
+    height: 50,
+    borderBottomColor: Color.gray,
+    borderBottomWidth: 1,
+    width: '100%',
+    paddingLeft: 10,
+    marginBottom: 20
+  },
   pickerStyle: {
     height: 50,
     borderBottomColor: Color.gray,

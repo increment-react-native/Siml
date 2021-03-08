@@ -37,7 +37,7 @@ class Restaurants extends Component {
         showsVerticalScrollIndicator={false}
         >
         <View>
-          <Text>
+          <Text style={{marginTop: 20}}>
             <LocationInput title={'Location'} onTyping={(input) => this.setState({ location: input })}/>
           </Text>
           <View style={{
@@ -56,14 +56,16 @@ class Restaurants extends Component {
                 marginTop: 5
             }} />
           </View>
-          <Text>
+          <Text style={{width: 100}}>
             <NumberInput placeholder={'0'} title={'Party Size'} onTyping={(clicks) => this.setState({ party: clicks })} />
+          </Text>
+          <Text>
             <Range placeholder={'$1-$100'} title={'Price Range'} />
           </Text>
           <Text>
             <InputSelect placeholder={'Cuisines'} title={'Cuisines'} />
           </Text>
-          <Text>
+          <Text style={{marginLeft: 20}}>
             <Slider title={'Radius'} />
           </Text>
 
