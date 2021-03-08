@@ -16,39 +16,26 @@ class HeaderOptions extends Component {
   }
 
   back = () => {
-    const { setMessagesOnGroup, setMessengerGroup } = this.props;
-    setMessagesOnGroup({groupId: null, messages: null});
-    setMessengerGroup(null);
-    this.props.navigationProps.navigate('drawerStack');
+    this.props.navigationProps.pop();
   };
 
   _card = () => {
-    const { messengerGroup } = this.props.state;
-    // {Helper.showRequestType(messengerGroup.request.type)} - 
+    const {theme } = this.props.state;
+    const { data } = this.props.navigationProps.state.params
     return (
       <View>
         {
-          messengerGroup != null && (
+          data != null && (
           <View style={{
             flexDirection: 'row',
             width: '100%'
           }}>
-            <UserImage  user={messengerGroup.title} color={Color.white}/>
             <Text style={{
-              color: Color.primary,
+              color: theme ? theme.primary : Color.primary,
               lineHeight: 30,
               paddingLeft: 1,
-              width: '30%'
-            }}>{messengerGroup.title.username.length > 10 ? messengerGroup.title.username.substr(0, 10) + '...' : messengerGroup.title.username}</Text>
-            <Text style={{
-              color: Color.primary,
-              lineHeight: 30,
-              textAlign: 'right',
-              width: '67%',
-              marginLeft: -1
-            }}>
-              {/*Currency.display((messengerGroup.request.amount + messengerGroup.peer.charge).toFixed(2), messengerGroup.request.currency)*/}
-            </Text>
+              width: '100%'
+            }}>{data ? data.title : null}</Text>
           </View>
         )}
       </View>
@@ -57,11 +44,13 @@ class HeaderOptions extends Component {
   
   
   render() {
+    const { theme } = this.props.state;
     return (
       <View style={{ flexDirection: 'row' }}>
         <TouchableOpacity onPress={this.back.bind(this)} 
           >
           <FontAwesomeIcon
+            color={theme ? theme.primary : Color.primary}
             icon={ faChevronLeft }
             size={BasicStyles.iconSize}
             style={BasicStyles.iconStyle}/>
@@ -96,11 +85,7 @@ const MessagesStack = createStackNavigator({
     navigationOptions: ({ navigation }) => ({
       title: null,
       headerLeft: <HeaderOptionsConnect navigationProps={navigation} />,
-      drawerLabel: null,
-      headerStyle: {
-        backgroundColor: Color.primary,
-      },
-      headerTintColor: '#fff',
+      ...BasicStyles.drawerHeader
     })
   }
 })

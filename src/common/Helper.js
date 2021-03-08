@@ -6,9 +6,9 @@ import { faComment } from '@fortawesome/free-regular-svg-icons';
 export default {
   company: 'Increment Technologies',
   APP_NAME: '@SIML_',
-  APP_NAME_BASIC: 'SIML',
-  APP_EMAIL: 'support@traceag.com.au',
-  APP_WEBSITE: 'support@traceag.com.au',
+  APP_NAME_BASIC: 'SYNQT',
+  APP_EMAIL: 'support@wearesynqt.com',
+  APP_WEBSITE: 'support@wearesynqt.com',
   APP_HOST: 'com.siml',
   pusher: {
     broadcast_type: 'pusher',

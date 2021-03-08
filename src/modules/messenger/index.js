@@ -9,7 +9,6 @@ import { connect } from 'react-redux';
 import Config from 'src/config.js';
 import CommonRequest from 'services/CommonRequest.js';
 import { Dimensions } from 'react-native';
-import Footer from 'modules/generic/Footer'
 const height = Math.round(Dimensions.get('window').height);
 class Groups extends Component{
   constructor(props){
@@ -22,6 +21,7 @@ class Groups extends Component{
   }
 
   componentDidMount(){
+    console.log('mmmmmmmmmmesages modulesssssssadfasdfasdfasdfasdfasdfsssssssssss')
     const { user } = this.props.state;
     if(user != null){
       this.retrieve();
@@ -35,7 +35,8 @@ class Groups extends Component{
     }
     this.setState({isLoading: true});
     CommonRequest.retrieveMessengerGroups(user, response => {
-      this.setState({isLoading: false});
+      console.log('^^^^^^^^^^^^^^^^^^^^^^^^^', response.data)
+      this.setState({isLoading: false, data: response.data});
       const { setMessenger } = this.props;
       const { messenger } = this.props.state;
       if(response.data !== null){
@@ -45,9 +46,6 @@ class Groups extends Component{
           counter += parseInt(item.total_unread_messages)
         }
         setMessenger(counter, messenger.messages)
-        this.setState({data: response.data})
-      }else{
-        this.setState({data: null})
       }
     })
   }
@@ -74,36 +72,39 @@ class Groups extends Component{
   }
 
   viewMessages = (item) => {
-    console.log('itemmmmmsss', item)
     const { setMessengerGroup } = this.props;
     console.log('message group', item);
     this.updateLastMessageStatus(item)
     setMessengerGroup(item);
     setTimeout(() => {
-      this.props.navigation.navigate('messagesStack');
+      this.props.navigation.navigate('messagesStack', {
+        data: item
+      });
     }, 500)
   }
 
   _card = (item) => {
-    const { theme } = this.props.state;
     return (
       <View>
         <TouchableHighlight
           onPress={() => {this.viewMessages(item)}}
           underlayColor={Color.lightGray}
+          style={{
+            paddingTop: 10,
+            paddingBottom: 10
+          }}
           >
           <View>
             <View style={{flexDirection: 'row', marginTop: 5, paddingLeft: 10, paddingRight: 10}}>
-              <UserImage user={item.title} color={theme ? theme.primary : Color.primary}/>
               <View style={{
                 paddingLeft: 10,
-                width: '30%',
+                width: '100%',
                 flexDirection: 'row'
               }}>
                 <Text style={{
-                  color: theme ? theme.primary : Color.primary,
+                  color: Color.primary,
                   lineHeight: 30,
-                }}>{item.title.username.length > 10 ? item.title.username.substr(0, 10) + '...' : item.title.username}</Text>
+                }}>{item.title}</Text>
                 {
                   parseInt(item.total_unread_messages) > 0 && Platform.OS == 'android' && (
                     <Text style={{
@@ -118,7 +119,7 @@ class Groups extends Component{
                       marginLeft: 10
                     }}>{item.total_unread_messages}</Text>
                   )
-                }                                                                                                                                                                 
+                }
                 {
                   parseInt(item.total_unread_messages) > 0 && Platform.OS == 'ios' && (
                     <View style={{
@@ -138,41 +139,6 @@ class Groups extends Component{
                   )
                 }
               </View>
-              <Text style={{
-                color: Color.primary,
-                lineHeight: 30,
-                paddingLeft: 10,
-                fontWeight: 'bold',
-                textAlign:'right',
-                width: '60%'
-              }}>
-                {/*Currency.display((item.request.amount + item.peer.charge).toFixed(2), item.request.currency)*/}
-              </Text>
-            </View>
-            <View style={{
-              paddingLeft: 10,
-              paddingRight: 10
-            }}>
-              <Text style={[Style.dateTextLeft, {
-                color: item.request.status < 2 ? Color.danger : Color.normalGray,
-                paddingBottom: 0
-              }]}>{item.request.status < 2 ? 'Transaction is on going' : 'Transaction completed'}</Text>
-            </View>
-            <View style={{
-              marginBottom: 5,
-              paddingLeft: 10,
-              paddingRight: 10,
-              flexDirection: 'row'
-            }}>
-              <Text style={[Style.dateTextLeft, {
-                width: '40%',
-                paddingTop: 2
-              }]}>{item.created_at_human}</Text>
-              <Text style={[Style.dateTextLeft, {
-                width: '60%',
-                textAlign: 'right',
-                paddingTop: 2
-              }]}>{Helper.showRequestType(item.request.type)} - {item.thread.substring(24, 32)}</Text>
             </View>
           </View>
         </TouchableHighlight>
@@ -191,8 +157,7 @@ class Groups extends Component{
     const { user } = this.props.state;
     return (
       <View style={{
-        width: '100%',
-        marginTop: 60
+        width: '100%'
       }}>
         {
           data != null && user != null && (
@@ -219,36 +184,26 @@ class Groups extends Component{
   render() {
     const { isLoading, data } = this.state;
     return (
-      <View style={{
-        flex: 1,
-        justifyContent: 'center',
-        alignItems: 'center',
-        width: '100%'
-      }}>
-        <ScrollView 
-          style={Style.ScrollViewGroup}
-          showsVerticalScrollIndicator={false}
-          onScroll={(event) => {
-            if(event.nativeEvent.contentOffset.y <= 0) {
-              if(this.state.isLoading == false){
-                this.retrieve()
-              }
+      <ScrollView 
+        style={Style.ScrollViewGroup}
+        onScroll={(event) => {
+          if(event.nativeEvent.contentOffset.y <= 0) {
+            if(this.state.isLoading == false){
+              this.retrieve()
             }
-          }}
-          >
-          <View stle={{
-            flexDirection: 'row',
-            width: '100%',
-            minHeight: height
-          }}>
-            {this._flatList()}
-          </View>
-          {data == null && (<Empty refresh={true} onRefresh={() => this.retrieve()}/>)}
-          
-        </ScrollView>
+          }
+        }}
+        >
+        <View stle={{
+          flexDirection: 'row',
+          width: '100%',
+          minHeight: height
+        }}>
+          {this._flatList()}
+        </View>
+        {data == null && (<Empty refresh={true} onRefresh={() => this.retrieve()}/>)}
         {isLoading ? <Spinner mode="overlay"/> : null }
-        <Footer layer={1} {...this.props}/>
-      </View>
+      </ScrollView>
     );
   }
 }

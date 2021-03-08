@@ -1,16 +1,23 @@
 import Color from './Color';
-import { Dimensions } from 'react-native';
+import { Dimensions, Platform } from 'react-native';
 const width = Math.round(Dimensions.get('window').width);
-const borderRadius = 12
 export default {
   formControl: {
     height: 50,
-    borderColor: Color.lightGray,
+    borderColor: Color.gray,
     borderWidth: 1,
     width: width - 40,
     paddingLeft: 10,
     marginBottom: 20,
     borderRadius: 25
+  },
+  formControls: {
+    height: 50,
+    borderBottomColor: Color.gray,
+    borderBottomWidth: 1,
+    width: width - 40,
+    paddingLeft: 10,
+    marginBottom: 20
   },
   formControlModal: {
     height: 50,
@@ -19,7 +26,7 @@ export default {
     width: '90%',
     marginLeft: '5%',
     marginBottom: 20,
-    borderRadius: 5,
+    borderRadius: 25,
     paddingLeft: 10
   },
   formControlCreate: {
@@ -39,12 +46,10 @@ export default {
   },
   pickerStyleCreate: {
     height: 50,
-    borderColor: Color.lightGray,
-    borderWidth: 1,
+    borderBottomColor: Color.gray,
+    borderBottomWidth: 1,
     width: '100%',
-    paddingLeft: 10,
-    borderRadius: 5,
-    fontSize: 12
+    paddingLeft: 10
   },
   pickerStyleIOS: {
     inputIOS: {
@@ -56,8 +61,7 @@ export default {
       marginRight: 18,
       marginLeft: 10,
       height: 50,
-      paddingLeft: 10,
-      fontSize: 12
+      paddingLeft: 10
     }
   },
   pickerStyleIOSNoMargin: {
@@ -68,8 +72,7 @@ export default {
       color: '#000',
       height: 50,
       width: '100%',
-      paddingLeft: 10,
-      fontSize: 12
+      paddingLeft: 10
     }
   },
   btn: {
@@ -79,7 +82,16 @@ export default {
     marginBottom: 20,
     alignItems: 'center',
     justifyContent: 'center',
-    borderRadius: 5
+    borderRadius: 50
+  },
+  fbButton: {
+    // height: 50,
+    backgroundColor: Color.primary,
+    width: width - 40,
+    marginBottom: 20,
+    alignItems: 'center',
+    justifyContent: 'center',
+    borderRadius: 50
   },
   btnPrimary: {
     backgroundColor: Color.primary
@@ -90,16 +102,15 @@ export default {
   btnWarning: {
     backgroundColor: Color.warning
   },
-  btnDanger: {
-    backgroundColor: Color.danger
+  btnBlue: {
+    backgroundColor: Color.blue
   },
   textWhite: {
     color: Color.white
   },
   iconSize: 24,
-  headerBackIconSize: 30,
   iconStyle: {
-    color: Color.primary,
+    color: Color.white,
     paddingLeft: 20,
     paddingRight: 20
   },
@@ -138,47 +149,106 @@ export default {
     borderRadius: 15
   },
   profileIconSize: 30,
+  paginationHolder: {
+    shadowColor: Color.black,
+    shadowOffset: {
+      width: 0,
+      height: 15,
+    },
+    shadowOpacity: 0.22,
+    shadowRadius: 2.22,
+    elevation: 15,
+    backgroundColor:Color.white,
+    height: 60
+  },
   standardFontSize: 12,
   standardTitleFontSize: 16,
   standardTitle2FontSize: 14,
   standardSubTitleFontSize: 14,
   standardHeaderFontSize: 18,
-  standardBorderRadius: borderRadius,
+  standardBorderRadius: 12,
+  headerBackIconSize: 30,
+  drawerHeader: {
+    headerStyle: {
+      shadowColor: 'transparent',
+      elevation: 0,
+      borderBottomWidth: 0
+    }
+  },
   headerDrawerStyle: {
+    headerStyle: {
+      elevation: 0,
+      backgroundColor: Color.white,
+      height: 60,
+      justifyContent: 'center',
+      alignItems: 'center',
+      fontSize: 18,
+      borderBottomWidth: 0
+    },
+    headerTitleContainerStyle: {
+      backgroundColor: Color.white,
+      justifyContent: 'center',
+      alignItems: 'center',
+      paddingRight: Platform.OS == 'ios' ? 0 : 64,
+    },
+    headerTitleStyle: {
+      fontWeight: 'bold',
+    },
+  },
+
+  headerDrawerStyleRight: {
+    headerStyle: {
+      elevation: 0,
+      backgroundColor: Color.white,
+      height: 60,
+      justifyContent: 'center',
+      alignItems: 'center',
+      fontSize: 18,
+      borderBottomWidth: 0
+    },
+    headerTitleContainerStyle: {
+      backgroundColor: Color.white,
+      justifyContent: 'center',
+      alignItems: 'center',
+      paddingRight: Platform.OS == 'ios' ? 0 : 64,
+    },
+    headerTitleStyle: {
+      fontWeight: 'bold',
+      marginLeft: '40%'
+    },
+  },
+  headerDrawerStyleNoPadding: {
     headerStyle: {
       elevation: 10,
       backgroundColor: Color.white,
       height: 60,
       justifyContent: 'center',
-      alignItems: 'center',
-      fontSize: 18
+      alignItems: 'center'
     },
     headerTitleContainerStyle: {
       backgroundColor: Color.white,
       justifyContent: 'center',
-      alignItems: 'center',
-      paddingRight: 64
+      alignItems: 'center'
     },
     headerTitleStyle: {
       fontWeight: 'bold',
-    },  
+    },
   },
-  headerDrawerStyleStandard: {
-    headerStyle: {
-      elevation: 10,
-      backgroundColor: Color.white,
-      justifyContent: 'center',
-      alignItems: 'center',
-      fontSize: 18
+  standardShadow: {
+    shadowColor: Color.black,
+    shadowOffset: {
+      width: 0,
+      height: 2,
     },
-    headerTitleContainerStyle: {
-      justifyContent: 'center',
-      alignItems: 'center',
-      paddingRight: 64
-    },
-    headerTitleStyle: {
-      fontWeight: 'bold',
-    },  
+    shadowOpacity: 0.23,
+    shadowRadius: 2.62,
+    elevation: 2,
+  },
+  starndardDivider: {
+    width: '90%',
+    height: 0.5,
+    marginLeft: '5%',
+    marginRight: '5%',
   },
   standardDivider: {
     width: '90%',
@@ -186,10 +256,27 @@ export default {
     marginLeft: '5%',
     marginRight: '5%',
   },
-  standardContainer: {
-    width: '90%',
-    marginRight: '5%',
-    marginLeft: '5%'
+  standardCardContainer: {
+    minHeight: 60,
+    width: '100%',
+    marginTop: 15,
+    // box-shadow
+    backgroundColor: Color.white,
+    borderRadius: 12,
+    borderColor: '#FFFFFF',
+    borderWidth:1,
+    shadowColor: Color.black,
+    shadowOffset: {
+      width: 0,
+      height: 2,
+    },
+    shadowOpacity: 0.23,
+    shadowRadius: 2.62,
+    elevation: 2,
+    alignItems:'center',
+    flexDirection:'row',
+    paddingTop: 15,
+    paddingBottom: 15
   },
   standardButton: {
     height: 50,
@@ -199,58 +286,7 @@ export default {
     justifyContent: 'center',
     borderRadius: 25
   },
-  standardTextInput: {
-    height: 50,
-    borderColor: Color.lightGray,
-    borderWidth: 1,
-    width: '100%',
-    borderRadius: 25,
-    paddingLeft: 10,
-    justifyContent: 'center'
-  },
-  standardTextInputNotCentered: {
-    height: 50,
-    borderColor: Color.lightGray,
-    borderWidth: 1,
-    width: '100%',
-    borderRadius: 25,
-    paddingLeft: 10,
-  },
-  standardTextInputMultiline: {
-    borderColor: Color.lightGray,
-    borderWidth: 1,
-    width: '100%',
-    borderRadius: 25,
-    paddingLeft: 10
-  },
-  standardShadow: {
-    shadowColor: Color.black,
-    shadowOffset: {
-      width: 0,
-      height: 10,
-    },
-    shadowOpacity: 0.23, // 0.23
-    shadowRadius: 10, // 2.62
-    elevation: 2, // 2
-  },
-  loginShadow: {
-    shadowColor: Color.white,
-    shadowOffset: {
-      width: 0,
-      height: 10,
-    },
-    shadowOpacity: 0.23, // 0.23
-    shadowRadius: 10, // 2.62
-    elevation: 15, // 2
-  },
-  standardFormControl: {
-    height: 50,
-    borderColor: Color.lightGray,
-    borderWidth: 1,
-    width: '100%',
-    borderRadius: 25,
-    paddingLeft: 10
-  },
+
   circleButton : {
     height: 60,
     backgroundColor: Color.primary,
@@ -263,12 +299,5 @@ export default {
     width: '90%',
     marginLeft: '5%',
     marginRight: '5%'
-  },
-  drawerHeader: {
-    headerStyle: {
-      shadowColor: 'transparent',
-      elevation: 0,
-      borderBottomWidth: 0
-    }
-  },
+  }
 }

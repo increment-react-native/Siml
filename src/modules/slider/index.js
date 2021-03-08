@@ -3,7 +3,7 @@ import PropTypes from 'prop-types';
 import React, {Component} from 'react';
 import styles from './Style';
 import {NavigationActions, StackActions} from 'react-navigation';
-import {ScrollView, Text, View, Image} from 'react-native';
+import {ScrollView, Text, View, Image, Share} from 'react-native';
 import { connect } from 'react-redux';
 import { Helper, BasicStyles, Color } from 'common';
 import Config from 'src/config.js';
@@ -16,6 +16,7 @@ class Slider extends Component {
   }
   navigateToScreen = (route) => {
     if(route == 'share'){
+      this.onShare()
       return
     }
     this.props.navigation.toggleDrawer();
@@ -33,6 +34,29 @@ class Slider extends Component {
       })
     });
     this.props.navigation.dispatch(navigateAction);
+  }
+
+  onShare = async () => {
+    const { user } = this.props.state;
+    if(user == null){
+      return
+    }
+    try {
+      const result = await Share.share({
+        message: 'https://wearesynqt/profile/' + user.code
+      });
+      if (result.action === Share.sharedAction) {
+        if (result.activityType) {
+          // shared with activity type of result.activityType
+        } else {
+          // shared
+        }
+      } else if (result.action === Share.dismissedAction) {
+        // dismissed
+      }
+    } catch (error) {
+      alert(error.message);
+    }
   }
 
   logoutAction(){
