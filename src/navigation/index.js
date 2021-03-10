@@ -17,6 +17,7 @@ import LocationStack from 'components/Location/LocationWithMap'
 import AddLocationStack from 'modules/addLocation/AddLocationDrawer.js';
 import ViewProfileStack from 'src/modules/viewProfile/Drawer'
 import RetailNameStack from 'src/modules/retailName/Drawer'
+import PeopleListStack from 'src/modules/people/Drawer'
 import EventNameStack from 'src/modules/eventName/Drawer'
 import MessagesStack from 'modules/messenger/MessagesDrawer.js';
 import Drawer from './Drawer';
@@ -87,6 +88,7 @@ const PrimaryNav = createStackNavigator(
     retailNameStack: {screen: RetailNameStack},
     eventNameStack: {screen: EventNameStack},
     messagesStack: {screen: MessagesStack},
+    peopleListStack: {screen: PeopleListStack},
   },
   {
     // Default config for all screens

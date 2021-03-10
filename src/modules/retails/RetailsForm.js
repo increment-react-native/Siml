@@ -5,10 +5,18 @@ import LocationInput from 'components/InputField/LocationInput'
 import NumberInput from 'components/InputField/NumberInput'
 import InputSelect from 'components/InputField/InputSelect'
 import Range from 'components/InputField/Range'
-import Slider from 'components/InputField/Slider'
-import DateTimePicker from 'components/DateTime/index.js'
-import Footer from 'modules/generic/Footer'
-import Style from './Style'
+import Group from 'modules/generic/GroupUsers.js'
+import { FontAwesomeIcon } from '@fortawesome/react-native-fontawesome';
+import { faPlusCircle } from '@fortawesome/free-solid-svg-icons';
+
+const group = [
+  { user:{profile: {uri: require('assets/test.jpg')}} },
+  { user:{profile: {uri: require('assets/test.jpg')}} },
+  { user:{profile: {uri: require('assets/test.jpg')}} },
+  { user:{profile: {uri: require('assets/test.jpg')}} },
+  { user:{profile: {uri: require('assets/test.jpg')}} }
+]
+
 
 class Retails extends Component {
   constructor(props) {
@@ -16,6 +24,10 @@ class Retails extends Component {
     this.state = {
       input: null
     }
+  }
+
+  redirect(route, layer){
+    this.props.navigation.navigate(route)
   }
 
   render() {
@@ -59,6 +71,17 @@ class Retails extends Component {
           <Text>
             <Range placeholder={'$1-$100'} title={'Price Range'} />
           </Text>
+          <Text style={{marginLeft: 20}}>People in this SYNQT</Text>
+          <FontAwesomeIcon
+            icon={faPlusCircle}
+            size={30}
+            style={{
+              color: Color.primary,
+              marginLeft: 20
+            }}
+            onPress={() => this.redirect('peopleListStack')}
+          />
+          <Group style={{marginLeft: 50, marginTop: -30}} data={group}/>
 
         </View>
 
@@ -70,6 +93,7 @@ class Retails extends Component {
                 marginLeft: '35%'
             }}>
                 <TouchableOpacity
+                onPress={() => this.redirect('menuStack')}
                 style={{
                     height: 70,
                     width: 70,
