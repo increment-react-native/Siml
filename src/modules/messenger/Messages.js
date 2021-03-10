@@ -20,14 +20,28 @@ import Api from 'services/api/index.js';
 import { connect } from 'react-redux';
 import Config from 'src/config.js';
 import { FontAwesomeIcon } from '@fortawesome/react-native-fontawesome';
-import { faImage, faPaperPlane, faLock, faTimes, faChevronRight } from '@fortawesome/free-solid-svg-icons';
+import { faImage, faPaperPlane, faLock, faPlusCircle, faChevronRight } from '@fortawesome/free-solid-svg-icons';
 import ImageModal from 'components/Modal/ImageModal.js';
 import ImagePicker from 'react-native-image-picker';
 import CommonRequest from 'services/CommonRequest.js';
 import Style from 'modules/messenger/Style.js'
+import Group from 'modules/generic/GroupUsers.js'
 import Modal from 'components/Modal/Sketch';
 const DeviceHeight = Math.round(Dimensions.get('window').height);
 const DeviceWidth = Math.round(Dimensions.get('window').width);
+
+const Samplegroup = [
+  { user:{profile: {uri: require('assets/test.jpg')}} },
+  { user:{profile: {uri: require('assets/test.jpg')}} },
+  { user:{profile: {uri: require('assets/test.jpg')}} },
+  { user:{profile: {uri: require('assets/test.jpg')}} },
+  { user:{profile: {uri: require('assets/test.jpg')}} },
+  { user:{profile: {uri: require('assets/test.jpg')}} },
+  { user:{profile: {uri: require('assets/test.jpg')}} },
+  { user:{profile: {uri: require('assets/test.jpg')}} },
+  { user:{profile: {uri: require('assets/test.jpg')}} }
+]
+
 
 class MessagesV3 extends Component{
   constructor(props){
@@ -634,6 +648,16 @@ class MessagesV3 extends Component{
     const { messengerGroup, user, isViewing } = this.props.state;
     return (
       <SafeAreaView>
+        <FontAwesomeIcon
+          icon={faPlusCircle}
+          size={30}
+          style={{
+            color: Color.primary,
+            marginLeft: 20
+          }}
+          onPress={() => this.redirect('peopleListStack')}
+        />
+        <Group style={{marginLeft: 50, marginTop: -30}} data={Samplegroup}/>
         {
           // ON DEPOSITS (IF CONVERSATION IS NOT YET AVAILABLE)
           isLock && (

@@ -2,7 +2,7 @@ import React, { Component } from 'react';
 import { View, TouchableOpacity, Text, Image } from 'react-native';
 import { createStackNavigator } from 'react-navigation-stack';
 import { FontAwesomeIcon } from '@fortawesome/react-native-fontawesome';
-import { faChevronLeft } from '@fortawesome/free-solid-svg-icons';
+import { faChevronLeft, faStar } from '@fortawesome/free-solid-svg-icons';
 import Messages from 'modules/messenger/Messages.js';
 import { Color, BasicStyles, Helper } from 'common';
 import { UserImage } from 'components';
@@ -36,6 +36,13 @@ class HeaderOptions extends Component {
               paddingLeft: 1,
               width: '100%'
             }}>{data ? data.title : null}</Text>
+            {/* <View style={{borderRadius: 20}}>
+              <FontAwesomeIcon
+              color={'yellow'}
+              icon={ faStar }
+              size={BasicStyles.iconSize}
+              style={BasicStyles.iconStyle}/>
+            </View> */}
           </View>
         )}
       </View>

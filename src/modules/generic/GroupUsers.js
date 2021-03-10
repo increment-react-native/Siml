@@ -25,11 +25,12 @@ class GroupUsers extends Component{
             <UserImage
               user={item}
               color={Color.primary}
-              size={30}
+              size={ 30 }
               style={{
                 width: 30,
                 height: 30,
-                borderRadius: 15
+                borderRadius: 15,
+                padding: '15%'
               }}/>
           ))
         }
