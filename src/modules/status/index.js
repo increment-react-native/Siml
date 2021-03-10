@@ -1,74 +1,82 @@
 import React, { Component } from 'react';
 import Style from './Style.js';
-import { View, Image, Text, TouchableOpacity, ScrollView, Dimensions, SafeAreaView} from 'react-native';
+import { BottomSheet } from 'react-native-elements';
+import { View, Image, Text, TouchableOpacity, ScrollView, Dimensions, SafeAreaView, TextInput } from 'react-native';
 import { Routes, Color, Helper, BasicStyles } from 'common';
-import {FontAwesomeIcon} from '@fortawesome/react-native-fontawesome';
-import {faBars, faChevronLeft} from '@fortawesome/free-solid-svg-icons';
+import { FontAwesomeIcon } from '@fortawesome/react-native-fontawesome';
+import { faEdit } from '@fortawesome/free-solid-svg-icons';
 import Footer from 'modules/generic/Footer'
 import PostCard from 'modules/generic/PostCard';
+import { Spinner } from 'components';
+import Api from 'services/api/index.js';
+import { constant } from 'lodash';
+import { connect } from 'react-redux';
+import _ from 'lodash';
 const height = Math.round(Dimensions.get('window').height);
-const sample = [{
-  id: 1,
-  user: {
-    username: 'Gemma Pearson',
-    profile: null
-  },
-  date: 'Just now',
-  message: 'Anyone interested going out tonight? Just join my SIML below.',
-  joined_status: true,
-  comments: []
-}, {
-  id: 2,
-  user: {
-    username: 'Rebecca Pearson',
-    profile: null
-  },
-  date: 'Just now',
-  message: 'Anyone interested going out tonight? Just join my SIML below.',
-  joined_status: false,
-  comments: [{
-    id: 3,
-    user: {
-      username: 'Kennette Canales',
-      profile: null
-    },
-    date: '1 minute ago',
-    message: 'Anyone interested going out tonight? Just join my SIML below.',
-  }]
-}, {
-  id: 3,
-  user: {
-    username: 'Kennette Canales',
-    profile: null
-  },
-  date: '1 minute ago',
-  message: 'Anyone interested going out tonight? Just join my SIML below.',
-  joined_status: false,
-  comments: [{
-    id: 3,
-    user: {
-      username: 'Kennette Canales',
-      profile: null
-    },
-    date: '1 minute ago',
-    message: 'Anyone interested going out tonight? Just join my SIML below.',
-  }]
-}]
-class Status extends Component{
-  constructor(props){
+
+class Status extends Component {
+  constructor(props) {
     super(props);
     this.state = {
-      data: sample
+      data: [],
+      isLoading: false,
+      search: null,
+      isVisible: false,
+      status: null,
+      reply: null,
+      offset: 0,
+      limit: 5
     }
+  }
+
+  componentDidMount() {
+    this.retrieve(false);
+  }
+
+  searchHandler = (value) => {
+    this.setState({ search: value })
+  }
+
+  statusHandler = (value) => {
+    this.setState({ status: value })
+  }
+
+  replyHandler = (value) => {
+    this.setState({ reply: value })
+  }
+
+  retrieve = (flag) => {
+    let parameter = {
+      limit: this.state.limit,
+      offset: flag === true && this.state.offset > 0 ? (this.state.offset * this.state.limit) : this.state.offset,
+      sort: {
+        created_at: "desc"
+      }
+    }
+    this.setState({ isLoading: true });
+    Api.request(Routes.commentsRetrieve, parameter, response => {
+      this.setState({ isLoading: false });
+      if (response.data.length > 0) {
+        this.setState({
+          data: flag === false ? response.data : _.uniqBy([...this.state.data, ...response.data], 'id'),
+          offset: flag === false ? 1 : (this.state.offset + 1)
+        })
+      } else {
+        this.setState({
+          data: this.state.data,
+          offset: 1
+        })
+      }
+    })
   }
 
   onChangeDataHandler = (item) => {
     const { data } = this.state;
-    if(data == null){
+    if (data == null) {
       return
     }
     let temp = data.map((iItem, iIndex) => {
-      if(iItem.id == item.id){
+      if (iItem.id == item.id) {
         return item
       }
       return iItem
@@ -79,35 +87,190 @@ class Status extends Component{
     })
   }
 
+  post = () => {
+    let parameter = {
+      account_id: this.props.state.user.id,
+      payload: "status",
+      payload_value: "1",
+      text: this.state.status
+  }
+    this.setState({ isLoading: true });
+    Api.request(Routes.commentsCreate, parameter, response => {
+      this.setState({ isLoading: false });
+      if (response.data !== null) {
+        this.setState({isVisible: false})
+        this.retrieve(false);
+      }
+    })
+  }
+
+  reply = (comment) => {
+    let parameter = {
+      account_id: this.props.state.user.id,
+      comment_id: comment.id,
+      text: this.state.reply
+    }
+    console.log(parameter);
+    this.setState({ isLoading: true });
+    Api.request(Routes.commentRepliesCreate, parameter, response => {
+      this.setState({ isLoading: false });
+      console.log(response, "replying");
+      if (response.data !== null) {
+        this.setState({
+          isVisible: false,
+          reply: null
+        })
+        this.retrieve(false);
+      }
+    })
+  }
+
   render() {
-    const { data } = this.state; 
+    const { data, isLoading } = this.state;
     return (
       <SafeAreaView>
         <ScrollView style={{
-          backgroundColor: Color.containerBackground
+          backgroundColor: Color.containerBackground,
+          height: '100%'
         }}
-        showsVerticalScrollIndicator={false}
-        >
+          showsVerticalScrollIndicator={false}
+          onScroll={(event) => {
+            let scrollingHeight = event.nativeEvent.layoutMeasurement.height + event.nativeEvent.contentOffset.y
+            let totalHeight = event.nativeEvent.contentSize.height
+            if(event.nativeEvent.contentOffset.y <= 0) {
+              if(isLoading == false){
+                // this.retrieve(false)
+              }
+            }
+            if(Math.round(scrollingHeight) >= Math.round(totalHeight)) {
+              if(isLoading == false){
+                this.retrieve(true)
+              }
+            }
+          }}
+        ><View style={{
+          flexDirection: 'row',
+          marginLeft: '2%',
+        }}>
+            <TextInput
+              style={{
+                height: 45,
+                width: '80%',
+                borderColor: Color.gray,
+                borderWidth: .5,
+                borderRadius: 25,
+                width: '80%',
+                marginLeft: '3%',
+              }}
+              onChangeText={text => this.searchHandler(text)}
+              value={this.state.search}
+              placeholder='Search...'
+            />
+            <TouchableOpacity style={{
+              position: 'absolute',
+              right: '5%'
+            }}
+              onPress={() => { this.setState({ isVisible: true }), this.setState({status: null}) }}
+            >
+              <FontAwesomeIcon
+                icon={faEdit}
+                size={40}
+                color={Color.primary} />
+            </TouchableOpacity>
+          </View>
           <View style={{
             marginTop: 10,
-            flex: 1,
-            marginBottom: 100
+            flex: 1
           }}>
             {
               data && data.map((item, index) => (
                 <PostCard
-                  data={item}
+                  data={{
+                    user: item.account,
+                    comments: item.comment_replies,
+                    message: item.text,
+                    date: item.created_at_human
+                  }}
+                  postReply={() => {this.reply(item)}}
+                  reply={(value) => this.replyHandler(value)}
                   onLike={(params) => this.onChangeDataHandler(params)}
                   onJoin={(params) => this.onChangeDataHandler(params)}
-                  />
+                />
               ))
             }
           </View>
+          <BottomSheet
+            isVisible={this.state.isVisible}
+            containerStyle={{ backgroundColor: 'rgba(0.5, 0.25, 0, 0.2)' }}
+          >
+            <View style={{
+              backgroundColor: 'white',
+              paddingTop: 40,
+              borderTopEndRadius: 20,
+              borderTopStartRadius: 20
+            }}>
+              <View style={{ alignItems: 'center' }}>
+                <Text style={{
+                  fontWeight: 'bold',
+                  fontSize: BasicStyles.standardTitleFontSize
+                }}>Create Status</Text>
+                <TextInput
+                  style={{
+                    borderColor: Color.gray,
+                    borderWidth: .5,
+                    borderRadius: 15,
+                    width: '90%',
+                    marginTop: 10,
+                  }}
+                  multiline={true}
+                  numberOfLines={5}
+                  onChangeText={text => this.statusHandler(text)}
+                  value={this.state.status}
+                  placeholder="Express what's on your mind!"
+                />
+              </View>
+              <View style={{
+                flexDirection: 'row-reverse',
+                marginTop: 30
+              }}>
+                <TouchableOpacity style={{
+                  backgroundColor: Color.primary,
+                  height: 35,
+                  width: '20%',
+                  marginRight: '10%',
+                  alignItems: 'center',
+                  borderRadius: 25,
+                  paddingTop: 5
+                }}
+                  onPress={() => { this.post() }}
+                >
+                  <Text style={{ color: 'white' }}>Post</Text>
+                </TouchableOpacity>
+                <TouchableOpacity style={{
+                  backgroundColor: Color.secondary,
+                  height: 35,
+                  width: '20%',
+                  marginRight: '2%',
+                  alignItems: 'center',
+                  borderRadius: 25,
+                  paddingTop: 5
+                }}
+                  onPress={() => { this.setState({ isVisible: false }) }}
+                >
+                  <Text style={{ color: 'white' }}>Cancel</Text>
+                </TouchableOpacity>
+              </View>
+            </View>
+          </BottomSheet>
         </ScrollView>
-
-        <Footer layer={1} {...this.props}/>
+        {isLoading ? <Spinner mode="overlay" /> : null}
+        <View style={{marginTop: 10}}>
+        <Footer layer={1} {...this.props} />
+        </View>
       </SafeAreaView>
     );
   }
 }
-export default Status;
+const mapStateToProps = state => ({ state: state });
+
+export default connect(mapStateToProps)(Status);

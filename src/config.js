@@ -1,5 +1,5 @@
 let LIVE_BACKEND_URL = 'https://api.app.wearesiml.com/public/increment/v1';
-let DEV_BACKEND_URL = 'http://localhost/Siml/api/public/increment/v1';
+let DEV_BACKEND_URL = 'http://192.168.8.109:8000/increment/v1';
 let isDev = false;
 let BACKEND_URL = isDev ? DEV_BACKEND_URL : LIVE_BACKEND_URL;
 export default {
