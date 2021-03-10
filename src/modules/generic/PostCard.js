@@ -1,7 +1,7 @@
 import React, { Component } from 'react';
 import { View, TouchableOpacity, Image, Dimensions, Text, TextInput } from 'react-native'
 import {FontAwesomeIcon} from '@fortawesome/react-native-fontawesome';
-import {faCheck, faTimes, faStar, faEllipsisH} from '@fortawesome/free-solid-svg-icons';
+import {faCheck, faTimes, faStar, faCheckCircle, faEllipsisH} from '@fortawesome/free-solid-svg-icons';
 import { BasicStyles, Color } from 'common';
 import { connect } from 'react-redux';
 const height = Math.round(Dimensions.get('window').height);
@@ -10,8 +10,15 @@ import UserImage from 'components/User/Image';
 class PostCard extends Component{
   constructor(props){
     super(props);
+    this.state = {
+      reply: null
+    }
   }
 
+  replyHandler = (value) => {
+    this.setState({ reply: value });
+    this.props.reply(value);
+  }
 
   renderHeader = (data) => {
     return(
@@ -33,7 +40,7 @@ class PostCard extends Component{
             <Text style={{
               fontSize: BasicStyles.standardTitleFontSize,
               fontWeight: 'bold'
-            }}>{data.user.username}</Text>
+            }}>{data?.user?.username}</Text>
             <Text style={{
               fontSize: BasicStyles.standardFontSize
             }}>
@@ -132,12 +139,12 @@ class PostCard extends Component{
           borderTopWidth: 1
         }}>
           {
-            (comments && comments.length > 0) && comments.map((item, index) => (
+            comments && comments.map((item, index) => (
               <View style={{
                 ...BasicStyles.standardWidth
               }}>
-                {this.renderHeader(item)}
-                {this.renderBody(item)}
+                {this.renderHeader({user: item.account, date: item.created_at_human})}
+                {this.renderBody({message: item.text})}
               </View>
             ))
           }
@@ -146,7 +153,6 @@ class PostCard extends Component{
             user && (
               <View style={{
                 width: '90%',
-                borderTopWidth: comments.length == 0 ? 0 : 1,
                 borderTopColor: Color.lightGray,
                 flexDirection: 'row',
                 alignItems: 'center',
@@ -158,6 +164,8 @@ class PostCard extends Component{
                   width: '100%',
                   height: 50
                 }}
+                onSubmitEditing={ () => this.props.postReply(comments) }
+                onChangeText={(value) => this.replyHandler(value)}
                 placeholder={'Type reply here'}
                 />
               </View>
