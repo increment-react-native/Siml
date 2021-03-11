@@ -140,7 +140,9 @@ class PostCard extends Component{
         }}>
           {
             comments && comments.map((item, index) => (
-              <View style={{
+              <View 
+              key={index}
+              style={{
                 ...BasicStyles.standardWidth
               }}>
                 {this.renderHeader({user: item.account, date: item.created_at_human})}

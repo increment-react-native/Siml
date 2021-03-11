@@ -25,7 +25,7 @@ import ImageModal from 'components/Modal/ImageModal.js';
 import ImagePicker from 'react-native-image-picker';
 import CommonRequest from 'services/CommonRequest.js';
 import Style from 'modules/messenger/Style.js'
-import Group from 'modules/generic/GroupUsers.js'
+import Group from 'modules/generic/PeopleList.js'
 import Modal from 'components/Modal/Sketch';
 const DeviceHeight = Math.round(Dimensions.get('window').height);
 const DeviceWidth = Math.round(Dimensions.get('window').width);
@@ -82,6 +82,10 @@ class MessagesV3 extends Component{
     if(data == null){
       return
     }
+  }
+
+  goesTo = () => {
+    this.redirect('peopleListStack')
   }
 
   retrieve = () => {
@@ -648,7 +652,7 @@ class MessagesV3 extends Component{
     const { messengerGroup, user, isViewing } = this.props.state;
     return (
       <SafeAreaView>
-        <FontAwesomeIcon
+        {/* <FontAwesomeIcon
           icon={faPlusCircle}
           size={30}
           style={{
@@ -656,8 +660,9 @@ class MessagesV3 extends Component{
             marginLeft: 20
           }}
           onPress={() => this.redirect('peopleListStack')}
-        />
-        <Group style={{marginLeft: 50, marginTop: -30}} data={Samplegroup}/>
+        /> */}
+        {/* <Group style={{marginLeft: 50, marginTop: -30}} data={Samplegroup}/> */}
+        <Group style={{marginLeft: 50, marginTop: -30}} redirectTo={() => this.goesTo()} data={Samplegroup}/>
         {
           // ON DEPOSITS (IF CONVERSATION IS NOT YET AVAILABLE)
           isLock && (

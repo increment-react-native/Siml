@@ -1,21 +1,19 @@
 import React, { Component } from 'react';
 import { ScrollView, View, Text, StyleSheet, TouchableOpacity, Image } from 'react-native';
 import { BasicStyles, Color } from 'common'
-import Footer from 'modules/generic/Footer'
-import Style from './Style'
 import LocationInput from 'components/InputField/LocationInput'
 import NumberInput from 'components/InputField/NumberInput'
 import InputSelect from 'components/InputField/InputSelect'
 import Range from 'components/InputField/Range'
 import Slider from 'components/InputField/Slider'
 import DateTimePicker from 'components/DateTime/index.js'
-import Group from 'modules/generic/GroupUsers.js'
-import { FontAwesomeIcon } from '@fortawesome/react-native-fontawesome';
-import { faPlusCircle } from '@fortawesome/free-solid-svg-icons';
-import TextInputWithLabel from '../../components/Form/TextInputWithLabel';
+import Group from 'modules/generic/PeopleList.js'
 
 
 const group = [
+  { user:{profile: {uri: require('assets/test.jpg')}} },
+  { user:{profile: {uri: require('assets/test.jpg')}} },
+  { user:{profile: {uri: require('assets/test.jpg')}} },
   { user:{profile: {uri: require('assets/test.jpg')}} },
   { user:{profile: {uri: require('assets/test.jpg')}} },
   { user:{profile: {uri: require('assets/test.jpg')}} },
@@ -32,10 +30,12 @@ class Restaurants extends Component {
     }
   }
 
-  
-  
   redirect(route, layer){
     this.props.navigation.navigate(route)
+  }
+
+  goesTo = () => {
+    this.redirect('peopleListStack')
   }
   
   render() {
@@ -82,8 +82,8 @@ class Restaurants extends Component {
           <Text style={{marginLeft: 20}}>
             <Slider title={'Radius'} />
           </Text>
-          <Text style={{marginLeft: 20}}>People in this SYNQT</Text>
-          <FontAwesomeIcon
+          <Text style={{marginLeft: 20, marginBottom: 5}}>People in this SYNQT</Text>
+          {/* <FontAwesomeIcon
             icon={faPlusCircle}
             size={30}
             style={{
@@ -91,8 +91,8 @@ class Restaurants extends Component {
               marginLeft: 20
             }}
             onPress={() => this.redirect('peopleListStack')}
-          />
-          <Group style={{marginLeft: 50, marginTop: -30}} data={group}/>
+          /> */}
+          <Group style={{marginLeft: 50, marginTop: -30}} redirectTo={() => this.goesTo()} data={group}/>
         </View>
 
         <View style={{
