@@ -7,11 +7,15 @@ import InputSelect from 'components/InputField/InputSelect'
 import Range from 'components/InputField/Range'
 import Slider from 'components/InputField/Slider'
 import DateTimePicker from 'components/DateTime/index.js'
-import Group from 'modules/generic/GroupUsers.js'
+import Group from 'modules/generic/PeopleList.js'
 import { FontAwesomeIcon } from '@fortawesome/react-native-fontawesome';
 import { faPlusCircle } from '@fortawesome/free-solid-svg-icons';
 
 const group = [
+  { user:{profile: {uri: require('assets/test.jpg')}} },
+  { user:{profile: {uri: require('assets/test.jpg')}} },
+  { user:{profile: {uri: require('assets/test.jpg')}} },
+  { user:{profile: {uri: require('assets/test.jpg')}} },
   { user:{profile: {uri: require('assets/test.jpg')}} },
   { user:{profile: {uri: require('assets/test.jpg')}} },
   { user:{profile: {uri: require('assets/test.jpg')}} },
@@ -28,8 +32,12 @@ class Events extends Component {
     }
   }
 
-  redirect(route, layer){
+  redirect(route){
     this.props.navigation.navigate(route)
+  }
+
+  goesTo = () => {
+    this.redirect('peopleListStack')
   }
 
   render() {
@@ -64,17 +72,17 @@ class Events extends Component {
                 marginTop: 5
             }} />
           </View>
-          <Text style={{width: 100}}>
+          {/* <Text style={{width: 100}}>
             <NumberInput placeholder={'0'} title={'No. of Tickets'} onTyping={(clicks) => this.setState({ party: clicks })} />
-          </Text>
+          </Text> */}
           <Text>
             <Range placeholder={'$1-$100'} title={'Price Range'} />
           </Text>
           <Text style={{marginLeft: 20}}>
             <Slider title={'Radius'} />
           </Text>
-          <Text style={{marginLeft: 20}}>People in this SYNQT</Text>
-          <FontAwesomeIcon
+          <Text style={{marginLeft: 20, marginBottom: 5}}>People in this SYNQT</Text>
+          {/* <FontAwesomeIcon
             icon={faPlusCircle}
             size={30}
             style={{
@@ -82,8 +90,8 @@ class Events extends Component {
               marginLeft: 20
             }}
             onPress={() => this.redirect('peopleListStack')}
-          />
-          <Group style={{marginLeft: 50, marginTop: -30}} data={group}/>
+          /> */}
+          <Group style={{marginLeft: 50, marginTop: -30}} redirectTo={() => this.goesTo()} data={group}/>
 
         </View>
 

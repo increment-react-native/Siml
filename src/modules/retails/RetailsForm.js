@@ -1,15 +1,16 @@
 import React, { Component } from 'react';
 import { ScrollView, View, Text, StyleSheet, TouchableOpacity, Image, TextInput } from 'react-native';
 import { BasicStyles, Color } from 'common'
-import LocationInput from 'components/InputField/LocationInput'
-import NumberInput from 'components/InputField/NumberInput'
 import InputSelect from 'components/InputField/InputSelect'
 import Range from 'components/InputField/Range'
-import Group from 'modules/generic/GroupUsers.js'
-import { FontAwesomeIcon } from '@fortawesome/react-native-fontawesome';
-import { faPlusCircle } from '@fortawesome/free-solid-svg-icons';
+import Group from 'modules/generic/PeopleList.js'
 
 const group = [
+  { user:{profile: {uri: require('assets/test.jpg')}} },
+  { user:{profile: {uri: require('assets/test.jpg')}} },
+  { user:{profile: {uri: require('assets/test.jpg')}} },
+  { user:{profile: {uri: require('assets/test.jpg')}} },
+  { user:{profile: {uri: require('assets/test.jpg')}} },
   { user:{profile: {uri: require('assets/test.jpg')}} },
   { user:{profile: {uri: require('assets/test.jpg')}} },
   { user:{profile: {uri: require('assets/test.jpg')}} },
@@ -26,9 +27,18 @@ class Retails extends Component {
     }
   }
 
-  redirect(route, layer){
+  goesTo = () => {
+    this.redirect('peopleListStack')
+  }
+
+  prod = () => {
+    this.redirect('peopleListStack')
+  }
+
+  redirect(route){
     this.props.navigation.navigate(route)
   }
+
 
   render() {
     return (
@@ -45,34 +55,23 @@ class Retails extends Component {
         <View>
           <Text style={{color: 'black', marginLeft: 20, marginBottom: -10, marginTop: 20 }}>Category</Text>
           <TextInput
-            style={[BasicStyles.formControls, {marginLeft: 20, width: 315 }]}
-            onChangeText={(input) => this.setInput(input)}
+            style={[BasicStyles.formControls, {marginLeft: 20, width: '90%' }]}
+            // onChangeText={(input) => this.setInput(input)}
             value={this.state.input}
-            placeholder={this.props.placeholder ? this.props.placeholder : 'Categories'}
+            placeholder={'Categories'}
+            onClick={() => this.redirect('peopleListStack')}
           />
-          <Text>
-            <InputSelect placeholder={'Product Type'} title={'Product Type'} />
-          </Text>
-          <Text>
-            <InputSelect placeholder={'Style'} title={'Style'} />
-          </Text>
-          <Text>
-            <InputSelect placeholder={'Brand'} title={'Brand'} />
-          </Text>
-          <Text>
-            <InputSelect placeholder={'Size'} title={'Size'} />
-          </Text>
-          <Text>
-            <InputSelect placeholder={'Body Fit'} title={'Body Fit'} />
-          </Text>
-          <Text>
-            <InputSelect placeholder={'Colour'} title={'Colour'} />
-          </Text>
+          <InputSelect style={{width: '100%'}} routeTo={() => this.prod()} placeholder={'Product Type'} title={'Product Type'} />
+          <InputSelect placeholder={'Style'} routeTo={() => this.prod()} title={'Style'} />
+          <InputSelect placeholder={'Brand'} routeTo={() => this.prod()} title={'Brand'} />
+          <InputSelect placeholder={'Size'} routeTo={() => this.prod()} title={'Size'} />
+          <InputSelect placeholder={'Body Fit'} routeTo={() => this.prod()} title={'Body Fit'} />
+          <InputSelect placeholder={'Colour'} routeTo={() => this.prod()} title={'Colour'} />
           <Text>
             <Range placeholder={'$1-$100'} title={'Price Range'} />
           </Text>
-          <Text style={{marginLeft: 20}}>People in this SYNQT</Text>
-          <FontAwesomeIcon
+          <Text style={{marginLeft: 20, marginBottom: 5}}>People in this SYNQT</Text>
+          {/* <FontAwesomeIcon
             icon={faPlusCircle}
             size={30}
             style={{
@@ -80,8 +79,8 @@ class Retails extends Component {
               marginLeft: 20
             }}
             onPress={() => this.redirect('peopleListStack')}
-          />
-          <Group style={{marginLeft: 50, marginTop: -30}} data={group}/>
+          /> */}
+          <Group style={{marginLeft: 50, marginTop: -30}} redirectTo={() => this.goesTo()} data={group}/>
 
         </View>
 

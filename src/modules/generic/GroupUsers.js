@@ -24,7 +24,7 @@ class GroupUsers extends Component{
           data && data.map((item, index) => (
             <UserImage
               user={item}
-              color={Color.primary}
+              color={Color.white}
               size={ 30 }
               style={{
                 width: 30,
