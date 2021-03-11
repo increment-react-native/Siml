@@ -30,7 +30,7 @@ class Restaurants extends Component {
     }
   }
 
-  redirect(route, layer){
+  redirect(route){
     this.props.navigation.navigate(route)
   }
 
@@ -70,15 +70,13 @@ class Restaurants extends Component {
                 marginTop: 5
             }} />
           </View>
-          <Text style={{width: 100}}>
-            <NumberInput placeholder={'0'} title={'Party Size'} onTyping={(clicks) => this.setState({ party: clicks })} />
-          </Text>
+          {/* <Text>
+            <NumberInput placeholder={'0'} title={'Party Size'} />
+          </Text> */}
           <Text>
             <Range placeholder={'$1-$100'} title={'Price Range'} />
           </Text>
-          <Text>
             <InputSelect placeholder={'Cuisines'} title={'Cuisines'} />
-          </Text>
           <Text style={{marginLeft: 20}}>
             <Slider title={'Radius'} />
           </Text>

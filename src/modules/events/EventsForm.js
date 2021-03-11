@@ -32,7 +32,7 @@ class Events extends Component {
     }
   }
 
-  redirect(route, layer){
+  redirect(route){
     this.props.navigation.navigate(route)
   }
 
@@ -72,9 +72,9 @@ class Events extends Component {
                 marginTop: 5
             }} />
           </View>
-          <Text style={{width: 100}}>
+          {/* <Text style={{width: 100}}>
             <NumberInput placeholder={'0'} title={'No. of Tickets'} onTyping={(clicks) => this.setState({ party: clicks })} />
-          </Text>
+          </Text> */}
           <Text>
             <Range placeholder={'$1-$100'} title={'Price Range'} />
           </Text>
