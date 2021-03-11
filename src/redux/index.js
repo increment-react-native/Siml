@@ -15,6 +15,7 @@ const types = {
   UPDATE_MESSAGES_ON_GROUP: 'UPDATE_MESSAGES_ON_GROUP',
   UPDATE_MESSAGE_BY_CODE: 'UPDATE_MESSAGE_BY_CODE',
   UPDATE_MESSAGES_ON_GROUP_BY_PAYLOAD: 'UPDATE_MESSAGES_ON_GROUP_BY_PAYLOAD',
+  SET_STATUS_SEARCH: 'SET_STATUS_SEARCH',
 };
 
 export const actions = {
@@ -57,6 +58,9 @@ export const actions = {
   setMessenger(unread, messages) {
     return {type: types.SET_MESSAGES, unread, messages};
   },
+  setStatusSearch(statusSearch) {
+    return {type: types.SET_STATUS_SEARCH, statusSearch};
+  }
 };
 
 const initialState = {
@@ -72,6 +76,7 @@ const initialState = {
     messages: null,
   },
   unReadMessages: [],
+  statusSearch: null
 };
 
 storeData = async (key, value) => {
@@ -88,6 +93,7 @@ const reducer = (state = initialState, action) => {
   const { isViewing, request } = action;
   const {messengerGroup, messagesOnGroup} = action;
   const {messages, unread, message} = action;
+  const { statusSearch } = action;
   switch (type) {
     case types.LOGOUT:
       AsyncStorage.clear();
@@ -195,6 +201,11 @@ const reducer = (state = initialState, action) => {
       return {
         ...state,
         updatedMessagesOnGroup,
+      };
+    case types.SET_STATUS_SEARCH:
+      return {
+        ...state,
+        statusSearch,
       };
     default:
       return {...state, nav: state.nav};
