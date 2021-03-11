@@ -20,6 +20,7 @@ import {FontAwesomeIcon} from '@fortawesome/react-native-fontawesome';
 import {faCheck, faTimes, faStar} from '@fortawesome/free-solid-svg-icons';
 
 const height = Math.round(Dimensions.get('window').height);
+const width = Math.round(Dimensions.get('window').width);
 
 class Cards extends React.Component {
   constructor(props) {
@@ -49,7 +50,7 @@ class Cards extends React.Component {
           images.map(el => {
             return (
               <Card style={[styles.card]}>
-                <ImageBackground style={{ flex: 1, height: null, width: null, resizeMode: 'cover',  marginTop: this.props.bottomFloatButton === true? 50 : height * 0.25}}
+                <ImageBackground style={{ flex: 1, flexDirection: 'row', height: null, width: null, resizeMode: 'cover',  marginTop: this.props.bottomFloatButton === true? 50 : height * 0.25}}
                   imageStyle={{
                     flex: 1,
                     height: null,
@@ -151,7 +152,7 @@ class Cards extends React.Component {
   renderMenu = ()=>  {
     return (
       <View 
-        style={{padding: 20}}
+        style={{padding: 20, marginTop: '15%'}}
         >
         <View>
           <View style={ this.props.topFloatButton === true? {marginTop: 30} : {marginTop: 0}}>
@@ -200,9 +201,10 @@ const styles = StyleSheet.create({
     width: '100%'
   },
   card:{
-    width: 330,
-    height: 500,
+    width: width - 10,
+    height: 550,
     borderRadius: 5,
+    marginTop: '20%',
     shadowColor: 'rgba(0,0,0,0.5)',
     shadowOffset: {
       width: 0,
