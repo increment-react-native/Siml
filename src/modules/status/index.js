@@ -93,12 +93,12 @@ class Status extends Component {
       payload: "status",
       payload_value: "1",
       text: this.state.status
-  }
+    }
     this.setState({ isLoading: true });
     Api.request(Routes.commentsCreate, parameter, response => {
       this.setState({ isLoading: false });
       if (response.data !== null) {
-        this.setState({isVisible: false})
+        this.setState({ isVisible: false })
         this.retrieve(false);
       }
     })
@@ -131,28 +131,28 @@ class Status extends Component {
       <SafeAreaView>
         <ScrollView style={{
           backgroundColor: Color.containerBackground,
-          height: '100%'
+          height: '99%'
         }}
           showsVerticalScrollIndicator={false}
           onScroll={(event) => {
             let scrollingHeight = event.nativeEvent.layoutMeasurement.height + event.nativeEvent.contentOffset.y
             let totalHeight = event.nativeEvent.contentSize.height
-            if(event.nativeEvent.contentOffset.y <= 0) {
-              if(isLoading == false){
+            if (event.nativeEvent.contentOffset.y <= 0) {
+              if (isLoading == false) {
                 // this.retrieve(false)
               }
             }
-            if(Math.round(scrollingHeight) >= Math.round(totalHeight)) {
-              if(isLoading == false){
+            if (Math.round(scrollingHeight) >= Math.round(totalHeight)) {
+              if (isLoading == false) {
                 this.retrieve(true)
               }
             }
           }}
         ><View style={{
-          flexDirection: 'row',
-          marginLeft: '2%',
+          flexDirection: 'row-reverse',
+          // marginLeft: '2%',
         }}>
-            <TextInput
+            {/* <TextInput
               style={{
                 height: 45,
                 width: '80%',
@@ -165,12 +165,13 @@ class Status extends Component {
               onChangeText={text => this.searchHandler(text)}
               value={this.state.search}
               placeholder='Search...'
-            />
+            /> */}
             <TouchableOpacity style={{
-              position: 'absolute',
-              right: '5%'
+              // position: 'absolute',
+              // right: '5%'
+              marginRight: '5%'
             }}
-              onPress={() => { this.setState({ isVisible: true }), this.setState({status: null}) }}
+              onPress={() => { this.setState({ isVisible: true }), this.setState({ status: null }) }}
             >
               <FontAwesomeIcon
                 icon={faEdit}
@@ -184,18 +185,38 @@ class Status extends Component {
           }}>
             {
               data && data.map((item, index) => (
-                <PostCard
-                  data={{
-                    user: item.account,
-                    comments: item.comment_replies,
-                    message: item.text,
-                    date: item.created_at_human
-                  }}
-                  postReply={() => {this.reply(item)}}
-                  reply={(value) => this.replyHandler(value)}
-                  onLike={(params) => this.onChangeDataHandler(params)}
-                  onJoin={(params) => this.onChangeDataHandler(params)}
-                />
+                <View>
+                  {(this.props.state.statusSearch === null || this.props.state.statusSearch === '') ?
+                    <PostCard
+                      data={{
+                        user: item.account,
+                        comments: item.comment_replies,
+                        message: item.text,
+                        date: item.created_at_human
+                      }}
+                      postReply={() => { this.reply(item) }}
+                      reply={(value) => this.replyHandler(value)}
+                      onLike={(params) => this.onChangeDataHandler(params)}
+                      onJoin={(params) => this.onChangeDataHandler(params)}
+                    />
+                    : <View>
+                      { item.account && item.account.username && item.account.username.toLowerCase().includes(this.props.state.statusSearch && this.props.state.statusSearch.toLowerCase()) === true && (
+                        <PostCard
+                          data={{
+                            user: item.account,
+                            comments: item.comment_replies,
+                            message: item.text,
+                            date: item.created_at_human
+                          }}
+                          postReply={() => { this.reply(item) }}
+                          reply={(value) => this.replyHandler(value)}
+                          onLike={(params) => this.onChangeDataHandler(params)}
+                          onJoin={(params) => this.onChangeDataHandler(params)}
+                        />
+                      )}
+                    </View>
+                  }
+                </View>
               ))
             }
           </View>
@@ -264,8 +285,8 @@ class Status extends Component {
           </BottomSheet>
         </ScrollView>
         {isLoading ? <Spinner mode="overlay" /> : null}
-        <View style={{marginTop: 10}}>
-        <Footer layer={1} {...this.props} />
+        <View style={{ marginTop: '5%' }}>
+          <Footer layer={1} {...this.props} />
         </View>
       </SafeAreaView>
     );
