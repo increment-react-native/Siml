@@ -36,15 +36,18 @@ class Cards extends React.Component {
 
   renderCard = (images) => {
     return (
+      <View style={{flex: 1, marginTop: '84%'}}>
        <CardStack
         style={styles.content}
-        renderNoMoreCards={() => <Text style={{ fontWeight: '700', fontSize: 18, color: 'gray' }}>No more cards :(</Text>}
+        renderNoMoreCards={() => null}
         ref={swiper => {
           this.swiper = swiper
         }}
+        loop={true}
         onSwiped={() => console.log('onSwiped')}
         onSwipedLeft={() => console.log('onSwipedLeft')}
         disableBottomSwipe={true}
+        disableTopSwipe={true}
       >
         {
           images.map(el => {
@@ -146,13 +149,14 @@ class Cards extends React.Component {
           })
         }
       </CardStack>
+      </View>
     )
   }
 
   renderMenu = ()=>  {
     return (
       <View 
-        style={{padding: 20, marginTop: '15%'}}
+        style={{padding: 20, marginTop: '90%'}}
         >
         <View>
           <View style={ this.props.topFloatButton === true? {marginTop: 30} : {marginTop: 0}}>
@@ -177,9 +181,7 @@ class Cards extends React.Component {
   render() {
     return (
         <ScrollView showsVerticalScrollIndicator={true}>
-          <View style={{height: 500}}>
               {this.renderCard(this.props.images)}
-          </View>
               {this.renderMenu()}
         </ScrollView>
     );
@@ -201,10 +203,12 @@ const styles = StyleSheet.create({
     width: '100%'
   },
   card:{
-    width: width - 10,
-    height: 550,
+    width: width,
+    height: height - 80,
     borderRadius: 5,
-    marginTop: '20%',
+    // marginTop: '20%',
+    paddingLeft: 15,
+    paddingRight: 15,
     shadowColor: 'rgba(0,0,0,0.5)',
     shadowOffset: {
       width: 0,
