@@ -3,8 +3,10 @@ import Style from './Style.js';
 import { View, Image, Text, TouchableOpacity, ScrollView} from 'react-native';
 import { Routes, Color, Helper, BasicStyles } from 'common';
 import {FontAwesomeIcon} from '@fortawesome/react-native-fontawesome';
-import {faBars, faUtensils, faChevronLeft, faTicketAlt, faShoppingBag} from '@fortawesome/free-solid-svg-icons';
-import Footer from 'modules/generic/Footer'
+import {faBars, faUtensils, faChevronLeft, faTicketAlt, faShoppingBag, faEdit} from '@fortawesome/free-solid-svg-icons';
+import Footer from 'modules/generic/Footer';
+import { connect } from 'react-redux';
+import Config from 'src/config.js';
 class HomePage extends Component{
   constructor(props){
     super(props);3
@@ -18,6 +20,7 @@ class HomePage extends Component{
   }
 
   render() {
+    const { user } = this.props.state;
     return (
       <View style={[Style.MainContainer, {
         backgroundColor: Color.containerBackground,
@@ -37,17 +40,55 @@ class HomePage extends Component{
             >
               <TouchableOpacity
                 style={{
-                  height: 100,
-                  width: 100,
-                  borderRadius: 50,
+                  height: 120,
+                  width: 120,
+                  borderRadius: 100,
                   borderColor: Color.primary,
                   borderWidth: 2
                 }}
                 onPress={() => this.props.navigation.push('profileStack')}>
-                <Image source={require('assets/logo.png')} style={{
-                  height: 100,
-                  width: 100
-                }}/>
+                {
+                  user.account_profile && user.account_profile.url && (
+                    <Image
+                      source={user && user.account_profile && user.account_profile.url ? { uri: Config.BACKEND_URL + user.account_profile.url } : require('assets/logo.png') }
+                      style={[BasicStyles.profileImageSize, {
+                        height: 117,
+                        width: 117,
+                        borderRadius: 100
+                      }]} />
+                  )
+                }
+                <View style={{
+                  height: 40,
+                  width: 40,
+                  borderRadius: 100,
+                  marginRight: 5,
+                  position: 'absolute',
+                  right: -5,
+                  bottom: -2,
+                  backgroundColor: 'white',
+                  justifyContent: 'center',
+                  alignItems: 'center'
+                }}>
+                  <View style={{
+                    height: 25,
+                    width: 25,
+                    borderRadius: 100,
+                    borderWidth: 2,
+                    borderColor: Color.primary,
+                    backgroundColor: 'white',
+                    justifyContent: 'center',
+                    alignItems: 'center'
+                  }}>
+                    <FontAwesomeIcon style={{
+                      borderColor: Color.primary
+                    }}
+                      icon={faEdit}
+                      size={12}
+                      color={Color.primary}
+                    />
+                  </View>
+                </View>
               </TouchableOpacity>
             </View>
             <View style={{
@@ -154,4 +195,8 @@ class HomePage extends Component{
     );
   }
 }
-export default HomePage;
+const mapStateToProps = state => ({ state: state });
+
+export default connect(
+  mapStateToProps
+)(HomePage);

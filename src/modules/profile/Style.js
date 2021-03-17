@@ -19,6 +19,7 @@ export default {
     justifyContent: 'center',
     alignItems: 'center',
     height: 200,
+    marginTop: 10
   },
   BottomView: {
     width: '100%',

@@ -92,5 +92,9 @@ export default {
   sprayMixProductsRetrieve: apiUrl + 'spray_mix_products/retrieve_by_params',
   commentsRetrieve: apiUrl + 'comments/retrieve',
   commentsCreate: apiUrl + 'comments/create',
-  commentRepliesCreate: apiUrl + 'comment_replies/create'
+  commentRepliesCreate: apiUrl + 'comment_replies/create',
+  merchantsRetrieve: apiUrl + 'merchants/retrieve',
+  productsRetrieve: apiUrl + 'products/retrieve',
+  topChoiceRetrieve: apiUrl + 'payloads/retrieve',
+  topChoiceCreate: apiUrl + 'payloads/create'
 };

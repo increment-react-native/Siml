@@ -10,9 +10,6 @@ const width = Math.round(Dimensions.get('window').width)
 class Header extends Component {
   constructor(props) {
     super(props);
-    this.state = {
-      status: false
-    }
   }
   back = () => {
     this.props.navigation.pop();
@@ -36,10 +33,11 @@ class Header extends Component {
   }
 
   render() {
+    const { status } = this.props;
     return (
       <View style={{flex: 1, flexDirection: 'row', width: width, position: 'absolute', backgroundColor: 'white', zIndex: 1000}}>
         <View style={{flex: 13, flexDirection: 'column'}}>
-            {this.state.status === false ? <View>
+            {status === false ? <View>
               <TouchableOpacity
                 style={{
                   height: 50,
@@ -76,7 +74,7 @@ class Header extends Component {
                  right: 10,
                  marginLeft: 12,
                }}
-                onPress={() => this.redirect('Messenger')}
+                onPress={() => this.props.navigation.navigate('menuStack')}
                >
                <FontAwesomeIcon
                  icon={faReply}
@@ -93,7 +91,7 @@ class Header extends Component {
         </View>
 
         <View style={{flex: 12, flexDirection: 'column'}}>
-        {this.state.status === true ? <View>
+        {status === true ? <View>
               <TouchableOpacity
                 style={{
                   height: 50,
