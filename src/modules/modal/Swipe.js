@@ -40,9 +40,11 @@ class Swipe extends Component {
             marginBottom: 100
           }}>
             <Swiper
-             topFloatButton={true}
-             bottomFloatButton={false}
-             onClose={() => {
+              history={this.props.history}
+              navigation={this.props.navigation}
+              topFloatButton={true}
+              bottomFloatButton={false}
+              onClose={() => {
               this.props.onClose()
             }}/>
           </View>

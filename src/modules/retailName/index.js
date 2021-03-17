@@ -55,8 +55,6 @@ class RetailName extends Component {
           backgroundColor: 'white',
           width: '100%',
           backgroundColor: 'white',
-          borderTopEndRadius: 15,
-          borderTopStartRadius: 15,
           height: '100%',
         }}><ScrollView style={{marginBottom: 70}}>
           <View style={{

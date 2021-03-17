@@ -7,7 +7,7 @@ import {faBars, faUtensils, faChevronLeft, faTicketAlt, faShoppingBag} from '@fo
 import Footer from 'modules/generic/Footer'
 class HomePage extends Component{
   constructor(props){
-    super(props);
+    super(props);3
   }
   redirect(route, layer){
     if(route === 'historyStack') {

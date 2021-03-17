@@ -34,7 +34,7 @@ class History extends Component{
   onClick = () => {
     if(this.props.navigation.state && this.props.navigation.state.params && this.props.navigation.state.params.title !== null) {
       if(this.state.activeIndex === 0 || this.state.activeIndex === 1) {
-        this.props.navigation.navigate('eventNameStack');
+        this.props.navigation.navigate('eventNameStack', {buttonTitle: this.props.navigation.state.params && this.props.navigation.state.params.title && this.props.navigation.state.params.title.toLowerCase() === 'history' ? 'Make Reservation' : 'Cancel'});
       } else {
         this.props.navigation.navigate('retailNameStack');
       }
@@ -62,7 +62,7 @@ class History extends Component{
                 data={item} style={{
                   marginBottom: 20
                 }}
-                redirectTo={this.props.navigation.state.params && this.props.navigation.state.params.title ? 'upcoming' : 'history'}
+                redirectTo={this.props.navigation.state.params && this.props.navigation.state.params.title}
                 onClick={(item) => {
                   this.onClick()
                 }}
@@ -72,6 +72,8 @@ class History extends Component{
           </View>
         </ScrollView>
         {isVisible && <CardModal
+          history={this.props.navigation.state.params && this.props.navigation.state.params.title && this.props.navigation.state.params.title.toLowerCase() === 'history' ? true : false}
+          navigation={this.props.navigation}
           visisble={isVisible}
           onClose={() => {
           this.setState({

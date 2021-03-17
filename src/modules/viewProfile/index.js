@@ -65,7 +65,7 @@ class ViewProfile extends Component {
                   />
                   <View>
                     <View style={{ flexDirection: 'row', width: '100%' }}>
-                      <View style={{ width: 130 }}>
+                      <View style={{ width: '50%' }}>
                         <Text style={{ fontWeight: 'bold' }}>{el.name}</Text>
                         <Text style={{ fontStyle: 'italic' }}>{el.address}</Text>
                         <Text style={{ color: 'gray', fontSize: 10 }}>{el.numberOfConnection} similar connections</Text>
