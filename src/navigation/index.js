@@ -20,7 +20,20 @@ import RetailNameStack from 'src/modules/retailName/Drawer'
 import PeopleListStack from 'src/modules/people/Drawer'
 import EventNameStack from 'src/modules/eventName/Drawer'
 import MessagesStack from 'modules/messenger/MessagesDrawer.js';
+import Welcome from 'src/modules/account/Landing'
 import Drawer from './Drawer';
+
+const WelcomeStack = createStackNavigator(
+  {
+    loginScreen: {screen: Welcome},
+  },
+  {
+    headerMode: 'none',
+    navigationOptions: {},
+  },
+);
+
+
 // login stack
 const LoginStack = createStackNavigator(
   {
@@ -67,6 +80,7 @@ const LocationWithMapStack = createStackNavigator(
 // Manifest of possible screens
 const PrimaryNav = createStackNavigator(
   {
+    landingStack: {screen: WelcomeStack},
     loginStack: {screen: LoginStack},
     forgotPasswordStack: {screen: ForgotPasswordStack},
     registerStack: {screen: RegisterStack},
@@ -94,7 +108,7 @@ const PrimaryNav = createStackNavigator(
     // Default config for all screens
     headerMode: 'none',
     title: 'Main',
-    initialRouteName: 'loginStack',
+    initialRouteName: 'landingStack',
   },
 );
 

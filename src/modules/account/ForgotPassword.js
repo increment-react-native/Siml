@@ -10,6 +10,10 @@ import CustomError from 'components/Modal/Error.js';
 import Header from './Header';
 import config from 'src/config';
 import OtpModal from 'components/Modal/Otp.js';
+import LinearGradient from 'react-native-linear-gradient'
+import { Dimensions } from 'react-native';
+const width = Math.round(Dimensions.get('window').width);
+const height = Math.round(Dimensions.get('window').height);
 class ForgotPassword extends Component {
   //Screen1 Component
   constructor(props){
@@ -195,8 +199,8 @@ class ForgotPassword extends Component {
         />
 
         <TouchableHighlight
-          style={[BasicStyles.btn, {
-            backgroundColor: theme ? theme.primary : Color.primary
+          style={[BasicStyles.btnRound, {
+            backgroundColor: theme ? theme.secondary : Color.secondary
           }]}
           onPress={() => this.requestReset()}
           underlayColor={Color.gray}>
@@ -212,8 +216,9 @@ class ForgotPassword extends Component {
     const { theme } = this.props.state;
     const { blockedFlag, isOtpModal, isResponseError, responseErrorTitle, responseErrorMessage  } = this.state;
     return (
+      <LinearGradient colors={['#9478E6', '#a065cf', '#6934c9']}   locations={[0,0.5,1]} start={{ x: 2, y: 0 }} end={{ x: 1, y: 1 }}>
       <ScrollView style={Style.ScrollView}>
-        <View style={Style.MainContainer}>
+        <View style={[Style.MainContainer, {height: height}]}>
           <Header params={"Request change password"}></Header>
           {
             errorMessage != null && (
@@ -259,8 +264,8 @@ class ForgotPassword extends Component {
               }}>Have an account Already?</Text>
             </View>
             <TouchableHighlight
-              style={[BasicStyles.btn, {
-                backgroundColor: theme ? theme.secondary : Color.secondary
+              style={[BasicStyles.btnRound, {
+                backgroundColor: theme ? theme.gray : Color.gray
               }]}
               onPress={() => this.redirect('loginStack')}
               underlayColor={Color.gray}>
@@ -292,6 +297,7 @@ class ForgotPassword extends Component {
           message={responseErrorMessage}
         /> : null}
       </ScrollView>
+      </LinearGradient>
     );
   }
 }

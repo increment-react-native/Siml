@@ -16,7 +16,11 @@ import Pusher from 'services/Pusher.js';
 import SystemVersion from 'services/System.js';
 import { Player } from '@react-native-community/audio-toolkit';
 import OtpModal from 'components/Modal/Otp.js';
+import LinearGradient from 'react-native-linear-gradient'
+import SocialLogin from './SocialLogin'
 import {Notifications, NotificationAction, NotificationCategory} from 'react-native-notifications';
+import { Dimensions } from 'react-native';
+const width = Math.round(Dimensions.get('window').width);
 class Login extends Component {
   //Screen1 Component
   constructor(props){
@@ -386,8 +390,9 @@ class Login extends Component {
     const {  blockedFlag, isOtpModal } = this.state;
     const { theme } = this.props.state;
     return (
-      <ScrollView style={Style.ScrollView}>
-        <View style={Style.MainContainer}>
+      <LinearGradient colors={['#9478E6', '#a065cf', '#6934c9']}   locations={[0,0.5,1]} start={{ x: 2, y: 0 }} end={{ x: 1, y: 1 }}>
+      <ScrollView style={Style.ScrollView} showsVerticalScrollIndicator={false}>
+        <View style={[Style.MainContainer]}>
           <Header params={"Login"}></Header>
 
           {error > 0 ? <View style={Style.messageContainer}>
@@ -402,7 +407,7 @@ class Login extends Component {
           
           <View style={Style.TextContainer}>
             <TextInput
-              style={BasicStyles.formControl}
+              style={[BasicStyles.formControl]}
               onChangeText={(username) => this.setState({username})}
               value={this.state.username}
               placeholder={'Username or Email'}
@@ -414,23 +419,29 @@ class Login extends Component {
               placeholder={'********'}
               secureTextEntry={true}
             />*/}
-            <PasswordWithIcon onTyping={(input) => this.setState({
-              password: input
-            })}/>
+            <View>
+            <View style={{width: width-40}}>
+              <PasswordWithIcon onTyping={(input) => this.setState({
+                password: input
+              })}/>
+            </View>
+            </View>
             <TouchableHighlight
-              style={[BasicStyles.btn, {
-                backgroundColor: theme ? theme.primary : Color.primary
+              style={[BasicStyles.btnRound, {
+                backgroundColor: theme ? theme.warning : Color.warning,
+                marginTop: '5%'
               }]}
               onPress={() => this.submit()}
               underlayColor={Color.gray}>
               <Text style={BasicStyles.textWhite}>
-                Login
+                LOGIN
               </Text>
             </TouchableHighlight>
-
+            
+            <SocialLogin/>
             
             <TouchableHighlight
-              style={[BasicStyles.btn, BasicStyles.btnWarning]}
+              style={[BasicStyles.btnRound]}
               onPress={() => this.redirect('forgotPasswordStack')}
               underlayColor={Color.gray}>
               <Text style={BasicStyles.textWhite}>
@@ -440,9 +451,14 @@ class Login extends Component {
             
 
             <View style={{
-              height: 1,
-              backgroundColor: Color.gray
+              marginRight: 'auto',
+              marginLeft: 'auto'
+              // height: 1,
+              // backgroundColor: Color.gray
             }}>
+              <Text style={BasicStyles.textWhite}>
+                OR
+              </Text>
             </View>
 
             <View style={{
@@ -456,13 +472,13 @@ class Login extends Component {
               }}>Don't have an account?</Text>
             </View>
             <TouchableHighlight
-              style={[BasicStyles.btn, {
-                backgroundColor: theme ? theme.secondary : Color.secondary
+              style={[BasicStyles.btnRound, {
+                backgroundColor: theme ? theme.gray : Color.gray
               }]}
               onPress={() => this.redirect('registerStack')}
               underlayColor={Color.gray}>
               <Text style={BasicStyles.textWhite}>
-                Register Now!
+                SIGNUP
               </Text>
             </TouchableHighlight>
           </View>
@@ -490,6 +506,7 @@ class Login extends Component {
           this.setState({isResponseError: false, isLoading: false})
         }}/> : null}
       </ScrollView>
+      </LinearGradient>
     );
   }
 }
