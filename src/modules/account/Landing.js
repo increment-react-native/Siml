@@ -21,7 +21,7 @@ class Landing extends Component{
           flex: 1
         }}>
           <LinearGradient
-              colors={['#9478E6', '#ba86e3', '#6934c9']}
+              colors={[theme ? theme.primary : Color.primary, theme ? theme.secondary : Color.secondary, Color.warning]}
               locations={[0,0.5,1]} start={{ x: 2, y: 0 }} end={{ x: 1, y: 1 }}
               style={{
                 height: height
@@ -97,7 +97,7 @@ class Landing extends Component{
               </Text>
             </View>
 
-            
+
           </LinearGradient>
         </View>
       </ScrollView>

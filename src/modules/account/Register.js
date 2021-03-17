@@ -106,7 +106,7 @@ class Register extends Component {
     const { theme } = this.props.state;
     return (
       <LinearGradient
-        colors={['#9478E6', '#a065cf', '#6934c9']} 
+        colors={[Color.warning, theme ? theme.primary : Color.primary, theme ? theme.primary : Color.primary]}
         locations={[0,0.5,1]}
         start={{ x: 2, y: 0 }}
         end={{ x: 1, y: 1 }}
