@@ -67,9 +67,9 @@ class Retails extends Component {
           <InputSelect placeholder={'Size'} routeTo={() => this.prod()} title={'Size'} />
           <InputSelect placeholder={'Body Fit'} routeTo={() => this.prod()} title={'Body Fit'} />
           <InputSelect placeholder={'Colour'} routeTo={() => this.prod()} title={'Colour'} />
-          <Text>
+          <View style={{marginBottom: '23%'}}>
             <Range placeholder={'$1-$100'} title={'Price Range'} />
-          </Text>
+          </View>
           <Text style={{marginLeft: 20, marginBottom: 5}}>People in this SYNQT</Text>
           {/* <FontAwesomeIcon
             icon={faPlusCircle}

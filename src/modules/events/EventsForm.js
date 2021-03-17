@@ -72,12 +72,12 @@ class Events extends Component {
                 marginTop: 5
             }} />
           </View>
-          {/* <Text style={{width: 100}}>
-            <NumberInput placeholder={'0'} title={'No. of Tickets'} onTyping={(clicks) => this.setState({ party: clicks })} />
-          </Text> */}
-          <Text>
+          <View style={{marginBottom: '23%'}}>
+            <NumberInput title={'No. of Tickets'} />
+          </View>
+          <View style={{marginBottom: '23%'}}>
             <Range placeholder={'$1-$100'} title={'Price Range'} />
-          </Text>
+          </View>
           <Text style={{marginLeft: 20}}>
             <Slider title={'Radius'} />
           </Text>
