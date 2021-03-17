@@ -16,8 +16,14 @@ import { Color, BasicStyles } from 'common';
 import Information from 'modules/menu/information';
 import { ScrollView } from 'react-native-gesture-handler';
 import FLoatingButton from 'modules/generic/CircleButton';
-import {FontAwesomeIcon} from '@fortawesome/react-native-fontawesome';
-import {faCheck, faTimes, faStar} from '@fortawesome/free-solid-svg-icons';
+import { FontAwesomeIcon } from '@fortawesome/react-native-fontawesome';
+import { faCheck, faTimes, faStar } from '@fortawesome/free-solid-svg-icons';
+import Config from 'src/config.js';
+import { Routes } from 'common';
+import Api from 'services/api/index.js';
+import { Spinner } from 'components';
+import styles from './Swiper2Style';
+import { connect } from 'react-redux';
 
 const height = Math.round(Dimensions.get('window').height);
 const width = Math.round(Dimensions.get('window').width);
@@ -25,249 +31,266 @@ const width = Math.round(Dimensions.get('window').width);
 class Cards extends React.Component {
   constructor(props) {
     super(props);
-    this.state={
-      choice: 'Menu'
+    this.state = {
+      choice: 'Menu',
+      isLoading: true,
+      index: 0,
+      data: [],
+      products: [],
+      limit: 5,
+      offset: 0
     }
   }
-  
+
+
   choiceHandler = (value) => {
-    this.setState({choice: value})
+    this.setState({ choice: value })
   }
 
-  renderCard = (images) => {
+  componentDidMount() {
+    this.retrieve();
+  }
+
+  retrieve = () => {
+    this.setState({ isLoading: true })
+    Api.request(Routes.merchantsRetrieve, {}, response => {
+      this.setState({ isLoading: false })
+      if (response.data.length > 0) {
+        this.setState({ data: response.data });
+      }
+    },
+      error => {
+        this.setState({ isLoading: false })
+        console.log({ error });
+      },
+    );
+  }
+
+  retrieveProducts = () => {
+    let menu = this.state.data[this.state.index]
+    let parameter = {
+      condition: [{
+        value: menu.id,
+        column: 'merchant_id',
+        clause: '='
+      }],
+      account_id: menu.account_id,
+      sort: {title: 'asc'},
+      limit: this.state.limit,
+      offset: this.state.offset,
+      inventory_type: 'all'
+    }
+    this.setState({ isLoading: true })
+    Api.request(Routes.merchantsRetrieve, parameter, response => {
+      this.setState({ isLoading: false })
+      if (response.data.length > 0) {
+        this.setState({ products: response.data });
+      }
+    },
+      error => {
+        this.setState({ isLoading: false })
+        console.log({ error });
+      },
+    );
+  }
+
+  swipeHandler = () => {
+    this.props.header(this.state.index >= this.state.data.length - 2 ? true : false);
+    this.setState({ index: this.state.index + 1 === this.state.data.length ? 0 : this.state.index + 1 })
+  }
+
+  addToTopChoice = () => {
+    // let parameter = {
+    //   account_id: 1,
+    //   payload: 'merchant_id',
+    //   payload_value: 1,
+    //   category: 'restaurant'
+    // }
+    // this.setState({ isLoading: true })
+    // Api.request(Routes.merchantsRetrieve, parameter, response => {
+    //   this.setState({ isLoading: false })
+    //   if (response.data.length > 0) {
+        this.props.navigation.navigate('topChoiceStack');
+    //   }
+    // },
+    //   error => {
+    //     this.setState({ isLoading: false })
+    //     console.log({ error });
+    //   },
+    // );
+  }
+
+  renderCard = () => {
     return (
-      <View style={{flex: 1, marginTop: '84%'}}>
-       <CardStack
-        style={styles.content}
-        renderNoMoreCards={() => null}
-        ref={swiper => {
-          this.swiper = swiper
-        }}
-        loop={true}
-        onSwiped={() => console.log('onSwiped')}
-        onSwipedLeft={() => console.log('onSwipedLeft')}
-        disableBottomSwipe={true}
-        disableTopSwipe={true}
-      >
-        {
-          images.map(el => {
-            return (
-              <Card style={[styles.card]}>
-                <ImageBackground style={{ flex: 1, flexDirection: 'row', height: null, width: null, resizeMode: 'cover',  marginTop: this.props.bottomFloatButton === true? 50 : height * 0.25}}
-                  imageStyle={{
-                    flex: 1,
-                    height: null,
-                    width: null,
-                    resizeMode: 'cover',
-                    borderRadius: BasicStyles.standardBorderRadius
-                  }}
-                  source={el.uri}>
-                  <View style={{
+      <View style={{ flex: 1, marginTop: '91%' }}>
+        <CardStack
+          style={styles.content}
+          renderNoMoreCards={() => <View><Text>{this.state.isLoading ? <Spinner mode="overlay" /> : 'No more cards.'}</Text></View>}
+          ref={swiper => {
+            this.swiper = swiper
+          }}
+          onSwiped={() => this.swipeHandler()}
+          onSwipedLeft={() => console.log('onSwipedLeft')}
+          disableBottomSwipe={true}
+          disableTopSwipe={true}
+        >
+          {
+            this.state.data && this.state.data.map((el, idx) => {
+              return (
+                <Card style={[styles.card]}>
+                  <ImageBackground style={{ flex: 1, flexDirection: 'row', height: height - 150, width: null, resizeMode: 'cover', marginTop: this.props.bottomFloatButton === true ? 50 : height * 0.25 }}
+                    imageStyle={{
+                      flex: 1,
+                      height: null,
+                      width: null,
+                      resizeMode: 'cover',
+                      borderRadius: BasicStyles.standardBorderRadius,
+                      backgroundColor: 'white'
+                    }}
+                    source={{ uri: Config.BACKEND_URL + el.logo }}>
+                    <View style={{
                       position: 'absolute',
                       bottom: this.props.topFloatButton === true ? 100 : 15,
                       ...BasicStyles.standardWidth
                     }}>
-                    <Text style={{color:  Color.white,  fontSize: BasicStyles.standardTitleFontSize, fontWeight: 'bold'}}>{el.title}</Text>
-                    <Text style={{color: Color.white}}>{el.location}</Text>
-                  </View>
-                  <View style={{position: 'absolute', bottom: 20, right: 15, flexDirection: 'row'}}>
-                    <FontAwesomeIcon
-                      icon={faStar}
-                      size={30}
-                      color={'#FFCC00'}
-                    />
-                    <FontAwesomeIcon
-                      icon={faStar}
-                      size={30}
-                      color={'#FFCC00'}
-                    />
-                    <FontAwesomeIcon
-                      icon={faStar}
-                      size={30}
-                      color={'#FFCC00'}
-                    />
-                    <FontAwesomeIcon
-                      icon={faStar}
-                      size={30}
-                      color={'white'}
-                    />
-                    <FontAwesomeIcon
-                      icon={faStar}
-                      size={30}
-                      color={'white'}
-                    />
-                  </View>
-                  {this.props.topFloatButton === true && (<View style={{
-                    ...BasicStyles.standardWidth,
-                    position: 'absolute',
-                    bottom: -30,
-                    flexDirection: 'row',
-                    alignItems: 'center',
-                    justifyContent: 'space-between'
-                  }}>
-                    <TouchableOpacity
-                      style={{
-                        alignItems:'center',
-                        justifyContent:'center',
-                        width: 70,
-                        height: 70,
-                        backgroundColor: Color.warning,
-                        borderRadius: 35
-                      }}
-
-                      onPress={() => {
-                        this.props.onClose()
-                      }}
-                    >
+                      <Text style={{ color: Color.white, fontSize: BasicStyles.standardTitleFontSize, fontWeight: 'bold' }}>{el.name || 'No data'}</Text>
+                      <Text style={{ color: Color.white }}>{el.address || 'No address'}</Text>
+                    </View>
+                    <View style={{ position: 'absolute', bottom: 20, right: 15, flexDirection: 'row' }}>
                       <FontAwesomeIcon
-                        icon={faTimes}
-                        size={35}
+                        icon={faStar}
+                        size={30}
+                        color={'#FFCC00'}
+                      />
+                      <FontAwesomeIcon
+                        icon={faStar}
+                        size={30}
+                        color={'#FFCC00'}
+                      />
+                      <FontAwesomeIcon
+                        icon={faStar}
+                        size={30}
+                        color={'#FFCC00'}
+                      />
+                      <FontAwesomeIcon
+                        icon={faStar}
+                        size={30}
                         color={'white'}
                       />
-                    </TouchableOpacity>
-
-                    <TouchableOpacity
-                      style={{
-                        alignItems:'center',
-                        justifyContent:'center',
-                        width: 80,
-                        height: 80,
-                        backgroundColor: Color.warning,
-                        borderRadius: 40
-                      }}
-                    >
                       <FontAwesomeIcon
-                        icon={faCheck}
-                        size={40}
+                        icon={faStar}
+                        size={30}
                         color={'white'}
                       />
-                    </TouchableOpacity>
-                  </View>)}
-                </ImageBackground>
-              </Card>
-            )
-          })
-        }
-      </CardStack>
+                    </View>
+                    {this.props.topFloatButton === true && (<View style={{
+                      ...BasicStyles.standardWidth,
+                      position: 'absolute',
+                      bottom: -30,
+                      flexDirection: 'row',
+                      alignItems: 'center',
+                      justifyContent: 'space-between'
+                    }}>
+                      <TouchableOpacity
+                        style={{
+                          alignItems: 'center',
+                          justifyContent: 'center',
+                          width: 70,
+                          height: 70,
+                          backgroundColor: Color.warning,
+                          borderRadius: 35
+                        }}
+
+                        onPress={() => {
+                          this.props.onClose()
+                        }}
+                      >
+                        <FontAwesomeIcon
+                          icon={faTimes}
+                          size={35}
+                          color={'white'}
+                        />
+                      </TouchableOpacity>
+
+                      <TouchableOpacity
+                        style={{
+                          alignItems: 'center',
+                          justifyContent: 'center',
+                          width: 80,
+                          height: 80,
+                          backgroundColor: Color.warning,
+                          borderRadius: 40
+                        }}
+                      >
+                        <FontAwesomeIcon
+                          icon={faCheck}
+                          size={40}
+                          color={'white'}
+                        />
+                      </TouchableOpacity>
+                    </View>)}
+                  </ImageBackground>
+                </Card>
+              )
+            })
+          }
+        </CardStack>
+        {this.renderMenu()}
       </View>
     )
   }
 
-  renderMenu = ()=>  {
+  renderMenu = () => {
+    const { data } = this.state;
     return (
-      <View 
-        style={{padding: 20, marginTop: '90%'}}
-        >
+      <View
+        style={{ padding: 20, marginTop: '90%' }}
+      >
         <View>
-          <View style={ this.props.topFloatButton === true? {marginTop: 30} : {marginTop: 0}}>
+          <View style={this.props.topFloatButton === true ? { marginTop: 30 } : { marginTop: 0 }}>
             <Tab level={1} choice={['Menu', 'Information']} onClick={this.choiceHandler}></Tab>
           </View>
-          <View style={ this.props.bottomFloatButton === true? {marginBottom: 200} : {marginBottom: 0}}>
+          <View style={this.props.bottomFloatButton === true ? { marginBottom: 200 } : { marginBottom: 0 }}>
             {this.state.choice == 'Menu' ? (
-              <MenuCards/>
-            ) : 
-              <Information 
-                name={'Bangtan Sonyeondan'}
-                hours={['7 AM - 7 PM (Weekdays)', '7 AM - 11 PM (Weekends)']}
+              <MenuCards data={this.state.products && this.state.products}/>
+            ) :
+              <Information
+                name={this.state.data[this.state.index]?.name || 'No data'}
+                hours={this.state.data[this.state.index]?.schedule || 'No schedule yet.'}
                 description={' is simply dummy text of the printing and typesetting industry. Lorem Ipsum has been the industrys standard dummy text ever since the 1500s. It is simply dummy text of the printing and typesetting industry.'}
               />}
           </View>
-          {this.props.bottomFloatButton === true && (<FLoatingButton></FLoatingButton>)}
+          {this.props.bottomFloatButton === true && (<FLoatingButton onClick={() => {this.addToTopChoice()}}></FLoatingButton>)}
         </View>
       </View>
     )
   }
 
   render() {
+    const { isLoading } = this.state;
     return (
-        <ScrollView showsVerticalScrollIndicator={true}>
-              {this.renderCard(this.props.images)}
-              {this.renderMenu()}
-        </ScrollView>
+      <ScrollView showsVerticalScrollIndicator={true}
+        onScroll={(event) => {
+          let scrollingHeight = event.nativeEvent.layoutMeasurement.height + event.nativeEvent.contentOffset.y
+          let totalHeight = event.nativeEvent.contentSize.height
+          if(event.nativeEvent.contentOffset.y <= 0) {
+            if(isLoading == false){
+              // this.retrieve(false)
+            }
+          }
+          if (Math.round(scrollingHeight) >= Math.round(totalHeight)) {
+            if (isLoading == false) {
+              this.retrieveProducts();
+            }
+          }
+        }}
+      >
+        {this.renderCard()}
+      </ScrollView>
     );
   }
 }
 
-export default Cards;
+const mapStateToProps = state => ({ state: state });
 
-const styles = StyleSheet.create({
-  container: {
-    flex: 1,
-    flexDirection: 'column',
-    backgroundColor: '#f2f2f2',
-  },
-  content:{
-    flex: 5,
-    alignItems: 'center',
-    justifyContent: 'center',
-    width: '100%'
-  },
-  card:{
-    width: width,
-    height: height - 80,
-    borderRadius: 5,
-    // marginTop: '20%',
-    paddingLeft: 15,
-    paddingRight: 15,
-    shadowColor: 'rgba(0,0,0,0.5)',
-    shadowOffset: {
-      width: 0,
-      height: 1
-    },
-    shadowOpacity:0.5,
-  },
-  label: {
-    lineHeight: 400,
-    textAlign: 'center',
-    fontSize: 55,
-    fontFamily: 'System',
-    color: '#ffffff',
-    backgroundColor: 'transparent',
-  },
-  footer:{
-    flex:1,
-    justifyContent:'center',
-    alignItems:'center'
-  },
-  buttonContainer:{
-    width:220,
-    flexDirection:'row',
-    justifyContent: 'space-between',
-  },
-  button:{
-    shadowColor: 'rgba(0,0,0,0.3)',
-    shadowOffset: {
-      width: 0,
-      height: 1
-    },
-    shadowOpacity:0.5,
-    backgroundColor:'#fff',
-    alignItems:'center',
-    justifyContent:'center',
-    zIndex: 0,
-  },
-  orange:{
-    width:55,
-    height:55,
-    borderWidth:6,
-    borderColor:'rgb(246,190,66)',
-    borderRadius:55,
-    marginTop:-15
-  },
-  green:{
-    width:75,
-    height:75,
-    backgroundColor:'#fff',
-    borderRadius:75,
-    borderWidth:6,
-    borderColor:'#01df8a',
-  },
-  red:{
-    width:75,
-    height:75,
-    backgroundColor:'#fff',
-    borderRadius:75,
-    borderWidth:6,
-    borderColor:'#fd267d',
-  }
-});
+export default connect(mapStateToProps)(Cards);

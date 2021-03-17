@@ -43,6 +43,7 @@ class FloatingButton extends Component{
             backgroundColor:'#F7B567',
             borderRadius: 40,
           }}
+          onPress={() => {this.props.onClick()}}
         >
           <FontAwesomeIcon
             icon={faCheck}

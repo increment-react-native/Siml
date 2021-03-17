@@ -106,6 +106,8 @@ class TopChoice extends Component{
       }]}>
         {data && this.renderData(data)}
         {isVisible && <CardModal
+          history={true}
+          navigation={this.props.navigation}
           visisble={isVisible}
           onClose={() => {
           this.setState({

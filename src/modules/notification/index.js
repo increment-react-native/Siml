@@ -73,22 +73,11 @@ class Notifications extends Component{
                 <ImageCardWithUser data={item} style={{
                   marginBottom: 20
                 }}
-                onClick={(item) => {
-                  this.setState({
-                    isVisible: true
-                  })
-                }}/>
+                onClick={() => {this.props.navigation.navigate('menuStack')}}></ImageCardWithUser>
               ))
             }
           </View>
         </ScrollView>
-        {isVisible && <CardModal
-          visisble={isVisible}
-          onClose={() => {
-          this.setState({
-            isVisible: false
-          })
-        }}/>}
       </SafeAreaView>
     )
   }

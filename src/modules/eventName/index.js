@@ -30,8 +30,7 @@ class EventName extends Component {
         backgroundColor: 'white',
         borderTopEndRadius: 15,
         borderTopStartRadius: 15,
-        paddingLeft: 15,
-        paddingRight: 15,
+        padding: 15,
         height: '100%'
       }}>
         <ImageBackground
@@ -94,7 +93,7 @@ class EventName extends Component {
             marginBottom: 5
           }}>Images</Text>
         </View>
-          <CustomizedButton onClick={this.onClick} title={'Cancel'}></CustomizedButton>
+          <CustomizedButton onClick={this.onClick} title={this.props.navigation.state && this.props.navigation.state.params && this.props.navigation.state.params.buttonTitle && this.props.navigation.state.params.buttonTitle}></CustomizedButton>
       </View>
     );
   }

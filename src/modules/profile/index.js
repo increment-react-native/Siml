@@ -1,43 +1,128 @@
 import React, { Component } from 'react';
-import { View, Image, Text, TouchableOpacity, TextInput, ScrollView} from 'react-native';
+import { View, Image, Text, TouchableOpacity, TextInput, ScrollView } from 'react-native';
 import { Routes, Color, Helper, BasicStyles } from 'common';
-import {FontAwesomeIcon} from '@fortawesome/react-native-fontawesome';
-import {faCheckCircle, faEdit} from '@fortawesome/free-solid-svg-icons';
+import { FontAwesomeIcon } from '@fortawesome/react-native-fontawesome';
+import { faCheckCircle, faEdit } from '@fortawesome/free-solid-svg-icons';
 import Style from './Style';
 import CustomizedButton from 'modules/generic/CustomizedButton';
-class Profile extends Component{
-  constructor(props){
+import { connect } from 'react-redux';
+import Api from 'services/api/index.js';
+import { Spinner, ImageUpload } from 'components';
+import Config from 'src/config.js';
+class Profile extends Component {
+  constructor(props) {
     super(props);
     this.state = {
-      fullName: null,
-      phoneNumber: null,
-      email: null
+      firstName: null,
+      middleName: null,
+      lastName: null,
+      cellularNumber: null,
+      email: null,
+      isLoading: false,
+      id: null,
+      isImageUpload: false
     }
   }
 
-  fullNameHandler = (value) => {
-    this.setState({fullName: value})
+  componentDidMount() {
+    this.retrieve();
   }
 
-  phoneNumberHandler = (value) => {
-    this.setState({phoneNumber: value})
+  firstNameHandler = (value) => {
+    this.setState({ firstName: value })
+  }
+
+  middleNameHandler = (value) => {
+    this.setState({ middleName: value })
+  }
+
+  lastNameHandler = (value) => {
+    this.setState({ lastName: value })
+  }
+
+  cellularNumberHandler = (value) => {
+    this.setState({ cellularNumber: value })
   }
 
   emailHandler = (value) => {
-    this.setState({email: value})
+    this.setState({ email: value })
   }
 
-  redirect = () => {
-    console.log("lalaine========");
+  retrieve = () => {
+    const { user } = this.props.state;
+    if (user === null) {
+      return
+    }
+    let parameter = {
+      condition: [{
+        value: user.id,
+        clause: '=',
+        column: 'account_id'
+      }]
+    }
+    this.setState({ isLoading: true })
+    Api.request(Routes.accountInformationRetrieve, parameter, response => {
+      this.setState({ isLoading: false })
+      if (response.data.length > 0) {
+        let data = response.data[0]
+        this.setState({
+          id: data.id,
+          firstName: data.first_name,
+          middleName: data.middle_name,
+          lastName: data.last_name,
+          cellularNumber: data.cellular_number,
+          email: user.email
+        })
+      }
+    });
+  }
+
+  update = () => {
+    const { user } = this.props.state;
+    if (user === null) {
+      return
+    }
+    let parameter = {
+      id: this.state.id,
+      account_id: user.id,
+      first_name: this.state.firstName,
+      middle_name: this.state.middleName,
+      last_name: this.state.lastName
+    }
+    this.setState({ isLoading: true })
+    Api.request(Routes.accountInformationUpdate, parameter, response => {
+      this.setState({ isLoading: false })
+    });
+  }
+
+
+  updateProfile = (url) => {
+    const { user } = this.props.state;
+    if (user == null) {
+      return
+    }
+    let parameter = {
+      account_id: user.id,
+      url: url
+    }
+    this.setState({ isLoading: true })
+    Api.request(Routes.accountProfileCreate, parameter, response => {
+      this.setState({ isLoading: false })
+      this.retrieve();
+    }, error => {
+      console.log(error)
+    });
   }
 
   render() {
+    const { user } = this.props.state;
     return (
-      <View style={[Style.MainContainer, {
-        backgroundColor: Color.containerBackground
+      <ScrollView>
+        <View style={[Style.MainContainer, {
+          backgroundColor: Color.containerBackground
         }]}>
-          <ScrollView>
-          <View style={{borderBottomWidth: .3, borderColor: '#555555'}}>
+          {this.state.isLoading ? <Spinner mode="overlay" /> : null}
+          <View style={{ borderBottomWidth: .3, borderColor: '#555555' }}>
             <View style={Style.TopView}>
               <TouchableOpacity
                 style={{
@@ -46,12 +131,52 @@ class Profile extends Component{
                   borderRadius: 100,
                   borderColor: Color.primary,
                   borderWidth: 2
+                }}
+                onPress={() => {
+                  this.setState({ isImageUpload: true })
                 }}>
-                <Image source={require('assets/logo.png')} style={{
-                  height: 180,
-                  width: 180
-                }}/>
-                <FontAwesomeIcon style={{marginRight: 5, position: 'absolute', right: 5, bottom: 15}} icon={faEdit} size={20} color={Color.blue}/>
+                {
+                  user.account_profile && user.account_profile.url && (
+                    <Image
+                      source={user && user.account_profile && user.account_profile.url ? { uri: Config.BACKEND_URL + user.account_profile.url } : require('assets/logo.png') }
+                      style={[BasicStyles.profileImageSize, {
+                        height: '100%',
+                        width: '100%',
+                        borderRadius: 100
+                      }]} />
+                  )
+                }
+                <View style={{
+                  height: 50,
+                  width: 50,
+                  borderRadius: 100,
+                  marginRight: 5,
+                  position: 'absolute',
+                  right: -5,
+                  bottom: 1,
+                  backgroundColor: 'white',
+                  justifyContent: 'center',
+                  alignItems: 'center'
+                }}>
+                  <View style={{
+                    height: 35,
+                    width: 35,
+                    borderRadius: 100,
+                    borderWidth: 2,
+                    borderColor: Color.primary,
+                    backgroundColor: 'white',
+                    justifyContent: 'center',
+                    alignItems: 'center'
+                  }}>
+                    <FontAwesomeIcon style={{
+                      borderColor: Color.primary
+                    }}
+                      icon={faEdit}
+                      size={20}
+                      color={Color.primary}
+                    />
+                  </View>
+                </View>
               </TouchableOpacity>
             </View>
             <View style={{
@@ -63,7 +188,7 @@ class Profile extends Component{
               }}>Tap to edit profile</Text>
             </View>
             <View style={Style.BottomView}>
-              <FontAwesomeIcon style={{marginRight: 5}} icon={faCheckCircle} size={20} color={Color.blue}/>
+              <FontAwesomeIcon style={{ marginRight: 5 }} icon={faCheckCircle} size={20} color={Color.blue} />
               <Text style={{
                 textAlign: 'center',
                 fontWeight: 'bold',
@@ -72,45 +197,63 @@ class Profile extends Component{
             </View>
           </View>
           <View style={{
-              padding: 25,
-              textAlign: 'center',
-              justifyContent: 'center'}}>
-            <Text style={Style.TextStyle}>Full Name</Text>
+            padding: 25,
+            textAlign: 'center',
+            justifyContent: 'center'
+          }}>
+            <Text style={Style.TextStyle}>First Name</Text>
             <TextInput
               style={Style.TextInput}
-              onChangeText={text => this.fullNameHandler(text)}
-              value={this.state.fullName}
-              placeholder='   Enter Full Name'
+              onChangeText={text => this.firstNameHandler(text)}
+              value={this.state.firstName}
+              placeholder='   Enter First Name'
+            />
+            <Text style={Style.TextStyle}>Middle Name</Text>
+            <TextInput
+              style={Style.TextInput}
+              onChangeText={text => this.middleNameHandler(text)}
+              value={this.state.middleName}
+              placeholder='   Enter Middle Name'
+            />
+            <Text style={Style.TextStyle}>Last Name</Text>
+            <TextInput
+              style={Style.TextInput}
+              onChangeText={text => this.lastNameHandler(text)}
+              value={this.state.lastName}
+              placeholder='   Enter Last Name'
             />
             <Text style={Style.TextStyle}>Phone Number</Text>
             <TextInput
               style={Style.TextInput}
-              onChangeText={text => this.phoneNumberHandler(text)}
-              value={this.state.phoneNumber}
+              onChangeText={text => this.cellularNumberHandler(text)}
+              value={this.state.cellularNumber}
               placeholder='   Enter Phone Number'
             />
-            <Text style={Style.TextStyle}>Email</Text>
-            <TextInput
-              style={{
-                marginBottom: 120,
-                marginTop: 15,
-                height: 55,
-                borderColor: Color.gray,
-                borderBottomWidth: 1,
-                borderTopWidth: 1,
-                borderRightWidth: 1,
-                borderLeftWidth: 1,
-                borderRadius: 50,
-                padding: 10}}
-              onChangeText={text => this.emailHandler(text)}
-              value={this.state.email}
-              placeholder='   Enter Email'
-            />
-          <CustomizedButton onClick={this.redirect} title={'Update'}></CustomizedButton>
           </View>
-        </ScrollView>
-      </View>
+        </View>
+        {this.state.isImageUpload ?
+          <ImageUpload
+            visible={this.state.isImageUpload}
+            onSelect={(url) => {
+              this.setState({ isImageUpload: false, isLoading: false })
+              this.updateProfile(url)
+            }}
+            onClose={() => {
+              this.setState({ isImageUpload: false, isLoading: false })
+            }} /> : null}
+        <View style={{
+            padding: 25,
+            textAlign: 'center',
+            justifyContent: 'center'
+          }}>
+          <CustomizedButton onClick={() => {this.update()}} title={'Update'}></CustomizedButton>
+          </View>
+      </ScrollView>
     );
   }
 }
-export default Profile;
+const mapStateToProps = state => ({ state: state });
+
+export default connect(
+  mapStateToProps
+)(Profile);

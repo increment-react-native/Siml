@@ -44,7 +44,7 @@ const HistoryStack = createStackNavigator({
   historyScreen: {
     screen: Screen,
     navigationOptions: ({navigation}) => ({
-      title: navigation.state.params && navigation.state.params.title ? navigation.state.params.title : 'History',
+      title: navigation.state.params && navigation.state.params.title,
       headerLeft: <HeaderOptionsConnect navigationProps={navigation} />,
       ...BasicStyles.headerDrawerStyle
     }),

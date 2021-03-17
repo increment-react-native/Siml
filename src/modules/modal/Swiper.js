@@ -9,6 +9,7 @@ import MenuCards from 'modules/menu/cards';
 import Tab from 'modules/generic/TabOptions';
 import FLoatingButton from 'modules/generic/CircleButton';
 import Information from 'modules/menu/information';
+import { connect } from 'react-redux';
 
 const ScreenHeight = Dimensions.get('window').height
 const height = Dimensions.get('window').height
@@ -24,7 +25,7 @@ const Images = [
 
 class Swiper extends Component{
     constructor(props){
-        super(props)
+        super(props);
 
         this.position = new Animated.ValueXY()
         this.state = {
@@ -162,33 +163,6 @@ class Swiper extends Component{
               <Text style={{color:  Color.white,  fontSize: BasicStyles.standardTitleFontSize, fontWeight: 'bold'}}>{item.title}</Text>
               <Text style={{color: Color.white}}>{item.location}</Text>
             </View>
-            <View style={{position: 'absolute', bottom: 20, right: 15, flexDirection: 'row'}}>
-              <FontAwesomeIcon
-                icon={faStar}
-                size={30}
-                color={'#FFCC00'}
-              />
-              <FontAwesomeIcon
-                icon={faStar}
-                size={30}
-                color={'#FFCC00'}
-              />
-              <FontAwesomeIcon
-                icon={faStar}
-                size={30}
-                color={'#FFCC00'}
-              />
-              <FontAwesomeIcon
-                icon={faStar}
-                size={30}
-                color={'white'}
-              />
-              <FontAwesomeIcon
-                icon={faStar}
-                size={30}
-                color={'white'}
-              />
-            </View>
             {this.props.topFloatButton === true && (<View style={{
               ...BasicStyles.standardWidth,
               position: 'absolute',
@@ -226,6 +200,10 @@ class Swiper extends Component{
                   height: 80,
                   backgroundColor: Color.warning,
                   borderRadius: 40
+                }}
+                onPress={() => {
+                  this.props.navigation.navigate('eventNameStack', {buttonTitle: this.props.history && this.props.history === true ? 'Make Reservation' : 'Cancel'}),
+                  this.props.onClose()
                 }}
               >
                 <FontAwesomeIcon
@@ -329,6 +307,7 @@ class Swiper extends Component{
       }
       
       render() {
+        console.log(this.props.navigation, "=======");
         return (
           <View style={{ flex: 1, backgroundColor: 'white' }}>
             {this.renderUsers()}
@@ -338,4 +317,10 @@ class Swiper extends Component{
       }
 }
 
-export default Swiper;
+const mapStateToProps = state => ({ state: state });
+const mapDispatchToProps = dispatch => {
+  const {actions} = require('@redux');
+  return {};
+};
+
+export default connect(mapStateToProps, mapDispatchToProps)(Swiper);
