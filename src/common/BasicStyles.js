@@ -6,8 +6,9 @@ export default {
   formControl: {
     height: 50,
     borderColor: Color.lightGray,
+    backgroundColor: 'white',
     borderWidth: 1,
-    width: width - 40,
+    width: width-40,
     paddingLeft: 10,
     marginBottom: 20,
     borderRadius: 25
@@ -88,6 +89,17 @@ export default {
     alignItems: 'center',
     justifyContent: 'center',
     borderRadius: 5
+  },
+  btnRound: {
+    height: 50,
+    // backgroundColor: Color.primary,
+    width: width - 40,
+    marginBottom: 20,
+    alignItems: 'center',
+    justifyContent: 'center',
+    marginLeft: 'auto',
+    marginRight: 'auto',
+    borderRadius: 50
   },
   btnPrimary: {
     backgroundColor: Color.primary
@@ -254,6 +266,7 @@ export default {
   standardFormControl: {
     height: 50,
     borderColor: Color.lightGray,
+    backgroundColor: 'white',
     borderWidth: 1,
     width: '100%',
     borderRadius: 25,

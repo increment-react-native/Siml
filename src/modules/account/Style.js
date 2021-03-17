@@ -3,12 +3,12 @@ import { Dimensions } from 'react-native';
 const width = Math.round(Dimensions.get('window').width);
 export default {
   ScrollView: {
-    padding: 10
+    padding: 10,
   },
   MainContainer: {
     flex: 1,
     alignItems: 'center',
-    justifyContent: 'center',
+    justifyContent: 'center'
   },
   LogoContainer: {
     height: 100,
@@ -18,8 +18,8 @@ export default {
     marginTop: 100
   },
   LogoSize: {
-    height: 100,
-    width: 100
+    height:150,
+    width: 150
   },
   TextContainer: {
     flex: 1

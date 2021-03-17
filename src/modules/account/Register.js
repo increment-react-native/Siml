@@ -9,7 +9,10 @@ import { Routes, Color, Helper, BasicStyles } from 'common';
 import CustomError from 'components/Modal/Error.js';
 import PasswordWithIcon from 'components/InputField/Password.js';
 import Header from './Header';
+import LinearGradient from 'react-native-linear-gradient'
 import config from 'src/config';
+import { Dimensions } from 'react-native';
+const width = Math.round(Dimensions.get('window').width);
 class Register extends Component {
   //Screen1 Component
   constructor(props){
@@ -101,7 +104,8 @@ class Register extends Component {
     const { isLoading, errorMessage, isResponseError } = this.state;
     const { theme } = this.props.state;
     return (
-      <ScrollView style={Style.ScrollView}>
+      <LinearGradient colors={['#9478E6', '#a065cf', '#6934c9']}   locations={[0,0.5,1]} start={{ x: 2, y: 0 }} end={{ x: 1, y: 1 }}>
+      <ScrollView style={Style.ScrollView} showsVerticalScrollIndicator={false}>
         <View style={Style.MainContainer}>
           <Header params={"Register"}></Header>
           {
@@ -135,17 +139,25 @@ class Register extends Component {
               placeholder={'Email Address'}
               keyboardType={'email-address'}
             />
-            <PasswordWithIcon onTyping={(input) => this.setState({
+
+            <View style={{width: width-40}}>
+             <PasswordWithIcon onTyping={(input) => this.setState({
               password: input
             })}
             placeholder={'Password'}/>
+            </View>
 
-
-            <PasswordWithIcon onTyping={(input) => this.setState({
-              confirmPassword: input
-            })}
-            placeholder={'Confirm Password'}
-            />
+            <View style={{
+              marginTop: 20,
+              marginBottom: 20,
+              width: width-40
+            }}>
+              <PasswordWithIcon onTyping={(input) => this.setState({
+                confirmPassword: input
+              })}
+              placeholder={'Confirm Password'}
+              />
+            </View>
             {/*<TextInput
               style={BasicStyles.formControl}
               onChangeText={(password) => this.setState({password})}
@@ -163,8 +175,8 @@ class Register extends Component {
             />
           */}
             <TouchableHighlight
-              style={[BasicStyles.btn, {
-                backgroundColor: theme ? theme.primary : Color.primary
+              style={[BasicStyles.btnRound, {
+                backgroundColor: theme ? theme.secondary : Color.secondary
               }]}
               onPress={() => this.submit()}
               underlayColor={Color.gray}>
@@ -190,8 +202,8 @@ class Register extends Component {
               }}>Have an account Already?</Text>
             </View>
             <TouchableHighlight
-              style={[BasicStyles.btn, {
-                backgroundColor: theme ? theme.secondary : Color.secondary
+              style={[BasicStyles.btnRound, {
+                backgroundColor: theme ? theme.gray : Color.gray
               }]}
               onPress={() => this.redirect('loginStack')}
               underlayColor={Color.gray}>
@@ -207,6 +219,7 @@ class Register extends Component {
           this.setState({isResponseError: false, isLoading: false})
         }}/> : null}
       </ScrollView>
+      </LinearGradient>
     );
   }
 }
