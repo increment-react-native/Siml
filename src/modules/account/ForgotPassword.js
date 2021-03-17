@@ -12,6 +12,7 @@ import config from 'src/config';
 import OtpModal from 'components/Modal/Otp.js';
 import LinearGradient from 'react-native-linear-gradient'
 import { Dimensions } from 'react-native';
+import Button from 'components/Form/Button';
 const width = Math.round(Dimensions.get('window').width);
 const height = Math.round(Dimensions.get('window').height);
 class ForgotPassword extends Component {
@@ -157,7 +158,10 @@ class ForgotPassword extends Component {
     return (
       <View>
         <TextInput
-          style={BasicStyles.formControl}
+          style={{
+            ...BasicStyles.standardFormControl,
+            marginBottom: 20
+          }}
           onChangeText={(password) => this.setState({password})}
           value={this.state.password}
           placeholder={'New password'}
@@ -165,23 +169,25 @@ class ForgotPassword extends Component {
         />
 
         <TextInput
-          style={BasicStyles.formControl}
+          style={{
+            ...BasicStyles.standardFormControl,
+            marginBottom: 20
+          }}
           onChangeText={(confirmPassword) => this.setState({confirmPassword})}
           value={this.state.confirmPassword}
           placeholder={'Confirm new password'}
           secureTextEntry={true}
         />
 
-        <TouchableHighlight
-          style={[BasicStyles.btn, {
-            backgroundColor: theme ? theme.primary : Color.primary
-          }]}
-          onPress={() => this.resetPassword()}
-          underlayColor={Color.gray}>
-          <Text style={BasicStyles.textWhite}>
-            Reset
-          </Text>
-        </TouchableHighlight>
+        <Button
+          onClick={() => this.resetPassword()}
+          title={'Reset'}
+          style={{
+            backgroundColor: Color.warning,
+            width: '100%',
+            marginBottom: 10
+          }}
+        />
       </View>
     );    
   }
@@ -191,23 +197,25 @@ class ForgotPassword extends Component {
     return (
       <View>
         <TextInput
-          style={BasicStyles.formControl}
+          style={{
+            ...BasicStyles.standardFormControl,
+            marginBottom: 20
+          }}
           onChangeText={(email) => this.setState({email})}
           value={this.state.email}
           placeholder={'Email Address'}
           keyboardType={'email-address'}
         />
 
-        <TouchableHighlight
-          style={[BasicStyles.btnRound, {
-            backgroundColor: theme ? theme.secondary : Color.secondary
-          }]}
-          onPress={() => this.requestReset()}
-          underlayColor={Color.gray}>
-          <Text style={BasicStyles.textWhite}>
-            Request change
-          </Text>
-        </TouchableHighlight>
+        <Button
+          onClick={() => this.requestReset()}
+          title={'Request change'}
+          style={{
+            backgroundColor: Color.warning,
+            width: '100%',
+            marginBottom: 10
+          }}
+        />
       </View>
     );
   }
@@ -216,87 +224,95 @@ class ForgotPassword extends Component {
     const { theme } = this.props.state;
     const { blockedFlag, isOtpModal, isResponseError, responseErrorTitle, responseErrorMessage  } = this.state;
     return (
-      <LinearGradient colors={['#9478E6', '#a065cf', '#6934c9']}   locations={[0,0.5,1]} start={{ x: 2, y: 0 }} end={{ x: 1, y: 1 }}>
-      <ScrollView style={Style.ScrollView}>
-        <View style={[Style.MainContainer, {height: height}]}>
-          <Header params={"Request change password"}></Header>
-          {
-            errorMessage != null && (
-              <View style={{
-                flexDirection: 'row',
-                  paddingTop: 10,
-                  paddingBottom: 10,
-              }}>
-                <Text style={[Style.messageText, {
-                  fontWeight: 'bold'
-                }]}>Oops! </Text>
-                <Text style={Style.messageText}>{errorMessage}</Text>
+      <LinearGradient
+        colors={['#9478E6', '#a065cf', '#6934c9']} 
+        locations={[0,0.5,1]}
+        start={{ x: 2, y: 0 }}
+        end={{ x: 1, y: 1 }}
+        >
+        <ScrollView
+          style={Style.ScrollView}
+          showsVerticalScrollIndicator={false}>
+            <View style={[Style.MainContainer, {height: height}]}>
+              <Header params={"Request change password"}></Header>
+              {
+                errorMessage != null && (
+                  <View style={{
+                    flexDirection: 'row',
+                      paddingTop: 10,
+                      paddingBottom: 10,
+                  }}>
+                    <Text style={[Style.messageText, {
+                      fontWeight: 'bold'
+                    }]}>Oops! </Text>
+                    <Text style={Style.messageText}>{errorMessage}</Text>
+                  </View>
+                )
+              }
+              {
+                successMessage != null && (
+                  <View style={{
+                    flexDirection: 'row',
+                      paddingTop: 10,
+                      paddingBottom: 10,
+                      paddingLeft: 10,
+                      paddingRight: 10
+                  }}>
+                    <Text style={[Style.messageText, {
+                      color: Color.black
+                    }]}>{successMessage}</Text>
+                  </View>
+                )
+              }
+              
+              <View style={Style.TextContainer}>
+                { changeStep == 0 && (this._sendRequest()) }
+                { changeStep == 1 && (this._changePassword()) }
+                 <View style={{
+                  justifyContent: 'center',
+                  alignItems: 'center'
+                }}>
+                  <Text style={{
+                    paddingTop: 10,
+                    paddingBottom: 10,
+                    color: Color.gray
+                  }}>Have an account Already?</Text>
+                </View>
+                <Button
+                  onClick={() => this.redirect('loginStack')}
+                  title={'Login Now!'}
+                  style={{
+                    backgroundColor: Color.normalGray,
+                    width: '100%',
+                    marginBottom: 100
+                  }}
+                />
               </View>
-            )
-          }
-          {
-            successMessage != null && (
-              <View style={{
-                flexDirection: 'row',
-                  paddingTop: 10,
-                  paddingBottom: 10,
-                  paddingLeft: 10,
-                  paddingRight: 10
-              }}>
-                <Text style={[Style.messageText, {
-                  color: Color.black
-                }]}>{successMessage}</Text>
-              </View>
-            )
-          }
-          
-          <View style={Style.TextContainer}>
-            { changeStep == 0 && (this._sendRequest()) }
-            { changeStep == 1 && (this._changePassword()) }
-             <View style={{
-              justifyContent: 'center',
-              alignItems: 'center'
-            }}>
-              <Text style={{
-                paddingTop: 10,
-                paddingBottom: 10,
-                color: Color.gray
-              }}>Have an account Already?</Text>
             </View>
-            <TouchableHighlight
-              style={[BasicStyles.btnRound, {
-                backgroundColor: theme ? theme.gray : Color.gray
-              }]}
-              onPress={() => this.redirect('loginStack')}
-              underlayColor={Color.gray}>
-              <Text style={BasicStyles.textWhite}>
-                Login Now!
-              </Text>
-            </TouchableHighlight>
-          </View>
-        </View>
-        <OtpModal
-          visible={isOtpModal}
-          title={blockedFlag == false ? 'Authentication via OTP' : 'Blocked Account'}
-          actionLabel={{
-            yes: 'Authenticate',
-            no: 'Cancel'
-          }}
-          onCancel={() => this.setState({changeStep: 0, isOtpModal: false})}
-          onSuccess={() => this.setState({changeStep: 1, isOtpModal: false})}
-          onResend={() => this.updateOtp()}
-          error={errorMessage}
-          blockedFlag={blockedFlag}
-        ></OtpModal>
 
-        {isLoading ? <Spinner mode="overlay"/> : null }
-        {isResponseError ? <CustomError visible={isResponseError} onCLose={() => {
-          this.setState({isResponseError: false, isLoading: false})
-        }}
-          title={responseErrorTitle}
-          message={responseErrorMessage}
-        /> : null}
-      </ScrollView>
+
+            <OtpModal
+              visible={isOtpModal}
+              title={blockedFlag == false ? 'Authentication via OTP' : 'Blocked Account'}
+              actionLabel={{
+                yes: 'Authenticate',
+                no: 'Cancel'
+              }}
+              onCancel={() => this.setState({changeStep: 0, isOtpModal: false})}
+              onSuccess={() => this.setState({changeStep: 1, isOtpModal: false})}
+              onResend={() => this.updateOtp()}
+              error={errorMessage}
+              blockedFlag={blockedFlag}
+            ></OtpModal>
+
+            {isLoading ? <Spinner mode="overlay"/> : null }
+            {isResponseError ? <CustomError visible={isResponseError} onCLose={() => {
+              this.setState({isResponseError: false, isLoading: false})
+            }}
+              title={responseErrorTitle}
+              message={responseErrorMessage}
+            /> : null}
+          </ScrollView>
       </LinearGradient>
     );
   }

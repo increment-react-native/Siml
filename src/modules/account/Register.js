@@ -12,6 +12,7 @@ import Header from './Header';
 import LinearGradient from 'react-native-linear-gradient'
 import config from 'src/config';
 import { Dimensions } from 'react-native';
+import Button from 'components/Form/Button';
 const width = Math.round(Dimensions.get('window').width);
 class Register extends Component {
   //Screen1 Component
@@ -104,121 +105,117 @@ class Register extends Component {
     const { isLoading, errorMessage, isResponseError } = this.state;
     const { theme } = this.props.state;
     return (
-      <LinearGradient colors={['#9478E6', '#a065cf', '#6934c9']}   locations={[0,0.5,1]} start={{ x: 2, y: 0 }} end={{ x: 1, y: 1 }}>
-      <ScrollView style={Style.ScrollView} showsVerticalScrollIndicator={false}>
-        <View style={Style.MainContainer}>
-          <Header params={"Register"}></Header>
-          {
-            errorMessage != null && (
+      <LinearGradient
+        colors={['#9478E6', '#a065cf', '#6934c9']} 
+        locations={[0,0.5,1]}
+        start={{ x: 2, y: 0 }}
+        end={{ x: 1, y: 1 }}
+        >
+        <ScrollView
+          style={Style.ScrollView}
+          showsVerticalScrollIndicator={false}>
+          <View style={Style.MainContainer}>
+            <Header params={"Register"}></Header>
+            {
+              errorMessage != null && (
+                <View style={{
+                  flexDirection: 'row',
+                    paddingTop: 10,
+                    paddingBottom: 10,
+                }}>
+                  <Text style={[Style.messageText, {
+                    fontWeight: 'bold'
+                  }]}>Oops! </Text>
+                  <Text style={Style.messageText}>{errorMessage}</Text>
+                </View>
+              )
+            }
+            
+            
+            <View style={Style.TextContainer}>
+              <TextInput
+                style={{
+                  ...BasicStyles.standardFormControl,
+                  marginBottom: 20
+                }}
+                onChangeText={(username) => this.setState({username})}
+                value={this.state.username}
+                placeholder={'Username'}
+              />
+              
+              <TextInput
+                style={{
+                  ...BasicStyles.standardFormControl,
+                  marginBottom: 20
+                }}
+                onChangeText={(email) => this.setState({email})}
+                value={this.state.email}
+                placeholder={'Email Address'}
+                keyboardType={'email-address'}
+              />
+
+              <PasswordWithIcon
+                onTyping={(input) => this.setState({
+                  password: input
+                })}
+                placeholder={'Password'}/>
+
               <View style={{
-                flexDirection: 'row',
+                marginTop: 20,
+                marginBottom: 20,
+              }}>
+                <PasswordWithIcon
+                  onTyping={(input) => this.setState({
+                    confirmPassword: input
+                  })}
+                  placeholder={'Confirm Password'}
+                  />
+              </View>
+
+              <Button
+                onClick={() => this.submit()}
+                title={'Register'}
+                style={{
+                  backgroundColor: Color.warning,
+                  width: '100%',
+                  marginBottom: 20
+                }}
+              />
+
+              <View style={{
+                height: 1,
+                backgroundColor: Color.gray
+              }}>
+              </View>
+
+              <View style={{
+                justifyContent: 'center',
+                alignItems: 'center'
+              }}>
+                <Text style={{
                   paddingTop: 10,
                   paddingBottom: 10,
-              }}>
-                <Text style={[Style.messageText, {
-                  fontWeight: 'bold'
-                }]}>Oops! </Text>
-                <Text style={Style.messageText}>{errorMessage}</Text>
+                  color: Color.gray
+                }}>Have an account Already?</Text>
               </View>
-            )
-          }
-          
-          
-          <View style={Style.TextContainer}>
-            <TextInput
-              style={BasicStyles.formControl}
-              onChangeText={(username) => this.setState({username})}
-              value={this.state.username}
-              placeholder={'Username'}
-            />
-            
-            <TextInput
-              style={BasicStyles.formControl}
-              onChangeText={(email) => this.setState({email})}
-              value={this.state.email}
-              placeholder={'Email Address'}
-              keyboardType={'email-address'}
-            />
 
-            <View style={{width: width-40}}>
-             <PasswordWithIcon onTyping={(input) => this.setState({
-              password: input
-            })}
-            placeholder={'Password'}/>
-            </View>
-
-            <View style={{
-              marginTop: 20,
-              marginBottom: 20,
-              width: width-40
-            }}>
-              <PasswordWithIcon onTyping={(input) => this.setState({
-                confirmPassword: input
-              })}
-              placeholder={'Confirm Password'}
+              <Button
+                onClick={() => this.redirect('loginStack')}
+                title={'Login Now!'}
+                style={{
+                  backgroundColor: Color.normalGray,
+                  width: '100%',
+                  marginBottom: 100
+                }}
               />
             </View>
-            {/*<TextInput
-              style={BasicStyles.formControl}
-              onChangeText={(password) => this.setState({password})}
-              value={this.state.password}
-              placeholder={'Password'}
-              secureTextEntry={true}
-            />
-            
-            <TextInput
-              style={BasicStyles.formControl}
-              onChangeText={(confirmPassword) => this.setState({confirmPassword})}
-              value={this.state.confirmPassword}
-              placeholder={'Confirm Password'}
-              secureTextEntry={true}
-            />
-          */}
-            <TouchableHighlight
-              style={[BasicStyles.btnRound, {
-                backgroundColor: theme ? theme.secondary : Color.secondary
-              }]}
-              onPress={() => this.submit()}
-              underlayColor={Color.gray}>
-              <Text style={BasicStyles.textWhite}>
-                Register
-              </Text>
-            </TouchableHighlight>
-
-            <View style={{
-              height: 1,
-              backgroundColor: Color.gray
-            }}>
-            </View>
-
-            <View style={{
-              justifyContent: 'center',
-              alignItems: 'center'
-            }}>
-              <Text style={{
-                paddingTop: 10,
-                paddingBottom: 10,
-                color: Color.gray
-              }}>Have an account Already?</Text>
-            </View>
-            <TouchableHighlight
-              style={[BasicStyles.btnRound, {
-                backgroundColor: theme ? theme.gray : Color.gray
-              }]}
-              onPress={() => this.redirect('loginStack')}
-              underlayColor={Color.gray}>
-              <Text style={BasicStyles.textWhite}>
-                Login Now!
-              </Text>
-            </TouchableHighlight>
           </View>
-        </View>
 
-        {isLoading ? <Spinner mode="overlay"/> : null }
-        {isResponseError ? <CustomError visible={isResponseError} onCLose={() => {
-          this.setState({isResponseError: false, isLoading: false})
-        }}/> : null}
-      </ScrollView>
+          {isLoading ? <Spinner mode="overlay"/> : null }
+          {isResponseError ? <CustomError visible={isResponseError} onCLose={() => {
+            this.setState({isResponseError: false, isLoading: false})
+          }}/> : null}
+        </ScrollView>
       </LinearGradient>
     );
   }

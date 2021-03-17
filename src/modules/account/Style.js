@@ -22,7 +22,9 @@ export default {
     width: 150
   },
   TextContainer: {
-    flex: 1
+    width: '76%',
+    marginLeft: '12%',
+    marginRight: '12%'
   },
   messageContainer: {
     height: 50,

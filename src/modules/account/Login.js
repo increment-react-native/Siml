@@ -20,6 +20,7 @@ import LinearGradient from 'react-native-linear-gradient'
 import SocialLogin from './SocialLogin'
 import {Notifications, NotificationAction, NotificationCategory} from 'react-native-notifications';
 import { Dimensions } from 'react-native';
+import Button from 'components/Form/Button';
 const width = Math.round(Dimensions.get('window').width);
 class Login extends Component {
   //Screen1 Component
@@ -390,122 +391,127 @@ class Login extends Component {
     const {  blockedFlag, isOtpModal } = this.state;
     const { theme } = this.props.state;
     return (
-      <LinearGradient colors={['#9478E6', '#a065cf', '#6934c9']}   locations={[0,0.5,1]} start={{ x: 2, y: 0 }} end={{ x: 1, y: 1 }}>
-      <ScrollView style={Style.ScrollView} showsVerticalScrollIndicator={false}>
-        <View style={[Style.MainContainer]}>
-          <Header params={"Login"}></Header>
+      <LinearGradient
+        colors={['#9478E6', '#a065cf', '#6934c9']} 
+        locations={[0,0.5,1]}
+        start={{ x: 2, y: 0 }}
+        end={{ x: 1, y: 1 }}
+        >
+        <ScrollView
+          style={Style.ScrollView}
+          showsVerticalScrollIndicator={false}>
+          <View style={[Style.MainContainer]}>
+            <Header params={"Login"}></Header>
 
-          {error > 0 ? <View style={Style.messageContainer}>
-            {error == 1 ? (
-              <Text style={Style.messageText}>Please fill up the required fields.</Text>
-            ) : null}
+            {error > 0 ? <View style={Style.messageContainer}>
+              {error == 1 ? (
+                <Text style={Style.messageText}>Please fill up the required fields.</Text>
+              ) : null}
 
-            {error == 2 ? (
-              <Text style={Style.messageText}>Username and password didn't match.</Text>
-            ) : null}
-          </View> : null}
-          
-          <View style={Style.TextContainer}>
-            <TextInput
-              style={[BasicStyles.formControl]}
-              onChangeText={(username) => this.setState({username})}
-              value={this.state.username}
-              placeholder={'Username or Email'}
-            />
-            { /*<TextInput
-              style={BasicStyles.formControl}
-              onChangeText={(password) => this.setState({password})}
-              value={this.state.password}
-              placeholder={'********'}
-              secureTextEntry={true}
-            />*/}
-            <View>
-            <View style={{width: width-40}}>
+              {error == 2 ? (
+                <Text style={Style.messageText}>Username and password didn't match.</Text>
+              ) : null}
+            </View> : null}
+            
+            <View style={Style.TextContainer}>
+
+              <TextInput
+                style={{
+                  ...BasicStyles.standardFormControl,
+                  marginBottom: 20
+                }}
+                onChangeText={(username) => this.setState({username})}
+                value={this.state.username}
+                placeholder={'Username or Email'}
+              />
+
               <PasswordWithIcon onTyping={(input) => this.setState({
                 password: input
               })}/>
-            </View>
-            </View>
-            <TouchableHighlight
-              style={[BasicStyles.btnRound, {
-                backgroundColor: theme ? theme.warning : Color.warning,
-                marginTop: '5%'
-              }]}
-              onPress={() => this.submit()}
-              underlayColor={Color.gray}>
-              <Text style={BasicStyles.textWhite}>
-                LOGIN
-              </Text>
-            </TouchableHighlight>
-            
-            <SocialLogin/>
-            
-            <TouchableHighlight
-              style={[BasicStyles.btnRound]}
-              onPress={() => this.redirect('forgotPasswordStack')}
-              underlayColor={Color.gray}>
-              <Text style={BasicStyles.textWhite}>
-                Forgot your Password?
-              </Text>
-            </TouchableHighlight>
-            
 
-            <View style={{
-              marginRight: 'auto',
-              marginLeft: 'auto'
-              // height: 1,
-              // backgroundColor: Color.gray
-            }}>
-              <Text style={BasicStyles.textWhite}>
-                OR
-              </Text>
-            </View>
 
-            <View style={{
-              justifyContent: 'center',
-              alignItems: 'center'
-            }}>
-              <Text style={{
-                paddingTop: 10,
-                paddingBottom: 10,
-                color: Color.gray
-              }}>Don't have an account?</Text>
+              <Button
+                onClick={() => this.submit()}
+                title={'Login'}
+                style={{
+                  backgroundColor: Color.warning,
+                  width: '100%',
+                  marginBottom: 20,
+                  marginTop: 20
+                }}
+              />
+              
+
+              <SocialLogin/>
+              
+
+              <Button
+                onClick={() => this.redirect('forgotPasswordStack')}
+                title={'Forgot your Password?'}
+                style={{
+                  backgroundColor: 'transparent',
+                  width: '100%',
+                  marginBottom: 20
+                }}
+                textStyle={{
+                  color: Color.white
+                }}
+              />
+              
+              
+              <View style={{
+                height: 1,
+                backgroundColor: Color.gray
+              }}>
+              </View>
+
+              <View style={{
+                justifyContent: 'center',
+                alignItems: 'center'
+              }}>
+                <Text style={{
+                  paddingTop: 10,
+                  paddingBottom: 10,
+                  color: Color.gray
+                }}>Don't have an account?</Text>
+              </View>
+              
+              <Button
+                onClick={() => this.redirect('registerStack')}
+                title={'Register Now!'}
+                style={{
+                  backgroundColor: Color.normalGray,
+                  width: '100%',
+                  marginBottom: 100
+                }}
+              />
+
+
             </View>
-            <TouchableHighlight
-              style={[BasicStyles.btnRound, {
-                backgroundColor: theme ? theme.gray : Color.gray
-              }]}
-              onPress={() => this.redirect('registerStack')}
-              underlayColor={Color.gray}>
-              <Text style={BasicStyles.textWhite}>
-                SIGNUP
-              </Text>
-            </TouchableHighlight>
           </View>
-        </View>
 
-        <OtpModal
-          visible={isOtpModal}
-          title={blockedFlag == false ? 'Authentication via OTP' : 'Blocked Account'}
-          actionLabel={{
-            yes: 'Authenticate',
-            no: 'Cancel'
-          }}
-          onCancel={() => this.setState({isOtpModal: false})}
-          onSuccess={() => this.onSuccessOtp()}
-          onResend={() => {
-            this.setState({isOtpModal: false})
-            this.submit()
-          }}
-          error={''}
-          blockedFlag={blockedFlag}
-        ></OtpModal>
+          <OtpModal
+            visible={isOtpModal}
+            title={blockedFlag == false ? 'Authentication via OTP' : 'Blocked Account'}
+            actionLabel={{
+              yes: 'Authenticate',
+              no: 'Cancel'
+            }}
+            onCancel={() => this.setState({isOtpModal: false})}
+            onSuccess={() => this.onSuccessOtp()}
+            onResend={() => {
+              this.setState({isOtpModal: false})
+              this.submit()
+            }}
+            error={''}
+            blockedFlag={blockedFlag}
+          ></OtpModal>
 
-        {isLoading ? <Spinner mode="overlay"/> : null }
-        {isResponseError ? <CustomError visible={isResponseError} onCLose={() => {
-          this.setState({isResponseError: false, isLoading: false})
-        }}/> : null}
-      </ScrollView>
+          {isLoading ? <Spinner mode="overlay"/> : null }
+          {isResponseError ? <CustomError visible={isResponseError} onCLose={() => {
+            this.setState({isResponseError: false, isLoading: false})
+          }}/> : null}
+        </ScrollView>
       </LinearGradient>
     );
   }
