@@ -70,13 +70,15 @@ class Restaurants extends Component {
                 marginTop: 5
             }} />
           </View>
-          {/* <Text>
-            <NumberInput placeholder={'0'} title={'Party Size'} />
-          </Text> */}
-          <Text>
+          <View style={{marginBottom: '23%'}}>
+            <NumberInput title={'Party Size'} />
+          </View>
+          <View style={{marginBottom: '23%'}}>
             <Range placeholder={'$1-$100'} title={'Price Range'} />
-          </Text>
-            <InputSelect placeholder={'Cuisines'} title={'Cuisines'} />
+          </View>
+          <View>
+          <InputSelect placeholder={'Cuisines'} title={'Cuisines'} />
+          </View>
           <Text style={{marginLeft: 20}}>
             <Slider title={'Radius'} />
           </Text>

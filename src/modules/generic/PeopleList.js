@@ -21,7 +21,8 @@ class PeopleList extends Component{
           }}>
             <ScrollView
                 horizontal={true}
-                showsHorizontalScrollIndicator={false}>
+                showsHorizontalScrollIndicator={false}
+                style={{marginRight: '5%'}}>
               <FontAwesomeIcon
                 icon={faPlusCircle}
                 size={ 45 }
