@@ -1,7 +1,7 @@
 import React, { Component } from 'react';
 import { ScrollView, View, Text, StyleSheet, TouchableOpacity, Image, TextInput} from 'react-native';
 import { Card, ListItem, Button, Icon } from 'react-native-elements'
-import { BasicStyles, Color } from 'common'
+import { BasicStyles, Color, Routes } from 'common'
 import { FontAwesomeIcon } from '@fortawesome/react-native-fontawesome';
 import { faEllipsisH } from '@fortawesome/free-solid-svg-icons';
 import Footer from 'modules/generic/Footer'
@@ -9,6 +9,8 @@ import CardList from 'modules/generic/CardList'
 import Share from 'components/Share'
 import Style from './Style'
 import { connect } from 'react-redux';
+import { Spinner } from 'components';
+import Api from 'services/api/index.js';
 
 const navs = [
   {name: "Suggestions", flag: true},
@@ -30,8 +32,54 @@ class Connections extends Component {
       prevActive: 0,
       currActive: 0,
       search: null,
-      isShow: false
+      isShow: false,
+      data: [],
+      limit: 6,
+      offset: 0,
+      isLoading: false
     }
+  }
+
+  componentDidMount() {
+    this.retrieve(false);
+  }
+
+  retrieve(flag){
+    const { user } = this.props.state
+    if(user == null){
+      return
+    }
+    let parameter = {
+      condition: [{
+        value: user.id,
+        column: 'account_id',
+        clause: '='
+      }, {
+        value: user.id,
+        column: 'account',
+        clause: 'or'
+      }],
+      limit: this.state.limit,
+      offset: flag == true && this.state.offset > 0 ? (this.state.offset * this.state.limit) : this.state.offset,
+    }
+    this.setState({isLoading: true})
+    Api.request(Routes.circleRetrieve, parameter, response => {
+      console.log('response', response)
+      this.setState({isLoading: false})
+      if (response != null) {
+        this.setState({
+          data: flag == false ? response.data : _.uniqBy([...this.state.data, ...response.data], 'id'),
+          offset: flag == false ? 1 : (this.state.offset + 1),
+          d: flag == false ? response.data : _.uniqBy([...this.state.data, ...response.data], 'id')
+        })
+      } else {
+        this.setState({
+          data: flag == false ? [] : this.state.data,
+          offset: flag == false ? 0 : this.state.offset,
+          d: flag == false ? [] : this.state.data
+        })
+      }
+    });
   }
 
   async changeTab(idx){
@@ -49,6 +97,7 @@ class Connections extends Component {
       <View style={{
         flex: 1
       }}>
+        {this.state.isLoading ? <Spinner mode="overlay" /> : null}
         <ScrollView style={{
           backgroundColor: Color.containerBackground,
           marginBottom: 50
