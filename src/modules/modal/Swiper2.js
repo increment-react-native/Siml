@@ -107,7 +107,7 @@ class Cards extends React.Component {
     //   category: 'restaurant'
     // }
     // this.setState({ isLoading: true })
-    // Api.request(Routes.merchantsRetrieve, parameter, response => {
+    // Api.request(Routes.topChoiceCreate, parameter, response => {
     //   this.setState({ isLoading: false })
     //   if (response.data.length > 0) {
         this.props.navigation.navigate('topChoiceStack');

@@ -52,8 +52,8 @@ class HomePage extends Component{
                     <Image
                       source={user && user.account_profile && user.account_profile.url ? { uri: Config.BACKEND_URL + user.account_profile.url } : require('assets/logo.png') }
                       style={[BasicStyles.profileImageSize, {
-                        height: 117,
-                        width: 117,
+                        height: '100%',
+                        width: '100%',
                         borderRadius: 100
                       }]} />
                   )

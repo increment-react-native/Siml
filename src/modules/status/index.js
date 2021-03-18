@@ -131,7 +131,7 @@ class Status extends Component {
       <SafeAreaView>
         <ScrollView style={{
           backgroundColor: Color.containerBackground,
-          height: '99%'
+          height: '100%'
         }}
           showsVerticalScrollIndicator={false}
           onScroll={(event) => {
@@ -181,7 +181,8 @@ class Status extends Component {
           </View>
           <View style={{
             marginTop: 10,
-            flex: 1
+            flex: 1,
+            paddingBottom: 40
           }}>
             {
               data && data.map((item, index) => (
@@ -285,9 +286,7 @@ class Status extends Component {
           </BottomSheet>
         </ScrollView>
         {isLoading ? <Spinner mode="overlay" /> : null}
-        <View style={{ marginTop: '5%' }}>
-          <Footer layer={1} {...this.props} />
-        </View>
+        <Footer layer={1} {...this.props} />
       </SafeAreaView>
     );
   }

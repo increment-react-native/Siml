@@ -96,5 +96,6 @@ export default {
   merchantsRetrieve: apiUrl + 'merchants/retrieve',
   productsRetrieve: apiUrl + 'products/retrieve',
   topChoiceRetrieve: apiUrl + 'payloads/retrieve',
-  topChoiceCreate: apiUrl + 'payloads/create'
+  topChoiceCreate: apiUrl + 'payloads/create',
+  circleRetrieve: apiUrl + 'my_circles/retrieve'
 };
