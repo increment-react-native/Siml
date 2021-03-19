@@ -98,7 +98,8 @@ class Status extends Component {
     Api.request(Routes.commentsCreate, parameter, response => {
       this.setState({ isLoading: false });
       if (response.data !== null) {
-        this.setState({ isVisible: false })
+        this.props.setCreateStatus(false)
+        this.setState({status: null})
         this.retrieve(false);
       }
     })
@@ -148,37 +149,7 @@ class Status extends Component {
               }
             }
           }}
-        ><View style={{
-          flexDirection: 'row-reverse',
-          // marginLeft: '2%',
-        }}>
-            {/* <TextInput
-              style={{
-                height: 45,
-                width: '80%',
-                borderColor: Color.gray,
-                borderWidth: .5,
-                borderRadius: 25,
-                width: '80%',
-                marginLeft: '3%',
-              }}
-              onChangeText={text => this.searchHandler(text)}
-              value={this.state.search}
-              placeholder='Search...'
-            /> */}
-            <TouchableOpacity style={{
-              // position: 'absolute',
-              // right: '5%'
-              marginRight: '5%'
-            }}
-              onPress={() => { this.setState({ isVisible: true }), this.setState({ status: null }) }}
-            >
-              <FontAwesomeIcon
-                icon={faEdit}
-                size={40}
-                color={Color.primary} />
-            </TouchableOpacity>
-          </View>
+        >
           <View style={{
             marginTop: 10,
             flex: 1,
@@ -222,7 +193,7 @@ class Status extends Component {
             }
           </View>
           <BottomSheet
-            isVisible={this.state.isVisible}
+            isVisible={this.props.state.createStatus}
             containerStyle={{ backgroundColor: 'rgba(0.5, 0.25, 0, 0.2)' }}
           >
             <View style={{
@@ -277,7 +248,7 @@ class Status extends Component {
                   borderRadius: 25,
                   paddingTop: 5
                 }}
-                  onPress={() => { this.setState({ isVisible: false }) }}
+                  onPress={() => { this.props.setCreateStatus(false), this.setState({status: null}) }}
                 >
                   <Text style={{ color: 'white' }}>Cancel</Text>
                 </TouchableOpacity>
@@ -293,4 +264,11 @@ class Status extends Component {
 }
 const mapStateToProps = state => ({ state: state });
 
-export default connect(mapStateToProps)(Status);
+const mapDispatchToProps = (dispatch) => {
+  const { actions } = require('@redux');
+  return {
+    setCreateStatus: (createStatus) => dispatch(actions.setCreateStatus(createStatus))
+  };
+};
+
+export default connect(mapStateToProps, mapDispatchToProps)(Status);

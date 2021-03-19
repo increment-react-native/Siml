@@ -1,5 +1,5 @@
 import React, { Component } from 'react';
-import { ScrollView, View, Text, StyleSheet, TouchableOpacity, Image, TextInput} from 'react-native';
+import { ScrollView, View, Text, StyleSheet, TouchableOpacity, Image, TextInput } from 'react-native';
 import { Card, ListItem, Button, Icon } from 'react-native-elements'
 import { BasicStyles, Color, Routes } from 'common'
 import { FontAwesomeIcon } from '@fortawesome/react-native-fontawesome';
@@ -13,30 +13,88 @@ import { Spinner } from 'components';
 import Api from 'services/api/index.js';
 
 const navs = [
-  {name: "Suggestions", flag: true},
-  {name: "Connections", flag: false}
+  { name: "Suggestions", flag: true },
+  { name: "Connections", flag: false }
 ]
-
-const AcceptConnections = [
-  {name: 'John Doe', address: 'Cebu City', numberOfConnection: 3, lastLogin: '2 d', uri: require('assets/test.jpg')},
-  {name: 'John Doe', address: 'Cebu City', numberOfConnection: 3, lastLogin: '2 d', uri: require('assets/test.jpg')},
-  {name: 'John Doe', address: 'Cebu City', numberOfConnection: 3, lastLogin: '2 d', uri: require('assets/test.jpg')},
-  {name: 'John Doe', address: 'Cebu City', numberOfConnection: 3, lastLogin: '2 d', uri: require('assets/test.jpg')},
-]
-
 
 class Connections extends Component {
   constructor(props) {
     super(props);
-    this.state= {
+    this.state = {
       prevActive: 0,
       currActive: 0,
       search: null,
       isShow: false,
-      data: [],
+      data: [
+        // {
+        //   "id": 1,
+        //   "code": "test",
+        //   "account_id": 1,
+        //   "account": {
+        //     "id": 2,
+        //     "code": "acc_RmI6rNCewHkoOP07AlGKFaJdc4QUYj39s5fDZLpxiWbnz1XS82gVBMhtTqvy",
+        //     "username": "Laling",
+        //     "email": "lalaine1@gmail.com",
+        //     "account_type": "ADMIN",
+        //     "status": "NOT_VERIFIED",
+        //     "created_at": "2021-03-16 03:30:06",
+        //     "updated_at": "2021-03-16 03:30:06",
+        //     "deleted_at": null,
+        //     "profile": {
+        //       "id": 1,
+        //       "account_id": 2,
+        //       "url": "/storage/image/1_2021-03-17_00_53_05_wallpaper.jpg",
+        //       "created_at": "2021-03-19 05:18:46",
+        //       "updated_at": "2021-03-19 05:18:46",
+        //       "deleted_at": null
+        //     },
+        //     "information": {
+        //       "id": 2,
+        //       "account_id": 2,
+        //       "first_name": "Patrick",
+        //       "middle_name": null,
+        //       "last_name": "Cabia-an",
+        //       "birth_date": "2021-03-18",
+        //       "sex": "Male",
+        //       "cellular_number": "12345678909",
+        //       "address": "Cebu",
+        //       "created_at": "2021-03-16 03:30:06",
+        //       "updated_at": "2021-03-16 03:30:06",
+        //       "deleted_at": null,
+        //       "birth_date_human": "March 18, 2021"
+        //     },
+        //     "billing": {
+        //       "id": 2,
+        //       "account_id": 2,
+        //       "company": null,
+        //       "address": null,
+        //       "city": null,
+        //       "postal_code": null,
+        //       "country": null,
+        //       "state": null,
+        //       "created_at": "2021-03-16 03:30:06",
+        //       "updated_at": "2021-03-16 03:30:06",
+        //       "deleted_at": null
+        //     }
+        //   },
+        //   "status": "pending",
+        //   "created_at": "2021-03-19 10:51:53",
+        //   "updated_at": null,
+        //   "deleted_at": null,
+        //   "rating": {
+        //     "total": 0,
+        //     "size": 0,
+        //     "avg": 0,
+        //     "stars": 0
+        //   }
+        // }
+      ],
       limit: 6,
       offset: 0,
-      isLoading: false
+      isLoading: false,
+      pending: [],
+      suggestions: [],
+      connections: []
     }
   }
 
@@ -44,9 +102,9 @@ class Connections extends Component {
     this.retrieve(false);
   }
 
-  retrieve(flag){
+  retrieve(flag) {
     const { user } = this.props.state
-    if(user == null){
+    if (user == null) {
       return
     }
     let parameter = {
@@ -62,11 +120,10 @@ class Connections extends Component {
       limit: this.state.limit,
       offset: flag == true && this.state.offset > 0 ? (this.state.offset * this.state.limit) : this.state.offset,
     }
-    this.setState({isLoading: true})
+    this.setState({ isLoading: true })
     Api.request(Routes.circleRetrieve, parameter, response => {
-      console.log('response', response)
-      this.setState({isLoading: false})
-      if (response != null) {
+      this.setState({ isLoading: false })
+      if (response.data.length > 0) {
         this.setState({
           data: flag == false ? response.data : _.uniqBy([...this.state.data, ...response.data], 'id'),
           offset: flag == false ? 1 : (this.state.offset + 1),
@@ -82,78 +139,90 @@ class Connections extends Component {
     });
   }
 
-  async changeTab(idx){
-    if(this.state.prevActive != idx){
-      await this.setState({currActive: idx})
+  async changeTab(idx) {
+    if (this.state.prevActive != idx) {
+      await this.setState({ currActive: idx })
       navs[this.state.prevActive].flag = false
       navs[idx].flag = true
-      await this.setState({prevActive: idx})
+      await this.setState({ prevActive: idx })
     }
-    console.log(this.state.prevActive);
+    this.setState({pending: [], connections: []})
+  }
+
+  group = () => {
+    const { pending, connections } = this.state;
+    this.state.data && this.state.data.length > 0 && this.state.data.map((item, index) => {
+      if(item.status === 'pending') {
+        pending.push(item);
+      } else if(item.status === 'accepted') {
+        connections.push(item);
+      }
+    })
   }
 
   render() {
+    this.group();
     return (
       <View style={{
         flex: 1
       }}>
-        {this.state.isLoading ? <Spinner mode="overlay" /> : null}
         <ScrollView style={{
           backgroundColor: Color.containerBackground,
           marginBottom: 50
         }}
-        showsVerticalScrollIndicator={false}
+          showsVerticalScrollIndicator={false}
         >
-          <View style={{flex: 1, flexDirection: 'row'}}>
-          {
-            navs.map((el, idx) => {
-              return(
-                <TouchableOpacity
-                  onPress={()=> this.changeTab(idx)}
-                  style={{
-                    ...Style.standardButton,
-                    backgroundColor: el.flag == true ? Color.primary : 'gray',
-                    marginLeft: 5
-                  }}
-                >
-                  <Text style={{color: 'white'}}>{el.name}</Text>
-                </TouchableOpacity>
-              )
-            })
-          }
+          <View style={{ flex: 1, flexDirection: 'row' }}>
+            {
+              navs.map((el, idx) => {
+                return (
+                  <TouchableOpacity
+                    onPress={() => this.changeTab(idx)}
+                    style={{
+                      ...Style.standardButton,
+                      backgroundColor: el.flag == true ? Color.primary : 'gray',
+                      marginLeft: 5
+                    }}
+                  >
+                    <Text style={{ color: 'white' }}>{el.name}</Text>
+                  </TouchableOpacity>
+                )
+              })
+            }
           </View>
           {
             this.state.currActive == 0 ? (
               <View>
-                    <CardList navigation={this.props.navigation} data={AcceptConnections} hasAction={true} actionType={'text'}></CardList>
-                    <View style={{marginTop: 50, paddingLeft: 30}}>
-                      <Text style={{fontWeight: 'bold'}}>Connections you may know</Text>
-                    </View>
-
-                    <View>
-                    <CardList navigation={this.props.navigation} data={AcceptConnections} hasAction={false} actionType={'button'} actionContent={'text'}></CardList>
-                    </View>
-
-                  </View>
-            ): (
-              <View style={{flex: 1, justifyContent: 'center', alignItems: 'center', marginTop: 10}}>
-                <View style={Style.TextContainer}>
-                      <TextInput
-                        style={BasicStyles.formControl}
-                        onChangeText={(search) => this.setState({search})}
-                        value={this.state.search}
-                        placeholder={'Search'}
-                      />
+                {this.state.isLoading ? <Spinner mode="overlay" /> : null}
+                <CardList status={'pending'} navigation={this.props.navigation} data={this.state.pending.length > 0 && this.state.pending} hasAction={true} actionType={'text'}></CardList>
+                <View style={{ marginTop: 50, paddingLeft: 30 }}>
+                  <Text style={{ fontWeight: 'bold' }}>Connections you may know</Text>
                 </View>
 
-                    <View>
-                    <CardList navigation={this.props.navigation} data={AcceptConnections} hasAction={false} actionType={'button'} actionContent={'icon'} ></CardList>
-                    </View>
+                <View>
+                  <CardList navigation={this.props.navigation} data={this.state.data.length > 0 && this.state.data} hasAction={false} actionType={'button'} actionContent={'text'}></CardList>
+                </View>
+
+              </View>
+            ) : (
+              <View style={{ flex: 1, justifyContent: 'center', alignItems: 'center', marginTop: 10 }}>
+                <View style={Style.TextContainer}>
+                  <TextInput
+                    style={BasicStyles.formControl}
+                    onChangeText={(search) => this.setState({ search })}
+                    value={this.state.search}
+                    placeholder={'Search'}
+                  />
+                </View>
+
+                <View>
+                  <CardList navigation={this.props.navigation} data={this.state.connections.length > 0 && this.state.connections} hasAction={false} actionType={'button'} actionContent={'icon'} ></CardList>
+                </View>
               </View>
             )
           }
         </ScrollView>
-        <Footer layer={1} {...this.props}/>
+        <Footer layer={1} {...this.props} />
       </View>
     );
   }
