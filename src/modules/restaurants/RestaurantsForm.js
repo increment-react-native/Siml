@@ -1,5 +1,6 @@
 import React, { Component } from 'react';
 import { ScrollView, View, Text, StyleSheet, TouchableOpacity, Image } from 'react-native';
+import { SliderPicker } from 'react-native-slider-picker';
 import { BasicStyles, Color } from 'common'
 import LocationInput from 'components/InputField/LocationInput'
 import NumberInput from 'components/InputField/NumberInput'
@@ -27,7 +28,9 @@ class Restaurants extends Component {
     super(props);
     this.state = {
       location: null,
-      party: 1
+      value: '$1-$100',
+      selectVal: null,
+      val: 1
     }
   }
 
@@ -78,7 +81,7 @@ class Restaurants extends Component {
             marginLeft: 20,
             marginRight: 20}}>
             <Text>Date and Time</Text>
-            <DateTimePicker 
+            <DateTimePicker
               type={'datetime'}
               placeholder={'Select Date and Time'}
               onFinish={(date) => {
@@ -94,24 +97,39 @@ class Restaurants extends Component {
             <NumberInput title={'Party Size'} />
           </View>
           <View style={{marginBottom: '23%'}}>
-            <Range placeholder={'$1-$100'} title={'Price Range'} />
+          <Range value={this.state.value.toString()} title={'Price Range'} />
           </View>
           <View>
-          <InputSelect placeholder={'Cuisines'} title={'Cuisines'} />
+          <InputSelect titles={'cuisines'} value={this.state.selectVal} title={'Cuisines'} />
           </View>
-          <Text style={{marginLeft: 20}}>
-            <Slider title={'Radius'} />
-          </Text>
-          <Text style={{marginLeft: 20, marginBottom: 5}}>People in this SYNQT</Text>
-          {/* <FontAwesomeIcon
-            icon={faPlusCircle}
-            size={30}
-            style={{
-              color: Color.primary,
-              marginLeft: 20
+          <Text style={{color: 'black', marginBottom: 15, marginLeft: 20 }}>Radius</Text>
+          <SliderPicker 
+            callback={position => {
+              this.setState({ val: position })
             }}
-            onPress={() => this.redirect('peopleListStack')}
-          /> */}
+            defaultValue={this.state.val}
+            labelFontColor={"#6c7682"}
+            labelFontWeight={'600'}
+            showFill={true}
+            fillColor={'gray'}
+            labelFontWeight={'bold'}
+            showNumberScale={true}
+            showSeparatorScale={true}
+            buttonBackgroundColor={'#fff'}
+            buttonBorderWidth={2}
+            labelFontSize={15}
+            scaleNumberFontWeight={'300'}
+            buttonDimensionsPercentage={6}
+            buttonBorderColor={'#5842D7'}
+            heightPercentage={1}
+            widthPercentage={90}
+            sliderInnerBackgroundColor={'gray'}
+            minLabel={'1km'}
+            midLabel={'25km'}
+            maxLabel={'50km'}
+            maxValue={50}
+          />
+          <Text style={{marginLeft: 20, marginBottom: 5}}>People in this SYNQT</Text>
           <Group style={{marginLeft: 50, marginTop: -30}} redirectTo={() => this.goesTo()} data={group}/>
         </View>
 
