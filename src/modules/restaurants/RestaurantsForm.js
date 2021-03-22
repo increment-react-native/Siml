@@ -83,31 +83,31 @@ class Restaurants extends Component {
           <InputSelect titles={'cuisines'} value={this.state.selectVal} title={'Cuisines'} />
           </View>
           <Text style={{color: 'black', marginBottom: 15, marginLeft: 20 }}>Radius</Text>
-        <SliderPicker 
-          callback={position => {
-            this.setState({ val: position })
-          }}
-          defaultValue={this.state.val}
-          labelFontColor={"#6c7682"}
-          labelFontWeight={'600'}
-          showFill={true}
-          fillColor={'gray'}
-          labelFontWeight={'bold'}
-          showNumberScale={true}
-          showSeparatorScale={true}
-          buttonBackgroundColor={'#fff'}
-          buttonBorderWidth={2}
-          labelFontSize={15}
-          scaleNumberFontWeight={'300'}
-          buttonDimensionsPercentage={6}
-          buttonBorderColor={'#5842D7'}
-          heightPercentage={1}
-          widthPercentage={90}
-          sliderInnerBackgroundColor={'gray'}
-          minLabel={'1km'}
-          midLabel={'25km'}
-          maxLabel={'50km'}
-          maxValue={50}
+          <SliderPicker 
+            callback={position => {
+              this.setState({ val: position })
+            }}
+            defaultValue={this.state.val}
+            labelFontColor={"#6c7682"}
+            labelFontWeight={'600'}
+            showFill={true}
+            fillColor={'gray'}
+            labelFontWeight={'bold'}
+            showNumberScale={true}
+            showSeparatorScale={true}
+            buttonBackgroundColor={'#fff'}
+            buttonBorderWidth={2}
+            labelFontSize={15}
+            scaleNumberFontWeight={'300'}
+            buttonDimensionsPercentage={6}
+            buttonBorderColor={'#5842D7'}
+            heightPercentage={1}
+            widthPercentage={90}
+            sliderInnerBackgroundColor={'gray'}
+            minLabel={'1km'}
+            midLabel={'25km'}
+            maxLabel={'50km'}
+            maxValue={50}
           />
           <Text style={{marginLeft: 20, marginBottom: 5}}>People in this SYNQT</Text>
           <Group style={{marginLeft: 50, marginTop: -30}} redirectTo={() => this.goesTo()} data={group}/>
