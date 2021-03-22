@@ -17,6 +17,8 @@ const types = {
   UPDATE_MESSAGES_ON_GROUP_BY_PAYLOAD: 'UPDATE_MESSAGES_ON_GROUP_BY_PAYLOAD',
   SET_STATUS_SEARCH: 'SET_STATUS_SEARCH',
   SET_CREATE_STATUS: 'SET_CREATE_STATUS',
+  SET_LOCATION: 'SET_LOCATION',
+  SET_DEVICE_LOCATION: 'SET_DEVICE_LOCATION'
 };
 
 export const actions = {
@@ -64,6 +66,12 @@ export const actions = {
   },
   setCreateStatus(createStatus) {
     return {type: types.SET_CREATE_STATUS, createStatus};
+  },
+  setLocation(location) {
+    return {type: types.SET_LOCATION, location};
+  },
+  setDeviceLocation(deviceLocation) {
+    return {type: types.SET_DEVICE_LOCATION};
   }
 };
 
@@ -81,7 +89,9 @@ const initialState = {
   },
   unReadMessages: [],
   statusSearch: null,
-  createStatus: false
+  createStatus: false,
+  location: null,
+  deviceLocation: null
 };
 
 storeData = async (key, value) => {
@@ -100,6 +110,8 @@ const reducer = (state = initialState, action) => {
   const {messages, unread, message} = action;
   const { statusSearch } = action;
   const { createStatus } = action;
+  const {location} = action;
+  const {deviceLocation} = action;
   switch (type) {
     case types.LOGOUT:
       AsyncStorage.clear();
@@ -218,6 +230,15 @@ const reducer = (state = initialState, action) => {
         ...state,
         createStatus,
       };
+    case types.SET_LOCATION:
+      return {
+        ...state,
+        location,
+      };
+    case types.SET_DEVICE_LOCATION:
+      return {
+        ...state,
+        deviceLocation};
     default:
       return {...state, nav: state.nav};
   }
