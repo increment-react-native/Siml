@@ -25,70 +25,7 @@ class Connections extends Component {
       currActive: 0,
       search: null,
       isShow: false,
-      data: [
-        // {
-        //   "id": 1,
-        //   "code": "test",
-        //   "account_id": 1,
-        //   "account": {
-        //     "id": 2,
-        //     "code": "acc_RmI6rNCewHkoOP07AlGKFaJdc4QUYj39s5fDZLpxiWbnz1XS82gVBMhtTqvy",
-        //     "username": "Laling",
-        //     "email": "lalaine1@gmail.com",
-        //     "account_type": "ADMIN",
-        //     "status": "NOT_VERIFIED",
-        //     "created_at": "2021-03-16 03:30:06",
-        //     "updated_at": "2021-03-16 03:30:06",
-        //     "deleted_at": null,
-        //     "profile": {
-        //       "id": 1,
-        //       "account_id": 2,
-        //       "url": "/storage/image/1_2021-03-17_00_53_05_wallpaper.jpg",
-        //       "created_at": "2021-03-19 05:18:46",
-        //       "updated_at": "2021-03-19 05:18:46",
-        //       "deleted_at": null
-        //     },
-        //     "information": {
-        //       "id": 2,
-        //       "account_id": 2,
-        //       "first_name": "Patrick",
-        //       "middle_name": null,
-        //       "last_name": "Cabia-an",
-        //       "birth_date": "2021-03-18",
-        //       "sex": "Male",
-        //       "cellular_number": "12345678909",
-        //       "address": "Cebu",
-        //       "created_at": "2021-03-16 03:30:06",
-        //       "updated_at": "2021-03-16 03:30:06",
-        //       "deleted_at": null,
-        //       "birth_date_human": "March 18, 2021"
-        //     },
-        //     "billing": {
-        //       "id": 2,
-        //       "account_id": 2,
-        //       "company": null,
-        //       "address": null,
-        //       "city": null,
-        //       "postal_code": null,
-        //       "country": null,
-        //       "state": null,
-        //       "created_at": "2021-03-16 03:30:06",
-        //       "updated_at": "2021-03-16 03:30:06",
-        //       "deleted_at": null
-        //     }
-        //   },
-        //   "status": "pending",
-        //   "created_at": "2021-03-19 10:51:53",
-        //   "updated_at": null,
-        //   "deleted_at": null,
-        //   "rating": {
-        //     "total": 0,
-        //     "size": 0,
-        //     "avg": 0,
-        //     "stars": 0
-        //   }
-        // }
-      ],
+      data: [],
       limit: 6,
       offset: 0,
       isLoading: false,
@@ -100,6 +37,7 @@ class Connections extends Component {
 
   componentDidMount() {
     this.retrieve(false);
+    this.retrieveRandomUsers(false);
   }
 
   retrieve(flag) {
@@ -123,15 +61,50 @@ class Connections extends Component {
     this.setState({ isLoading: true })
     Api.request(Routes.circleRetrieve, parameter, response => {
       this.setState({ isLoading: false })
+      console.log(response, "=======================response");
       if (response.data.length > 0) {
         this.setState({
-          data: flag == false ? response.data : _.uniqBy([...this.state.data, ...response.data], 'id'),
+          connections: flag == false ? response.data : _.uniqBy([...this.state.data, ...response.data], 'id'),
           offset: flag == false ? 1 : (this.state.offset + 1),
           d: flag == false ? response.data : _.uniqBy([...this.state.data, ...response.data], 'id')
         })
       } else {
         this.setState({
-          data: flag == false ? [] : this.state.data,
+          connections: flag == false ? [] : this.state.data,
+          offset: flag == false ? 0 : this.state.offset,
+          d: flag == false ? [] : this.state.data
+        })
+      }
+    });
+  }
+
+  retrieveRandomUsers = (flag) => {
+    const { user } = this.props.state
+    console.log(user, "====user");
+    if (user == null) {
+      return
+    }
+    let parameter = {
+      limit: this.state.limit,
+      offset: flag == true && this.state.offset > 0 ? (this.state.offset * this.state.limit) : this.state.offset,
+    }
+    this.setState({ isLoading: true })
+    Api.request(Routes.accountRetrieve, parameter, response => {
+      this.setState({ isLoading: false })
+      if (response.data.length > 0) {
+        response.data.map((item, index) => {
+          if(item.id === user.id) {
+            response.data.splice(index, 1)
+          }
+        })
+        this.setState({
+          suggestions: flag == false ? response.data : _.uniqBy([...this.state.data, ...response.data], 'id'),
+          offset: flag == false ? 1 : (this.state.offset + 1),
+          d: flag == false ? response.data : _.uniqBy([...this.state.data, ...response.data], 'id')
+        })
+      } else {
+        this.setState({
+          suggestions: flag == false ? [] : this.state.data,
           offset: flag == false ? 0 : this.state.offset,
           d: flag == false ? [] : this.state.data
         })
@@ -200,7 +173,7 @@ class Connections extends Component {
                 </View>
 
                 <View>
-                  <CardList navigation={this.props.navigation} data={this.state.data.length > 0 && this.state.data} hasAction={false} actionType={'button'} actionContent={'text'}></CardList>
+                  <CardList navigation={this.props.navigation} data={this.state.suggestions.length > 0 && this.state.suggestions} hasAction={false} actionType={'button'} actionContent={'text'}></CardList>
                 </View>
 
               </View>

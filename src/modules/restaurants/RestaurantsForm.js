@@ -8,6 +8,7 @@ import Range from 'components/InputField/Range'
 import Slider from 'components/InputField/Slider'
 import DateTimePicker from 'components/DateTime/index.js'
 import Group from 'modules/generic/PeopleList.js'
+import { connect } from 'react-redux';
 
 
 const group = [
@@ -39,6 +40,7 @@ class Restaurants extends Component {
   }
   
   render() {
+    console.log(this.props.state, "uo");
     return (
       <View style={{
         flex: 1,
@@ -51,9 +53,27 @@ class Restaurants extends Component {
         showsVerticalScrollIndicator={false}
         >
         <View>
-          <Text style={{marginTop: 20}}>
-            <LocationInput title={'Location'} onTyping={(input) => this.setState({ location: input })}/>
-          </Text>
+          <View style={{
+            marginTop: '7%',
+            marginLeft: 20,
+          }}>
+          <Text>Location</Text>
+          <TouchableOpacity
+            style={{
+              height: 50,
+              borderRadius: 25,
+              borderWidth: .3,
+              marginRight: 20,
+              marginBottom: 20,
+              borderColor: Color.gray,
+              justifyContent: 'center',
+              paddingLeft: 30,
+              marginTop: 3
+            }}
+            onPress={() => {this.props.navigation.navigate('locationStack')}}>
+              <Text style={{color: Color.gray}}>{this.props.state.location?.address + ' ' + this.props.state.location?.locality + ' ' + this.props.state.location?.country || 'Type your location' }</Text>
+          </TouchableOpacity>
+          </View>
           <View style={{
             marginLeft: 20,
             marginRight: 20}}>
@@ -99,7 +119,7 @@ class Restaurants extends Component {
           width: '33%',
           justifyContent: 'center',
           alignItems: 'center',
-          marginTop:'140%',
+          marginTop:'30%',
           marginLeft: '35%'
         }}>
           <TouchableOpacity
@@ -124,4 +144,17 @@ class Restaurants extends Component {
     );
   }
 }
-export default Restaurants;
+const mapStateToProps = state => ({ state: state });
+
+
+const mapDispatchToProps = dispatch => {
+  const { actions } = require('@redux');
+  return {
+    updateUser: (user) => dispatch(actions.updateUser(user)),
+  };
+};
+
+export default connect(
+  mapStateToProps,
+  mapDispatchToProps
+)(Restaurants);

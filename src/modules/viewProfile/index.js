@@ -9,6 +9,8 @@ import CustomizedButton from 'modules/generic/CustomizedButton';
 import ImageCardWithUser from 'modules/generic/ImageCardWithUser';
 import Tab from 'modules/generic/TabOptions';
 import CardModal from 'modules/modal/Swipe.js';
+import { connect } from 'react-redux';
+
 class ViewProfile extends Component {
   constructor(props) {
     super(props);
@@ -50,6 +52,7 @@ class ViewProfile extends Component {
       { name: 'John Doe', address: 'Cebu City', numberOfConnection: 3, lastLogin: '2 d', uri: require('assets/test.jpg') },
       { name: 'John Doe', address: 'Cebu City', numberOfConnection: 3, lastLogin: '2 d', uri: require('assets/test.jpg') },
     ]
+    console.log(this.props.navigation.state.params && this.props.navigation.state.params, "========");
     return (
       <View>
         {
@@ -222,4 +225,13 @@ class ViewProfile extends Component {
     );
   }
 }
-export default ViewProfile;
+
+const mapStateToProps = state => ({ state: state });
+
+const mapDispatchToProps = dispatch => {
+  const { actions } = require('@redux');
+  return {};
+};
+export default connect(
+  mapStateToProps,
+  mapDispatchToProps)(ViewProfile);
