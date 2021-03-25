@@ -61,7 +61,6 @@ class Connections extends Component {
     this.setState({ isLoading: true })
     Api.request(Routes.circleRetrieve, parameter, response => {
       this.setState({ isLoading: false })
-      console.log(response, "=======================response");
       if (response.data.length > 0) {
         this.setState({
           connections: flag == false ? response.data : _.uniqBy([...this.state.data, ...response.data], 'id'),
@@ -80,34 +79,18 @@ class Connections extends Component {
 
   retrieveRandomUsers = (flag) => {
     const { user } = this.props.state
-    console.log(user, "====user");
     if (user == null) {
       return
     }
     let parameter = {
-      limit: this.state.limit,
-      offset: flag == true && this.state.offset > 0 ? (this.state.offset * this.state.limit) : this.state.offset,
+      account_id: user.id
     }
     this.setState({ isLoading: true })
-    Api.request(Routes.accountRetrieve, parameter, response => {
+    Api.request(Routes.otherAccountsRetrieve, parameter, response => {
+      console.log(response.data, "========");
       this.setState({ isLoading: false })
       if (response.data.length > 0) {
-        response.data.map((item, index) => {
-          if(item.id === user.id) {
-            response.data.splice(index, 1)
-          }
-        })
-        this.setState({
-          suggestions: flag == false ? response.data : _.uniqBy([...this.state.data, ...response.data], 'id'),
-          offset: flag == false ? 1 : (this.state.offset + 1),
-          d: flag == false ? response.data : _.uniqBy([...this.state.data, ...response.data], 'id')
-        })
-      } else {
-        this.setState({
-          suggestions: flag == false ? [] : this.state.data,
-          offset: flag == false ? 0 : this.state.offset,
-          d: flag == false ? [] : this.state.data
-        })
+        this.setState({ suggestions: response.data})
       }
     });
   }
