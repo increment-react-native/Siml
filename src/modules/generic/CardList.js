@@ -22,7 +22,6 @@ class CardList extends Component {
       to_email: el.email,
       content: "This is an invitaion for you to join my connections."
     }
-    console.log(parameter, "==============parameter");
     this.setState({ isLoading: true });
     Api.request(Routes.circleCreate, parameter, response => {
       this.setState({ isLoading: false })
@@ -31,19 +30,19 @@ class CardList extends Component {
   }
 
   render() {
+    console.log(this.props.data && this.props.data, '=');
     return (
       <View>
         {
           this.props.data.length > 0 && this.props.data.map((el, idx) => {
-            console.log(el.account_information);
             return (
               <TouchableOpacity onPress={() => { this.props.navigation.navigate('viewProfileStack', {user: el}) }}>
                 {/* <Card containerStyle={{padding:-5, borderRadius: 20}}> */}
                 <ListItem key={idx} style={{ width: width }}>
-                  {el.account?.profile?.url === null || el.account_profile?.url ? <Image
+                  {el.account?.profile?.url !== null  ? <Image
                     style={Style.circleImage}
                     // resizeMode="cover"
-                    source={{ uri: el.account ? Config.BACKEND_URL + el.account?.profile?.url : Config.BACKEND_URL + el.account_profile?.url}}
+                    source={{ uri: Config.BACKEND_URL + el.account?.profile?.url}}
                   /> :
                     <View style={{
                       borderColor: Color.primary,
@@ -64,8 +63,8 @@ class CardList extends Component {
                   <View>
                     <View style={{ flexDirection: 'row' }}>
                       <View>
-                        <Text style={{ fontWeight: 'bold' }}>{ el.account ? el.account?.information?.first_name + ' ' + el.account?.information?.last_name : el.account_information?.first_name + ' ' + el.account_information?.last_name}</Text>
-                        <Text style={{ fontStyle: 'italic' }}>{el.account ? el.account?.information?.address : el.account_information?.address}</Text>
+                        <Text style={{ fontWeight: 'bold' }}>{ el.account?.information?.first_name + ' ' + el.account?.information?.last_name }</Text>
+                        <Text style={{ fontStyle: 'italic' }}>{ el.account?.information?.address }</Text>
                         <Text style={{ color: 'gray', fontSize: 10, marginBottom: 5 }}>{el.numberOfConnection} similar connections</Text>
                         {
                           this.props.hasAction && (

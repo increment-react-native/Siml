@@ -95,8 +95,13 @@ export default {
   commentRepliesCreate: apiUrl + 'comment_replies/create',
   merchantsRetrieve: apiUrl + 'merchants/retrieve',
   productsRetrieve: apiUrl + 'products/retrieve',
-  topChoiceRetrieve: apiUrl + 'payloads/retrieve',
-  topChoiceCreate: apiUrl + 'payloads/create',
+  topChoiceRetrieve: apiUrl + 'top_choices/retrieve',
+  topChoiceCreate: apiUrl + 'top_choices/create',
   circleRetrieve: apiUrl + 'my_circles/retrieve',
-  circleCreate: apiUrl + 'my_circles/create'
+  circleCreate: apiUrl + 'my_circles/create',
+  otherAccountsRetrieve: apiUrl + 'my_circles/retrieve_other_accounts',
+  retrieveSavedAddresses: apiUrl + 'locations/retrieve',
+  addAddress: apiUrl + 'locations/create',
+  removeAddress: apiUrl + 'locations/delete',
+  synqtCreate: apiUrl + 'synqts/create'
 };
