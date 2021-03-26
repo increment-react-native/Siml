@@ -55,7 +55,6 @@ class Cards extends React.Component {
     this.setState({ isLoading: true })
     Api.request(Routes.merchantsRetrieve, {}, response => {
       this.setState({ isLoading: false })
-      console.log(response, "response=========");
       if (response.data.length > 0) {
         this.setState({ data: response.data });
       }
@@ -110,19 +109,18 @@ class Cards extends React.Component {
       category: 'restaurant',
       synqt_id: this.props.navigation.state.params?.synqt_id && this.props.navigation.state.params?.synqt_id
     }
-    // this.setState({ isLoading: true })
-    console.log(parameter, Routes.topChoiceCreate);
-    // Api.request(Routes.topChoiceCreate, parameter, response => {
-    //   this.setState({ isLoading: false })
-    //   if (response.data.length > 0) {
-    //     this.props.navigation.navigate('topChoiceStack');
-    //   }
-    // },
-    //   error => {
-    //     this.setState({ isLoading: false })
-    //     console.log({ error });
-    //   },
-    // );
+    this.setState({ isLoading: true })
+    Api.request(Routes.topChoiceCreate, parameter, response => {
+      this.setState({ isLoading: false })
+      if (response.data !== null) {
+        this.props.navigation.navigate('topChoiceStack');
+      }
+    },
+      error => {
+        this.setState({ isLoading: false })
+        console.log({ error });
+      },
+    );
   }
 
   renderCard = () => {

@@ -4,6 +4,8 @@ import {FontAwesomeIcon} from '@fortawesome/react-native-fontawesome';
 import {faCheck, faTimes, faStar} from '@fortawesome/free-solid-svg-icons';
 import { BasicStyles, Color } from 'common';
 import GroupUsers from 'modules/generic/GroupUsers';
+import Config from 'src/config.js';
+
 const height = Math.round(Dimensions.get('window').height);
 
 class ImageCardWithUser extends Component{
@@ -30,7 +32,7 @@ class ImageCardWithUser extends Component{
               onPress={(data) => this.props.onClick(data)}
               >
               <Image
-                source={data.image}
+                source={{ uri: Config.BACKEND_URL + data.logo}}
                   style={{
                   width: '100%',
                   height: height / 3.5,
@@ -50,15 +52,21 @@ class ImageCardWithUser extends Component{
                     <Text style={{
                       color: Color.white,
                       fontWeight: 'bold',
-                      fontSize: BasicStyles.standardTitleFontSize
+                      fontSize: BasicStyles.standardTitleFontSize,
+                      textShadowColor:'black',
+                      textShadowOffset:{width: 1, height: 1},
+                      textShadowRadius: 1,
                     }}
                     numberOfLines={1}
-                    >{data.date}</Text>
+                    >{data.name}</Text>
                     <Text style={{
-                      color: Color.white
+                      color: Color.white,
+                      textShadowColor:'black',
+                      textShadowOffset:{width: 1, height: 1},
+                      textShadowRadius: 1,
                     }}
                     numberOfLines={1}
-                    >{data.location}</Text>
+                    >{data.address}</Text>
                   </View>
                   <View style={{
                     width: '50%'
