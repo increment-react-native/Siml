@@ -86,8 +86,7 @@ class Connections extends Component {
       account_id: user.id
     }
     this.setState({ isLoading: true })
-    Api.request(Routes.otherAccountsRetrieve, parameter, response => {
-      console.log(response.data, "========");
+    Api.request(Routes.otherAccountsRetrieve, parameter, response => {          
       this.setState({ isLoading: false })
       if (response.data.length > 0) {
         this.setState({ suggestions: response.data})

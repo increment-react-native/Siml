@@ -97,11 +97,14 @@ export default {
   productsRetrieve: apiUrl + 'products/retrieve',
   topChoiceRetrieve: apiUrl + 'top_choices/retrieve',
   topChoiceCreate: apiUrl + 'top_choices/create',
+  topChoiceDelete: apiUrl + 'top_choices/delete',
   circleRetrieve: apiUrl + 'my_circles/retrieve',
   circleCreate: apiUrl + 'my_circles/create',
   otherAccountsRetrieve: apiUrl + 'my_circles/retrieve_other_accounts',
   retrieveSavedAddresses: apiUrl + 'locations/retrieve',
   addAddress: apiUrl + 'locations/create',
   removeAddress: apiUrl + 'locations/delete',
-  synqtCreate: apiUrl + 'synqts/create'
+  synqtCreate: apiUrl + 'synqts/create',
+  reservationCreate: apiUrl + 'reservations/create',
+  reservationRetrieve: apiUrl + 'reservations/retrieve',
 };

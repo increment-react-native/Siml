@@ -37,6 +37,10 @@ class Restaurants extends Component {
       isLoading: false
     }
   }
+  componentDidMount() {
+    const {setDefaultAddress} = this.props;
+    setDefaultAddress(null);
+  }
 
   redirect(route){
     this.props.navigation.navigate(route)
@@ -49,10 +53,10 @@ class Restaurants extends Component {
   createSynqt = () => {
     let parameter = {
       account_id: this.props.state.user.id,
-      location_id: this.props.state.defaultAddress.id,
+      location_id: this.props.state.defaultAddress?.id,
       date: this.state.Date?.date + ' ' + this.state.Date?.time,
       status: 'pending',
-      details: 'test'
+      details: 'restaurant'
     }
     console.log(parameter, Routes.synqtCreate, 'test');
     this.setState({ isLoading: true })
