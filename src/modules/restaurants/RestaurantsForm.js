@@ -73,7 +73,7 @@ class Restaurants extends Component {
               paddingLeft: 30,
               marginTop: 3
             }}
-            onPress={() => {this.props.navigation.navigate('locationStack')}}>
+            onPress={() => {this.props.navigation.navigate('addLocationStack')}}>
               <Text style={{color: Color.gray}}>{this.props.state.location?.address + ' ' + this.props.state.location?.locality + ' ' + this.props.state.location?.country || 'Type your location' }</Text>
           </TouchableOpacity>
           </View>

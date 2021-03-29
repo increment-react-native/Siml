@@ -18,7 +18,8 @@ const types = {
   SET_STATUS_SEARCH: 'SET_STATUS_SEARCH',
   SET_CREATE_STATUS: 'SET_CREATE_STATUS',
   SET_LOCATION: 'SET_LOCATION',
-  SET_DEVICE_LOCATION: 'SET_DEVICE_LOCATION'
+  SET_DEVICE_LOCATION: 'SET_DEVICE_LOCATION',
+  SET_DEFAULT_ADDRESS: 'SET_DEFAULT_ADDRESS'
 };
 
 export const actions = {
@@ -72,6 +73,9 @@ export const actions = {
   },
   setDeviceLocation(deviceLocation) {
     return {type: types.SET_DEVICE_LOCATION};
+  },
+  setDefaultAddress(defaultAddress) {
+    return {type: types.SET_DEFAULT_ADDRESS, defaultAddress}
   }
 };
 
@@ -91,7 +95,8 @@ const initialState = {
   statusSearch: null,
   createStatus: false,
   location: null,
-  deviceLocation: null
+  deviceLocation: null,
+  defaultAddress: null
 };
 
 storeData = async (key, value) => {
@@ -105,7 +110,7 @@ storeData = async (key, value) => {
 const reducer = (state = initialState, action) => {
   const { type, user, token } = action;
   const { theme, layer } = action;
-  const { isViewing, request } = action;
+  const { isViewing, request, defaultAddress } = action;
   const {messengerGroup, messagesOnGroup} = action;
   const {messages, unread, message} = action;
   const { statusSearch } = action;
@@ -239,6 +244,11 @@ const reducer = (state = initialState, action) => {
       return {
         ...state,
         deviceLocation};
+    case types.SET_DEFAULT_ADDRESS: 
+      return {
+        ...state,
+        defaultAddress
+      }
     default:
       return {...state, nav: state.nav};
   }
