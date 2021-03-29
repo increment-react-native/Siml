@@ -1,7 +1,7 @@
 import React, { Component } from 'react';
 import { ScrollView, View, Text, StyleSheet, TouchableOpacity, Image } from 'react-native';
 import { SliderPicker } from 'react-native-slider-picker';
-import { BasicStyles, Color } from 'common'
+import { BasicStyles, Color, Routes } from 'common'
 import LocationInput from 'components/InputField/LocationInput'
 import NumberInput from 'components/InputField/NumberInput'
 import InputSelect from 'components/InputField/InputSelect'
@@ -10,6 +10,8 @@ import Slider from 'components/InputField/Slider'
 import DateTimePicker from 'components/DateTime/index.js'
 import Group from 'modules/generic/PeopleList.js'
 import { connect } from 'react-redux';
+import Api from 'services/api';
+import { Spinner } from 'components';
 
 
 const group = [
@@ -30,8 +32,14 @@ class Restaurants extends Component {
       location: null,
       value: '$1-$100',
       selectVal: null,
-      val: 1
+      val: 1,
+      Date: null,
+      isLoading: false
     }
+  }
+  componentDidMount() {
+    const {setDefaultAddress} = this.props;
+    setDefaultAddress(null);
   }
 
   redirect(route){
@@ -41,9 +49,29 @@ class Restaurants extends Component {
   goesTo = () => {
     this.redirect('peopleListStack')
   }
+
+  createSynqt = () => {
+    let parameter = {
+      account_id: this.props.state.user.id,
+      location_id: this.props.state.defaultAddress?.id,
+      date: this.state.Date?.date + ' ' + this.state.Date?.time,
+      status: 'pending',
+      details: 'restaurant'
+    }
+    console.log(parameter, Routes.synqtCreate, 'test');
+    this.setState({ isLoading: true })
+    Api.request(Routes.synqtCreate, parameter, response => {
+      this.setState({ isLoading: false })
+      if (response.data !== null) {
+        const {setDefaultAddress} = this.props;
+        setDefaultAddress(null);
+        this.setState({Date: null})
+        this.props.navigation.navigate('menuStack', {synqt_id: response.data})
+      }
+    });
+  }
   
   render() {
-    console.log(this.props.state, "uo");
     return (
       <View style={{
         flex: 1,
@@ -55,6 +83,7 @@ class Restaurants extends Component {
         }}
         showsVerticalScrollIndicator={false}
         >
+          {this.state.isLoading ? <Spinner mode="overlay" /> : null}
         <View>
           <View style={{
             marginTop: '7%',
@@ -70,11 +99,11 @@ class Restaurants extends Component {
               marginBottom: 20,
               borderColor: Color.gray,
               justifyContent: 'center',
-              paddingLeft: 30,
+              paddingLeft: 10,
               marginTop: 3
             }}
             onPress={() => {this.props.navigation.navigate('addLocationStack')}}>
-              <Text style={{color: Color.gray}}>{this.props.state.location?.address + ' ' + this.props.state.location?.locality + ' ' + this.props.state.location?.country || 'Type your location' }</Text>
+              <Text style={{color: Color.gray}}>{this.props.state.defaultAddress?.route || 'Type your location' }</Text>
           </TouchableOpacity>
           </View>
           <View style={{
@@ -86,7 +115,7 @@ class Restaurants extends Component {
               placeholder={'Select Date and Time'}
               onFinish={(date) => {
                 this.setState({
-                  Date: date.date
+                  Date: date
                 })
               }}
               style={{
@@ -141,7 +170,7 @@ class Restaurants extends Component {
           marginLeft: '35%'
         }}>
           <TouchableOpacity
-          onPress={() => this.redirect('menuStack')}
+          onPress={() => this.createSynqt()}
           style={{
             height: 70,
             width: 70,
@@ -169,6 +198,7 @@ const mapDispatchToProps = dispatch => {
   const { actions } = require('@redux');
   return {
     updateUser: (user) => dispatch(actions.updateUser(user)),
+    setDefaultAddress: (defaultAddress) => dispatch(actions.setDefaultAddress(defaultAddress))
   };
 };
 

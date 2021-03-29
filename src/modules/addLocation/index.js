@@ -59,7 +59,6 @@ class AddLocation extends Component {
 
   renderAddresses = () => {
     const { addresses } = this.state
-    console.log('[addresses]', this.state.addresses);
     return addresses.map((address, index) => {
       return (
         <AddressTile
@@ -98,6 +97,9 @@ class AddLocation extends Component {
     Api.request(Routes.retrieveSavedAddresses, parameters, response => {
       this.setState({addresses: response.data});
       console.log("RESPONSE", response);
+      if(response.data.length > 0) {
+        this.setState({locations: response.data})
+      }
       this.setState({isLoading: false});
     }, error => {
       console.log('retrieving addresses error: ', error)
@@ -120,12 +122,12 @@ class AddLocation extends Component {
     console.log("parameters: ", parameters)
     this.setState({isLoading: true, executing: true})
     Api.request(Routes.addAddress, parameters, response => {
-      const {setLocation} = this.props
-      console.log('=================== \nAdding Address Response: \n===================', response)
+      // const {setLocation} = this.props
+      console.log('=================== \nAdding Address Response: \n===================', response.error)
       this.retrieveAddresses();
-      this.setState({isAddingAddressName: false})
+      this.setState({isAddingAddressName: false, addingAddress: false})
       this.setState({isLoading: false, executing: false, value: ''})
-      setLocation(null)
+      // setLocation(null)
     }, error => {
       console.log('Adding Address Error: ', error)
     })
@@ -184,7 +186,7 @@ class AddLocation extends Component {
             const {setLocation} = await this.props
             await setLocation(null)
             console.log('[lcoation again]', this.props.state.location);
-            await this.redirect('locationStack')
+            await this.props.navigation.navigate('locationStack')
             await this.setState({addingAddress: true})
           }}
           title={'Add Address'}

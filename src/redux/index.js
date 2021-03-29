@@ -19,7 +19,7 @@ const types = {
   SET_CREATE_STATUS: 'SET_CREATE_STATUS',
   SET_LOCATION: 'SET_LOCATION',
   SET_DEVICE_LOCATION: 'SET_DEVICE_LOCATION',
-  SET_DEFAULT_ADDRESS: 'SET_DEFAULT_ADDRESS'
+  SET_DEFAULT_ADDRESS: 'SET_DEFAULT_ADDRESS',
 };
 
 export const actions = {
@@ -96,7 +96,7 @@ const initialState = {
   createStatus: false,
   location: null,
   deviceLocation: null,
-  defaultAddress: null
+  defaultAddress: null,
 };
 
 storeData = async (key, value) => {
@@ -117,6 +117,7 @@ const reducer = (state = initialState, action) => {
   const { createStatus } = action;
   const {location} = action;
   const {deviceLocation} = action;
+  const {defaultAddress} = action;
   switch (type) {
     case types.LOGOUT:
       AsyncStorage.clear();

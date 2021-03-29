@@ -55,7 +55,6 @@ class Cards extends React.Component {
     this.setState({ isLoading: true })
     Api.request(Routes.merchantsRetrieve, {}, response => {
       this.setState({ isLoading: false })
-      console.log(response, "response=========");
       if (response.data.length > 0) {
         this.setState({ data: response.data });
       }
@@ -84,7 +83,6 @@ class Cards extends React.Component {
     this.setState({ isLoading: true })
     Api.request(Routes.productsRetrieve, parameter, response => {
       this.setState({ isLoading: false })
-      console.log(response.data, "============");
       if (response.data.length > 0) {
         this.setState({ products: response.data });
       } else {
@@ -104,24 +102,25 @@ class Cards extends React.Component {
   }
 
   addToTopChoice = () => {
-    // let parameter = {
-    //   account_id: 1,
-    //   payload: 'merchant_id',
-    //   payload_value: 1,
-    //   category: 'restaurant'
-    // }
-    // this.setState({ isLoading: true })
-    // Api.request(Routes.topChoiceCreate, parameter, response => {
-    //   this.setState({ isLoading: false })
-    //   if (response.data.length > 0) {
+    let parameter = {
+      account_id: this.props.state.user.id,
+      payload: 'merchant_id',
+      payload_value: this.state.data[this.state.index].id,
+      category: 'restaurant',
+      synqt_id: this.props.navigation.state.params?.synqt_id && this.props.navigation.state.params?.synqt_id
+    }
+    this.setState({ isLoading: true })
+    Api.request(Routes.topChoiceCreate, parameter, response => {
+      this.setState({ isLoading: false })
+      if (response.data !== null) {
         this.props.navigation.navigate('topChoiceStack');
-    //   }
-    // },
-    //   error => {
-    //     this.setState({ isLoading: false })
-    //     console.log({ error });
-    //   },
-    // );
+      }
+    },
+      error => {
+        this.setState({ isLoading: false })
+        console.log({ error });
+      },
+    );
   }
 
   renderCard = () => {
