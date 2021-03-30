@@ -19,12 +19,13 @@ class CardList extends Component {
   sendRequest = (el) => {
     let parameter = {
       account_id: this.props.state.user.id,
-      to_email: el.email,
-      content: "This is an invitaion for you to join my connections."
+      to_email: "renanbargaso16@gmail.com",
+      content: "This is an invitation for you to join my connections."
     }
     this.setState({ isLoading: true });
     Api.request(Routes.circleCreate, parameter, response => {
       this.setState({ isLoading: false })
+      console.log(parameter, Routes.circleCreate, "===uo");
       console.log(response, "================response upon sending request,===============");
     });
   }

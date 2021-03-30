@@ -60,7 +60,6 @@ class Cards extends React.Component {
     this.setState({ isLoading: true })
     Api.request(Routes.merchantsRetrieve, parameter, response => {
       this.setState({ isLoading: false })
-      console.log(response.data[0], "======");
       if (response.data.length > 0) {
         this.retrieveProducts();
         this.setState({ data: response.data[0] });
@@ -126,7 +125,6 @@ class Cards extends React.Component {
           this.setState({ isLoading: true })
           Api.request(Routes.reservationCreate, parameter, response => {
             this.setState({ isLoading: false })
-            console.log(response);
             if (response.data !== null) {
               this.props.onClose(this.props.item.id);
             }
