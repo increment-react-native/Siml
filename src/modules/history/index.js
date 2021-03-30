@@ -9,6 +9,10 @@ import {faBars, faUtensils, faChevronLeft, faTicketAlt, faShoppingBag} from '@fo
 import { connect } from 'react-redux';
 import ImageCardWithUser from 'modules/generic/ImageCardWithUser';
 import CardModal from 'modules/modal/Swipe.js';
+import Api from 'services/api/index.js';
+import { Spinner } from 'components';
+import _ from 'lodash';
+
 const height = Math.round(Dimensions.get('window').height);
 class History extends Component{
   constructor(props) {
@@ -17,13 +21,51 @@ class History extends Component{
       activeIndex: 0,
       data: [],
       isLoading: false,
-      isVisible: false
+      isVisible: false,
+      limit: 6,
+      offset: 0
     };   
   }
 
   componentDidMount() {
     this.setState({activeIndex: this.props.navigation.state && this.props.navigation.state.params && this.props.navigation.state.params.activeIndex ? this.props.navigation.state.params.activeIndex : 0})
+    this.retrieve(false);
   }
+
+  retrieve = (flag) => {
+    console.log(this.props.navigation.state.params && this.props.navigation.state.params.title && this.props.navigation.state.params.title.toLowerCase(), "=============");
+    let status = this.props.navigation.state.params && this.props.navigation.state.params.title && this.props.navigation.state.params.title.toLowerCase() === 'upcoming' ? 'pending' : 'completed'
+    let parameter = {
+      condition: [{
+        value: this.props.state.user.id,
+        column: 'account_id',
+        clause: '='
+      }, {
+        value: status,
+        column: 'status',
+        clause: '='
+      }],
+      limit: this.state.limit,
+      offset: flag == true && this.state.offset > 0 ? (this.state.offset * this.state.limit) : this.state.offset
+    }
+    console.log(parameter, "====");
+    this.setState({ isLoading: true })
+    Api.request(Routes.reservationRetrieve, parameter, response => {
+      this.setState({ isLoading: false })
+      if (response.data.length > 0) {
+        this.setState({
+          data: flag == false ? response.data : _.uniqBy([...this.state.data, ...response.data], 'id'),
+          offset: flag == false ? 1 : (this.state.offset + 1)
+        })
+      } else {
+        this.setState({
+          data: flag == false ? [] : this.state.data,
+          offset: flag == false ? 0 : this.state.offset,
+        })
+      }
+    });
+  }
+
 
   onPageChange(index){
     this.setState({
@@ -31,12 +73,12 @@ class History extends Component{
     })
   }
 
-  onClick = () => {
+  onClick = (item) => {
     if(this.props.navigation.state && this.props.navigation.state.params && this.props.navigation.state.params.title !== null) {
       if(this.state.activeIndex === 0 || this.state.activeIndex === 1) {
-        this.props.navigation.navigate('eventNameStack', {buttonTitle: this.props.navigation.state.params && this.props.navigation.state.params.title && this.props.navigation.state.params.title.toLowerCase() === 'history' ? 'Make Reservation' : 'Cancel'});
+        this.props.navigation.navigate('eventNameStack', {buttonTitle: this.props.navigation.state.params && this.props.navigation.state.params.title && this.props.navigation.state.params.title.toLowerCase() === 'history' ? 'Make Reservation' : 'Cancel', data: item});
       } else {
-        this.props.navigation.navigate('retailNameStack');
+        this.props.navigation.navigate('retailNameStack', {data: item});
       }
     } else {
       this.setState({
@@ -51,24 +93,56 @@ class History extends Component{
       <SafeAreaView>
         <ScrollView
           showsVerticalScrollIndicator={false}
+          onScroll={(event) => {
+            let scrollingHeight = event.nativeEvent.layoutMeasurement.height + event.nativeEvent.contentOffset.y
+            let totalHeight = event.nativeEvent.contentSize.height
+            if(event.nativeEvent.contentOffset.y <= 0) {
+              if(this.state.isLoading == false){
+                // this.retrieve(false)
+              }
+            }
+            if (Math.round(scrollingHeight) >= Math.round(totalHeight)) {
+              if (this.state.isLoading === false) {
+                this.retrieve(true)
+              }
+            }
+          }}
           >
           <View style={{
-            height: height,
-            marginTop: 50
+            marginTop: 15,
+            flex: 1,
           }}>
             {
               data.map((item, index) => (
                 <ImageCardWithUser
-                data={item} style={{
+                data={{
+                  logo: item.merchant.logo,
+                  address: item.merchant.address || 'No address provided',
+                  name: item.merchant.name,
+                  date: item.synqt[0].date,
+                  superlike: true,
+                  users: [{
+                    name: 'Test'
+                  }, {
+                    name: 'Test'
+                  }, {
+                    name: 'Test'
+                  }, {
+                    name: 'Test'
+                  }, {
+                    name: 'Test'
+                  }]
+                }}
+                style={{
                   marginBottom: 20
                 }}
                 redirectTo={this.props.navigation.state.params && this.props.navigation.state.params.title}
-                onClick={(item) => {
-                  this.onClick()
+                onClick={() => {
+                  this.onClick(item)
                 }}
                 />
-              ))
-            }
+                ))
+              }
           </View>
         </ScrollView>
         {isVisible && <CardModal
@@ -96,39 +170,11 @@ class History extends Component{
         icon: faShoppingBag
       }
     ]
-
-    const data = [{
-      image: require('assets/test2.jpg'),
-      date: 'January 29, 2021',
-      location: 'Cebu City',
-      superlike: true,
-      users: [{
-        name: 'Test'
-      }, {
-        name: 'Test'
-      }]
-    }, {
-      image: require('assets/test.jpg'),
-      date: 'January 29, 2021',
-      location: 'Cebu City',
-      superlike: true,
-      users: [{
-        name: 'Test'
-      }]
-    }, {
-      image: require('assets/test.jpg'),
-      date: 'January 29, 2021',
-      location: 'Cebu City',
-      superlike: true,
-      users: [{
-        name: 'Test'
-      }]
-    }]
     return (
       <View style={[Style.MainContainer, {
         backgroundColor: Color.containerBackground
       }]}>
-          <View style={BasicStyles.paginationHolder}>
+          <View style={[BasicStyles.paginationHolder, {marginTop: 10}]}>
             <Pagination
               activeIndex={activeIndex}
               onChange={(index) => this.onPageChange(index)}
@@ -136,16 +182,17 @@ class History extends Component{
             />
           </View>
           <PagerProvider activeIndex={activeIndex}>
+          {this.state.isLoading ? <Spinner mode="overlay" /> : null}
             <Pager panProps={{enabled: false}}>
               <View style={Style.sliderContainer}>
-                {data && this.renderData(data)}
+                {this.state.data.length > 0 && this.renderData(this.state.data)}
               </View>
               <View style={Style.sliderContainer}>
-                {data && this.renderData(data)}
+                {this.state.data.length > 0 && this.renderData(this.state.data)}
               </View>
 
               <View style={Style.sliderContainer}>
-                {data && this.renderData(data)}
+                {this.state.data.length > 0 && this.renderData(this.state.data)}
               </View>
             </Pager>
           </PagerProvider>
