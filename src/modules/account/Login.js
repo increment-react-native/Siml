@@ -392,7 +392,7 @@ class Login extends Component {
     const { theme } = this.props.state;
     return (
       <LinearGradient
-        colors={[Color.warning, theme ? theme.primary : Color.primary, theme ? theme.primary : Color.primary]}
+        colors={[Color.primary, theme ? theme.primary : Color.primary, theme ? theme.primary : Color.primary]}
         locations={[0,0.5,1]}
         start={{ x: 2, y: 0 }}
         end={{ x: 1, y: 1 }}
