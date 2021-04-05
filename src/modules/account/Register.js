@@ -175,7 +175,7 @@ class Register extends Component {
               </View>
               
               <Text
-                onPress={() => this.submit()}
+                onPress={() => this.redirect('forgotPasswordStack')}
                 style={{
                   color: 'white',
                   width: '50%',
@@ -203,7 +203,7 @@ class Register extends Component {
                 >
                   <Button content={
                     <View style={{flex: 1, flexDirection: 'row', marginTop: 5}}>
-                      <Text style={{color: 'white', fontSize: 15}}>Sign In</Text>
+                      <Text style={{color: 'white', fontSize: 15}}>Sign Up</Text>
                       <FontAwesomeIcon color={'white'} icon={faArrowRight} style={{marginLeft: 10, marginTop: 1}}/>
                     </View>
                   }/>
