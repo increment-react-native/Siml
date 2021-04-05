@@ -231,7 +231,7 @@ class Register extends Component {
               <View style={{
                 width: '100%',
                 alignItems: 'center',
-                marginBottom: '15%'
+                marginBottom: '10%'
               }}>
                 <Text style={{
                   color: 'white',
