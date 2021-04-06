@@ -63,12 +63,31 @@ class Restaurants extends Component {
     Api.request(Routes.synqtCreate, parameter, response => {
       this.setState({ isLoading: false })
       if (response.data !== null) {
+        this.sendInvitation(response.data);
         const {setDefaultAddress} = this.props;
         setDefaultAddress(null);
         this.setState({Date: null})
         this.props.navigation.navigate('menuStack', {synqt_id: response.data})
       }
     });
+  }
+
+  sendInvitation = (id) => {
+    const { tempMembers } = this.props.state;
+    tempMembers.length > 0 && tempMembers.map((item, index) => {
+      let parameter = {
+        from: this.props.state.user.id,
+        to: item.account.id,
+        payload: 'synqt',
+        payload_value: id,
+        route: `/restaurant/${item.account?.code}`
+      }
+      this.setState({ isLoading: true });
+      Api.request(Routes.notificationCreate, parameter, response => {
+        this.setState({ isLoading: false })
+        console.log(response, "===response");
+      });
+    })
   }
   
   render() {
@@ -159,7 +178,7 @@ class Restaurants extends Component {
             maxValue={50}
           />
           <Text style={{marginLeft: 20, marginBottom: 5}}>People in this SYNQT</Text>
-          <Group style={{marginLeft: 50, marginTop: -30}} redirectTo={() => this.goesTo()} data={group}/>
+          <Group style={{marginLeft: 50, marginTop: -30}} redirectTo={() => this.goesTo()} data={this.props.state.tempMembers}/>
         </View>
 
         <View style={{
@@ -198,7 +217,8 @@ const mapDispatchToProps = dispatch => {
   const { actions } = require('@redux');
   return {
     updateUser: (user) => dispatch(actions.updateUser(user)),
-    setDefaultAddress: (defaultAddress) => dispatch(actions.setDefaultAddress(defaultAddress))
+    setDefaultAddress: (defaultAddress) => dispatch(actions.setDefaultAddress(defaultAddress)),
+    setTempMembers: (tempMembers) => dispatch(actions.setTempMembers(tempMembers))
   };
 };
 

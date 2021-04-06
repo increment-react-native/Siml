@@ -33,7 +33,6 @@ class History extends Component{
   }
 
   retrieve = (flag) => {
-    console.log(this.props.navigation.state.params && this.props.navigation.state.params.title && this.props.navigation.state.params.title.toLowerCase(), "=============");
     let status = this.props.navigation.state.params && this.props.navigation.state.params.title && this.props.navigation.state.params.title.toLowerCase() === 'upcoming' ? 'pending' : 'completed'
     let parameter = {
       condition: [{
@@ -48,10 +47,10 @@ class History extends Component{
       limit: this.state.limit,
       offset: flag == true && this.state.offset > 0 ? (this.state.offset * this.state.limit) : this.state.offset
     }
-    console.log(parameter, "====");
     this.setState({ isLoading: true })
     Api.request(Routes.reservationRetrieve, parameter, response => {
       this.setState({ isLoading: false })
+      console.log(response.data[0], "====");
       if (response.data.length > 0) {
         this.setState({
           data: flag == false ? response.data : _.uniqBy([...this.state.data, ...response.data], 'id'),

@@ -10,6 +10,9 @@ import ImageCardWithUser from 'modules/generic/ImageCardWithUser';
 import Tab from 'modules/generic/TabOptions';
 import CardModal from 'modules/modal/Swipe.js';
 import { connect } from 'react-redux';
+import Config from 'src/config.js';
+import _ from 'lodash';
+import Api from 'services/api/index.js';
 
 class ViewProfile extends Component {
   constructor(props) {
@@ -19,14 +22,52 @@ class ViewProfile extends Component {
       phoneNumber: null,
       email: null,
       choice: 'SIML ACTIVITY',
-      AcceptConnections: [
-        { name: 'John Doe', address: 'Cebu City', numberOfConnection: 3, lastLogin: '2 d', uri: require('assets/test.jpg') },
-        { name: 'John Doe', address: 'Cebu City', numberOfConnection: 3, lastLogin: '2 d', uri: require('assets/test.jpg') },
-        { name: 'John Doe', address: 'Cebu City', numberOfConnection: 3, lastLogin: '2 d', uri: require('assets/test.jpg') },
-        { name: 'John Doe', address: 'Cebu City', numberOfConnection: 3, lastLogin: '2 d', uri: require('assets/test.jpg') },
-      ],
+      connections: [],
       isVisible: false
     }
+  }
+
+  componentDidMount() {
+    console.log(this.props.navigation.state?.params?.user, "=====");
+    this.retrieve(false)
+  }
+
+  retrieve(flag) {
+    const { user } = this.props.state
+    if (user == null) {
+      return
+    }
+    let parameter = {
+      condition: [{
+        value: this.props.navigation.state?.params?.user?.account_id,
+        column: 'account_id',
+        clause: 'or'
+      }, {
+        value: this.props.navigation.state?.params?.user?.account_id,
+        column: 'account',
+        clause: '='
+      }, {
+        clause: "like",
+        column: "status",
+        value: 'accepted'
+      }],
+      offset: flag == true && this.state.offset > 0 ? (this.state.offset * this.state.limit) : this.state.offset,
+    }
+    this.setState({ isLoading: true })
+    Api.request(Routes.circleRetrieve, parameter, response => {
+      this.setState({ isLoading: false })
+      if (response.data.length > 0) {
+        this.setState({
+          connections: flag == false ? response.data : _.uniqBy([...this.state.connections, ...response.data], 'id'),
+          offset: flag == false ? 1 : (this.state.offset + 1)
+        })
+      } else {
+        this.setState({
+          connections: flag == false ? [] : this.state.connections,
+          offset: flag == false ? 0 : this.state.offset
+        })
+      }
+    });
   }
 
   choiceHandler = (value) => {
@@ -46,17 +87,10 @@ class ViewProfile extends Component {
   }
 
   renderConnections() {
-    const AcceptConnections = [
-      { name: 'John Doe', address: 'Cebu City', numberOfConnection: 3, lastLogin: '2 d', uri: require('assets/test.jpg') },
-      { name: 'John Doe', address: 'Cebu City', numberOfConnection: 3, lastLogin: '2 d', uri: require('assets/test.jpg') },
-      { name: 'John Doe', address: 'Cebu City', numberOfConnection: 3, lastLogin: '2 d', uri: require('assets/test.jpg') },
-      { name: 'John Doe', address: 'Cebu City', numberOfConnection: 3, lastLogin: '2 d', uri: require('assets/test.jpg') },
-    ]
-    console.log(this.props.navigation.state.params && this.props.navigation.state.params, "========");
     return (
       <View>
         {
-          AcceptConnections.map((el, idx) => {
+          this.state.connections.length > 0 && this.state.connections.map((el, idx) => {
             return (
               <TouchableOpacity>
                 {/* <Card containerStyle={{padding:-5, borderRadius: 20}}> */}
@@ -64,13 +98,13 @@ class ViewProfile extends Component {
                   <Image
                     style={Style.circleImage}
                     // resizeMode="cover"
-                    source={el.uri}
+                    source={el.account?.profile?.url ? { uri: Config.BACKEND_URL + el.account?.profile?.url } : require('assets/logo.png')}
                   />
                   <View>
                     <View style={{ flexDirection: 'row', width: '100%' }}>
                       <View style={{ width: '50%' }}>
-                        <Text style={{ fontWeight: 'bold' }}>{el.name}</Text>
-                        <Text style={{ fontStyle: 'italic' }}>{el.address}</Text>
+                        <Text style={{ fontWeight: 'bold' }}>{el?.account?.information?.first_name + ' ' + el?.account?.information?.last_name}</Text>
+                        <Text style={{ fontStyle: 'italic' }}>{el?.account?.information?.address}</Text>
                         <Text style={{ color: 'gray', fontSize: 10 }}>{el.numberOfConnection} similar connections</Text>
                       </View>
                       <TouchableOpacity
@@ -157,6 +191,7 @@ class ViewProfile extends Component {
   }
 
   render() {
+    let user = this.props.navigation.state?.params?.user
     return (
       <View style={[Style.MainContainer, {
         backgroundColor: Color.containerBackground
@@ -172,9 +207,10 @@ class ViewProfile extends Component {
                   borderColor: Color.primary,
                   borderWidth: 2
                 }}>
-                <Image source={require('assets/logo.png')} style={{
-                  height: 180,
-                  width: 180
+                <Image source={user && user?.account?.profile?.url ? { uri: Config.BACKEND_URL + user.account.profile.url } : require('assets/logo.png')} style={{
+                  height: 176,
+                  width: 176,
+                  borderRadius: 100,
                 }} />
               </TouchableOpacity>
             </View>
@@ -188,7 +224,7 @@ class ViewProfile extends Component {
                 textAlign: 'center',
                 fontWeight: 'bold',
                 fontSize: 18
-              }}>Lalaine Garrido</Text>
+              }}>{user?.account?.information?.first_name + user?.account?.information?.last_name || ''}</Text>
             </View>
             <View style={{
               width: '100%'
