@@ -41,6 +41,11 @@ class Connections extends Component {
     this.retrieve(false);
   }
 
+  refresh = () => {
+    this.retrieveRandomUsers(false);
+    this.retrieve(false);
+  }
+
   retrieve(flag) {
     const { user } = this.props.state
     if (user == null) {
@@ -50,11 +55,11 @@ class Connections extends Component {
       condition: [{
         value: user.id,
         column: 'account_id',
-        clause: '='
+        clause: 'or'
       }, {
         value: user.id,
         column: 'account',
-        clause: 'or'
+        clause: '='
       }, {
         clause: "like",
         column: "status",
@@ -62,6 +67,7 @@ class Connections extends Component {
       }],
       offset: flag == true && this.state.offset > 0 ? (this.state.offset * this.state.limit) : this.state.offset,
     }
+    console.log(parameter, Routes.circleRetrieve, "====");
     this.setState({ isLoading: true })
     Api.request(Routes.circleRetrieve, parameter, response => {
       this.setState({ isLoading: false })
@@ -151,13 +157,13 @@ class Connections extends Component {
             this.state.currActive == 0 ? (
               <View>
                 {this.state.isLoading ? <Spinner mode="overlay" /> : null}
-                <CardList status={'pending'} navigation={this.props.navigation} data={this.state.connections.length > 0 && this.state.connections} hasAction={true} actionType={'text'}></CardList>
+                <CardList retrieve={() => {this.refresh()}} status={'pending'} navigation={this.props.navigation} data={this.state.connections.length > 0 && this.state.connections} hasAction={true} actionType={'text'}></CardList>
                 <View style={{ marginTop: 50, paddingLeft: 30 }}>
                   <Text style={{ fontWeight: 'bold' }}>Connections you may know</Text>
                 </View>
 
                 <View>
-                  <CardList navigation={this.props.navigation} data={this.state.suggestions.length > 0 && this.state.suggestions} hasAction={false} actionType={'button'} actionContent={'text'}></CardList>
+                  <CardList retrieve={() => {this.refresh()}} navigation={this.props.navigation} data={this.state.suggestions.length > 0 && this.state.suggestions} hasAction={false} actionType={'button'} actionContent={'text'}></CardList>
                 </View>
 
               </View>
@@ -173,7 +179,7 @@ class Connections extends Component {
                 </View>
                 {this.state.isLoading ? <Spinner mode="overlay" /> : null}
                 <View>
-                  <CardList navigation={this.props.navigation} data={this.state.connections.length > 0 && this.state.connections} hasAction={false} actionType={'button'} actionContent={'icon'} ></CardList>
+                  <CardList retrieve={() => {this.refresh()}} navigation={this.props.navigation} data={this.state.connections.length > 0 && this.state.connections} hasAction={false} actionType={'button'} actionContent={'icon'} ></CardList>
                 </View>
               </View>
             )
