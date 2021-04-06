@@ -44,7 +44,7 @@ const EventNameStack = createStackNavigator({
   cartScreen: {
     screen: Screen,
     navigationOptions: ({navigation}) => ({
-      title: 'Restaurant | Event Name',
+      title: navigation.state?.params?.data?.merchant?.name || 'No name provided',
       headerLeft: <HeaderOptionsConnect navigationProps={navigation} />,
       ...BasicStyles.headerDrawerStyle
     }),

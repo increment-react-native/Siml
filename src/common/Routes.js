@@ -109,4 +109,6 @@ export default {
   synqtCreate: apiUrl + 'synqts/create',
   reservationCreate: apiUrl + 'reservations/create',
   reservationRetrieve: apiUrl + 'reservations/retrieve',
+  reservationDelete: apiUrl + 'reservations/delete',
+  reservationUpdate: apiUrl + 'reservations/update',
 };

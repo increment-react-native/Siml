@@ -11,6 +11,7 @@ import Style from './Style'
 import { connect } from 'react-redux';
 import { Spinner } from 'components';
 import Api from 'services/api/index.js';
+import _ from 'lodash';
 
 const navs = [
   { name: "Suggestions", flag: true },
@@ -36,8 +37,8 @@ class Connections extends Component {
   }
 
   componentDidMount() {
-    this.retrieve(false);
     this.retrieveRandomUsers(false);
+    this.retrieve(false);
   }
 
   retrieve(flag) {
@@ -54,8 +55,11 @@ class Connections extends Component {
         value: user.id,
         column: 'account',
         clause: 'or'
+      }, {
+        clause: "like",
+        column: "status",
+        value: this.state.currActive == 0 ? 'pending' : 'accepted'
       }],
-      limit: this.state.limit,
       offset: flag == true && this.state.offset > 0 ? (this.state.offset * this.state.limit) : this.state.offset,
     }
     this.setState({ isLoading: true })
@@ -63,15 +67,13 @@ class Connections extends Component {
       this.setState({ isLoading: false })
       if (response.data.length > 0) {
         this.setState({
-          connections: flag == false ? response.data : _.uniqBy([...this.state.data, ...response.data], 'id'),
-          offset: flag == false ? 1 : (this.state.offset + 1),
-          d: flag == false ? response.data : _.uniqBy([...this.state.data, ...response.data], 'id')
+          connections: flag == false ? response.data : _.uniqBy([...this.state.connections, ...response.data], 'id'),
+          offset: flag == false ? 1 : (this.state.offset + 1)
         })
       } else {
         this.setState({
-          connections: flag == false ? [] : this.state.data,
-          offset: flag == false ? 0 : this.state.offset,
-          d: flag == false ? [] : this.state.data
+          connections: flag == false ? [] : this.state.connections,
+          offset: flag == false ? 0 : this.state.offset
         })
       }
     });
@@ -101,7 +103,7 @@ class Connections extends Component {
       navs[idx].flag = true
       await this.setState({ prevActive: idx })
     }
-    this.setState({pending: [], connections: []})
+    this.retrieve(false)
   }
 
   group = () => {
@@ -149,7 +151,7 @@ class Connections extends Component {
             this.state.currActive == 0 ? (
               <View>
                 {this.state.isLoading ? <Spinner mode="overlay" /> : null}
-                <CardList status={'pending'} navigation={this.props.navigation} data={this.state.pending.length > 0 && this.state.pending} hasAction={true} actionType={'text'}></CardList>
+                <CardList status={'pending'} navigation={this.props.navigation} data={this.state.connections.length > 0 && this.state.connections} hasAction={true} actionType={'text'}></CardList>
                 <View style={{ marginTop: 50, paddingLeft: 30 }}>
                   <Text style={{ fontWeight: 'bold' }}>Connections you may know</Text>
                 </View>
@@ -169,7 +171,7 @@ class Connections extends Component {
                     placeholder={'Search'}
                   />
                 </View>
-
+                {this.state.isLoading ? <Spinner mode="overlay" /> : null}
                 <View>
                   <CardList navigation={this.props.navigation} data={this.state.connections.length > 0 && this.state.connections} hasAction={false} actionType={'button'} actionContent={'icon'} ></CardList>
                 </View>
