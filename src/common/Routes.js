@@ -9,7 +9,7 @@ export default {
   accountRetrieve: apiUrl + 'accounts/retrieve',
   accountUpdate: apiUrl + 'accounts/update',
   accountCreate: apiUrl + 'accounts/create',
-  notificationsRetrieve: apiUrl + 'notifications/retrieve',
+  notificationsRetrieve: apiUrl + 'notifications/retrieve_synqt_notifications',
   notificationUpdate: apiUrl + 'notifications/update',
   notificationCreate: apiUrl + 'notifications/create',
   accountProfileCreate: apiUrl + 'account_profiles/create',

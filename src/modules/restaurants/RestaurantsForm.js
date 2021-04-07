@@ -15,14 +15,14 @@ import { Spinner } from 'components';
 
 
 const group = [
-  { user:{profile: {uri: require('assets/test.jpg')}} },
-  { user:{profile: {uri: require('assets/test.jpg')}} },
-  { user:{profile: {uri: require('assets/test.jpg')}} },
-  { user:{profile: {uri: require('assets/test.jpg')}} },
-  { user:{profile: {uri: require('assets/test.jpg')}} },
-  { user:{profile: {uri: require('assets/test.jpg')}} },
-  { user:{profile: {uri: require('assets/test.jpg')}} },
-  { user:{profile: {uri: require('assets/test.jpg')}} }
+  { user: { profile: { uri: require('assets/test.jpg') } } },
+  { user: { profile: { uri: require('assets/test.jpg') } } },
+  { user: { profile: { uri: require('assets/test.jpg') } } },
+  { user: { profile: { uri: require('assets/test.jpg') } } },
+  { user: { profile: { uri: require('assets/test.jpg') } } },
+  { user: { profile: { uri: require('assets/test.jpg') } } },
+  { user: { profile: { uri: require('assets/test.jpg') } } },
+  { user: { profile: { uri: require('assets/test.jpg') } } }
 ]
 
 class Restaurants extends Component {
@@ -38,11 +38,11 @@ class Restaurants extends Component {
     }
   }
   componentDidMount() {
-    const {setDefaultAddress} = this.props;
+    const { setDefaultAddress } = this.props;
     setDefaultAddress(null);
   }
 
-  redirect(route){
+  redirect(route) {
     this.props.navigation.navigate(route)
   }
 
@@ -51,23 +51,42 @@ class Restaurants extends Component {
   }
 
   createSynqt = () => {
-    let parameter = {
+    let param = {
       account_id: this.props.state.user.id,
-      location_id: this.props.state.defaultAddress?.id,
-      date: this.state.Date?.date + ' ' + this.state.Date?.time,
-      status: 'pending',
-      details: 'restaurant'
+      address_type: 'NULL',
+      merchant_id: this.props.state.user.sub_account?.merchant?.id || null,
+      latitude: this.props.state.location.latitude,
+      longitude: this.props.state.location.longitude,
+      route: this.props.state.location.route,
+      locality: this.props.state.location.locality,
+      region: this.props.state.location.region,
+      country: this.props.state.location.country,
     }
-    console.log(parameter, Routes.synqtCreate, 'test');
     this.setState({ isLoading: true })
-    Api.request(Routes.synqtCreate, parameter, response => {
+    Api.request(Routes.locationCreate, param, response => {
       this.setState({ isLoading: false })
       if (response.data !== null) {
-        this.sendInvitation(response.data);
-        const {setDefaultAddress} = this.props;
-        setDefaultAddress(null);
-        this.setState({Date: null})
-        this.props.navigation.navigate('menuStack', {synqt_id: response.data})
+        let parameter = {
+          account_id: this.props.state.user.id,
+          location_id: response.data,
+          date: this.state.Date?.date + ' ' + this.state.Date?.time,
+          status: 'pending',
+          details: 'restaurant'
+        }
+        console.log(parameter);
+        this.setState({ isLoading: true })
+        Api.request(Routes.synqtCreate, parameter, res => {
+          this.setState({ isLoading: false })
+          if (res.data !== null) {
+            this.sendInvitation(res.data);
+            const { setDefaultAddress, setLocation, setTempMembers } = this.props;
+            setDefaultAddress(null);
+            setLocation(null);
+            setTempMembers([]);
+            this.setState({ Date: null })
+            this.props.navigation.navigate('menuStack', { synqt_id: res.data })
+          }
+        });
       }
     });
   }
@@ -89,7 +108,7 @@ class Restaurants extends Component {
       });
     })
   }
-  
+
   render() {
     return (
       <View style={{
@@ -100,110 +119,111 @@ class Restaurants extends Component {
           backgroundColor: Color.containerBackground,
           height: '100%'
         }}
-        showsVerticalScrollIndicator={false}
+          showsVerticalScrollIndicator={false}
         >
           {this.state.isLoading ? <Spinner mode="overlay" /> : null}
-        <View>
-          <View style={{
-            marginTop: '7%',
-            marginLeft: 20,
-          }}>
-          <Text>Location</Text>
-          <TouchableOpacity
-            style={{
-              height: 50,
-              borderRadius: 25,
-              borderWidth: .3,
-              marginRight: 20,
-              marginBottom: 20,
-              borderColor: Color.gray,
-              justifyContent: 'center',
-              paddingLeft: 10,
-              marginTop: 3
-            }}
-            onPress={() => {this.props.navigation.navigate('addLocationStack')}}>
-              <Text style={{color: Color.gray}}>{this.props.state.defaultAddress?.route || 'Type your location' }</Text>
-          </TouchableOpacity>
-          </View>
-          <View style={{
-            marginLeft: 20,
-            marginRight: 20}}>
-            <Text>Date and Time</Text>
-            <DateTimePicker
-              type={'datetime'}
-              placeholder={'Select Date and Time'}
-              onFinish={(date) => {
-                this.setState({
-                  Date: date
-                })
-              }}
-              style={{
-                marginTop: 5
-            }} />
-          </View>
-          <View style={{marginBottom: '23%'}}>
-            <NumberInput title={'Party Size'} />
-          </View>
-          <View style={{marginBottom: '23%'}}>
-          <Range value={this.state.value.toString()} title={'Price Range'} />
-          </View>
           <View>
-          <InputSelect titles={'cuisines'} value={this.state.selectVal} title={'Cuisines'} />
+            <View style={{
+              marginTop: '7%',
+              marginLeft: 20,
+            }}>
+              <Text>Location</Text>
+              <TouchableOpacity
+                style={{
+                  height: 50,
+                  borderRadius: 25,
+                  borderWidth: .3,
+                  marginRight: 20,
+                  marginBottom: 20,
+                  borderColor: Color.gray,
+                  justifyContent: 'center',
+                  paddingLeft: 10,
+                  marginTop: 3
+                }}
+                onPress={() => { this.props.navigation.navigate('locationStack') }}>
+                <Text style={{ color: Color.gray }}>{this.props.state.location?.route || 'Type your location'}</Text>
+              </TouchableOpacity>
+            </View>
+            <View style={{
+              marginLeft: 20,
+              marginRight: 20
+            }}>
+              <Text>Date and Time</Text>
+              <DateTimePicker
+                type={'datetime'}
+                placeholder={'Select Date and Time'}
+                onFinish={(date) => {
+                  this.setState({
+                    Date: date
+                  })
+                }}
+                style={{
+                  marginTop: 5
+                }} />
+            </View>
+            <View style={{ marginBottom: '23%' }}>
+              <NumberInput title={'Party Size'} />
+            </View>
+            <View style={{ marginBottom: '23%' }}>
+              <Range value={this.state.value.toString()} title={'Price Range'} />
+            </View>
+            <View>
+              <InputSelect titles={'cuisines'} value={this.state.selectVal} title={'Cuisines'} />
+            </View>
+            <Text style={{ color: 'black', marginBottom: 15, marginLeft: 20 }}>Radius</Text>
+            <SliderPicker
+              callback={position => {
+                this.setState({ val: position })
+              }}
+              defaultValue={this.state.val}
+              labelFontColor={"#6c7682"}
+              labelFontWeight={'600'}
+              showFill={true}
+              fillColor={'gray'}
+              labelFontWeight={'bold'}
+              showNumberScale={true}
+              showSeparatorScale={true}
+              buttonBackgroundColor={'#fff'}
+              buttonBorderWidth={2}
+              labelFontSize={15}
+              scaleNumberFontWeight={'300'}
+              buttonDimensionsPercentage={6}
+              buttonBorderColor={'#5842D7'}
+              heightPercentage={1}
+              widthPercentage={90}
+              sliderInnerBackgroundColor={'gray'}
+              minLabel={'1km'}
+              midLabel={'25km'}
+              maxLabel={'50km'}
+              maxValue={50}
+            />
+            <Text style={{ marginLeft: 20, marginBottom: 5 }}>People in this SYNQT</Text>
+            <Group style={{ marginLeft: 50, marginTop: -30 }} redirectTo={() => this.goesTo()} data={this.props.state.tempMembers} />
           </View>
-          <Text style={{color: 'black', marginBottom: 15, marginLeft: 20 }}>Radius</Text>
-          <SliderPicker 
-            callback={position => {
-              this.setState({ val: position })
-            }}
-            defaultValue={this.state.val}
-            labelFontColor={"#6c7682"}
-            labelFontWeight={'600'}
-            showFill={true}
-            fillColor={'gray'}
-            labelFontWeight={'bold'}
-            showNumberScale={true}
-            showSeparatorScale={true}
-            buttonBackgroundColor={'#fff'}
-            buttonBorderWidth={2}
-            labelFontSize={15}
-            scaleNumberFontWeight={'300'}
-            buttonDimensionsPercentage={6}
-            buttonBorderColor={'#5842D7'}
-            heightPercentage={1}
-            widthPercentage={90}
-            sliderInnerBackgroundColor={'gray'}
-            minLabel={'1km'}
-            midLabel={'25km'}
-            maxLabel={'50km'}
-            maxValue={50}
-          />
-          <Text style={{marginLeft: 20, marginBottom: 5}}>People in this SYNQT</Text>
-          <Group style={{marginLeft: 50, marginTop: -30}} redirectTo={() => this.goesTo()} data={this.props.state.tempMembers}/>
-        </View>
 
-        <View style={{
-          width: '33%',
-          justifyContent: 'center',
-          alignItems: 'center',
-          marginTop:'30%',
-          marginLeft: '35%'
-        }}>
-          <TouchableOpacity
-          onPress={() => this.createSynqt()}
-          style={{
-            height: 70,
-            width: 70,
-            borderRadius: 35,
-            backgroundColor: Color.primary,
+          <View style={{
+            width: '33%',
             justifyContent: 'center',
-            alignItems: 'center'
+            alignItems: 'center',
+            marginTop: '30%',
+            marginLeft: '35%'
           }}>
-            <Image source={require('assets/logo.png')} style={{
-              height: 50,
-              width: 50
-            }}/>
-          </TouchableOpacity>
-        </View>
+            <TouchableOpacity
+              onPress={() => this.createSynqt()}
+              style={{
+                height: 70,
+                width: 70,
+                borderRadius: 35,
+                backgroundColor: Color.primary,
+                justifyContent: 'center',
+                alignItems: 'center'
+              }}>
+              <Image source={require('assets/logo.png')} style={{
+                height: 50,
+                width: 50
+              }} />
+            </TouchableOpacity>
+          </View>
         </ScrollView>
         {/* <Footer layer={1} {...this.props}/> */}
       </View>
@@ -218,7 +238,8 @@ const mapDispatchToProps = dispatch => {
   return {
     updateUser: (user) => dispatch(actions.updateUser(user)),
     setDefaultAddress: (defaultAddress) => dispatch(actions.setDefaultAddress(defaultAddress)),
-    setTempMembers: (tempMembers) => dispatch(actions.setTempMembers(tempMembers))
+    setTempMembers: (tempMembers) => dispatch(actions.setTempMembers(tempMembers)),
+    setLocation: (location) => dispatch(actions.setLocation(location)),
   };
 };
 
