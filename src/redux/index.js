@@ -16,6 +16,11 @@ const types = {
   UPDATE_MESSAGE_BY_CODE: 'UPDATE_MESSAGE_BY_CODE',
   UPDATE_MESSAGES_ON_GROUP_BY_PAYLOAD: 'UPDATE_MESSAGES_ON_GROUP_BY_PAYLOAD',
   SET_STATUS_SEARCH: 'SET_STATUS_SEARCH',
+  SET_CREATE_STATUS: 'SET_CREATE_STATUS',
+  SET_LOCATION: 'SET_LOCATION',
+  SET_DEVICE_LOCATION: 'SET_DEVICE_LOCATION',
+  SET_DEFAULT_ADDRESS: 'SET_DEFAULT_ADDRESS',
+  SET_TEMP_MEMBERS: 'SET_TEMP_MEMBERS'
 };
 
 export const actions = {
@@ -60,6 +65,21 @@ export const actions = {
   },
   setStatusSearch(statusSearch) {
     return {type: types.SET_STATUS_SEARCH, statusSearch};
+  },
+  setCreateStatus(createStatus) {
+    return {type: types.SET_CREATE_STATUS, createStatus};
+  },
+  setLocation(location) {
+    return {type: types.SET_LOCATION, location};
+  },
+  setDeviceLocation(deviceLocation) {
+    return {type: types.SET_DEVICE_LOCATION};
+  },
+  setDefaultAddress(defaultAddress) {
+    return {type: types.SET_DEFAULT_ADDRESS, defaultAddress}
+  },
+  setTempMembers(tempMembers) {
+    return {type: types.SET_TEMP_MEMBERS, tempMembers}
   }
 };
 
@@ -76,7 +96,12 @@ const initialState = {
     messages: null,
   },
   unReadMessages: [],
-  statusSearch: null
+  statusSearch: null,
+  createStatus: false,
+  location: null,
+  deviceLocation: null,
+  defaultAddress: null,
+  tempMembers: []
 };
 
 storeData = async (key, value) => {
@@ -94,6 +119,11 @@ const reducer = (state = initialState, action) => {
   const {messengerGroup, messagesOnGroup} = action;
   const {messages, unread, message} = action;
   const { statusSearch } = action;
+  const { createStatus } = action;
+  const {location} = action;
+  const {deviceLocation} = action;
+  const {defaultAddress} = action;
+  const {tempMembers} = action;
   switch (type) {
     case types.LOGOUT:
       AsyncStorage.clear();
@@ -207,6 +237,30 @@ const reducer = (state = initialState, action) => {
         ...state,
         statusSearch,
       };
+    case types.SET_CREATE_STATUS:
+      return {
+        ...state,
+        createStatus,
+      };
+    case types.SET_LOCATION:
+      return {
+        ...state,
+        location,
+      };
+    case types.SET_DEVICE_LOCATION:
+      return {
+        ...state,
+        deviceLocation};
+    case types.SET_DEFAULT_ADDRESS: 
+      return {
+        ...state,
+        defaultAddress
+      }
+    case types.SET_TEMP_MEMBERS: 
+      return {
+        ...state,
+        tempMembers
+      }
     default:
       return {...state, nav: state.nav};
   }

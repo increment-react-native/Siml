@@ -1,7 +1,7 @@
 import React, { Component } from 'react';
 import { View, TouchableOpacity, Text, Dimensions, SafeAreaView, TextInput } from 'react-native';
 import { FontAwesomeIcon } from '@fortawesome/react-native-fontawesome';
-import { faBars, faChevronLeft, faClock, faShoppingBag, faStar, faSearch } from '@fortawesome/free-solid-svg-icons';
+import { faBars, faEdit, faChevronLeft, faClock, faShoppingBag, faStar, faSearch } from '@fortawesome/free-solid-svg-icons';
 import { connect } from 'react-redux';
 import { BasicStyles, Color } from 'common';
 const width = Math.round(Dimensions.get('window').width)
@@ -65,22 +65,26 @@ class Header extends Component {
         </TouchableOpacity>
 
         {
-          routeName == 'Status' && (
+          routeName === 'Status' && (
+            <View style={{
+                flex: 1,
+               flexDirection: 'row',
+               width: width
+            }}>
             <View style={{
               height: 40,
               borderColor: Color.gray,
               borderWidth: 1,
               borderRadius: 25,
-              width: '80%',
-              position: 'absolute',
-              marginRight: '50%',
-              marginLeft: '15%',
+              width: '70%',
+              marginRight: '2%',
+              marginLeft: '2%',
               justifyContent: 'center'
             }}>
               <TextInput
                 style={{
                   height: 45,
-                  width: '80%'
+                  width: '70%'
                 }}
                 onSubmitEditing={() => {this.props.setStatusSearch(this.state.search)}}
                 onChangeText={text => this.searchHandler(text)}
@@ -88,10 +92,23 @@ class Header extends Component {
                 placeholder='Search...'
               />
             </View>
+            <View>
+              <TouchableOpacity style={{
+              marginRight: '5%'
+            }}
+              onPress={() => { this.props.setCreateStatus(true) }}
+            >
+              <FontAwesomeIcon
+                icon={faEdit}
+                size={40}
+                color={Color.primary} />
+            </TouchableOpacity>
+            </View>
+            </View>
           )
         }
 
-        <TouchableOpacity
+        {routeName !== 'Status' && (<TouchableOpacity
           onPress={() => this.props.navigation.navigate('topChoiceStack')}
           style={{
             justifyContent: 'center',
@@ -111,10 +128,10 @@ class Header extends Component {
               },
             ]}
           />
-        </TouchableOpacity>
+        </TouchableOpacity>)}
 
 
-        <TouchableOpacity
+        {routeName !== 'Status' && (<TouchableOpacity
           onPress={() => this.props.navigation.navigate('historyStack', {title: 'History'})}
           style={{
             justifyContent: 'center',
@@ -133,9 +150,9 @@ class Header extends Component {
               },
             ]}
           />
-        </TouchableOpacity>
+        </TouchableOpacity>)}
 
-        <TouchableOpacity
+        {routeName !== 'Status' && (<TouchableOpacity
           onPress={() => this.props.navigation.navigate('cartStack')}
           style={{
             justifyContent: 'center',
@@ -154,7 +171,7 @@ class Header extends Component {
               },
             ]}
           />
-        </TouchableOpacity>
+        </TouchableOpacity>)}
       </View>
     );
   }
@@ -166,7 +183,8 @@ const mapDispatchToProps = (dispatch) => {
   const { actions } = require('@redux');
   return {
     logout: () => dispatch(actions.logout()),
-    setStatusSearch: (statusSearch) => dispatch(actions.setStatusSearch(statusSearch))
+    setStatusSearch: (statusSearch) => dispatch(actions.setStatusSearch(statusSearch)),
+    setCreateStatus: (createStatus) => dispatch(actions.setCreateStatus(createStatus))
   };
 };
 

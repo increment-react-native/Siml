@@ -5,6 +5,7 @@ import { View, Image, Text, TouchableHighlight, ScrollView} from 'react-native';
 import { Routes, Color, Helper, BasicStyles } from 'common';
 import LinearGradient from 'react-native-linear-gradient'
 import { Dimensions } from 'react-native';
+import Button from '../generic/Button.js'
 const width = Math.round(Dimensions.get('window').width);
 const height = Math.round(Dimensions.get('window').height);
 class Landing extends Component{
@@ -21,7 +22,8 @@ class Landing extends Component{
           flex: 1
         }}>
           <LinearGradient
-              colors={[theme ? theme.primary : Color.primary, theme ? theme.secondary : Color.secondary, Color.warning]}
+              colors = {['#987BE7', '#9276E6', '#5741D7']}
+              // colors={[theme ? theme.primary : Color.primary, theme ? theme.primary : Color.secondary, Color.primary]}
               locations={[0,0.5,1]} start={{ x: 2, y: 0 }} end={{ x: 1, y: 1 }}
               style={{
                 height: height
@@ -62,7 +64,7 @@ class Landing extends Component{
 
 
             <View>
-              <TouchableHighlight
+              {/* <TouchableHighlight
                 style={[BasicStyles.btnRound, {
                     backgroundColor: Color.warning,
                     marginTop: '20%',
@@ -73,6 +75,14 @@ class Landing extends Component{
                 <Text style={BasicStyles.textWhite}>
                     Get Started!
                 </Text>
+              </TouchableHighlight> */}
+              <TouchableHighlight  style={[BasicStyles.btnRound, {
+                marginTop: '20%',
+                width: '50%'}]} 
+                underlayColor={Color.gray}
+                onPress={()=> this.props.navigation.navigate('registerStack')}
+                >
+                  <Button content={<Text style={{color: 'white'}}>Get Started</Text>}/>
               </TouchableHighlight>
             </View>
 
@@ -92,7 +102,7 @@ class Landing extends Component{
                     fontWeight:'bold'
                   }}
                   onPress={()=> this.props.navigation.navigate('loginStack')}>
-                    Login
+                    Sign In
                 </Text>
               </Text>
             </View>
