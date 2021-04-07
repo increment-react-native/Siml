@@ -48,7 +48,6 @@ class CardList extends Component {
   }
 
   render() {
-    console.log(this.props.data && this.props.data, '=');
     return (
       <View>
         {

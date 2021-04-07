@@ -13,6 +13,7 @@ import { connect } from 'react-redux';
 import Config from 'src/config.js';
 import _ from 'lodash';
 import Api from 'services/api/index.js';
+import { Spinner } from 'components';
 
 class ViewProfile extends Component {
   constructor(props) {
@@ -23,16 +24,54 @@ class ViewProfile extends Component {
       email: null,
       choice: 'SIML ACTIVITY',
       connections: [],
-      isVisible: false
+      isVisible: false,
+      data: [],
+      limit: 5,
+      offset: 0,
+      isLoading: false
     }
   }
 
   componentDidMount() {
-    console.log(this.props.navigation.state?.params?.user, "=====");
-    this.retrieve(false)
+    this.retrieveActivity(false);
+    this.retrieveConnections(false)
   }
 
-  retrieve(flag) {
+  retrieveActivity = (flag) => {
+    let status = this.props.navigation.state.params && this.props.navigation.state.params.title && this.props.navigation.state.params.title.toLowerCase() === 'upcoming' ? 'pending' : 'completed'
+    let parameter = {
+      condition: [{
+        value: this.props.navigation.state?.params?.user?.account_id,
+        column: 'account_id',
+        clause: '='
+      }, {
+        value: 'completed',
+        column: 'status',
+        clause: '='
+      }],
+      limit: this.state.limit,
+      offset: flag == true && this.state.offset > 0 ? (this.state.offset * this.state.limit) : this.state.offset
+    }
+    this.setState({ isLoading: true })
+    console.log(parameter, Routes.reservationRetrieve, "==========");
+    Api.request(Routes.reservationRetrieve, parameter, response => {
+      this.setState({ isLoading: false })
+      console.log(response.data[0], "====");
+      if (response.data.length > 0) {
+        this.setState({
+          data: flag == false ? response.data : _.uniqBy([...this.state.data, ...response.data], 'id'),
+          offset: flag == false ? 1 : (this.state.offset + 1)
+        })
+      } else {
+        this.setState({
+          data: flag == false ? [] : this.state.data,
+          offset: flag == false ? 0 : this.state.offset,
+        })
+      }
+    });
+  }
+
+  retrieveConnections(flag) {
     const { user } = this.props.state
     if (user == null) {
       return
@@ -131,61 +170,63 @@ class ViewProfile extends Component {
 
   renderSimlActivity() {
     const height = Math.round(Dimensions.get('window').height);
-    const data = [{
-      image: require('assets/test2.jpg'),
-      date: 'January 29, 2021',
-      location: 'Cebu City',
-      superlike: true,
-      users: [{
-        name: 'Test'
-      }, {
-        name: 'Test'
-      }]
-    }, {
-      image: require('assets/test.jpg'),
-      date: 'January 29, 2021',
-      location: 'Cebu City',
-      superlike: true,
-      users: [{
-        name: 'Test'
-      }]
-    }, {
-      image: require('assets/test.jpg'),
-      date: 'January 29, 2021',
-      location: 'Cebu City',
-      superlike: true,
-      users: [{
-        name: 'Test'
-      }]
-    }]
     return (
       <SafeAreaView>
         <ScrollView
           showsVerticalScrollIndicator={false}
-        >
+          onScroll={(event) => {
+            let scrollingHeight = event.nativeEvent.layoutMeasurement.height + event.nativeEvent.contentOffset.y
+            let totalHeight = event.nativeEvent.contentSize.height
+            if(event.nativeEvent.contentOffset.y <= 0) {
+              if(this.state.isLoading == false){
+                // this.retrieve(false)
+              }
+            }
+            if (Math.round(scrollingHeight) >= Math.round(totalHeight)) {
+              if (this.state.isLoading === false) {
+                this.retrieve(true)
+              }
+            }
+          }}
+          >
           <View style={{
-            height: height,
-            marginTop: 50,
-            width: '90%',
-            marginLeft: '5%',
-            marginRight: '5%'
+            marginTop: 15,
+            flex: 1,
+            padding: 10
           }}>
             {
-              data.map((item, index) => (
+              this.state.data.length > 0 && this.state.data.map((item, index) => (
                 <ImageCardWithUser
-                  data={item} style={{
-                    marginBottom: 20
-                  }}
-                  onClick={(item) => {
-                    this.setState({
-                      isVisible: true
-                    })
-                  }}
+                data={{
+                  logo: item.merchant.logo,
+                  address: item.merchant.address || 'No address provided',
+                  name: item.merchant.name,
+                  date: item.synqt[0].date,
+                  superlike: true,
+                  users: [{
+                    name: 'Test'
+                  }, {
+                    name: 'Test'
+                  }, {
+                    name: 'Test'
+                  }, {
+                    name: 'Test'
+                  }, {
+                    name: 'Test'
+                  }]
+                }}
+                style={{
+                  marginBottom: 20
+                }}
+                redirectTo={this.props.navigation.state.params && this.props.navigation.state.params.title}
+                onClick={() => {
+                  // this.onClick(item)
+                }}
                 />
-              ))
-            }
+                ))
+              }
           </View>
-        </ScrollView>
+          </ScrollView>
       </SafeAreaView>
     )
   }
@@ -193,9 +234,9 @@ class ViewProfile extends Component {
   render() {
     let user = this.props.navigation.state?.params?.user
     return (
-      <View style={[Style.MainContainer, {
+      <View style={{
         backgroundColor: Color.containerBackground
-      }]}>
+      }}>
         <ScrollView>
           <View>
             <View style={Style.TopView}>
@@ -249,6 +290,7 @@ class ViewProfile extends Component {
             ) :
               this.renderConnections()}
           </View>
+          {this.state.isLoading ? <Spinner mode="overlay" /> : null}
           {this.state.isVisible && <CardModal
           visisble={this.state.isVisible}
           onClose={() => {

@@ -16,70 +16,7 @@ class Notifications extends Component {
     super(props);
     this.state = {
       activeIndex: 0,
-      data: [
-        {
-          "id": 1,
-          "from": 1,
-          "to": 2,
-          "payload": "synqt",
-          "payload_value": "1",
-          "route": "/restaurant/codetest",
-          "created_at": null,
-          "updated_at": null,
-          "deleted_at": null,
-          "reservee": "Lalaine Garrido",
-          "synqt": [
-            {
-              "id": 1,
-              "code": "test",
-              "account_id": 2,
-              "title": "Restaurant Reservation",
-              "location_id": 1,
-              "date": "2021-03-20",
-              "details": "test",
-              "status": "pending",
-              "created_at": null,
-              "updated_at": null,
-              "deleted_at": null,
-              "date_at_human": "March 20, 2021"
-            }
-          ],
-          "location": [
-            {
-              "id": 1,
-              "account_id": 2,
-              "address_type": "test",
-              "merchant_id": 1,
-              "code": "test",
-              "latitude": "test",
-              "longitude": "test",
-              "route": "test",
-              "locality": "test",
-              "region": "test",
-              "country": "test",
-              "created_at": null,
-              "updated_at": null,
-              "deleted_at": null
-            }
-          ],
-          "merchant": {
-            "id": 1,
-            "code": "test",
-            "account_id": 1,
-            "name": "test",
-            "email": "test@gmail.com",
-            "prefix": "test",
-            "website": "test",
-            "logo": "/storage/image/1_2021-03-29_07_26_21_drinks.jpg",
-            "address": "test",
-            "schedule": "2021-03-19T14:43",
-            "status": "VERIFIED",
-            "created_at": null,
-            "updated_at": "2021-03-29 07:26:26",
-            "deleted_at": null
-          }
-        }
-      ],
+      data: [],
       isLoading: false,
       isVisible: false,
       limit: 5,
@@ -113,7 +50,7 @@ class Notifications extends Component {
       this.setState({ isLoading: false })
       console.log(response, " =============");
       if (response.data.length > 0) {
-        // this.setState({ data: response.data });
+        this.setState({ data: response.data });
       }
     });
   }
@@ -166,10 +103,10 @@ class Notifications extends Component {
               this.state.data.length > 0 && this.state.data.map((item, index) => (
                 <ImageCardWithUser
                   data={{
-                    logo: item.merchant.logo,
-                    address: item.merchant.address || 'No address provided',
-                    name: item.merchant.name,
-                    date: item.synqt[0].date,
+                    logo: item.merchant?.logo,
+                    address: item.merchant?.address || 'No address provided',
+                    name: item.merchant?.name,
+                    date: item.synqt.length > 0 && item.synqt[0]?.date,
                     superlike: true,
                     users: [{
                       name: 'Test'
