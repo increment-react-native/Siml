@@ -238,7 +238,7 @@ class Profile extends Component {
                 textAlign: 'center',
                 fontWeight: 'bold',
                 fontSize: 18
-              }}>Lalaine Garrido</Text>
+              }}>{this.state.firstName && this.state.middleName && this.state.lastName && this.state.firstName + ' ' + this.state.middleName  +' ' + this.state.lastName}</Text>
             </View>
           </View>
           <View style={{
