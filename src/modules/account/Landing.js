@@ -32,12 +32,12 @@ class Landing extends Component{
 
 
             <View style={{
-              height: 300,
+              height: '50%',
               width: width,
               alignItems: 'center',
               justifyContent: 'center',
               marginTop: 100}}>
-            <Image source={require('assets/new2.png')} style={{width: '90%', height: '90%'}}/>
+            <Image source={require('assets/new2.png')} style={{width: '70%', height: '70%'}}/>
             </View>
 
 
