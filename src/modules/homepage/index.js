@@ -7,6 +7,7 @@ import {faBars, faUtensils, faChevronLeft, faTicketAlt, faShoppingBag, faEdit} f
 import Footer from 'modules/generic/Footer';
 import { connect } from 'react-redux';
 import Config from 'src/config.js';
+import Gradient from 'modules/generic/Gradient'
 class HomePage extends Component{
   constructor(props){
     super(props);3
@@ -31,77 +32,86 @@ class HomePage extends Component{
           style={{
             backgroundColor: Color.containerBackground
           }}
-          >
-            <View style={{
-              justifyContent: 'center',
-              alignItems: 'center',
-              height: 200,
-              }}
-            >
-              <TouchableOpacity
-                style={{
-                  height: 120,
-                  width: 120,
-                  borderRadius: 100,
-                  borderColor: Color.primary,
-                  borderWidth: 2
-                }}
-                onPress={() => this.props.navigation.push('profileStack')}>
-                {
-                  user?.account_profile && user?.account_profile.url && (
-                    <Image
-                      source={user && user.account_profile && user.account_profile.url ? { uri: Config.BACKEND_URL + user.account_profile.url } : require('assets/logo.png') }
-                      style={[BasicStyles.profileImageSize, {
-                        height: '100%',
-                        width: '100%',
-                        borderRadius: 100
-                      }]} />
-                  )
-                }
-                <View style={{
-                  height: 40,
-                  width: 40,
-                  borderRadius: 100,
-                  marginRight: 5,
-                  position: 'absolute',
-                  right: -5,
-                  bottom: -2,
-                  backgroundColor: 'white',
-                  justifyContent: 'center',
-                  alignItems: 'center'
-                }}>
-                  <View style={{
-                    height: 25,
-                    width: 25,
-                    borderRadius: 100,
-                    borderWidth: 2,
-                    borderColor: Color.primary,
-                    backgroundColor: 'white',
-                    justifyContent: 'center',
-                    alignItems: 'center'
-                  }}>
-                    <FontAwesomeIcon style={{
-                      borderColor: Color.primary
-                    }}
-                      icon={faEdit}
-                      size={12}
-                      color={Color.primary}
-                    />
+          >  
+            <Gradient style={{borderRadius: 20, width: '90%', marginLeft: 'auto', marginRight: 'auto', marginTop: '20%'}} content={
+              <View style={{flex: 1, flexDirection: 'row'}}>
+                <View style={{marginLeft: '5%', marginTop: 50}}>
+                    <Text style={{
+                        textAlign: 'center',
+                        color: Color.white
+                      }}>Jane Kooper</Text>
+                    <Text style={{
+                      textAlign: 'center',
+                      fontWeight: 'bold',
+                      color: Color.white,
+                      fontSize: 25,
+                      width: 200
+                    }}>What's the Consensus.</Text>
                   </View>
+                <View style={{
+                  justifyContent: 'center',
+                  alignItems: 'center',
+                  height: 200,
+                }}
+                >
+                  <TouchableOpacity
+                    style={{
+                      height: 170,
+                      width: 170,
+                      borderRadius: 100,
+                      borderColor: Color.white,
+                      borderWidth: 2,
+                      marginLeft: '1%'
+                    }}
+                    onPress={() => this.props.navigation.push('profileStack')}>
+                    {
+                      user?.account_profile && user?.account_profile.url && (
+                        <Image
+                          source={user && user.account_profile && user.account_profile.url ? { uri: Config.BACKEND_URL + user.account_profile.url } : require('assets/logo.png') }
+                          style={[BasicStyles.profileImageSize, {
+                            height: '100%',
+                            width: '100%',
+                            borderRadius: 100
+                          }]} />
+                      )
+                    }
+                    <View style={{
+                      height: 40,
+                      width: 40,
+                      borderRadius: 100,
+                      marginRight: 5,
+                      position: 'absolute',
+                      right: 5,
+                      bottom: -2,
+                      backgroundColor: 'white',
+                      justifyContent: 'center',
+                      alignItems: 'center'
+                    }}>
+                      <View style={{
+                        height: 25,
+                        width: 25,
+                        borderRadius: 100,
+                        borderWidth: 2,
+                        borderColor: Color.primary,
+                        backgroundColor: 'white',
+                        justifyContent: 'center',
+                        alignItems: 'center'
+                      }}>
+                        <FontAwesomeIcon style={{
+                          borderColor: Color.primary
+                        }}
+                          icon={faEdit}
+                          size={12}
+                          color={Color.primary}
+                        />
+                      </View>
+                    </View>
+                  </TouchableOpacity>
                 </View>
-              </TouchableOpacity>
-            </View>
-            <View style={{
-              width: '100%'
-            }}>
-              <Text style={{
-                textAlign: 'center',
-                fontWeight: 'bold'
-              }}>What's the Consensus.</Text>
-            </View>
+              </View>
+            }></Gradient>
 
-
-            <View style={{
+            {/* <View style={{
               width: '80%',
               marginLeft: '10%',
               marginRight: '10%',
@@ -170,7 +180,47 @@ class HomePage extends Component{
                     <FontAwesomeIcon icon={faShoppingBag} size={30} color={Color.white}/>
                   </TouchableOpacity>
               </View>
-            </View>
+            </View> */}
+
+            <View style={{
+              // width: '30%',
+              // marginLeft: '10%',
+              // marginRight: '10%',
+              marginTop: 50,
+              // // borderRadius: BasicStyles.standardBorderRadius,
+              // height: 120,
+              // borderColor: Color.primary,
+              // borderWidth: 1,
+              // flexDirection: 'row',
+            }}>
+              <View style={{
+                // width: '33%',
+                justifyContent: 'center',
+                alignItems: 'center',
+              }}>
+                 <TouchableOpacity
+                  onPress={() => this.redirect('restaurantStack')}
+                  style={{
+                    height: 130,
+                    width: 130,
+                    borderRadius: 70,
+                    borderWidth: 1,
+                    borderColor: Color.gray,
+                    justifyContent: 'center',
+                    alignItems: 'center',
+                    backgroundColor: 'white',
+                    elevation:3,
+                    shadowColor: Color.primary,
+                    shadowOffset: { width: 0, height: 3 },
+                    shadowOpacity: 0.5,
+                    shadowRadius: 5,
+                    marginBottom: 10
+                  }}>
+                    <FontAwesomeIcon icon={faUtensils} size={60} color={Color.primary}/>
+                  </TouchableOpacity>
+              </View>
+              </View>
+
             <View style={{
               width: '50%',
               marginLeft: '25%',
@@ -181,10 +231,18 @@ class HomePage extends Component{
                 onPress={() => this.redirect('historyStack')}
                 style={{
                   ...BasicStyles.standardButton,
-                  backgroundColor: Color.danger,
+                  backgroundColor: Color.white,
+                  borderColor: Color.primary,
+                  borderWidth: 1,
+                  elevation:3,
+                  shadowColor: Color.primary,
+                  shadowOffset: { width: 0, height: 3 },
+                  shadowOpacity: 0.5,
+                  shadowRadius: 5,
+                  marginBottom: 10
                 }}>
                   <Text style={{
-                    color: Color.white
+                    color: Color.primary
                   }}>Upcoming</Text>
                 </TouchableOpacity>
             </View>
