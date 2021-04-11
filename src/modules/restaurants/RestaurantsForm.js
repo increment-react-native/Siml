@@ -34,10 +34,12 @@ class Restaurants extends Component {
       selectVal: null,
       val: 1,
       Date: null,
-      isLoading: false
+      isLoading: false,
+      count: 1
     }
   }
   componentDidMount() {
+    console.log('[size]', this.props.state.size)
     const {setDefaultAddress} = this.props;
     setDefaultAddress(null);
   }
@@ -51,24 +53,25 @@ class Restaurants extends Component {
   }
 
   createSynqt = () => {
-    let parameter = {
-      account_id: this.props.state.user.id,
-      location_id: this.props.state.defaultAddress?.id,
-      date: this.state.Date?.date + ' ' + this.state.Date?.time,
-      status: 'pending',
-      details: 'restaurant'
-    }
-    console.log(parameter, Routes.synqtCreate, 'test');
-    this.setState({ isLoading: true })
-    Api.request(Routes.synqtCreate, parameter, response => {
-      this.setState({ isLoading: false })
-      if (response.data !== null) {
-        const {setDefaultAddress} = this.props;
-        setDefaultAddress(null);
-        this.setState({Date: null})
-        this.props.navigation.navigate('menuStack', {synqt_id: response.data})
-      }
-    });
+    console.log('[count]', this.props.state.size)
+    // let parameter = {
+    //   account_id: this.props.state.user.id,
+    //   location_id: this.props.state.defaultAddress?.id,
+    //   date: this.state.Date?.date + ' ' + this.state.Date?.time,
+    //   status: 'pending',
+    //   details: 'restaurant'
+    // }
+    // console.log(parameter, Routes.synqtCreate, 'test');
+    // this.setState({ isLoading: true })
+    // Api.request(Routes.synqtCreate, parameter, response => {
+    //   this.setState({ isLoading: false })
+    //   if (response.data !== null) {
+    //     const {setDefaultAddress} = this.props;
+    //     setDefaultAddress(null);
+    //     this.setState({Date: null})
+    //     this.props.navigation.navigate('menuStack', {synqt_id: response.data})
+    //   }
+    // });
   }
   
   render() {
