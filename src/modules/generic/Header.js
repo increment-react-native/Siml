@@ -1,7 +1,7 @@
 import React, {Component} from 'react';
-import {View, TouchableOpacity, Text, Dimensions, SafeAreaView} from 'react-native';
+import {View, TouchableOpacity, Text, Dimensions, SafeAreaView, TextInput} from 'react-native';
 import {FontAwesomeIcon} from '@fortawesome/react-native-fontawesome';
-import {faAlignLeft, faBars, faChevronLeft, faClock, faHistory, faShoppingBag, faStar} from '@fortawesome/free-solid-svg-icons';
+import {faAlignLeft, faBars, faChevronLeft, faClock, faHistory, faShoppingBag, faStar, faEdit} from '@fortawesome/free-solid-svg-icons';
 import {connect} from 'react-redux';
 import { BasicStyles, Color } from 'common';
 const width = Math.round(Dimensions.get('window').width)
@@ -9,11 +9,22 @@ const width = Math.round(Dimensions.get('window').width)
 class Header extends Component {
   constructor(props) {
     super(props);
+    this.state = {
+      search: null
+    }
   }
+
+  searchHandler = (value) => {
+    this.setState({search: value});
+  }
+
   back = () => {
     this.props.navigationProps.pop();
   };
   render() {
+    const { routeName } = this.props.navigation.state;
+    const { theme } = this.props.state;
+
     return (
       <View
         style={{
@@ -53,6 +64,50 @@ class Header extends Component {
             ]}
           />
         </TouchableOpacity>
+
+        {
+          routeName === 'Status' && (
+            <View style={{
+              flex: 1,
+               flexDirection: 'row',
+               width: width
+            }}>
+            <View style={{
+              height: 40,
+              borderColor: Color.gray,
+              borderWidth: 1,
+              borderRadius: 25,
+              width: '70%',
+              marginRight: '2%',
+              marginLeft: '2%',
+              justifyContent: 'center'
+            }}>
+              <TextInput
+                style={{
+                  height: 45,
+                  width: '70%'
+                }}
+                onSubmitEditing={() => {this.props.setStatusSearch(this.state.search)}}
+                onChangeText={text => this.searchHandler(text)}
+                value={this.state.search}
+                placeholder='Search...'
+              />
+            </View>
+            <View>
+              <TouchableOpacity style={{
+              marginRight: '7%'
+            }}
+              onPress={() => { this.props.setCreateStatus(true) }}
+            >
+              <FontAwesomeIcon
+                icon={faEdit}
+                size={BasicStyles.iconSize}
+                color={Color.primary} />
+            </TouchableOpacity>
+            </View>
+            </View>
+          )
+        }
 
       
         {/* <TouchableOpacity
@@ -100,7 +155,7 @@ class Header extends Component {
         </TouchableOpacity> */}
 
         <TouchableOpacity
-          onPress={() => this.props.navigation.navigate('cartStack')}
+          onPress={() => this.props.navigation.navigate('historyStack')}
           style={{
             justifyContent: 'center',
             alignItems: 'center',
