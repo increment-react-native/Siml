@@ -95,6 +95,7 @@ class Connections extends Component {
     }
     this.setState({ isLoading: true })
     Api.request(Routes.otherAccountsRetrieve, parameter, response => {          
+      console.log('RANDOM USERS', response);
       this.setState({ isLoading: false })
       if (response.data.length > 0) {
         this.setState({ suggestions: response.data})
