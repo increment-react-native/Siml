@@ -147,8 +147,8 @@ class TopChoice extends Component {
   retrieve = (flag) => {
     let parameter = {
       condition: [{
-        value: this.props.state.user.id,
-        column: 'account_id',
+        value: 2,
+        column: 'synqt_id',
         clause: '='
       }],
       limit: this.state.limit,
@@ -157,17 +157,18 @@ class TopChoice extends Component {
     this.setState({ isLoading: true })
     Api.request(Routes.topChoiceRetrieve, parameter, response => {
       this.setState({ isLoading: false })
-      // if (response.data.length > 0) {
-      //   this.setState({
-      //     data: flag == false ? response.data : _.uniqBy([...this.state.data, ...response.data], 'id'),
-      //     offset: flag == false ? 1 : (this.state.offset + 1)
-      //   })
-      // } else {
-      //   this.setState({
-      //     data: flag == false ? [] : this.state.data,
-      //     offset: flag == false ? 0 : this.state.offset,
-      //   })
-      // }
+      console.log(response, 'lalaine');
+      if (response.data.length > 0) {
+        this.setState({
+          data: flag == false ? response.data : _.uniqBy([...this.state.data, ...response.data], 'id'),
+          offset: flag == false ? 1 : (this.state.offset + 1)
+        })
+      } else {
+        this.setState({
+          data: flag == false ? [] : this.state.data,
+          offset: flag == false ? 0 : this.state.offset,
+        })
+      }
     });
   }
 

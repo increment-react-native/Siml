@@ -89,7 +89,6 @@ class History extends Component{
   renderData(data){
     const { isVisible } = this.state;
     return(
-      <SafeAreaView>
         <ScrollView
           showsVerticalScrollIndicator={false}
           onScroll={(event) => {
@@ -108,52 +107,54 @@ class History extends Component{
           }}
           >
           <View style={{
-            marginTop: 15,
-            flex: 1,
+            width: '90%',
+            marginLeft: '5%',
+            marginRight: '5%',
+            marginBottom: 150,
+            marginTop: 20
           }}>
             {
-              data.map((item, index) => (
+              this.state.data.length > 0 && this.state.data.map((item, index) => (
                 <ImageCardWithUser
-                data={{
-                  logo: item.merchant.logo,
-                  address: item.merchant.address || 'No address provided',
-                  name: item.merchant.name,
-                  date: item.synqt[0].date,
-                  superlike: true,
-                  users: [{
-                    name: 'Test'
-                  }, {
-                    name: 'Test'
-                  }, {
-                    name: 'Test'
-                  }, {
-                    name: 'Test'
-                  }, {
-                    name: 'Test'
-                  }]
-                }}
-                style={{
-                  marginBottom: 20
-                }}
-                redirectTo={this.props.navigation.state.params && this.props.navigation.state.params.title}
-                onClick={() => {
-                  this.onClick(item)
-                }}
+                  data={{
+                    logo: item.merchant?.logo,
+                    address: item.merchant?.address || 'No address provided',
+                    name: item.merchant?.name,
+                    date: item.synqt.length > 0 && item.synqt[0]?.date,
+                    superlike: true,
+                    users: [{
+                      name: 'Test'
+                    }, {
+                      name: 'Test'
+                    }, {
+                      name: 'Test'
+                    }, {
+                      name: 'Test'
+                    }, {
+                      name: 'Test'
+                    }]
+                  }}
+                  style={{
+                    marginBottom: 20
+                  }}
+                  redirectTo={this.props.navigation.state.params && this.props.navigation.state.params.title}
+                  onClick={() => {
+                    this.props.navigation.navigate('menuStack', {synqt_id: item.synqt[0].id})
+                  }}
                 />
-                ))
-              }
+              ))
+            }
           </View>
+          {isVisible && <CardModal
+            history={this.props.navigation.state.params && this.props.navigation.state.params.title && this.props.navigation.state.params.title.toLowerCase() === 'history' ? true : false}
+            navigation={this.props.navigation}
+            visisble={isVisible}
+            onClose={() => {
+            this.setState({
+              isVisible: false
+            })
+          }}/>}
         </ScrollView>
-        {isVisible && <CardModal
-          history={this.props.navigation.state.params && this.props.navigation.state.params.title && this.props.navigation.state.params.title.toLowerCase() === 'history' ? true : false}
-          navigation={this.props.navigation}
-          visisble={isVisible}
-          onClose={() => {
-          this.setState({
-            isVisible: false
-          })
-        }}/>}
-      </SafeAreaView>
     )
   }
   render() {
