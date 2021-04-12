@@ -23,8 +23,8 @@ import PasswordInputWithIconLeft from 'components/InputField/PasswordWithIcon.js
 import TextInputWithIcon from 'components/InputField/TextInputWithIcon.js';
 import {FontAwesomeIcon} from '@fortawesome/react-native-fontawesome';
 import {faComments, faArrowRight, faUser} from '@fortawesome/free-solid-svg-icons';
-import { Dimensions } from 'react-native';
 import Button from '../generic/Button.js'
+import { Dimensions } from 'react-native';
 const width = Math.round(Dimensions.get('window').width);
 class Login extends Component {
   //Screen1 Component
@@ -400,6 +400,7 @@ class Login extends Component {
         locations={[0,0.5,1]}
         start={{ x: 2, y: 0 }}
         end={{ x: 1, y: 1 }}
+        style={{height: '100%'}}
         >
         <ScrollView
           style={Style.ScrollView}

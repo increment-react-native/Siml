@@ -19,19 +19,35 @@ class CardList extends Component {
   sendRequest = (el) => {
     let parameter = {
       account_id: this.props.state.user.id,
-      to_email: "renanbargaso16@gmail.com",
+      to_email: el.email,
       content: "This is an invitation for you to join my connections."
     }
     this.setState({ isLoading: true });
     Api.request(Routes.circleCreate, parameter, response => {
       this.setState({ isLoading: false })
-      console.log(parameter, Routes.circleCreate, "===uo");
-      console.log(response, "================response upon sending request,===============");
+    });
+  }
+
+  storePeople = (item) => {
+    const { setTempMembers } = this.props;
+    let temp = this.props.state.tempMembers;
+    temp.push(item);
+    setTempMembers(temp);
+  }
+
+  updateStatus = (item) => {
+    let parameter = {
+      id: item.id,
+      status: 'accepted'
+    }
+    this.setState({ isLoading: true });
+    Api.request(Routes.circleUpdate, parameter, response => {
+      this.setState({ isLoading: false })
+      this.props.retrieve();
     });
   }
 
   render() {
-    console.log(this.props.data && this.props.data, '=');
     return (
       <View>
         {
@@ -71,7 +87,7 @@ class CardList extends Component {
                           this.props.hasAction && (
                             <View style={{ flexDirection: 'row' }}>
                               <TouchableOpacity
-                                onPress={() => this.changeTab(idx)}
+                                onPress={() => this.updateStatus(el)}
                                 style={{
                                   ...Style.actionBtn,
                                   backgroundColor: Color.primary
@@ -80,7 +96,7 @@ class CardList extends Component {
                                 <Text style={{ color: 'white' }}>Confirm</Text>
                               </TouchableOpacity>
                               <TouchableOpacity
-                                onPress={() => this.changeTab(idx)}
+                                onPress={() => this.updateStatus(el)}
                                 style={{
                                   ...Style.actionBtn,
                                   backgroundColor: 'gray'
@@ -101,7 +117,7 @@ class CardList extends Component {
                             <Text style={{ marginLeft: 10 }}>{el.lastLogin}</Text>
                           ) : (
                             <TouchableOpacity
-                              onPress={() => this.sendRequest(el)}
+                              onPress={() => this.props.invite ? this.storePeople(el) : this.sendRequest(el)}
                               style={this.props.actionContent == 'icon' ? Style.iconBtn : Style.button}
                             >
                               {
@@ -198,7 +214,9 @@ const mapStateToProps = state => ({ state: state });
 
 const mapDispatchToProps = dispatch => {
   const { actions } = require('@redux');
-  return {};
+  return {
+    setTempMembers: (tempMembers) => dispatch(actions.setTempMembers(tempMembers))
+  };
 };
 export default connect(
   mapStateToProps,
