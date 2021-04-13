@@ -63,7 +63,6 @@ class Notifications extends Component {
           showsVerticalScrollIndicator={false}
         >
           <View style={{
-            height: height,
             width: '90%',
             marginLeft: '5%',
             marginRight: '5%',
@@ -77,7 +76,7 @@ class Notifications extends Component {
                 width: 60,
                 height: 60,
                 borderRadius: 30,
-                backgroundColor: Color.warning,
+                backgroundColor: Color.primary,
                 justifyContent: 'center',
                 alignItems: 'center'
               }}>
@@ -86,15 +85,15 @@ class Notifications extends Component {
             </View>
             <Text style={{
               textAlign: 'center',
-              paddingTop: 5,
-              paddingBottom: 5,
-              color: Color.warning
+              paddingTop: 20,
+              fontWeight: 'bold',
+              color: Color.primary
             }}>
               Exciting plans!
             </Text>
             <Text style={{
               textAlign: 'center',
-              paddingTop: 20,
+              paddingTop: 10,
               paddingBottom: 20
             }}>
               You have invites from your connection!  Swipe right the photo to  proceed to SIML or left to ignore invites.

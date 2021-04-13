@@ -48,9 +48,10 @@ class Login extends Component {
   async componentDidMount(){
     this.getTheme()
     if(config.versionChecker == 'store'){
-      this.setState({isLoading: true})
+      // this.setState({isLoading: true})
       SystemVersion.checkVersion(response => {
-        this.setState({isLoading: false})
+        // this.setState({isLoading: false})
+        console.log(response);
         if(response == true){
           this.getData();
         }
@@ -437,20 +438,15 @@ class Login extends Component {
                 />
 
 
-              <TouchableHighlight  style={[BasicStyles.btnRound, {
+              <Button content={
+                <View style={{flex: 1, flexDirection: 'row', marginTop: 5}}>
+                  <Text style={{color: 'white', fontSize: 15}}>Sign In</Text>
+                  <FontAwesomeIcon color={'white'} icon={faArrowRight} style={{marginLeft: 10, marginTop: 1}}/>
+                </View>
+              } styles={[BasicStyles.btnRound, {
                 marginTop: '5%',
                 marginLeft: '50%',
-                width: '50%'}]} 
-                underlayColor={Color.gray}
-                onPress={()=> this.submit()}
-                >
-                  <Button content={
-                    <View style={{flex: 1, flexDirection: 'row', marginTop: 5}}>
-                      <Text style={{color: 'white', fontSize: 15}}>Sign In</Text>
-                      <FontAwesomeIcon color={'white'} icon={faArrowRight} style={{marginLeft: 10, marginTop: 1}}/>
-                    </View>
-                  }/>
-              </TouchableHighlight>
+                width: '50%'}]} redirect={()=> this.submit()}/>
               
 
               <View style={{

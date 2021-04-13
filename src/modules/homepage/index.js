@@ -33,9 +33,9 @@ class HomePage extends Component{
             backgroundColor: Color.containerBackground
           }}
           >  
-            <Gradient style={{borderRadius: 20, width: '90%', marginLeft: 'auto', marginRight: 'auto', marginTop: '20%'}} content={
+            <Gradient style={{borderRadius: 20, width: '90%', marginLeft: 'auto', marginRight: 'auto', marginTop: '15%'}} content={
               <View style={{flex: 1, flexDirection: 'row'}}>
-                <View style={{marginLeft: '5%', marginTop: 50}}>
+                <View style={{marginLeft: '-5%', marginTop: 50}}>
                     <Text style={{
                         textAlign: 'center',
                         color: Color.white
@@ -56,12 +56,12 @@ class HomePage extends Component{
                 >
                   <TouchableOpacity
                     style={{
-                      height: 170,
-                      width: 170,
+                      height: 135,
+                      width: 135,
                       borderRadius: 100,
                       borderColor: Color.white,
                       borderWidth: 2,
-                      marginLeft: '1%'
+                      marginLeft: '-5%'
                     }}
                     onPress={() => this.props.navigation.push('profileStack')}>
                     {
@@ -201,8 +201,8 @@ class HomePage extends Component{
                  <TouchableOpacity
                   onPress={() => this.redirect('restaurantStack')}
                   style={{
-                    height: 130,
-                    width: 130,
+                    height: 120,
+                    width: 120,
                     borderRadius: 70,
                     borderWidth: 1,
                     borderColor: Color.gray,

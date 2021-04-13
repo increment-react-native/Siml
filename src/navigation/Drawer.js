@@ -4,7 +4,7 @@ import { createStackNavigator } from 'react-navigation-stack';
 import { createDrawerNavigator } from 'react-navigation-drawer';
 import { FontAwesomeIcon } from '@fortawesome/react-native-fontawesome';
 import { faBars, faQrcode } from '@fortawesome/free-solid-svg-icons';
-import Slider from 'modules/slider';
+import Slider2 from 'modules/slider/index2';
 import { Color, BasicStyles } from 'common';
 import Homepage from 'modules/homepage';
 import Connections from 'src/modules/connection';
@@ -21,7 +21,7 @@ import Style from './Style.js';
 import { connect } from 'react-redux'
 
 // const width = Math.round(Dimensions.get('window').width);
-const width = '70%';
+const width = '100%';
 class MenuDrawerStructure extends Component {
   constructor(props) {
     super(props);
@@ -165,7 +165,7 @@ const Drawer = createDrawerNavigator(
     },
   },
   {
-    contentComponent: Slider,
+    contentComponent: Slider2,
     drawerWidth: width,
     initialRouteName: 'Homepage'
   },

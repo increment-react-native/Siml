@@ -163,7 +163,7 @@ class Profile extends Component {
           backgroundColor: Color.containerBackground
         }]}>
           {this.state.isLoading ? <Spinner mode="overlay" /> : null}
-          <View style={{ borderBottomWidth: .3, borderColor: '#555555' }}>
+          <View style={{ borderBottomWidth: 1, borderColor: Color.primary }}>
             <View style={Style.TopView}>
               <TouchableOpacity
                 style={{
@@ -188,6 +188,8 @@ class Profile extends Component {
                   )
                 }
                 <View style={{
+                  borderColor: Color.primary,
+                  borderWidth: 1,
                   height: 50,
                   width: 50,
                   borderRadius: 100,
@@ -199,16 +201,6 @@ class Profile extends Component {
                   justifyContent: 'center',
                   alignItems: 'center'
                 }}>
-                  <View style={{
-                    height: 35,
-                    width: 35,
-                    borderRadius: 100,
-                    borderWidth: 2,
-                    borderColor: Color.primary,
-                    backgroundColor: 'white',
-                    justifyContent: 'center',
-                    alignItems: 'center'
-                  }}>
                     <FontAwesomeIcon style={{
                       borderColor: Color.primary
                     }}
@@ -216,7 +208,6 @@ class Profile extends Component {
                       size={20}
                       color={Color.primary}
                     />
-                  </View>
                 </View>
               </TouchableOpacity>
             </View>
@@ -233,7 +224,7 @@ class Profile extends Component {
               </TouchableOpacity>
             </View>
             <View style={Style.BottomView}>
-              <FontAwesomeIcon style={{ marginRight: 5 }} icon={faCheckCircle} size={20} color={Color.blue} />
+              <FontAwesomeIcon style={{ marginRight: 5 }} icon={faCheckCircle} size={20} color={Color.primary} />
               <Text style={{
                 textAlign: 'center',
                 fontWeight: 'bold',

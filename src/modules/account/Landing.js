@@ -64,26 +64,10 @@ class Landing extends Component{
 
 
             <View>
-              {/* <TouchableHighlight
-                style={[BasicStyles.btnRound, {
-                    backgroundColor: Color.warning,
-                    marginTop: '20%',
-                    width: '50%'
-                }]}
-                onPress={()=> this.props.navigation.navigate('registerStack')}
-                underlayColor={Color.gray}>
-                <Text style={BasicStyles.textWhite}>
-                    Get Started!
-                </Text>
-              </TouchableHighlight> */}
-              <TouchableHighlight  style={[BasicStyles.btnRound, {
-                marginTop: '20%',
-                width: '50%'}]} 
-                underlayColor={Color.gray}
-                onPress={()=> this.props.navigation.navigate('registerStack')}
-                >
-                  <Button content={<Text style={{color: 'white'}}>Get Started</Text>}/>
-              </TouchableHighlight>
+                <Button content={<Text style={{color: 'white'}}>Get Started</Text>} 
+                  styles={[BasicStyles.btnRound, {
+                  marginTop: '20%',
+                  width: '50%'}]} redirect={() => this.props.navigation.navigate('registerStack')}/>
             </View>
 
 
