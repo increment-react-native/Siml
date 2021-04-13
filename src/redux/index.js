@@ -122,7 +122,6 @@ const reducer = (state = initialState, action) => {
   const { createStatus } = action;
   const {location, size} = action;
   const {deviceLocation} = action;
-  const {defaultAddress} = action;
   const {tempMembers} = action;
   switch (type) {
     case types.LOGOUT:
