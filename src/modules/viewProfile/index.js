@@ -282,10 +282,10 @@ class ViewProfile extends Component {
             textAlign: 'center',
             justifyContent: 'center'
           }}>
-            <Tab level={1} choice={['SIML ACTIVITY', 'CONNECTIONS']} onClick={this.choiceHandler}></Tab>
+            <Tab level={1} choice={['SYNQT ACTIVITIES', 'CONNECTIONS']} onClick={this.choiceHandler}></Tab>
           </View>
           <View>
-            {this.state.choice === 'SIML ACTIVITY' ? (
+            {this.state.choice === 'SYNQT ACTIVITIES' ? (
               this.renderSimlActivity()
             ) :
               this.renderConnections()}
