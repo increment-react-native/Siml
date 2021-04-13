@@ -34,7 +34,8 @@ class Restaurants extends Component {
       selectVal: null,
       val: 1,
       Date: null,
-      isLoading: false
+      isLoading: false,
+      count: 1
     }
   }
   componentDidMount() {
@@ -57,7 +58,8 @@ class Restaurants extends Component {
       merchant_id: this.props.state.user.sub_account?.merchant?.id || null,
       latitude: this.props.state.location.latitude,
       longitude: this.props.state.location.longitude,
-      route: this.props.state.location.route,
+      route: this.props.state.location.address,
+      // route: this.props.state.location.route,
       locality: this.props.state.location.locality,
       region: this.props.state.location.region,
       country: this.props.state.location.country,
@@ -150,6 +152,10 @@ class Restaurants extends Component {
             }}>
               <Text>Date and Time</Text>
               <DateTimePicker
+                borderBottomColor={Color.gray}
+                icon={true}
+                textStyle={{marginRight: '-7%'}}
+                borderColor={'white'}
                 type={'datetime'}
                 placeholder={'Select Date and Time'}
                 onFinish={(date) => {
@@ -158,7 +164,7 @@ class Restaurants extends Component {
                   })
                 }}
                 style={{
-                  marginTop: 5
+                  marginTop: '-5%'
                 }} />
             </View>
             <View style={{ marginBottom: '23%' }}>

@@ -115,14 +115,13 @@ storeData = async (key, value) => {
 const reducer = (state = initialState, action) => {
   const { type, user, token } = action;
   const { theme, layer } = action;
-  const { isViewing, request } = action;
+  const { isViewing, request, defaultAddress } = action;
   const {messengerGroup, messagesOnGroup} = action;
   const {messages, unread, message} = action;
   const { statusSearch } = action;
   const { createStatus } = action;
-  const {location} = action;
+  const {location, size} = action;
   const {deviceLocation} = action;
-  const {defaultAddress} = action;
   const {tempMembers} = action;
   switch (type) {
     case types.LOGOUT:
@@ -255,6 +254,11 @@ const reducer = (state = initialState, action) => {
       return {
         ...state,
         defaultAddress
+      };
+    case types.SET_SIZE: 
+      return {
+        ...state,
+        size
       }
     case types.SET_TEMP_MEMBERS: 
       return {
