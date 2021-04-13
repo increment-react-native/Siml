@@ -70,7 +70,10 @@ class Header extends Component {
             <View style={{
               flex: 1,
                flexDirection: 'row',
-               width: width
+               width: width,
+               justifyContent: 'center',
+              alignItems: 'center',
+              position: 'relative',
             }}>
             <View style={{
               height: 40,
@@ -79,8 +82,7 @@ class Header extends Component {
               borderRadius: 25,
               width: '70%',
               marginRight: '2%',
-              marginLeft: '2%',
-              justifyContent: 'center'
+              marginLeft: '-13%',
             }}>
               <TextInput
                 style={{
@@ -186,6 +188,8 @@ const mapDispatchToProps = (dispatch) => {
   const {actions} = require('@redux');
   return {
     logout: () => dispatch(actions.logout()),
+    setStatusSearch: (statusSearch) => dispatch(actions.setStatusSearch(statusSearch)),
+    setCreateStatus: (createStatus) => dispatch(actions.setCreateStatus(createStatus))
   };
 };
 

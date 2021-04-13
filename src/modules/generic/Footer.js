@@ -1,5 +1,5 @@
 import React, {Component} from 'react';
-import {View, Text, TouchableOpacity, Platform} from 'react-native';
+import {View, Text, TouchableOpacity, Platform, Image} from 'react-native';
 import {FontAwesomeIcon} from '@fortawesome/react-native-fontawesome';
 import {faUsers, faHome, faBell, faComment} from '@fortawesome/free-solid-svg-icons';
 import {createStackNavigator} from '@react-navigation/stack';
@@ -108,16 +108,10 @@ class Footer extends Component {
             width: '33%'
           }}
           >
-          <FontAwesomeIcon
-            icon={faComment}
-            size={BasicStyles.iconSize}
-            style={[
-              BasicStyles.iconStyle,
-              {
-                color: Color.gray,
-              },
-            ]}
-          />
+            <Image source={require('assets/logo.png')} style={{
+                height: 30,
+                width: 30
+            }} />
           </TouchableOpacity>
 
           <TouchableOpacity

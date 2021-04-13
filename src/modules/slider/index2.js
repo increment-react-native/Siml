@@ -94,7 +94,9 @@ class Slider2 extends Component {
                         style={[BasicStyles.profileImageSize, {
                           height: 50,
                           width: 50,
-                          borderRadius: 50
+                          borderRadius: 50,
+                          borderWidth: 2,
+                          borderColor: Color.warning
                         }]}/>
                 </View>
                 <View style={{marginTop: '60%',position: 'absolute', right: 0, alignItems: 'flex-end'}}>
