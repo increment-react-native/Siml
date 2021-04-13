@@ -87,26 +87,56 @@ class Slider2 extends Component {
                         </TouchableOpacity>
                     </View>
                 </View>
-                <View style={{flex:1, flexDirection: 'row', marginTop: '10%', position: 'absolute', right: 0}}>
-                    <Text style={{color: Color.white, fontWeight: 'bold', marginTop: '8%', marginRight: 10}}>{user.account_information.first_name} {user.account_information.last_name}</Text>
-                    <Image
-                        source={{uri: Config.BACKEND_URL  + user.account_profile.url}}
-                        style={[BasicStyles.profileImageSize, {
-                          height: 50,
-                          width: 50,
-                          borderRadius: 50,
-                          borderWidth: 2,
-                          borderColor: Color.warning
-                        }]}/>
-                </View>
+                {
+                  user != null ? (
+                    <View style={{marginTop: '10%', position: 'absolute', right: 0}}>
+                    {
+                      user.account_profile != null && user.account_profile.url != null && (
+                      <View style={{flex:1, flexDirection: 'row', marginTop: '10%', position: 'absolute', right: 0}}>
+                          <Text style={{color: Color.white, fontWeight: 'bold', marginTop: '8%', marginRight: 10}}>{user.account_information.first_name} {user.account_information.last_name}</Text>
+                          <Image
+                              source={{uri: Config.BACKEND_URL  + user.account_profile.url}}
+                              style={[BasicStyles.profileImageSize, {
+                                height: 50,
+                                width: 50,
+                                borderRadius: 50,
+                                borderWidth: 2,
+                                borderColor: Color.warning
+                              }]}/>
+                        </View>
+                      )
+                    }
+                    {
+                       (user.account_profile == null || (user.account_profile != null && user.account_profile.url == null)) && (
+                        <FontAwesomeIcon
+                          icon={faUserCircle}
+                          size={100}
+                          style={{
+                            color: Color.white
+                          }}
+                        />
+                      )
+                    }
+                    </View>
+                  ) : (
+                    <Text style={[styles.sectionHeadingStyle, {
+                      paddingTop: 150,
+                      backgroundColor: theme ? theme.primary : Color.primary
+                    }]}>
+                      Welcome to {Helper.company}!
+                    </Text>
+                  )
+                }
                 <View style={{marginTop: '60%',position: 'absolute', right: 0, alignItems: 'flex-end'}}>
                 {Helper.DrawerMenu.length > 0 &&
                     Helper.DrawerMenu.map((item, index) => {
                         return(
-                            <View style={[styles.navSectionStyle, {flex: 1, flexDirection: 'row-reverse', borderBottomWidth: item.borderBottom == true ? 1 : 0, width: '180%', borderColor:Color.white}]}>
+                          <TouchableOpacity style={[styles.navSectionStyle, {flexDirection: 'row-reverse',  borderBottomWidth:0, width: '200%', paddingBottom: 10}]} onPress={() => item.title  == 'Connections' ? this.props.navigation.navigate('connectionStack') : this.navigateToScreen(item.route)}>
+                            <View style={[styles.navSectionStyle, {flex: 1, flexDirection: 'row-reverse',paddingBottom: item.borderBottom == true ? 130 : 0,  borderBottomWidth: item.borderBottom == true ? 1 : 0, width: '200%', borderColor:Color.white}]}>
                                 <FontAwesomeIcon style={styles.navItemStyle} icon={item.icon} size={BasicStyles.iconSize}></FontAwesomeIcon>
-                                <Text style={{color:Color.white, marginRight: 10, marginTop: 2}} onPress={() => item.title  == 'Connections' ? this.props.navigation.navigate('connectionStack') : this.navigateToScreen(item.route)}>{item.title}</Text>
+                                <Text style={{color:Color.white, marginRight: 10, marginTop: 2}}>{item.title}</Text>
                             </View>
+                          </TouchableOpacity>
                             )
                     })
                 }

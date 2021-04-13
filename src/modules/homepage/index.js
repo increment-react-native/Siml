@@ -52,6 +52,7 @@ class HomePage extends Component{
                   justifyContent: 'center',
                   alignItems: 'center',
                   height: 200,
+                  width: '100%'
                 }}
                 >
                   <TouchableOpacity
@@ -61,7 +62,8 @@ class HomePage extends Component{
                       borderRadius: 100,
                       borderColor: Color.white,
                       borderWidth: 2,
-                      marginLeft: '-5%'
+                      position: 'absolute',
+                      right: 200
                     }}
                     onPress={() => this.props.navigation.push('profileStack')}>
                     {
