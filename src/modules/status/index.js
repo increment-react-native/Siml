@@ -224,7 +224,8 @@ class Status extends Component {
               </View>
               <View style={{
                 flexDirection: 'row-reverse',
-                marginTop: 30
+                marginTop: 30,
+                marginBottom: 10
               }}>
                 <TouchableOpacity style={{
                   backgroundColor: Color.primary,
@@ -233,20 +234,20 @@ class Status extends Component {
                   marginRight: '10%',
                   alignItems: 'center',
                   borderRadius: 25,
-                  paddingTop: 5
+                  justifyContent: 'center'
                 }}
                   onPress={() => { this.post() }}
                 >
                   <Text style={{ color: 'white' }}>Post</Text>
                 </TouchableOpacity>
                 <TouchableOpacity style={{
-                  backgroundColor: Color.secondary,
+                  backgroundColor: Color.gray,
                   height: 35,
                   width: '20%',
                   marginRight: '2%',
                   alignItems: 'center',
                   borderRadius: 25,
-                  paddingTop: 5
+                  justifyContent: 'center'
                 }}
                   onPress={() => { this.props.setCreateStatus(false), this.setState({status: null}) }}
                 >

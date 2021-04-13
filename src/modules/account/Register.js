@@ -185,35 +185,16 @@ class Register extends Component {
               >Forgot Password?</Text>
 
               
-              {/* <Button
-                onClick={() => this.submit()}
-                title={'Register'}
-                style={{
-                  backgroundColor: Color.warning,
-                  width: '50%',
-                  marginBottom: 20
-                }}
-              /> */}
-              <TouchableHighlight  style={[BasicStyles.btnRound, {
+            
+              <Button content={
+                <View style={{flex: 1, flexDirection: 'row', marginTop: 5}}>
+                  <Text style={{color: 'white', fontSize: 15}}>Sign Up</Text>
+                  <FontAwesomeIcon color={'white'} icon={faArrowRight} style={{marginLeft: 10, marginTop: 1}}/>
+                </View>
+              } styles={[BasicStyles.btnRound, {
                 marginTop: '5%',
                 marginLeft: '50%',
-                width: '50%'}]} 
-                underlayColor={Color.gray}
-                onPress={()=> this.submit()}
-                >
-                  <Button content={
-                    <View style={{flex: 1, flexDirection: 'row', marginTop: 5}}>
-                      <Text style={{color: 'white', fontSize: 15}}>Sign Up</Text>
-                      <FontAwesomeIcon color={'white'} icon={faArrowRight} style={{marginLeft: 10, marginTop: 1}}/>
-                    </View>
-                  }/>
-              </TouchableHighlight>
-
-              {/* <View style={{
-                height: 1,
-                backgroundColor: Color.gray
-              }}>
-              </View> */}
+                width: '50%'}]} redirect={()=> this.submit()}/>
 
               <View style={{
                 justifyContent: 'center',
