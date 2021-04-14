@@ -10,6 +10,7 @@ class AddressTile extends Component {
     super(props);
   }
   render() {
+    console.log('[props in Location]', this.props);
     return (
       <TouchableOpacity
         style={[
