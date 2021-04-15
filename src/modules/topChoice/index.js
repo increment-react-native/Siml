@@ -19,113 +19,7 @@ class TopChoice extends Component {
     super(props);
     this.state = {
       activeIndex: 0,
-      data: [
-        {
-          "members": [
-            {
-              "id": 1,
-              "account_id": 1,
-              "synqt_id": 1,
-              "payload": "merchant_id",
-              "payload_value": "2",
-              "created_at": null,
-              "updated_at": null,
-              "deleted_at": null,
-              "name": "Lalaine Garrido"
-            },
-            {
-              "id": 3,
-              "account_id": 3,
-              "synqt_id": 1,
-              "payload": "merchant_id",
-              "payload_value": "2",
-              "created_at": null,
-              "updated_at": null,
-              "deleted_at": null,
-              "name": "Yeng"
-            }
-          ],
-          "synqt": [
-            {
-              "id": 1,
-              "code": "test",
-              "account_id": 2,
-              "title": "Restaurant Reservation",
-              "location_id": 1,
-              "date": "2021-03-20",
-              "details": "test",
-              "status": "pending",
-              "created_at": null,
-              "updated_at": null,
-              "deleted_at": null,
-              "date_at_human": "March 20, 2021"
-            }
-          ],
-          "merchant": {
-            "id": 2,
-            "code": "testtesttest",
-            "account_id": 2,
-            "name": "Business Part Two",
-            "email": "lalainegarrido@gmail.com",
-            "prefix": "Yo",
-            "website": "com",
-            "logo": "/storage/image/1_2021-03-29_07_26_21_drinks.jpg",
-            "address": "Seoul, South Korea",
-            "schedule": "2021-04-08 09:46:21",
-            "status": "",
-            "created_at": "2021-04-08 09:46:21",
-            "updated_at": null,
-            "deleted_at": null
-          }
-        },
-        {
-          "members": [
-            {
-              "id": 2,
-              "account_id": 2,
-              "synqt_id": 1,
-              "payload": "merchant_id",
-              "payload_value": "3",
-              "created_at": null,
-              "updated_at": null,
-              "deleted_at": null,
-              "name": "Patrick Cabia-an"
-            }
-          ],
-          "synqt": [
-            {
-              "id": 1,
-              "code": "test",
-              "account_id": 2,
-              "title": "Restaurant Reservation",
-              "location_id": 1,
-              "date": "2021-03-20",
-              "details": "test",
-              "status": "pending",
-              "created_at": null,
-              "updated_at": null,
-              "deleted_at": null,
-              "date_at_human": "March 20, 2021"
-            }
-          ],
-          "merchant": {
-            "id": 3,
-            "code": "sdfgsdfgsdfg",
-            "account_id": 3,
-            "name": "National Book Store",
-            "email": "national@gmail.com",
-            "prefix": "YES",
-            "website": ".com",
-            "logo": "/storage/image/1_2021-03-29_07_26_21_drinks.jpg",
-            "address": "Gwangju",
-            "schedule": "2021-03-19 10:51:53",
-            "status": "",
-            "created_at": "-0001-11-30 00:00:00",
-            "updated_at": null,
-            "deleted_at": null
-          }
-        }
-      ],
+      data: [],
       isLoading: false,
       isVisible: false,
       item: null,
@@ -147,7 +41,7 @@ class TopChoice extends Component {
   retrieve = (flag) => {
     let parameter = {
       condition: [{
-        value: 2,
+        value: this.props.navigation.state?.params?.synqt_id,
         column: 'synqt_id',
         clause: '='
       }],
@@ -157,7 +51,6 @@ class TopChoice extends Component {
     this.setState({ isLoading: true })
     Api.request(Routes.topChoiceRetrieve, parameter, response => {
       this.setState({ isLoading: false })
-      console.log(response, 'lalaine');
       if (response.data.length > 0) {
         this.setState({
           data: flag == false ? response.data : _.uniqBy([...this.state.data, ...response.data], 'id'),

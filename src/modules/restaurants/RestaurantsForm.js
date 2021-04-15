@@ -1,5 +1,5 @@
 import React, { Component } from 'react';
-import { ScrollView, View, Text, StyleSheet, TouchableOpacity, Image } from 'react-native';
+import { ScrollView, View, Text, StyleSheet, TouchableOpacity, Image, Alert } from 'react-native';
 import { SliderPicker } from 'react-native-slider-picker';
 import { BasicStyles, Color, Routes } from 'common'
 import LocationInput from 'components/InputField/LocationInput'
@@ -53,7 +53,19 @@ class Restaurants extends Component {
   }
 
   createSynqt = () => {
-    console.log('[sizeRest]', this.state.size)
+    const { setDefaultAddress, setLocation } = this.props;
+    if(this.props.state.tempMembers.length === 0) {
+      Alert.alert(
+        'Oopps',
+        'Please invite atleast 1 person to your SYNQT. Thank you.',
+        [
+          {text: 'Cancel'},
+          {text: 'Ok'}
+        ],
+        { cancelable: false }
+      )
+      return
+    }
     let param = {
       account_id: this.props.state.user.id,
       address_type: 'NULL',
@@ -69,33 +81,42 @@ class Restaurants extends Component {
     this.setState({ isLoading: true })
     Api.request(Routes.locationCreate, param, response => {
       this.setState({ isLoading: false })
-      if (response.data !== null) {
-        let parameter = {
-          account_id: this.props.state.user.id,
-          location_id: response.data,
-          date: this.state.Date?.date + ' ' + this.state.Date?.time,
-          status: 'pending',
-          details: {
-            type: 'restaurant', 
-            parameter: {
-              size: this.state.size
-            }
-          }
+      if (response.data === null) {
+        return
+      }
+      let parameter = {
+        account_id: this.props.state.user.id,
+        location_id: response.data,
+        date: this.state.Date?.date + ' ' + this.state.Date?.time,
+        status: 'pending',
+        details: "{ 'type': 'restaurant',  'parameter': { 'size': '1' }"
+      }
+      this.setState({ isLoading: true })
+      Api.request(Routes.synqtCreate, parameter, res => {
+        this.setState({ isLoading: false })
+        if (res.data !== null) {
+          this.sendInvitation(res.data);
+          setDefaultAddress(null);
+          setLocation(null);
+          this.createMessengerGroup(res.data, parameter.date)
+          this.setState({ Date: null })
         }
-        console.log(parameter);
-        this.setState({ isLoading: true })
-        Api.request(Routes.synqtCreate, parameter, res => {
-          this.setState({ isLoading: false })
-          if (res.data !== null) {
-            this.sendInvitation(res.data);
-            const { setDefaultAddress, setLocation, setTempMembers } = this.props;
-            setDefaultAddress(null);
-            setLocation(null);
-            setTempMembers([]);
-            this.setState({ Date: null })
-            this.props.navigation.navigate('menuStack', { synqt_id: res.data })
-          }
-        });
+      });
+    });
+  }
+
+  createMessengerGroup(id, date) {
+    let parameter = {
+      account_id: this.props.state.user.id,
+      title: date,
+      payload: id
+    }
+    this.setState({ isLoading: true })
+    Api.request(Routes.messengerGroupCreate, parameter, response => {
+      console.log(response);
+      this.setState({ isLoading: false })
+      if (response.data !== null) {
+        this.props.navigation.navigate('menuStack', { synqt_id: id })
       }
     });
   }
@@ -113,7 +134,8 @@ class Restaurants extends Component {
       this.setState({ isLoading: true });
       Api.request(Routes.notificationCreate, parameter, response => {
         this.setState({ isLoading: false })
-        console.log(response, "===response");
+        const { setTempMembers } = this.props;
+        setTempMembers([]);
       });
     })
   }
@@ -161,7 +183,7 @@ class Restaurants extends Component {
               <DateTimePicker
                 borderBottomColor={Color.gray}
                 icon={true}
-                textStyle={{marginRight: '-7%'}}
+                textStyle={{ marginRight: '-7%' }}
                 borderColor={'white'}
                 type={'datetime'}
                 placeholder={'Select Date and Time'}
@@ -176,12 +198,12 @@ class Restaurants extends Component {
                 }} />
             </View>
             <View style={{ marginBottom: '23%' }}>
-              <NumberInput 
+              <NumberInput
                 onFinish={(count) => {
                   this.setState({
                     size: count
                   })
-                }} 
+                }}
                 title={'Party Size'} />
             </View>
             <View style={{ marginBottom: '23%' }}>

@@ -22,14 +22,9 @@ class HeaderOptions extends Component {
   };
 
   redirect = (route) => {
-    if(route === 'topChoiceStack'){
-      this.props.navigationProps.navigate(route, {
-        synqt_id: 1
-      });
-    }else{
-      this.props.navigationProps.navigate(route);
-    }
-    // this.props.navigation.navigate(route)
+    this.props.navigationProps.navigate(route, {
+      synqt_id: this.props.navigationProps?.state?.params?.data?.payload
+    });
   }
 
   _card = () => {
