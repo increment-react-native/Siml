@@ -22,9 +22,13 @@ class HeaderOptions extends Component {
   };
 
   redirect = (route) => {
-    console.log(this.props.navigationProps.navigate(route, {
-      synqtId: 1
-    }));
+    if(route === 'topChoiceStack'){
+      this.props.navigationProps.navigate(route, {
+        synqt_id: 1
+      });
+    }else{
+      this.props.navigationProps.navigate(route);
+    }
     // this.props.navigation.navigate(route)
   }
 
