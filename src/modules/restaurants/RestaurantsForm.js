@@ -189,7 +189,8 @@ class Restaurants extends Component {
                 placeholder={'Select Date and Time'}
                 onFinish={(date) => {
                   this.setState({
-                    Date: date
+                    Date: date,
+                    Time: time
                   })
                 }}
                 style={{
