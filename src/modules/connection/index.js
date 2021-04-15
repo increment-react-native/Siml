@@ -55,11 +55,11 @@ class Connections extends Component {
       condition: [{
         value: user.id,
         column: 'account_id',
-        clause: 'or'
+        clause: '='
       }, {
         value: user.id,
         column: 'account',
-        clause: '='
+        clause: 'or'
       }, {
         clause: "like",
         column: "status",

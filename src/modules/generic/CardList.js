@@ -4,7 +4,7 @@ import { Card, ListItem, Button, Icon } from 'react-native-elements'
 import { Color, Routes } from 'common';
 import { Dimensions } from 'react-native';
 import { FontAwesomeIcon } from '@fortawesome/react-native-fontawesome';
-import { faEllipsisH, faUser } from '@fortawesome/free-solid-svg-icons';
+import { faEllipsisH, faUser, faCheck } from '@fortawesome/free-solid-svg-icons';
 import Config from 'src/config.js';
 import { connect } from 'react-redux';
 import Api from 'services/api/index.js';
@@ -47,19 +47,27 @@ class CardList extends Component {
     });
   }
 
+  isAdded(element) {
+    const { tempMembers } = this.props.state;
+    tempMembers.length > 0 && tempMembers.map((item, index) => {
+      console.log(item.account_id === element.account_id);
+      return item.account_id === element.account_id;
+    })
+  }
+
   render() {
     return (
       <View>
         {
           this.props.data.length > 0 && this.props.data.map((el, idx) => {
             return (
-              <TouchableOpacity onPress={() => { this.props.navigation.navigate('viewProfileStack', {user: el}) }}>
+              <TouchableOpacity onPress={() => { this.props.navigation.navigate('viewProfileStack', { user: el }) }}>
                 {/* <Card containerStyle={{padding:-5, borderRadius: 20}}> */}
                 <ListItem key={idx} style={{ width: width }}>
-                  {el.account?.profile?.url !== null  ? <Image
+                  {el.account?.profile?.url !== null ? <Image
                     style={Style.circleImage}
                     // resizeMode="cover"
-                    source={{ uri: Config.BACKEND_URL + el.account?.profile?.url}}
+                    source={{ uri: Config.BACKEND_URL + el.account?.profile?.url }}
                   /> :
                     <View style={{
                       borderColor: Color.primary,
@@ -72,16 +80,16 @@ class CardList extends Component {
                       justifyContent: 'center',
                       alignItems: 'center',
                       paddingBottom: 8
-                    }}><FontAwesomeIcon 
-                    icon={faUser}
-                    size={60}
-                    color={Color.primary}
-                  /></View>}
+                    }}><FontAwesomeIcon
+                        icon={faUser}
+                        size={60}
+                        color={Color.primary}
+                      /></View>}
                   <View>
                     <View style={{ flexDirection: 'row' }}>
                       <View>
-                        <Text style={{ fontWeight: 'bold' }}>{ el.account?.information?.first_name + ' ' + el.account?.information?.last_name }</Text>
-                        <Text style={{ fontStyle: 'italic' }}>{ el.account?.information?.address }</Text>
+                        <Text style={{ fontWeight: 'bold' }}>{el.account?.information?.first_name + ' ' + el.account?.information?.last_name}</Text>
+                        <Text style={{ fontStyle: 'italic' }}>{el.account?.information?.address}</Text>
                         <Text style={{ color: 'gray', fontSize: 10, marginBottom: 5 }}>{el.numberOfConnection} similar connections</Text>
                         {
                           this.props.hasAction && (
@@ -108,30 +116,41 @@ class CardList extends Component {
                           )
                         }
                       </View>
-                      <View style={{
-                        position: 'absolute',
-                        left: (width - 270),
-                      }}>
-                        {
-                          this.props.actionType == 'text' ? (
-                            <Text style={{ marginLeft: 10 }}>{el.lastLogin}</Text>
-                          ) : (
-                            <TouchableOpacity
-                              onPress={() => this.props.invite ? this.storePeople(el) : this.sendRequest(el)}
-                              style={this.props.actionContent == 'icon' ? Style.iconBtn : Style.button}
-                            >
-                              {
-                                this.props.actionContent == 'icon' ? (
-                                  <FontAwesomeIcon icon={faEllipsisH} size={30}
-                                    color={'gray'}></FontAwesomeIcon>
-                                ) : (
-                                  <Text style={{ color: 'white' }}>Add</Text>
-                                )
-                              }
-                            </TouchableOpacity>
-                          )
-                        }
-                      </View>
+                      {this.isAdded(el) === true ?
+                        <View style={{
+                          position: 'absolute',
+                          left: (width - 200),
+                        }}>
+                          <FontAwesomeIcon icon={faCheck} size={30}
+                            color={Color.primary}>
+                          </FontAwesomeIcon>
+                        </View>
+                        :
+                        <View style={{
+                          position: 'absolute',
+                          left: (width - 270),
+                        }}>
+                          {
+                            this.props.actionType == 'text' ? (
+                              <Text style={{ marginLeft: 10 }}>{el.lastLogin}</Text>
+                            ) : (
+                              <TouchableOpacity
+                                onPress={() => this.props.invite ? this.storePeople(el) : this.sendRequest(el)}
+                                style={this.props.actionContent == 'icon' ? Style.iconBtn : Style.button}
+                              >
+                                {
+                                  this.props.actionContent == 'icon' ? (
+                                    <FontAwesomeIcon icon={faEllipsisH} size={30}
+                                      color={'gray'}></FontAwesomeIcon>
+                                  ) : (
+                                    <Text style={{ color: 'white' }}>Add</Text>
+                                  )
+                                }
+                              </TouchableOpacity>
+                            )
+                          }
+                        </View>
+                      }
                     </View>
                   </View>
                 </ListItem>

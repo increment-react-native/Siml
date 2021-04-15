@@ -43,7 +43,7 @@ class Connections extends Component {
         column: 'account',
         clause: 'or'
       }, {
-        clause: "like",
+        clause: "=",
         column: "status",
         value: "accepted"
       }],
@@ -53,7 +53,6 @@ class Connections extends Component {
     this.setState({ isLoading: true })
     Api.request(Routes.circleRetrieve, parameter, response => {
       this.setState({ isLoading: false })
-      console.log(response, 'connections');
       if (response.data.length > 0) {
         this.setState({
           data: flag == false ? response.data : _.uniqBy([...this.state.data, ...response.data], 'id'),

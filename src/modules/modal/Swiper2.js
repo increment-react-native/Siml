@@ -113,7 +113,7 @@ class Cards extends React.Component {
     Api.request(Routes.topChoiceCreate, parameter, response => {
       this.setState({ isLoading: false })
       if (response.data !== null) {
-        this.props.navigation.navigate('topChoiceStack');
+        this.props.navigation.navigate('topChoiceStack', {synqt_id: this.props.navigation.state.params?.synqt_id});
       }
     },
       error => {

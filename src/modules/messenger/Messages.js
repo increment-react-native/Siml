@@ -20,28 +20,14 @@ import Api from 'services/api/index.js';
 import { connect } from 'react-redux';
 import Config from 'src/config.js';
 import { FontAwesomeIcon } from '@fortawesome/react-native-fontawesome';
-import { faImage, faPaperPlane, faLock, faPlusCircle, faChevronRight } from '@fortawesome/free-solid-svg-icons';
+import { faImage, faPaperPlane, faLock, faTimes, faChevronRight } from '@fortawesome/free-solid-svg-icons';
 import ImageModal from 'components/Modal/ImageModal.js';
 import ImagePicker from 'react-native-image-picker';
 import CommonRequest from 'services/CommonRequest.js';
 import Style from 'modules/messenger/Style.js'
-import Group from 'modules/generic/PeopleList.js'
 import Modal from 'components/Modal/Sketch';
 const DeviceHeight = Math.round(Dimensions.get('window').height);
 const DeviceWidth = Math.round(Dimensions.get('window').width);
-
-const Samplegroup = [
-  { user:{profile: {uri: require('assets/test.jpg')}} },
-  { user:{profile: {uri: require('assets/test.jpg')}} },
-  { user:{profile: {uri: require('assets/test.jpg')}} },
-  { user:{profile: {uri: require('assets/test.jpg')}} },
-  { user:{profile: {uri: require('assets/test.jpg')}} },
-  { user:{profile: {uri: require('assets/test.jpg')}} },
-  { user:{profile: {uri: require('assets/test.jpg')}} },
-  { user:{profile: {uri: require('assets/test.jpg')}} },
-  { user:{profile: {uri: require('assets/test.jpg')}} }
-]
-
 
 class MessagesV3 extends Component{
   constructor(props){
@@ -84,15 +70,13 @@ class MessagesV3 extends Component{
     }
   }
 
-  goesTo = () => {
-    this.redirect('peopleListStack')
-  }
-
   retrieve = () => {
-    console.log("[NAVIGATION]",this.props.navigation.state.params);
+    console.log("[NAVIGATION]",this.props.navigation.state.params.data);
+    const { messengerGroup } = this.props.state
+    const { setMessengerGroup } = this.props
     const { offset, limit } = this.state
     this.setState({ isLoading: true });
-
+    setMessengerGroup(this.props.navigation.state.params.data)
     const parameter = {
       condition: [{
         value: this.props.navigation.state.params.data.id,
@@ -106,14 +90,13 @@ class MessagesV3 extends Component{
       offset: offset * limit,
     }
     Api.request(Routes.messengerMessagesRetrieve, parameter, response => {
-      console.log('[Messages] OnRetrieve', response, response.data[0].account);
       this.setState({ isLoading: false, offset: offset + limit });
       if(response.data.length > 0) {
         this.setState({sender_id: response.data[0].account_id});
         this.setState({request_id: response.data[0].id});
       }
       const {setMessagesOnGroup} = this.props;
-        setMessagesOnGroup({
+      setMessagesOnGroup({
         messages: response.data.reverse(),
         groupId: this.props.navigation.state.params.data.id
       })
@@ -213,6 +196,7 @@ class MessagesV3 extends Component{
     this.setState({newMessage: null})
     Api.request(Routes.messengerMessagesCreate, parameter, response => {
       if(response.data != null){
+        console.log('[responseByUpdatingMessages]', response.data);
         updateMessageByCode(response.data);
       }
     });
@@ -437,33 +421,49 @@ class MessagesV3 extends Component{
 
   _headerRight = (item) => {
     return (
-      <View style={{flexDirection: 'row', marginTop: 10}}>
-        <UserImage user={item.account}/>
+      <View style={{
+          flexDirection: 'row',
+          height: 30,
+          alignItems: 'center'
+        }}>
+        <UserImage user={item.account} style={{
+          width: 25,
+          height: 25
+        }}/>
         <Text style={{
-          lineHeight: 30,
           paddingLeft: 10
-        }}>{item.account.username}</Text>
+        }}>{item.account?.information ? item.account.information.first_name + ' ' + item.account.information.last_name : item.account.username}</Text>
       </View>
     );
   }
 
   _headerLeft = (item) => {
     return (
-      <View style={{flexDirection: 'row', marginTop: 10, justifyContent: 'flex-end' }}>
+      <View style={{
+        flexDirection: 'row',
+        justifyContent: 'flex-end',
+        height: 30,
+        alignItems: 'center'
+      }}>
         <Text style={{
-          lineHeight: 30,
           paddingRight: 10
-        }}>{item.account.username}</Text>
-        <UserImage user={item.account}/>
+        }}>{item.account?.information ? item.account.information.first_name + ' ' + item.account.information.last_name : item.account.username}</Text>
+        <UserImage user={item.account} style={{
+          width: 25,
+          height: 25
+        }}/>
       </View>
     );
   }
 
-  _rightTemplate = (item) => {
-    const { theme } = this.props.state;
+  _rightTemplate = (item, index) => {
+    const { theme, messagesOnGroup } = this.props.state;
     return (
       <View>
-        {this._headerRight(item)}
+        {(index > 0 && messagesOnGroup && messagesOnGroup.messages != null) && item.account_id != (messagesOnGroup.messages[index - 1].account_id) && (this._headerRight(item, index))}
+        {
+          index == 0 && (this._headerRight(item, index))
+        }
         <Text style={[Style.dateText, {
           textAlign: 'left'
         }]}>{item.created_at_human}</Text>
@@ -490,11 +490,14 @@ class MessagesV3 extends Component{
     );
   }
 
-  _leftTemplate = (item) => {
-    const { theme } = this.props.state;
+  _leftTemplate = (item, index) => {
+    const { theme, messagesOnGroup } = this.props.state;
     return (
       <View>
-        {this._headerLeft(item)}
+        {(index > 0 && messagesOnGroup && messagesOnGroup.messages != null) && item.account_id != (messagesOnGroup.messages[index - 1].account_id) && (this._headerLeft(item, index))}
+        {
+          index == 0 && (this._headerLeft(item, index))
+        }
         <Text style={[Style.dateText, {
           textAlign: 'right'
         }]}>{item.created_at_human}</Text>
@@ -540,12 +543,12 @@ class MessagesV3 extends Component{
         <View style={{
           alignItems: 'flex-end'
         }}>
-          {item.account_id == user.id && (this._leftTemplate(item))}
+          {item.account_id == user.id && (this._leftTemplate(item, index))}
         </View>
         <View style={{
           alignItems: 'flex-start' 
         }}>
-          {item.account_id != user.id && (this._rightTemplate(item))}
+          {item.account_id != user.id && (this._rightTemplate(item, index))}
         </View>
       </View>
     );
@@ -650,19 +653,9 @@ class MessagesV3 extends Component{
     } = this.state;
     const { data } = this.props.navigation.state.params;
     const { messengerGroup, user, isViewing } = this.props.state;
+    console.log('data', data)
     return (
       <SafeAreaView>
-        {/* <FontAwesomeIcon
-          icon={faPlusCircle}
-          size={30}
-          style={{
-            color: Color.primary,
-            marginLeft: 20
-          }}
-          onPress={() => this.redirect('peopleListStack')}
-        /> */}
-        {/* <Group style={{marginLeft: 50, marginTop: -30}} data={Samplegroup}/> */}
-        <Group style={{marginLeft: 50, marginTop: -30}} redirectTo={() => this.goesTo()} data={Samplegroup}/>
         {
           // ON DEPOSITS (IF CONVERSATION IS NOT YET AVAILABLE)
           isLock && (
@@ -739,7 +732,7 @@ class MessagesV3 extends Component{
               borderTopWidth: 1,
               backgroundColor: Color.white
             }}>
-              {messengerGroup != null && (this._footer())}
+              {this._footer()}
             </View>
             <ImageModal
               visible={isImageModal}
