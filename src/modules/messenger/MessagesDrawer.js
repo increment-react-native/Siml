@@ -21,6 +21,13 @@ class HeaderOptions extends Component {
     this.props.navigationProps.pop();
   };
 
+  redirect = (route) => {
+    console.log(this.props.navigationProps.navigate(route, {
+      synqtId: 1
+    }));
+    // this.props.navigation.navigate(route)
+  }
+
   _card = () => {
     const {theme } = this.props.state;
     const { data } = this.props.navigationProps.state.params
@@ -41,7 +48,7 @@ class HeaderOptions extends Component {
           </View>
         )}
         <View style={{flex: 1, flexDirection: 'row', position: 'absolute', right: 40}}>
-                <TouchableOpacity>
+                <TouchableOpacity onPress={() => this.redirect('topChoiceStack')}>
                   <View style={{borderWidth: 2, borderRadius: 20, height: 30, width: 30, borderColor: Color.warning, justifyContent: 'center', alignItems: 'center'}}>
                       <FontAwesomeIcon
                       color={Color.warning}
@@ -50,7 +57,7 @@ class HeaderOptions extends Component {
                       style={BasicStyles.iconStyle}/>
                   </View>
                 </TouchableOpacity>
-                <TouchableOpacity>
+                <TouchableOpacity onPress={() => this.redirect('menuStack')}>
                   <View style={{borderWidth: 2, borderRadius: 20, height: 30, width: 30, borderColor: Color.primary, justifyContent: 'center', alignItems: 'center', marginLeft: 5}}>
                       <Image source={require('assets/logo.png')} style={{
                         height: 20,
