@@ -30,12 +30,13 @@ class Restaurants extends Component {
     super(props);
     this.state = {
       location: null,
-      value: '$1-$100',
+      value: null,
       selectVal: null,
       val: 1,
       Date: null,
+      Time: null,
       isLoading: false,
-      count: 1
+      size: null
     }
   }
   componentDidMount() {
@@ -52,6 +53,7 @@ class Restaurants extends Component {
   }
 
   createSynqt = () => {
+    console.log('[sizeRest]', this.state.size)
     let param = {
       account_id: this.props.state.user.id,
       address_type: 'NULL',
@@ -73,7 +75,12 @@ class Restaurants extends Component {
           location_id: response.data,
           date: this.state.Date?.date + ' ' + this.state.Date?.time,
           status: 'pending',
-          details: 'restaurant'
+          details: {
+            type: 'restaurant', 
+            parameter: {
+              size: this.state.size
+            }
+          }
         }
         console.log(parameter);
         this.setState({ isLoading: true })
@@ -143,7 +150,7 @@ class Restaurants extends Component {
                   marginTop: 3
                 }}
                 onPress={() => { this.props.navigation.navigate('locationStack') }}>
-                <Text style={{ color: Color.gray }}>{this.props.state.location?.route || 'Type your location'}</Text>
+                <Text style={{ color: Color.gray }}>{this.props.state.location?.address || 'Type your location'}</Text>
               </TouchableOpacity>
             </View>
             <View style={{
@@ -160,7 +167,8 @@ class Restaurants extends Component {
                 placeholder={'Select Date and Time'}
                 onFinish={(date) => {
                   this.setState({
-                    Date: date
+                    Date: date,
+                    Time: time
                   })
                 }}
                 style={{
@@ -168,10 +176,16 @@ class Restaurants extends Component {
                 }} />
             </View>
             <View style={{ marginBottom: '23%' }}>
-              <NumberInput title={'Party Size'} />
+              <NumberInput 
+                onFinish={(count) => {
+                  this.setState({
+                    size: count
+                  })
+                }} 
+                title={'Party Size'} />
             </View>
             <View style={{ marginBottom: '23%' }}>
-              <Range value={this.state.value.toString()} title={'Price Range'} />
+              <Range title={'Price Range'} />
             </View>
             <View>
               <InputSelect titles={'cuisines'} value={this.state.selectVal} title={'Cuisines'} />
