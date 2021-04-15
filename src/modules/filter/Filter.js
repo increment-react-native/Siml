@@ -26,16 +26,22 @@ class Filter extends Component {
   }
 
   apply() {
-    const { setFilterData } = this.props
-    const { target, type, date, value } = this.state
-    let parameter = {
-      target: target,
-      money_type: type,
-      date: date,
-      amount: value
+    if(this.props.from == 'restaurant'){
+      this.props.onFinish({
+        amount : this.state.value
+      })
+      this.props.close()
     }
-    setFilterData(parameter)
-    console.log('[parameter]', parameter);
+    // const { setFilterData } = this.props
+    // const { target, type, date, value } = this.state
+    // let parameter = {
+    //   target: target,
+    //   money_type: type,
+    //   date: date,
+    //   amount: value
+    // }
+    // setFilterData(parameter)
+    // console.log('[parameter]', parameter);
   }
 
   amount() {
