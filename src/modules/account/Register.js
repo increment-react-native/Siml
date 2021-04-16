@@ -111,7 +111,7 @@ class Register extends Component {
     const { theme } = this.props.state;
     return (
       <LinearGradient
-        colors={['#987BE7', '#9276E6', '#5741D7']}
+        colors={theme && theme.gradient !== undefined  && theme.gradient !== null ? theme.gradient : Color.gradient}
         locations={[0,0.5,1]}
         start={{ x: 2, y: 0 }}
         end={{ x: 1, y: 1 }}

@@ -8,6 +8,7 @@ import Footer from 'modules/generic/Footer';
 import { connect } from 'react-redux';
 import Config from 'src/config.js';
 import Gradient from 'modules/generic/Gradient'
+import LinearGradient from 'react-native-linear-gradient'
 class HomePage extends Component{
   constructor(props){
     super(props);3
@@ -33,9 +34,15 @@ class HomePage extends Component{
             backgroundColor: Color.containerBackground
           }}
           >  
-            <Gradient style={{borderRadius: 20, width: '90%', marginLeft: 'auto', marginRight: 'auto', marginTop: '15%'}} content={
+          <LinearGradient
+            colors={['#987BE7', '#9276E6', '#5741D7']}
+            locations={[0,-0.5,1]}
+            start={{ x: 1, y: 0 }}
+            end={{ x: 1, y: 1 }}
+            style={{borderRadius: 20, width: '90%', marginLeft: 'auto', marginRight: 'auto', marginTop: '15%'}}
+            >
               <View style={{flex: 1, flexDirection: 'row'}}>
-                <View style={{marginLeft: '-5%', marginTop: 50}}>
+                <View style={{marginLeft: '8%', marginTop: 50}}>
                     <Text style={{
                         textAlign: 'center',
                         color: Color.white
@@ -63,7 +70,7 @@ class HomePage extends Component{
                       borderColor: Color.white,
                       borderWidth: 2,
                       position: 'absolute',
-                      right: 200
+                      right: 300
                     }}
                     onPress={() => this.props.navigation.push('profileStack')}>
                     {
@@ -111,7 +118,7 @@ class HomePage extends Component{
                   </TouchableOpacity>
                 </View>
               </View>
-            }></Gradient>
+            </LinearGradient>
 
             {/* <View style={{
               width: '80%',

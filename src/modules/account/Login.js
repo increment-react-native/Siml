@@ -72,13 +72,15 @@ class Login extends Component {
       const secondary = await AsyncStorage.getItem(Helper.APP_NAME + 'secondary');
       const tertiary = await AsyncStorage.getItem(Helper.APP_NAME + 'tertiary');
       const fourth = await AsyncStorage.getItem(Helper.APP_NAME + 'fourth');
+      const gradient = await AsyncStorage.getItem(Helper.APP_NAME + 'gradient');
       if(primary != null && secondary != null && tertiary != null) {
         const { setTheme } = this.props;
         setTheme({
           primary: primary,
           secondary: secondary,
           tertiary: tertiary,
-          fourth: fourth
+          fourth: fourth,
+          gradient: JSON.parse(gradient)
         })
       }
     } catch (e) {
@@ -395,9 +397,10 @@ class Login extends Component {
     const { isLoading, error, isResponseError } = this.state;
     const {  blockedFlag, isOtpModal } = this.state;
     const { theme } = this.props.state;
+    // console.log('[THEME]', theme);
     return (
       <LinearGradient
-        colors={['#987BE7', '#9276E6', '#5741D7']}
+        colors={theme && theme.gradient !== undefined  && theme.gradient !== null ? theme.gradient : Color.gradient}
         locations={[0,0.5,1]}
         start={{ x: 2, y: 0 }}
         end={{ x: 1, y: 1 }}
@@ -434,7 +437,7 @@ class Login extends Component {
                   password: input
                 })}
                 style={{width: '80%', borderColor: 'white'}}
-                placeholder={'Confirm Password'}
+                placeholder={'Password'}
                 />
 
 

@@ -9,15 +9,19 @@ import { Helper, BasicStyles, Color } from 'common';
 import Config from 'src/config.js';
 import { FontAwesomeIcon } from '@fortawesome/react-native-fontawesome';
 import { faSignOutAlt, faTimes, faUserCircle } from '@fortawesome/free-solid-svg-icons';
-import Gradient from 'modules/generic/Gradient'
 import LinearGradient from 'react-native-linear-gradient'
 import {Dimensions} from 'react-native';
+import { color } from 'react-native-reanimated';
+import AsyncStorage from '@react-native-community/async-storage';
 const width = Math.round(Dimensions.get('window').width);
 const height = Math.round(Dimensions.get('window').height);
 
 class Slider2 extends Component {
   constructor(props){
     super(props);
+    this.state = {
+      colors: [],
+    }
   }
   navigateToScreen = (route) => {
     if(route == 'share'){
@@ -75,9 +79,16 @@ class Slider2 extends Component {
 
   render () {
     const { user, theme } = this.props.state;
-    console.log(user.account_information)
+    const { colors } = this.state
+    console.log('[COLOR]', theme.gradient)
     return (
-    <Gradient style={{height: height, paddingRight: 10, marginTop: '-1%'}} content={
+      <LinearGradient
+        colors={theme.gradient !== undefined ? theme.gradient : Color.gradient}
+        locations={[0,-0.5,1]}
+        start={{ x: 1, y: 0 }}
+        end={{ x: 1, y: 1 }}
+        style={{height: height, paddingRight: 10, marginTop: '-1%'}}
+        >
         <ScrollView showsVerticalScrollIndicator={false}>
             <View style={{flex:1, flexDirection: 'row'}}>
                 <View style={{backgroundColor: Color.white, height:height, width:'25%', borderTopRightRadius: 50, borderBottomRightRadius: 50, zIndex: 999, elevation: 50}}>
@@ -153,7 +164,7 @@ class Slider2 extends Component {
                 </View>
             </View>
         </ScrollView>
-    }/>
+    </LinearGradient>
     );
   }
 }
