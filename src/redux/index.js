@@ -138,15 +138,25 @@ const reducer = (state = initialState, action) => {
         user,
       };
     case types.SET_THEME:
-      console.log('tertiary', theme.tertiary);
+      console.log('tertiary', theme);
       storeData('primary', theme.primary);
       storeData('secondary', theme.secondary);
       storeData('tertiary', theme.tertiary);
       storeData('fourth', theme.fourth);
+      storeData('gradient', JSON.stringify(theme.gradient));
       Color.setPrimary(theme.primary);
       Color.setSecondary(theme.secondary);
       Color.setTertiary(theme.tertiary);  
       Color.setFourth(theme.fourth);
+      if(theme.primary === '#4CCBA6'){
+        Color.setGradient(['#987BE7', '#b1f2e0', '#4CCBA6'])
+      }else if (theme.primary === '#FFCC00'){
+        Color.setGradient(['#987BE7', '#ffeb96', '#FFCC00'])
+      }else if(theme.primary === '#F88BFF'){
+        Color.setGradient(['#987BE7', '#eb97f0', '#f22bff'])
+      }else{
+        Color.setGradient(['#987BE7', '#9276E6', '#5741D7'])
+      }
       return {
         ...state,
         theme,

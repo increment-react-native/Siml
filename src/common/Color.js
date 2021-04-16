@@ -1,7 +1,9 @@
+
 let primary = '#5842D7'
 let secondary = '#FFCC00'
 let tertiary = '#4CCBA6'
 let fourth = '#F88BFF'
+let gradient = ['#987BE7', '#9276E6', '#5741D7']
 export default {
   primaryDark: '#cae166',
   primary: primary,
@@ -20,6 +22,7 @@ export default {
   blue: '#2F80ED',
   containerBackground: '#fff',
   fourth: fourth,
+  gradient: gradient,
   setPrimary(color){
     this.primary = color
   },
@@ -31,5 +34,8 @@ export default {
   },
   setFourth(color){
     fourth = color
+  },
+  setGradient(colors){
+    gradient = colors
   }
 }
