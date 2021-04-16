@@ -292,4 +292,23 @@ export default {
       borderBottomWidth: 0
     }
   },
+  drawerHeader1: {
+    headerStyle: {
+      shadowColor: 'transparent',
+      elevation: 0,
+      borderBottomWidth: 0,
+      justifyContent: 'center',
+      alignItems: 'center',
+      fontSize: 12
+    },
+    headerTitleContainerStyle: {
+      backgroundColor: Color.white,
+      justifyContent: 'center',
+      alignItems: 'center',
+      paddingRight: 64
+    },
+    headerTitleStyle: {
+      fontWeight: 'bold',
+    },  
+  },
 }

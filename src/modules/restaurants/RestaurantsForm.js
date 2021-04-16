@@ -40,8 +40,9 @@ class Restaurants extends Component {
     }
   }
   componentDidMount() {
-    const { setDefaultAddress } = this.props;
+    const { setDefaultAddress, setTempMembers } = this.props;
     setDefaultAddress(null);
+    setTempMembers([]);
   }
 
   redirect(route) {
@@ -109,7 +110,8 @@ class Restaurants extends Component {
     let parameter = {
       account_id: this.props.state.user.id,
       title: date,
-      payload: id
+      payload: id,
+      members: this.props.state.tempMembers
     }
     this.setState({ isLoading: true })
     Api.request(Routes.messengerGroupCreate, parameter, response => {
@@ -189,8 +191,7 @@ class Restaurants extends Component {
                 placeholder={'Select Date and Time'}
                 onFinish={(date) => {
                   this.setState({
-                    Date: date,
-                    Time: time
+                    Date: date
                   })
                 }}
                 style={{

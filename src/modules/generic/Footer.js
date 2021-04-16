@@ -7,7 +7,6 @@ import {NavigationActions, StackActions} from 'react-navigation';
 import {BasicStyles, Color} from 'common';
 import {connect} from 'react-redux';
 
-
 class Footer extends Component {
   constructor(props) {
     super(props);
@@ -36,6 +35,7 @@ class Footer extends Component {
   }
 
   render (){
+    const { theme } = this.props.state;
     const { layer } = this.props;
     return(
       <View
@@ -66,7 +66,7 @@ class Footer extends Component {
                   style={[
                     BasicStyles.iconStyle,
                     {
-                      color: Color.gray,
+                      color: theme ? theme.primary : Color.primary,
                     },
                   ]}
                 />
@@ -90,7 +90,7 @@ class Footer extends Component {
                   style={[
                     BasicStyles.iconStyle,
                     {
-                      color: Color.gray,
+                      color: theme ? theme.primary : Color.primary,
                     },
                   ]}
                 />
@@ -128,7 +128,7 @@ class Footer extends Component {
             style={[
               BasicStyles.iconStyle,
               {
-                color: Color.gray,
+                color: theme ? theme.primary : Color.primary,
               },
             ]}
           />
