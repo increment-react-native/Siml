@@ -397,9 +397,10 @@ class Login extends Component {
     const { isLoading, error, isResponseError } = this.state;
     const {  blockedFlag, isOtpModal } = this.state;
     const { theme } = this.props.state;
+    // console.log('[THEME]', theme);
     return (
       <LinearGradient
-        colors={theme.gradient !== undefined ? theme.gradient : Color.gradient}
+        colors={theme && theme.gradient !== undefined  && theme.gradient !== null ? theme.gradient : Color.gradient}
         locations={[0,0.5,1]}
         start={{ x: 2, y: 0 }}
         end={{ x: 1, y: 1 }}
