@@ -23,14 +23,16 @@ class GroupUsers extends Component{
         {
           data && data.map((item, index) => (
             <UserImage
-              user={item}
-              color={Color.secondary}
-              size={ 30 }
+              user={{profile: item.account?.profile}}
+              color={this.props.color ? this.props.color : Color.secondary}
+              size={ this.props.size ? this.props.size : 30 }
               style={{
-                width: 30,
-                height: 30,
-                borderRadius: 15,
-                padding: '15%'
+                width: 60,
+                height: 60,
+                borderRadius: 30,
+                marginRight: '2%',
+                borderColor: Color.secondary,
+                borderWidth: 1
               }}/>
           ))
         }

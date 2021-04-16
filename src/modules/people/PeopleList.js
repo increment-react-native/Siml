@@ -29,7 +29,7 @@ class Connections extends Component {
   }
 
   retrieve(flag) {
-    const { user } = this.props.state
+    const { user, tempMembers } = this.props.state
     if (user == null) {
       return
     }
@@ -54,6 +54,16 @@ class Connections extends Component {
     Api.request(Routes.circleRetrieve, parameter, response => {
       this.setState({ isLoading: false })
       if (response.data.length > 0) {
+        response.data.map(i => {
+          tempMembers.length > 0 && tempMembers.map(item => {
+            console.log(item.account?.id, i.account?.id, 'kasdf');
+            if(item.account?.id === i.account?.id) {
+              i['added'] = true;
+            } else {
+              i['added'] = false;
+            }
+          })
+        })
         this.setState({
           data: flag == false ? response.data : _.uniqBy([...this.state.data, ...response.data], 'id'),
           offset: flag == false ? 1 : (this.state.offset + 1)

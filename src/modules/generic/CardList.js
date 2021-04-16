@@ -4,7 +4,7 @@ import { Card, ListItem, Button, Icon } from 'react-native-elements'
 import { Color, Routes } from 'common';
 import { Dimensions } from 'react-native';
 import { FontAwesomeIcon } from '@fortawesome/react-native-fontawesome';
-import { faEllipsisH, faUser, faCheck } from '@fortawesome/free-solid-svg-icons';
+import { faEllipsisH, faUser, faCheckCircle, fasTimesCircle, faTimesCircle } from '@fortawesome/free-solid-svg-icons';
 import Config from 'src/config.js';
 import { connect } from 'react-redux';
 import Api from 'services/api/index.js';
@@ -29,6 +29,7 @@ class CardList extends Component {
   }
 
   storePeople = (item) => {
+    item['added'] = true
     const { setTempMembers } = this.props;
     let temp = this.props.state.tempMembers;
     temp.push(item);
@@ -47,12 +48,16 @@ class CardList extends Component {
     });
   }
 
-  isAdded(element) {
-    const { tempMembers } = this.props.state;
-    tempMembers.length > 0 && tempMembers.map((item, index) => {
-      console.log(item.account_id === element.account_id);
-      return item.account_id === element.account_id;
+  remove = (id) => {
+    const { setTempMembers } = this.props;
+    let temp = this.props.state.tempMembers;
+    temp.map((item, index) => {
+      if(id === item.account?.id) {
+        temp.splice(index, 1)
+        setTempMembers(temp);
+      }
     })
+
   }
 
   render() {
@@ -62,11 +67,9 @@ class CardList extends Component {
           this.props.data.length > 0 && this.props.data.map((el, idx) => {
             return (
               <TouchableOpacity onPress={() => { this.props.navigation.navigate('viewProfileStack', { user: el }) }}>
-                {/* <Card containerStyle={{padding:-5, borderRadius: 20}}> */}
                 <ListItem key={idx} style={{ width: width }}>
                   {el.account?.profile?.url !== null ? <Image
                     style={Style.circleImage}
-                    // resizeMode="cover"
                     source={{ uri: Config.BACKEND_URL + el.account?.profile?.url }}
                   /> :
                     <View style={{
@@ -116,14 +119,15 @@ class CardList extends Component {
                           )
                         }
                       </View>
-                      {this.isAdded(el) === true ?
+                      {el.added && el.added === true || this.props.data.length === this.props.state.tempMembers.length ?
                         <View style={{
                           position: 'absolute',
                           left: (width - 200),
+                          flexDirection: 'row'
                         }}>
-                          <FontAwesomeIcon icon={faCheck} size={30}
-                            color={Color.primary}>
-                          </FontAwesomeIcon>
+                          <TouchableOpacity onPress={() => {this.remove(el.account?.id)}}>
+                            <Text style={{color: Color.success}}>Added</Text>
+                          </TouchableOpacity>
                         </View>
                         :
                         <View style={{

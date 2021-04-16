@@ -131,7 +131,7 @@ class Slider2 extends Component {
                 {Helper.DrawerMenu.length > 0 &&
                     Helper.DrawerMenu.map((item, index) => {
                         return(
-                          <TouchableOpacity style={[styles.navSectionStyle, {flexDirection: 'row-reverse',  borderBottomWidth:0, width: '200%', paddingBottom: 10}]} onPress={() => item.title  == 'Connections' ? this.props.navigation.navigate('connectionStack') : this.navigateToScreen(item.route)}>
+                          <TouchableOpacity style={[styles.navSectionStyle, {flexDirection: 'row-reverse',  borderBottomWidth:0, width: '200%', paddingBottom: 10}]} onPress={() => item.title  == 'Connections' ? this.props.navigation.navigate('connectionStack') : ( item.title  == 'Messages'? this.props.navigation.navigate('mainMessageStack') : this.navigateToScreen(item.route))}>
                             <View style={[styles.navSectionStyle, {flex: 1, flexDirection: 'row-reverse',paddingBottom: item.borderBottom == true ? height / 5 : 0,  borderBottomWidth: item.borderBottom == true ? 1 : 0, width: '200%', borderColor:Color.white}]}>
                                 <FontAwesomeIcon style={styles.navItemStyle} icon={item.icon} size={BasicStyles.iconSize}></FontAwesomeIcon>
                                 <Text style={{color:Color.white, marginRight: 10, marginTop: 2}}>{item.title}</Text>
