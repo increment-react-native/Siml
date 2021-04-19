@@ -204,15 +204,35 @@ class ViewProfile extends Component {
                   date: item.synqt[0].date,
                   superlike: true,
                   users: [{
-                    name: 'Test'
+                    account: {
+                      profile: {
+                        url: '/storage/image/11_2021-04-06_02_04_43_fries.jpg'
+                      }
+                    }
                   }, {
-                    name: 'Test'
+                    account: {
+                      profile: {
+                        url: '/storage/image/11_2021-04-06_02_04_43_fries.jpg'
+                      }
+                    }
                   }, {
-                    name: 'Test'
+                    account: {
+                      profile: {
+                        url: '/storage/image/11_2021-04-06_02_04_43_fries.jpg'
+                      }
+                    }
                   }, {
-                    name: 'Test'
+                    account: {
+                      profile: {
+                        url: '/storage/image/11_2021-04-06_02_04_43_fries.jpg'
+                      }
+                    }
                   }, {
-                    name: 'Test'
+                    account: {
+                      profile: {
+                        url: '/storage/image/11_2021-04-06_02_04_43_fries.jpg'
+                      }
+                    }
                   }]
                 }}
                 style={{

@@ -67,7 +67,6 @@ class Connections extends Component {
       }],
       offset: flag == true && this.state.offset > 0 ? (this.state.offset * this.state.limit) : this.state.offset,
     }
-    console.log(parameter, Routes.circleRetrieve, "====");
     this.setState({ isLoading: true })
     Api.request(Routes.circleRetrieve, parameter, response => {
       this.setState({ isLoading: false })

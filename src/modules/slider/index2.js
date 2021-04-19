@@ -83,7 +83,7 @@ class Slider2 extends Component {
     console.log('[COLOR]', theme.gradient)
     return (
       <LinearGradient
-        colors={theme.gradient !== undefined ? theme.gradient : Color.gradient}
+        colors={theme && theme.gradient !== undefined  && theme.gradient !== null ? theme.gradient : Color.gradient}
         locations={[0,-0.5,1]}
         start={{ x: 1, y: 0 }}
         end={{ x: 1, y: 1 }}
