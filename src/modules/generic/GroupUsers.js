@@ -24,18 +24,20 @@ class GroupUsers extends Component{
           data.length > 0 && data.map((item, index) => {
             if(index < 5) {
               return (
-                <UserImage
-                  user={{profile: item.account?.profile}}
-                  color={this.props.color ? this.props.color : Color.secondary}
-                  size={ this.props.size ? this.props.size : 30 }
-                  style={{
-                    width: this.props.size,
-                    height: this.props.size,
-                    borderRadius: 30,
-                    marginRight: '2%',
-                    borderColor: Color.secondary,
-                    borderWidth: 1
-                  }}/>
+                <TouchableOpacity onPress={() => {this.props.navigation.navigate('viewProfileStack', { user: item, level: 1 }) }}>
+                  <UserImage
+                    user={{profile: item.account?.profile ? item.account.profile : item?.profile}}
+                    color={this.props.color ? this.props.color : Color.secondary}
+                    size={ this.props.size ? this.props.size : 30 }
+                    style={{
+                      width: this.props.size,
+                      height: this.props.size,
+                      borderRadius: 30,
+                      marginRight: '2%',
+                      borderColor: Color.secondary,
+                      borderWidth: 1
+                    }}/>
+                </TouchableOpacity>
               )
             }
           })
