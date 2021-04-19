@@ -22,7 +22,7 @@ class HomePage extends Component{
   }
 
   render() {
-    const { user } = this.props.state;
+    const { user, theme } = this.props.state;
     return (
       <View style={[Style.MainContainer, {
         backgroundColor: Color.containerBackground,
@@ -35,14 +35,14 @@ class HomePage extends Component{
           }}
           >  
           <LinearGradient
-            colors={['#987BE7', '#9276E6', '#5741D7']}
+            colors={theme && theme.gradient !== undefined  && theme.gradient !== null ? theme.gradient : Color.gradient}
             locations={[0,-0.5,1]}
             start={{ x: 1, y: 0 }}
             end={{ x: 1, y: 1 }}
-            style={{borderRadius: 20, width: '90%', marginLeft: 'auto', marginRight: 'auto', marginTop: '15%'}}
+            style={{borderRadius: 20, width: '90%', marginLeft: 'auto', marginRight: 'auto', marginTop: '15%', paddingRight: 250, paddingLeft: 10}}
             >
               <View style={{flex: 1, flexDirection: 'row'}}>
-                <View style={{marginLeft: '8%', marginTop: 50}}>
+                <View style={{marginTop: 50}}>
                     <Text style={{
                         textAlign: 'center',
                         color: Color.white
@@ -68,9 +68,7 @@ class HomePage extends Component{
                       width: 135,
                       borderRadius: 100,
                       borderColor: Color.white,
-                      borderWidth: 2,
-                      position: 'absolute',
-                      right: 300
+                      borderWidth: 2
                     }}
                     onPress={() => this.props.navigation.push('profileStack')}>
                     {

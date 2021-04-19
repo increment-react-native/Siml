@@ -80,10 +80,10 @@ class Slider2 extends Component {
   render () {
     const { user, theme } = this.props.state;
     const { colors } = this.state
-    console.log('[COLOR]', theme.gradient)
+    console.log('[COLOR]', theme)
     return (
       <LinearGradient
-        colors={theme.gradient !== undefined ? theme.gradient : Color.gradient}
+        colors={theme && theme.gradient !== undefined  && theme.gradient !== null ? theme.gradient : Color.gradient}
         locations={[0,-0.5,1]}
         start={{ x: 1, y: 0 }}
         end={{ x: 1, y: 1 }}
@@ -103,18 +103,20 @@ class Slider2 extends Component {
                     <View style={{marginTop: '10%', position: 'absolute', right: 0}}>
                     {
                       user.account_profile != null && user.account_profile.url != null && (
-                      <View style={{flex:1, flexDirection: 'row', marginTop: '10%', position: 'absolute', right: 0}}>
-                          <Text style={{color: Color.white, fontWeight: 'bold', marginTop: '8%', marginRight: 10}}>{user.account_information.first_name} {user.account_information.last_name}</Text>
-                          <Image
-                              source={{uri: Config.BACKEND_URL  + user.account_profile.url}}
-                              style={[BasicStyles.profileImageSize, {
-                                height: 50,
-                                width: 50,
-                                borderRadius: 50,
-                                borderWidth: 2,
-                                borderColor: Color.warning
-                              }]}/>
-                        </View>
+                        <View style={{flex:1, flexDirection: 'row', marginTop: '10%', position: 'absolute', right: 0}}>
+                              <Text onPress={()=> console.log('dfsdfads')} style={{backgroundColor: 'red', color: Color.white, fontWeight: 'bold', marginTop: '8%', marginRight: 10}}>{user.account_information.first_name} {user.account_information.last_name}</Text>
+                              <TouchableOpacity onPress={() => this.props.navigation.navigate('viewProfileStack')}>
+                              <Image
+                                  source={{uri: Config.BACKEND_URL  + user.account_profile.url}}
+                                  style={[BasicStyles.profileImageSize, {
+                                    height: 50,
+                                    width: 50,
+                                    borderRadius: 50,
+                                    borderWidth: 2,
+                                    borderColor: Color.warning
+                                  }]}/>
+                              </TouchableOpacity>
+                            </View>
                       )
                     }
                     {
