@@ -87,7 +87,7 @@ class MessagesV3 extends Component {
       limit,
       offset: offset * limit,
     }
-    console.log(parameter, Routes.messengerMembersRetrieve, 'huhuhuhu-----------------------');
+    this.setState({ isLoading: true });
     Api.request(Routes.messengerMembersRetrieve, parameter, response => {
       this.setState({ isLoading: false, offset: offset + limit });
       if (response.data.length > 0) {
@@ -97,7 +97,6 @@ class MessagesV3 extends Component {
   }
 
   retrieve = () => {
-    console.log("[NAVIGATION]", this.props.navigation.state.params.data);
     const { messengerGroup } = this.props.state
     const { setMessengerGroup } = this.props
     const { offset, limit } = this.state
@@ -717,7 +716,7 @@ class MessagesV3 extends Component {
                 margin: '2%',
                 flexDirection: 'row'
               }}>
-                <Group style={{ marginLeft: 13 }} color={Color.primary} size={60} data={this.state.members} />
+                <Group navigation={this.props.navigation} style={{ marginLeft: 9 }} color={Color.primary} size={60} data={this.state.members} />
               </View>
             )}
             <ScrollView
@@ -761,7 +760,7 @@ class MessagesV3 extends Component {
 
             <View style={{
               position: 'absolute',
-              bottom: 0,
+              bottom: DeviceHeight * .30,
               left: 0,
               borderTopColor: Color.lightGray,
               borderTopWidth: 1,

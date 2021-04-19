@@ -299,7 +299,8 @@ export default {
       borderBottomWidth: 0,
       justifyContent: 'center',
       alignItems: 'center',
-      fontSize: 12
+      fontSize: 12,
+      width: width
     },
     headerTitleContainerStyle: {
       backgroundColor: Color.white,

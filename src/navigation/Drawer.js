@@ -21,7 +21,7 @@ import Style from './Style.js';
 import { connect } from 'react-redux'
 
 // const width = Math.round(Dimensions.get('window').width);
-const width = '100%';
+const width = Math.round(Dimensions.get('window').width);
 class MenuDrawerStructure extends Component {
   constructor(props) {
     super(props);
@@ -74,9 +74,29 @@ const _StackNavigator = createStackNavigator({
   Connections: {
     screen: Connections,
     navigationOptions: ({navigation}) => ({
-      title: null,
+      title: 'Connections',
       headerRight: <SimlHeader navigation={navigation} />,
-      ...BasicStyles.drawerHeader
+      headerLeft: null,
+      ...{
+        headerStyle: {
+          shadowColor: 'transparent',
+          elevation: 0,
+          borderBottomWidth: 0,
+          justifyContent: 'center',
+          alignItems: 'center',
+          fontSize: 12,
+          marginLeft: '25%'
+        },
+        headerTitleContainerStyle: {
+          backgroundColor: Color.white,
+          justifyContent: 'center',
+          alignItems: 'center',
+          paddingRight: 64
+        },
+        headerTitleStyle: {
+          fontWeight: 'bold',
+        },  
+      }
     }),
   },
   Settings: {

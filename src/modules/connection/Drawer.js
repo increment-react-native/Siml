@@ -99,10 +99,9 @@ const TermsAndConditionsStack = createStackNavigator({
   termsAndConditionsScreen: {
     screen: Connection,
     navigationOptions: ({navigation}) => ({
-      title: null,
+      title: 'Connections',
       headerRight: <HeaderOptionsConnect navigationProps={navigation} />,
       ...BasicStyles.drawerHeader
-      
     }),
   },
 });

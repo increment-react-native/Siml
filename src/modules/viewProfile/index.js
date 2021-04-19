@@ -13,7 +13,7 @@ import { connect } from 'react-redux';
 import Config from 'src/config.js';
 import _ from 'lodash';
 import Api from 'services/api/index.js';
-import { Spinner } from 'components';
+import { Spinner, Empty } from 'components';
 
 class ViewProfile extends Component {
   constructor(props) {
@@ -34,14 +34,13 @@ class ViewProfile extends Component {
 
   componentDidMount() {
     this.retrieveActivity(false);
-    this.retrieveConnections(false)
   }
 
   retrieveActivity = (flag) => {
     let status = this.props.navigation.state.params && this.props.navigation.state.params.title && this.props.navigation.state.params.title.toLowerCase() === 'upcoming' ? 'pending' : 'completed'
     let parameter = {
       condition: [{
-        value: this.props.navigation.state?.params?.user?.account_id,
+        value: this.props.navigation.state?.params?.user?.account?.id,
         column: 'account_id',
         clause: '='
       }, {
@@ -53,10 +52,8 @@ class ViewProfile extends Component {
       offset: flag == true && this.state.offset > 0 ? (this.state.offset * this.state.limit) : this.state.offset
     }
     this.setState({ isLoading: true })
-    console.log(parameter, Routes.reservationRetrieve, "==========");
     Api.request(Routes.reservationRetrieve, parameter, response => {
       this.setState({ isLoading: false })
-      console.log(response.data[0], "====");
       if (response.data.length > 0) {
         this.setState({
           data: flag == false ? response.data : _.uniqBy([...this.state.data, ...response.data], 'id'),
@@ -111,6 +108,11 @@ class ViewProfile extends Component {
 
   choiceHandler = (value) => {
     this.setState({ choice: value })
+    if(value === 0) {
+      this.retrieveActivity(false);
+    } else {
+      this.retrieveConnections(false);
+    }
   }
 
   fullNameHandler = (value) => {
@@ -128,6 +130,7 @@ class ViewProfile extends Component {
   renderConnections() {
     return (
       <View>
+        {this.state.connections.length === 0 && (<Empty refresh={true} onRefresh={() => this.retrieveConnections(false)} />)}
         {
           this.state.connections.length > 0 && this.state.connections.map((el, idx) => {
             return (
@@ -189,6 +192,7 @@ class ViewProfile extends Component {
             }
           }}
           >
+          {this.state.data.length === 0 && (<Empty refresh={true} onRefresh={() => this.retrieveActivity(false)} />)}
           <View style={{
             marginTop: 15,
             flex: 1,
@@ -253,6 +257,7 @@ class ViewProfile extends Component {
 
   render() {
     let user = this.props.navigation.state?.params?.user
+    console.log(this.props.navigation.state?.params?.level, 'level--------------');
     return (
       <View style={{
         backgroundColor: Color.containerBackground
@@ -285,14 +290,14 @@ class ViewProfile extends Component {
                 textAlign: 'center',
                 fontWeight: 'bold',
                 fontSize: 18
-              }}>{user?.account?.information?.first_name + user?.account?.information?.last_name || ''}</Text>
+              }}>{user?.account?.information?.first_name + user?.account?.information?.last_name || 'Unknow name'}</Text>
             </View>
             <View style={{
               width: '100%'
             }}>
               <Text style={{
                 textAlign: 'center',
-                color: '#333333'
+                color: Color.gray
               }}>3 similar connections</Text>
             </View>
 
@@ -302,7 +307,8 @@ class ViewProfile extends Component {
             textAlign: 'center',
             justifyContent: 'center'
           }}>
-            <Tab level={1} choice={['SYNQT ACTIVITIES', 'CONNECTIONS']} onClick={this.choiceHandler}></Tab>
+            {this.props.navigation.state?.params?.level === 1 ? <Tab level={1} choice={['SYNQT ACTIVITIES', 'CONNECTIONS']} onClick={this.choiceHandler}></Tab> :
+            <Tab level={2} choice={['CONNECTIONS']} onClick={this.choiceHandler}></Tab> }
           </View>
           <View>
             {this.state.choice === 'SYNQT ACTIVITIES' ? (
