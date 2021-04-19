@@ -25,7 +25,7 @@ export default {
   // messenger
   customMessengerGroupCreate: apiUrl + 'custom_messenger_groups/create',
   messengerGroupRetrieve: apiUrl + 'messenger_groups/retrieve',
-  messengerGroupCreate: apiUrl + 'messenger_groups/create',
+  messengerGroupCreate: apiUrl + 'messenger_groups/create_group_with_members',
   messengerGroupRetrieveByParams:
     apiUrl + 'messenger_groups/retrieve_by_params',
   messengerMessagesCreate: apiUrl + 'messenger_messages/create',

@@ -61,6 +61,7 @@ class CardList extends Component {
   }
 
   render() {
+    console.log(this.props.data[0], this.props.state.user);
     return (
       <View>
         {

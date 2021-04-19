@@ -69,11 +69,11 @@ class ImageCardWithUser extends Component {
                   >{data.address}</Text>
                 </View>
                 <View style={{
-                  position: 'absolute',
-                  right: 10,
-                  top: 5
+                  zIndex: 10,
+                  marginTop: -7,
+                  marginLeft: 6
                 }}>
-                  <GroupUsers data={data.users}/>
+                  <GroupUsers size={30} data={data.users}/>
                 </View>
                 <View style={{
                     backgroundColor: 'white',
