@@ -257,7 +257,7 @@ class ViewProfile extends Component {
 
   render() {
     let user = this.props.navigation.state?.params?.user
-    console.log(this.props.navigation.state?.params?.level, 'level--------------');
+    console.log(this.props.navigation.state?.params?.user?.account?.username, 'level--------------');
     return (
       <View style={{
         backgroundColor: Color.containerBackground

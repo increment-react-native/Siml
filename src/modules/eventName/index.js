@@ -1,5 +1,5 @@
 import React, { Component } from 'react';
-import { View, Image, Text, TouchableOpacity, ScrollView, TextInput, CheckBox, Modal, ImageBackground, Alert } from 'react-native';
+import { View, Image, Text, TouchableOpacity, ScrollView, TextInput, CheckBox, Modal, ImageBackground, Alert, Dimensions } from 'react-native';
 import { Routes, Color, Helper, BasicStyles } from 'common';
 import { FontAwesomeIcon } from '@fortawesome/react-native-fontawesome';
 import { faUser, faStar, faClock } from '@fortawesome/free-solid-svg-icons';
@@ -9,7 +9,8 @@ import Group from 'modules/generic/PeopleList.js'
 import { connect } from 'react-redux';
 import Api from 'services/api/index.js';
 import { Spinner } from 'components';
-
+const width = Math.round(Dimensions.get('window').width)
+const height = Math.round(Dimensions.get('window').height)
 class EventName extends Component {
   constructor(props) {
     super(props);
@@ -22,27 +23,27 @@ class EventName extends Component {
       value: null,
       placeOrder: false,
       group: [
-        { user:{profile: {uri: require('assets/test.jpg')}} },
-        { user:{profile: {uri: require('assets/test.jpg')}} },
-        { user:{profile: {uri: require('assets/test.jpg')}} },
-        { user:{profile: {uri: require('assets/test.jpg')}} },
-        { user:{profile: {uri: require('assets/test.jpg')}} },
-        { user:{profile: {uri: require('assets/test.jpg')}} },
-        { user:{profile: {uri: require('assets/test.jpg')}} },
-        { user:{profile: {uri: require('assets/test.jpg')}} }
+        { user: { profile: { uri: require('assets/test.jpg') } } },
+        { user: { profile: { uri: require('assets/test.jpg') } } },
+        { user: { profile: { uri: require('assets/test.jpg') } } },
+        { user: { profile: { uri: require('assets/test.jpg') } } },
+        { user: { profile: { uri: require('assets/test.jpg') } } },
+        { user: { profile: { uri: require('assets/test.jpg') } } },
+        { user: { profile: { uri: require('assets/test.jpg') } } },
+        { user: { profile: { uri: require('assets/test.jpg') } } }
       ],
       isLoading: false
     }
   }
   onClick = () => {
-    if(this.props.navigation.state?.params?.buttonTitle === 'Cancel') {
+    if (this.props.navigation.state?.params?.buttonTitle === 'Cancel') {
       this.deleteItem();
     } else {
       this.addToReservation();
     }
   }
 
-  redirect(route){
+  redirect(route) {
     this.props.navigation.navigate(route)
   }
 
@@ -55,20 +56,22 @@ class EventName extends Component {
       '',
       'Confirm cancellation',
       [
-        {text: 'Close', onPress: () => {return}, style: 'cancel'},
-        {text: 'Confirm', onPress: () => {
-          let parameter = {
-            id: this.props.navigation?.state?.params?.data?.id, 
-            status: 'cancelled'
-          }
-          this.setState({isLoading: true});
-          Api.request(Routes.reservationUpdate, parameter, response => {
-            this.setState({ isLoading: false })
-            if (response.data !== null) {
-              this.props.navigation.navigate('historyStack', {title: 'Upcoming'})
+        { text: 'Close', onPress: () => { return }, style: 'cancel' },
+        {
+          text: 'Confirm', onPress: () => {
+            let parameter = {
+              id: this.props.navigation?.state?.params?.data?.id,
+              status: 'cancelled'
             }
-          })
-        }},
+            this.setState({ isLoading: true });
+            Api.request(Routes.reservationUpdate, parameter, response => {
+              this.setState({ isLoading: false })
+              if (response.data !== null) {
+                this.props.navigation.navigate('historyStack', { title: 'Upcoming' })
+              }
+            })
+          }
+        },
       ],
       { cancelable: false }
     )
@@ -79,30 +82,23 @@ class EventName extends Component {
       '',
       'Please click "OKAY" to continue',
       [
-        {text: 'Cancel', onPress: () => {return}, style: 'cancel'},
-        {text: 'Okay', onPress: () => {
-          let parameter = {
-            account_id: this.props.state.user.id,
-            merchant_id: this.props.navigation?.state?.params?.data?.merchant?.id,
-            payload: 'synqt',
-            payload_value: this.props.navigation?.state?.params?.data?.synqt[0]?.id,
-            details: this.props.navigation?.state?.params?.data?.synqt[0]?.details,
-            datetime: this.props.navigation?.state?.params?.data?.synqt[0]?.date,
-            status: 'pending'
-          }
-          this.setState({ isLoading: true })
-          Api.request(Routes.reservationCreate, parameter, response => {
-            this.setState({ isLoading: false })
-            if (response.data !== null) {
-              this.props.navigation.navigate('historyStack', {title: 'History'})
-            }
-          },
-            error => {
+        { text: 'Cancel', onPress: () => { return }, style: 'cancel' },
+        {
+          text: 'Okay', onPress: () => {
+            this.setState({ isLoading: true })
+            Api.request(Routes.reservationCreate, this.props.navigation.state?.params?.parameter, response => {
               this.setState({ isLoading: false })
-              console.log({ error });
+              if (response.data !== null) {
+                this.props.navigation.navigate('historyStack', { title: 'History' })
+              }
             },
-          );
-        }},
+              error => {
+                this.setState({ isLoading: false })
+                console.log({ error });
+              },
+            );
+          }
+        },
       ],
       { cancelable: false }
     )
@@ -110,93 +106,130 @@ class EventName extends Component {
 
   render() {
     const { data } = this.props.navigation.state.params;
+    console.log(data, 'hhhh');
     return (
-      <View style={{
-        backgroundColor: 'white',
-        width: '100%',
-        backgroundColor: 'white',
-        borderTopEndRadius: 15,
-        borderTopStartRadius: 15,
-        padding: 15,
-        height: '100%'
-      }}>
-        <ImageBackground
-          style={{ 
-            width: '100%',
-            height: '50%'
-          }}
-          imageStyle={{ flex: 1, height: null, width: null, resizeMode: 'cover', borderRadius: 20 }}
-          source={{ uri: Config.BACKEND_URL + data.merchant.logo }}>
-          <View style={{ position: 'absolute', bottom: 20 }}>
+      <ScrollView>
+        <View style={{
+          backgroundColor: 'white',
+          width: '100%',
+          backgroundColor: 'white',
+          paddingBottom: 15,
+          height: height - 70
+        }}>
+          <ImageBackground
+            style={{
+              width: '100%',
+              height: '50%'
+            }}
+            imageStyle={{ flex: 1, height: null, width: null, resizeMode: 'cover' }}
+            source={{ uri: Config.BACKEND_URL + data.merchant.logo }}>
+          </ImageBackground>
+          <View style={{ padding: 10 }}>
             <Text style={{
-              color: 'white',
-              left: 10,
-              fontSize: 20,
-              fontWeight: 'bold',
-              textShadowColor:'black',
-              textShadowOffset:{width: 1, height: 1},
-              textShadowRadius: 1,}}>
-                {data.merchant.name}
-              </Text>
-            <Text style={{
-              color: 'white',
-              left: 10,
-              textShadowColor:'black',
-              textShadowOffset:{width: 1, height: 1},
-              textShadowRadius: 1,
+              fontSize: 16,
             }}>
-              {data.merchant.address}
+              SYNQT: RESTAURANT | {data.merchant.name}
+            </Text>
+            <Text style={{
+              color: Color.gray,
+              marginTop: 5
+            }}>
+              {data.merchant.address || 'no address provided'}
             </Text>
           </View>
-          <View style={{ position: 'absolute', bottom: 20, right: 15, flexDirection: 'row' }}>
-            <FontAwesomeIcon
-              icon={faStar}
-              size={30}
-              color={'#FFCC00'}
-            />
-            <FontAwesomeIcon
-              icon={faStar}
-              size={30}
-              color={'#FFCC00'}
-            />
-            <FontAwesomeIcon
-              icon={faStar}
-              size={30}
-              color={'#FFCC00'}
-            />
-            <FontAwesomeIcon
-              icon={faStar}
-              size={30}
-              color={'white'}
-            />
-            <FontAwesomeIcon
-              icon={faStar}
-              size={30}
-              color={'white'}
-            />
+          <View style={{
+            flexDirection: 'row',
+            alignItems: 'center',
+            marginTop: 10,
+            paddingLeft: 20
+          }}>
+            {this.state.isLoading ? <Spinner mode="overlay" /> : null}
+            <FontAwesomeIcon icon={faUser} size={20} color={Color.gray} style={{ marginRight: 10 }} />
+            <Text style={{ color: Color.gray }}>{this.props.navigation.state?.params?.data.members.length} people</Text>
+            <View style={{
+              borderRadius: 6,
+              position: 'absolute',
+              right: width - 240,
+              height: 25,
+              width: '30%',
+              padding: 6,
+              borderWidth: .5,
+              borderColor: Color.warning,
+              justifyContent: 'center',
+              alignItems: 'center',
+              flexDirection: 'row'
+            }}>
+              <Text style={{ color: Color.primary }}>{data.synqt[0].date}</Text>
+            </View>
+            <View style={{
+              backgroundColor: Color.primary,
+              borderRadius: 6,
+              height: 18,
+              position: 'absolute',
+              right: width - 300,
+              width: 55,
+              borderWidth: .5,
+              borderColor: Color.primary,
+              justifyContent: 'center',
+              alignItems: 'center',
+              flexDirection: 'row'
+            }}>
+              <Text numberOfLines={1} style={{ fontSize: 10, color: 'white' }}>0.64 km</Text>
+            </View>
+            <View style={{
+              backgroundColor: 'white',
+              borderRadius: 6,
+              height: 18,
+              position: 'absolute',
+              right: width - 360,
+              width: 55,
+              borderWidth: .5,
+              borderColor: Color.primary,
+              justifyContent: 'center',
+              alignItems: 'center',
+              flexDirection: 'row'
+            }}>
+              <FontAwesomeIcon icon={faStar} color={Color.warning} style={{ marginRight: 2 }} size={8} />
+              <Text numberOfLines={1} style={{ fontSize: 10, color: Color.primary }}>43</Text>
+            </View>
+            <View style={{
+              backgroundColor: 'white',
+              borderRadius: 6,
+              height: 21,
+              position: 'absolute',
+              right: 10,
+              width: 50,
+              borderWidth: .5,
+              borderColor: Color.primary,
+              justifyContent: 'center',
+              alignItems: 'center',
+              flexDirection: 'row'
+            }}>
+              <TouchableOpacity style={{
+                height: 15,
+                width: 15,
+                borderRadius: 8,
+                backgroundColor: '#30F2F2',
+                justifyContent: 'center',
+                alignItems: 'center',
+                marginRight: 5
+              }}>
+                <FontAwesomeIcon icon={faStar} color={Color.white} size={8} />
+              </TouchableOpacity>
+              <Text numberOfLines={1} style={{ color: Color.warning }}>1</Text>
+            </View>
           </View>
-        </ImageBackground>
-        <View style={{
-          flexDirection: 'row',
-          alignItems: 'center',
-          marginTop: 20
-        }}>
-          {this.state.isLoading ? <Spinner mode="overlay" /> : null}
-          <FontAwesomeIcon icon={faUser} size={20} color={Color.gray} style={{ marginRight: 10 }} />
-          <Text style={{ color: Color.gray, marginRight: '30%'}}>{this.state.group.length} people</Text>
-          <FontAwesomeIcon icon={faClock} size={20} color={Color.gray} style={{ marginRight: 10 }} />
-          <Text style={{ color: Color.gray, marginRight: '30%'}}>{data.synqt[0].date}</Text>
+          <View style={{
+            flexDirection: 'row',
+            width: '100%',
+            marginTop: 25,
+            paddingLeft: 15
+          }}>
+            <Group navigation={this.props.navigation} style={{ marginLeft: 13 }} size={60} data={this.state.group} />
+          </View>
+          <CustomizedButton style={{marginLeft:-20}} onClick={this.onClick} title={this.props.navigation.state && this.props.navigation.state.params && this.props.navigation.state.params.buttonTitle && this.props.navigation.state.params.buttonTitle}></CustomizedButton>
         </View>
-        <View style={{
-          flexDirection: 'row',
-          width: '100%',
-          marginTop: 10,
-          paddingBottom: 15
-        }}>
-          <Group redirectTo={() => this.goesTo()} data={this.state.group}/>
-        </View>
-          <CustomizedButton onClick={this.onClick} title={this.props.navigation.state && this.props.navigation.state.params && this.props.navigation.state.params.buttonTitle && this.props.navigation.state.params.buttonTitle}></CustomizedButton>
-      </View>
+      </ScrollView>
     );
   }
 }

@@ -122,18 +122,8 @@ class Cards extends React.Component {
             datetime: this.props.item.synqt[0].date,
             status: 'pending'
           }
-          this.setState({ isLoading: true })
-          Api.request(Routes.reservationCreate, parameter, response => {
-            this.setState({ isLoading: false })
-            if (response.data !== null) {
-              this.props.onClose(this.props.item.id);
-            }
-          },
-            error => {
-              this.setState({ isLoading: false })
-              console.log({ error });
-            },
-          );
+          this.props.onClose(null);
+          this.props.navigation.navigate('eventNameStack', {parameter: parameter, buttonTitle: 'Make Reservation', data: this.props.item})
         }},
       ],
       { cancelable: false }

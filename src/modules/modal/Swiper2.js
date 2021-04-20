@@ -113,7 +113,7 @@ class Cards extends React.Component {
     Api.request(Routes.topChoiceCreate, parameter, response => {
       this.setState({ isLoading: false })
       if (response.data !== null) {
-        this.props.navigation.navigate('topChoiceStack', {synqt_id: this.props.navigation.state.params?.synqt_id});
+        this.deleteFromNotification(this.props.id);
       }
     },
       error => {
@@ -121,6 +121,17 @@ class Cards extends React.Component {
         console.log({ error });
       },
     );
+  }
+
+  deleteFromNotification = (id) => {
+    let parameter = {
+      id: id
+    }
+    this.setState({ isLoading: true });
+    Api.request(Routes.notificationDelete, parameter, response => {
+      this.setState({ isLoading: false })
+      this.props.navigation.navigate('topChoiceStack', {synqt_id: this.props.navigation.state.params?.synqt_id});
+    });
   }
 
   renderCard = () => {

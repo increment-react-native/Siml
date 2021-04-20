@@ -24,7 +24,7 @@ class HeaderOptions extends Component {
           <FontAwesomeIcon
             icon={faChevronLeft}
             size={BasicStyles.headerBackIconSize}
-            style={{color: theme ? theme.primary : Color.primary }}
+            style={BasicStyles.iconStyle}
           />
         </TouchableOpacity>
       </View>
