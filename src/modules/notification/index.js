@@ -155,7 +155,7 @@ class Notifications extends Component {
                   }}
                   redirectTo={this.props.navigation.state.params && this.props.navigation.state.params.title}
                   onClick={() => {
-                    this.props.navigation.navigate('menuStack', {synqt_id: item.synqt[0].id})
+                    this.props.navigation.navigate('menuStack', {synqt_id: item.synqt[0].id, id: item.id})
                   }}
                 />
               ))

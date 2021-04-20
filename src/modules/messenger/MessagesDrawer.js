@@ -4,22 +4,53 @@ import { createStackNavigator } from 'react-navigation-stack';
 import { FontAwesomeIcon } from '@fortawesome/react-native-fontawesome';
 import { faChevronLeft, faEllipsisV, faStar } from '@fortawesome/free-solid-svg-icons';
 import Messages from 'modules/messenger/Messages.js';
-import { Color, BasicStyles, Helper } from 'common';
+import { Color, BasicStyles, Helper, Routes } from 'common';
 import { UserImage } from 'components';
 import { connect } from 'react-redux';
 import Config from 'src/config.js';
 import Currency from 'services/Currency.js';
+import Api from 'services/api/index.js';
 import {Dimensions} from 'react-native';
 const width = Math.round(Dimensions.get('window').width);
 
 class HeaderOptions extends Component {
   constructor(props){
     super(props);
+    this.state = {
+      status: false
+    }
   }
 
   back = () => {
     this.props.navigationProps.pop();
   };
+
+  componentDidMount() {
+    this.retrieveTopChoices();
+  }
+
+  retrieveTopChoices = () => {
+    let parameter = {
+      condition: [{
+        value: this.props.navigationProps?.state?.params?.data?.payload,
+        column: 'synqt_id',
+        clause: '='
+      }],
+      limit: 5,
+      offset: 0
+    }
+    Api.request(Routes.topChoiceRetrieve, parameter, response => {
+      response.data.length > 0 && response.data.map(item => {
+        item.members.length > 0 && item.members.map(i => {
+          console.log(i.account_id, this.props.state.user.id, 'accounts');
+          if(i.account_id === this.props.state.user.id) {
+            this.setState({status: true})
+            return
+          }
+        })
+      })
+    });
+  }
 
   redirect = (route) => {
     this.props.navigationProps.navigate(route, {
@@ -56,7 +87,7 @@ class HeaderOptions extends Component {
                       style={BasicStyles.iconStyle}/>
                   </View>
                 </TouchableOpacity>
-                <TouchableOpacity onPress={() => this.redirect('menuStack')}>
+                <TouchableOpacity onPress={() => this.state.status === true ? console.log('yo') : this.redirect('menuStack')}>
                   <View style={{borderWidth: 2, borderRadius: 20, height: 30, width: 30, borderColor: Color.primary, justifyContent: 'center', alignItems: 'center', marginLeft: 5}}>
                       <Image source={require('assets/logo.png')} style={{
                         height: 20,

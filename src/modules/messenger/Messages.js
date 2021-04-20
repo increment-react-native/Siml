@@ -56,8 +56,8 @@ class MessagesV3 extends Component {
   componentDidMount() {
     const { user } = this.props.state
     if (user == null) return
-    this.retrieve()
-    this.retrieveMembers()
+    this.retrieveMembers();
+    this.retrieve();
   }
 
   componentWillUnmount() {
@@ -75,6 +75,7 @@ class MessagesV3 extends Component {
 
   retrieveMembers = () => {
     const { offset, limit } = this.state;
+    this.setState({ isLoading: true });
     const parameter = {
       condition: [{
         value: this.props.navigation.state.params.data.id,
@@ -83,13 +84,10 @@ class MessagesV3 extends Component {
       }],
       sort: {
         'created_at': 'DESC'
-      },
-      limit,
-      offset: offset * limit,
+      }
     }
-    this.setState({ isLoading: true });
     Api.request(Routes.messengerMembersRetrieve, parameter, response => {
-      this.setState({ isLoading: false, offset: offset + limit });
+      this.setState({ isLoading: false});
       if (response.data.length > 0) {
         this.setState({members: response.data})
       }
@@ -678,7 +676,6 @@ class MessagesV3 extends Component {
     } = this.state;
     const { data } = this.props.navigation.state.params;
     const { messengerGroup, user, isViewing } = this.props.state;
-    console.log('data', data)
     return (
       <SafeAreaView>
         {
@@ -760,7 +757,7 @@ class MessagesV3 extends Component {
 
             <View style={{
               position: 'absolute',
-              bottom: DeviceHeight * .30,
+              bottom: this.state.members.length > 0 ? 250 : 0,
               left: 0,
               borderTopColor: Color.lightGray,
               borderTopWidth: 1,

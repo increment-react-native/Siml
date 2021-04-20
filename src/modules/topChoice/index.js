@@ -10,7 +10,7 @@ import { connect } from 'react-redux';
 import ImageCardWithUser from 'modules/generic/ImageCardWithUser';
 import CardModal from 'modules/modal/Swipe.js';
 import Api from 'services/api';
-import { Spinner } from 'components';
+import { Spinner, Empty } from 'components';
 import _ from 'lodash';
 
 const height = Math.round(Dimensions.get('window').height);
@@ -164,6 +164,7 @@ class TopChoice extends Component {
             }
           </View>
         </ScrollView>
+        {this.state.data.length === 0 && (<Empty refresh={true} onRefresh={() => this.retrieve(false)} />)}
       </SafeAreaView>
     )
   }

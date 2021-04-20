@@ -54,12 +54,12 @@ class Connections extends Component {
     let parameter = {
       condition: [{
         value: user.id,
-        column: 'account_id',
+        column: this.state.currActive == 0 ? 'account' : 'account_id',
         clause: '='
       }, {
         value: user.id,
         column: 'account',
-        clause: 'or'
+        clause: this.state.currActive == 0 ? '=' : 'or'
       }, {
         clause: "like",
         column: "status",
@@ -67,6 +67,7 @@ class Connections extends Component {
       }],
       offset: flag == true && this.state.offset > 0 ? (this.state.offset * this.state.limit) : this.state.offset,
     }
+    console.log(parameter, '');
     this.setState({ isLoading: true })
     Api.request(Routes.circleRetrieve, parameter, response => {
       this.setState({ isLoading: false })
@@ -163,7 +164,7 @@ class Connections extends Component {
 
                 <View>
                   <CardList level={2} retrieve={() => {this.refresh()}} navigation={this.props.navigation} data={this.state.suggestions.length > 0 && this.state.suggestions} hasAction={false} actionType={'button'} actionContent={'text'}></CardList>
-                  {this.state.connections.length == 0 && (<Empty refresh={true} onRefresh={() => this.retrieve(false)} />)}
+                  {this.state.suggestions.length == 0 && (<Empty refresh={true} onRefresh={() => this.retrieve(false)} />)}
                 </View>
 
               </View>

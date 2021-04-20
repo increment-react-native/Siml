@@ -37,13 +37,24 @@ class CardList extends Component {
     setTempMembers(temp);
   }
 
-  updateStatus = (item) => {
+  updateStatus = (item, status) => {
     let parameter = {
       id: item.id,
-      status: 'accepted'
+      status: status
     }
     this.setState({ isLoading: true });
     Api.request(Routes.circleUpdate, parameter, response => {
+      this.setState({ isLoading: false })
+      this.props.retrieve();
+    });
+  }
+  
+  deleteConnection = (id) => {
+    let parameter = {
+      id: id
+    }
+    this.setState({ isLoading: true });
+    Api.request(Routes.circleDelete, parameter, response => {
       this.setState({ isLoading: false })
       this.props.retrieve();
     });
@@ -99,7 +110,7 @@ class CardList extends Component {
                           this.props.hasAction && (
                             <View style={{ flexDirection: 'row' }}>
                               <TouchableOpacity
-                                onPress={() => this.updateStatus(el)}
+                                onPress={() => this.updateStatus(el, 'accepted')}
                                 style={{
                                   ...Style.actionBtn,
                                   backgroundColor: Color.primary
@@ -108,7 +119,7 @@ class CardList extends Component {
                                 <Text style={{ color: 'white' }}>Confirm</Text>
                               </TouchableOpacity>
                               <TouchableOpacity
-                                onPress={() => this.updateStatus(el)}
+                                onPress={() => this.updateStatus(el, 'declined')}
                                 style={{
                                   ...Style.actionBtn,
                                   backgroundColor: 'gray'
@@ -140,7 +151,7 @@ class CardList extends Component {
                               <Text style={{ marginLeft: 10 }}>{el.lastLogin}</Text>
                             ) : (
                               <TouchableOpacity
-                                onPress={() => this.props.invite ? this.storePeople(el) : this.sendRequest(el)}
+                                onPress={() => this.props.invite ? this.storePeople(el) : this.props.actionContent == 'icon' ? this.deleteConnection(el.id) : this.sendRequest(el)}
                                 style={[Style.button, {backgroundColor: this.props.actionContent == 'icon' ? 'gray' : Color.primary}]}
                               >
                                 {
