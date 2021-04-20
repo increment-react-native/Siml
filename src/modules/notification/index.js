@@ -44,11 +44,10 @@ class Notifications extends Component {
       limit: this.state.limit,
       offset: this.state.offset
     }
-    console.log(parameter, Routes.notificationsRetrieve, "===");
+    console.log(Routes.notificationsRetrieve, parameter, 'klklklk');
     this.setState({ isLoading: true })
     Api.request(Routes.notificationsRetrieve, parameter, response => {
       this.setState({ isLoading: false })
-      console.log(response, " =============");
       if (response.data.length > 0) {
         this.setState({ data: response.data });
       }
@@ -108,15 +107,47 @@ class Notifications extends Component {
                     date: item.synqt.length > 0 && item.synqt[0]?.date,
                     superlike: true,
                     users: [{
-                      name: 'Test'
+                      account: {
+                        profile: {
+                          url: '/storage/image/11_2021-04-06_02_04_43_fries.jpg'
+                        }
+                      }
                     }, {
-                      name: 'Test'
+                      account: {
+                        profile: {
+                          url: '/storage/image/11_2021-04-06_02_04_43_fries.jpg'
+                        }
+                      }
                     }, {
-                      name: 'Test'
+                      account: {
+                        profile: {
+                          url: '/storage/image/11_2021-04-06_02_04_43_fries.jpg'
+                        }
+                      }
                     }, {
-                      name: 'Test'
+                      account: {
+                        profile: {
+                          url: '/storage/image/11_2021-04-06_02_04_43_fries.jpg'
+                        }
+                      }
                     }, {
-                      name: 'Test'
+                      account: {
+                        profile: {
+                          url: '/storage/image/11_2021-04-06_02_04_43_fries.jpg'
+                        }
+                      }
+                    }, {
+                      account: {
+                        profile: {
+                          url: '/storage/image/11_2021-04-06_02_04_43_fries.jpg'
+                        }
+                      }
+                    }, {
+                      account: {
+                        profile: {
+                          url: '/storage/image/11_2021-04-06_02_04_43_fries.jpg'
+                        }
+                      }
                     }]
                   }}
                   style={{

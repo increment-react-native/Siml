@@ -25,13 +25,13 @@ export default {
   // messenger
   customMessengerGroupCreate: apiUrl + 'custom_messenger_groups/create',
   messengerGroupRetrieve: apiUrl + 'messenger_groups/retrieve',
-  messengerGroupCreate: apiUrl + 'messenger_groups/create',
+  messengerGroupCreate: apiUrl + 'messenger_groups/create_group_with_members',
   messengerGroupRetrieveByParams:
     apiUrl + 'messenger_groups/retrieve_by_params',
   messengerMessagesCreate: apiUrl + 'messenger_messages/create',
   messengerMessagesRetrieve: apiUrl + 'messenger_messages/retrieve',
   messengerMessagesUpdate: apiUrl + 'messenger_messages/update_by_status',
-  messengerMembersRetrieve: apiUrl + 'messenger_members/retrieve',
+  messengerMembersRetrieve: apiUrl + 'messenger_members/retrieve_members',
   mmCreateWithImageWithoutPayload: apiUrl + 'messenger_messages/create_with_image_without_payload',
   imageUploadUnLink: apiUrl + 'images/upload_un_link',
   // referral

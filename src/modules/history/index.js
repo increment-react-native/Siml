@@ -1,11 +1,11 @@
 import React, { Component } from 'react';
 import Style from './Style.js';
-import { View, Image, Text, TouchableOpacity, ScrollView, SafeAreaView, Dimensions} from 'react-native';
+import { View, Image, Text, TouchableOpacity, ScrollView, SafeAreaView, Dimensions } from 'react-native';
 import { Routes, Color, Helper, BasicStyles } from 'common';
 import Pagination from 'components/Pagination/Icons';
 import { Pager, PagerProvider } from '@crowdlinker/react-native-pager';
-import {FontAwesomeIcon} from '@fortawesome/react-native-fontawesome';
-import {faBars, faUtensils, faChevronLeft, faTicketAlt, faShoppingBag} from '@fortawesome/free-solid-svg-icons';
+import { FontAwesomeIcon } from '@fortawesome/react-native-fontawesome';
+import { faBars, faUtensils, faChevronLeft, faTicketAlt, faShoppingBag } from '@fortawesome/free-solid-svg-icons';
 import { connect } from 'react-redux';
 import ImageCardWithUser from 'modules/generic/ImageCardWithUser';
 import CardModal from 'modules/modal/Swipe.js';
@@ -14,7 +14,7 @@ import { Spinner } from 'components';
 import _ from 'lodash';
 
 const height = Math.round(Dimensions.get('window').height);
-class History extends Component{
+class History extends Component {
   constructor(props) {
     super(props);
     this.state = {
@@ -24,11 +24,11 @@ class History extends Component{
       isVisible: false,
       limit: 6,
       offset: 0
-    };   
+    };
   }
 
   componentDidMount() {
-    this.setState({activeIndex: this.props.navigation.state && this.props.navigation.state.params && this.props.navigation.state.params.activeIndex ? this.props.navigation.state.params.activeIndex : 0})
+    this.setState({ activeIndex: this.props.navigation.state && this.props.navigation.state.params && this.props.navigation.state.params.activeIndex ? this.props.navigation.state.params.activeIndex : 0 })
     this.retrieve(false);
   }
 
@@ -50,7 +50,6 @@ class History extends Component{
     this.setState({ isLoading: true })
     Api.request(Routes.reservationRetrieve, parameter, response => {
       this.setState({ isLoading: false })
-      console.log(response.data[0], "====");
       if (response.data.length > 0) {
         this.setState({
           data: flag == false ? response.data : _.uniqBy([...this.state.data, ...response.data], 'id'),
@@ -66,18 +65,18 @@ class History extends Component{
   }
 
 
-  onPageChange(index){
+  onPageChange(index) {
     this.setState({
       activeIndex: index
     })
   }
 
   onClick = (item) => {
-    if(this.props.navigation.state && this.props.navigation.state.params && this.props.navigation.state.params.title !== null) {
-      if(this.state.activeIndex === 0 || this.state.activeIndex === 1) {
-        this.props.navigation.navigate('eventNameStack', {buttonTitle: this.props.navigation.state.params && this.props.navigation.state.params.title && this.props.navigation.state.params.title.toLowerCase() === 'history' ? 'Make Reservation' : 'Cancel', data: item});
+    if (this.props.navigation.state && this.props.navigation.state.params && this.props.navigation.state.params.title !== null) {
+      if (this.state.activeIndex === 0 || this.state.activeIndex === 1) {
+        this.props.navigation.navigate('eventNameStack', { buttonTitle: this.props.navigation.state.params && this.props.navigation.state.params.title && this.props.navigation.state.params.title.toLowerCase() === 'history' ? 'Make Reservation' : 'Cancel', data: item });
       } else {
-        this.props.navigation.navigate('retailNameStack', {data: item});
+        this.props.navigation.navigate('retailNameStack', { data: item });
       }
     } else {
       this.setState({
@@ -86,75 +85,95 @@ class History extends Component{
     }
   }
 
-  renderData(data){
+  renderData(data) {
     const { isVisible } = this.state;
-    return(
-        <ScrollView
-          showsVerticalScrollIndicator={false}
-          onScroll={(event) => {
-            let scrollingHeight = event.nativeEvent.layoutMeasurement.height + event.nativeEvent.contentOffset.y
-            let totalHeight = event.nativeEvent.contentSize.height
-            if(event.nativeEvent.contentOffset.y <= 0) {
-              if(this.state.isLoading == false){
-                // this.retrieve(false)
-              }
+    return (
+      <ScrollView
+        showsVerticalScrollIndicator={false}
+        onScroll={(event) => {
+          let scrollingHeight = event.nativeEvent.layoutMeasurement.height + event.nativeEvent.contentOffset.y
+          let totalHeight = event.nativeEvent.contentSize.height
+          if (event.nativeEvent.contentOffset.y <= 0) {
+            if (this.state.isLoading == false) {
+              // this.retrieve(false)
             }
-            if (Math.round(scrollingHeight) >= Math.round(totalHeight)) {
-              if (this.state.isLoading === false) {
-                this.retrieve(true)
-              }
+          }
+          if (Math.round(scrollingHeight) >= Math.round(totalHeight)) {
+            if (this.state.isLoading === false) {
+              this.retrieve(true)
             }
-          }}
-          >
-          <View style={{
-            width: '90%',
-            marginLeft: '5%',
-            marginRight: '5%',
-            marginBottom: 150,
-            marginTop: 20
-          }}>
-            {
-              this.state.data.length > 0 && this.state.data.map((item, index) => (
-                <ImageCardWithUser
-                  data={{
-                    logo: item.merchant?.logo,
-                    address: item.merchant?.address || 'No address provided',
-                    name: item.merchant?.name,
-                    date: item.synqt.length > 0 && item.synqt[0]?.date,
-                    superlike: true,
-                    users: [{
-                      name: 'Test'
-                    }, {
-                      name: 'Test'
-                    }, {
-                      name: 'Test'
-                    }, {
-                      name: 'Test'
-                    }, {
-                      name: 'Test'
-                    }]
-                  }}
-                  style={{
-                    marginBottom: 20
-                  }}
-                  redirectTo={this.props.navigation.state.params && this.props.navigation.state.params.title}
-                  onClick={() => {
-                    this.props.navigation.navigate('menuStack', {synqt_id: item.synqt[0].id})
-                  }}
-                />
-              ))
-            }
-          </View>
-          {isVisible && <CardModal
-            history={this.props.navigation.state.params && this.props.navigation.state.params.title && this.props.navigation.state.params.title.toLowerCase() === 'history' ? true : false}
-            navigation={this.props.navigation}
-            visisble={isVisible}
-            onClose={() => {
+          }
+        }}
+      >
+        <View style={{
+          width: '90%',
+          marginLeft: '5%',
+          marginRight: '5%',
+          marginBottom: 150,
+          marginTop: 20
+        }}>
+          {
+            this.state.data.length > 0 && this.state.data.map((item, index) => (
+              <ImageCardWithUser
+                data={{
+                  logo: item.merchant?.logo,
+                  address: item.merchant?.address || 'No address provided',
+                  name: item.merchant?.name,
+                  date: item.synqt.length > 0 && item.synqt[0]?.date,
+                  superlike: true,
+                  users: [{
+                    account: {
+                      profile: {
+                        url: '/storage/image/11_2021-04-06_02_04_43_fries.jpg'
+                      }
+                    }
+                  }, {
+                    account: {
+                      profile: {
+                        url: '/storage/image/11_2021-04-06_02_04_43_fries.jpg'
+                      }
+                    }
+                  }, {
+                    account: {
+                      profile: {
+                        url: '/storage/image/11_2021-04-06_02_04_43_fries.jpg'
+                      }
+                    }
+                  }, {
+                    account: {
+                      profile: {
+                        url: '/storage/image/11_2021-04-06_02_04_43_fries.jpg'
+                      }
+                    }
+                  }, {
+                    account: {
+                      profile: {
+                        url: '/storage/image/11_2021-04-06_02_04_43_fries.jpg'
+                      }
+                    }
+                  }]
+                }}
+                style={{
+                  marginBottom: 20
+                }}
+                redirectTo={this.props.navigation.state.params && this.props.navigation.state.params.title}
+                onClick={() => {
+                  this.props.navigation.navigate('menuStack', { synqt_id: item.synqt[0].id })
+                }}
+              />
+            ))
+          }
+        </View>
+        {isVisible && <CardModal
+          history={this.props.navigation.state.params && this.props.navigation.state.params.title && this.props.navigation.state.params.title.toLowerCase() === 'history' ? true : false}
+          navigation={this.props.navigation}
+          visisble={isVisible}
+          onClose={() => {
             this.setState({
               isVisible: false
             })
-          }}/>}
-        </ScrollView>
+          }} />}
+      </ScrollView>
     )
   }
   render() {
@@ -174,36 +193,82 @@ class History extends Component{
       <View style={[Style.MainContainer, {
         backgroundColor: Color.containerBackground
       }]}>
-          <View style={[BasicStyles.paginationHolder, {marginTop: 10}]}>
-            <Pagination
-              activeIndex={activeIndex}
-              onChange={(index) => this.onPageChange(index)}
-              pages={paginationProps}
-            />
+        {/* <View style={[BasicStyles.paginationHolder, { marginTop: 10 }]}>
+          <Pagination
+          activeIndex={activeIndex}
+          onChange={(index) => this.onPageChange(index)}
+          pages={paginationProps}
+          />
+        </View> */}
+        <ScrollView>
+          <View style={{
+            marginTop: 50
+          }}>
+            <View style={{
+              justifyContent: 'center',
+              alignItems: 'center',
+            }}>
+              <TouchableOpacity
+                onPress={() => this.redirect('restaurantStack')}
+                style={{
+                  height: 120,
+                  width: 120,
+                  borderRadius: 70,
+                  borderWidth: 1,
+                  borderColor: Color.gray,
+                  justifyContent: 'center',
+                  alignItems: 'center',
+                  backgroundColor: 'white',
+                  elevation: 3,
+                  shadowColor: Color.primary,
+                  shadowOffset: { width: 0, height: 3 },
+                  shadowOpacity: 0.5,
+                  shadowRadius: 5,
+                  marginBottom: 10
+                }}>
+                <FontAwesomeIcon icon={faUtensils} size={60} color={Color.primary} />
+              </TouchableOpacity>
+            </View>
+            <View style={{
+              padding: 30,
+              justifyContent: 'center',
+              alignItems: 'center',
+            }}>
+              <Text style={{
+                fontWeight: 'bold',
+                color: Color.primary,
+                marginBottom: 20,
+                fontSize: BasicStyles.standardTitleFontSize
+              }}>{this.props.navigation.state?.params?.title === 'Upcoming' ? "Here's what's coming!" : "Here's your previous activities!"}</Text>
+              <Text>{this.props.navigation.state?.params?.title === 'Upcoming' ? "You have upcoming restaurant reservations from your SYNQT! Click the photo and see where to go." : "You have the following completed SYNQT actvities! Click the photo and see where you’ve gone."}</Text>
+            </View>
           </View>
-          <PagerProvider activeIndex={activeIndex}>
+          {this.state.data.length > 0 && this.renderData(this.state.data)}
+          {/* <PagerProvider activeIndex={activeIndex}>
           {this.state.isLoading ? <Spinner mode="overlay" /> : null}
-            <Pager panProps={{enabled: false}}>
-              <View style={Style.sliderContainer}>
-                {this.state.data.length > 0 && this.renderData(this.state.data)}
-              </View>
-              <View style={Style.sliderContainer}>
-                {this.state.data.length > 0 && this.renderData(this.state.data)}
-              </View>
+          <Pager panProps={{ enabled: false }}>
+            <View style={Style.sliderContainer}>
+              {this.state.data.length > 0 && this.renderData(this.state.data)}
+            </View>
+            <View style={Style.sliderContainer}>
+              {this.state.data.length > 0 && this.renderData(this.state.data)}
+            </View>
 
-              <View style={Style.sliderContainer}>
-                {this.state.data.length > 0 && this.renderData(this.state.data)}
-              </View>
-            </Pager>
-          </PagerProvider>
+            <View style={Style.sliderContainer}>
+              {this.state.data.length > 0 && this.renderData(this.state.data)}
+            </View>
+          </Pager>
+        </PagerProvider> */}
+        </ScrollView>
+        {this.state.isLoading ? <Spinner mode="overlay" /> : null}
       </View>
     );
   }
 }
-const mapStateToProps = state => ({state: state});
+const mapStateToProps = state => ({ state: state });
 
 const mapDispatchToProps = dispatch => {
-  const {actions} = require('@redux');
+  const { actions } = require('@redux');
   return {};
 };
 

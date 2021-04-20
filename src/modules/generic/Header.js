@@ -157,7 +157,7 @@ class Header extends Component {
         </TouchableOpacity> */}
 
         <TouchableOpacity
-          onPress={() => this.props.navigation.navigate('historyStack')}
+          onPress={() => this.props.navigation.navigate('historyStack', {title: 'History'})}
           style={{
             justifyContent: 'center',
             alignItems: 'center',

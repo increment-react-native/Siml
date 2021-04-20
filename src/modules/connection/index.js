@@ -9,7 +9,7 @@ import CardList from 'modules/generic/CardList'
 import Share from 'components/Share'
 import Style from './Style'
 import { connect } from 'react-redux';
-import { Spinner } from 'components';
+import { Spinner, Empty } from 'components';
 import Api from 'services/api/index.js';
 import _ from 'lodash';
 
@@ -67,7 +67,6 @@ class Connections extends Component {
       }],
       offset: flag == true && this.state.offset > 0 ? (this.state.offset * this.state.limit) : this.state.offset,
     }
-    console.log(parameter, Routes.circleRetrieve, "====");
     this.setState({ isLoading: true })
     Api.request(Routes.circleRetrieve, parameter, response => {
       this.setState({ isLoading: false })
@@ -94,8 +93,7 @@ class Connections extends Component {
       account_id: user.id
     }
     this.setState({ isLoading: true })
-    Api.request(Routes.otherAccountsRetrieve, parameter, response => {          
-      console.log('RANDOM USERS', response);
+    Api.request(Routes.otherAccountsRetrieve, parameter, response => {
       this.setState({ isLoading: false })
       if (response.data.length > 0) {
         this.setState({ suggestions: response.data})
@@ -110,6 +108,7 @@ class Connections extends Component {
       navs[idx].flag = true
       await this.setState({ prevActive: idx })
     }
+    this.setState({connections: []})
     this.retrieve(false)
   }
 
@@ -136,7 +135,7 @@ class Connections extends Component {
         }}
           showsVerticalScrollIndicator={false}
         >
-          <View style={{ flex: 1, flexDirection: 'row' }}>
+          <View style={{ flex: 1, flexDirection: 'row', borderBottomWidth: 0.3, paddingBottom: 20, borderColor: Color.gray, marginTop: '7%' }}>
             {
               navs.map((el, idx) => {
                 return (
@@ -144,7 +143,7 @@ class Connections extends Component {
                     onPress={() => this.changeTab(idx)}
                     style={{
                       ...Style.standardButton,
-                      backgroundColor: el.flag == true ? Color.primary : 'gray',
+                      backgroundColor: el.flag == true ? Color.primary : '#BDBDBD',
                       marginLeft: 5
                     }}
                   >
@@ -157,35 +156,38 @@ class Connections extends Component {
           {
             this.state.currActive == 0 ? (
               <View>
-                {this.state.isLoading ? <Spinner mode="overlay" /> : null}
-                <CardList retrieve={() => {this.refresh()}} status={'pending'} navigation={this.props.navigation} data={this.state.connections.length > 0 && this.state.connections} hasAction={true} actionType={'text'}></CardList>
-                <View style={{ marginTop: 50, paddingLeft: 30 }}>
+                <CardList level={2} retrieve={() => {this.refresh()}} status={'pending'} navigation={this.props.navigation} data={this.state.connections.length > 0 && this.state.connections} hasAction={true} actionType={'text'}></CardList>
+                <View style={{ marginTop: 50, paddingLeft: 30, borderTopWidth: 0.3, paddingTop: 20, borderColor: Color.gray }}>
                   <Text style={{ fontWeight: 'bold' }}>Connections you may know</Text>
                 </View>
 
                 <View>
-                  <CardList retrieve={() => {this.refresh()}} navigation={this.props.navigation} data={this.state.suggestions.length > 0 && this.state.suggestions} hasAction={false} actionType={'button'} actionContent={'text'}></CardList>
+                  <CardList level={2} retrieve={() => {this.refresh()}} navigation={this.props.navigation} data={this.state.suggestions.length > 0 && this.state.suggestions} hasAction={false} actionType={'button'} actionContent={'text'}></CardList>
+                  {this.state.connections.length == 0 && (<Empty refresh={true} onRefresh={() => this.retrieve(false)} />)}
                 </View>
 
               </View>
             ) : (
-              <View style={{ flex: 1, justifyContent: 'center', alignItems: 'center', marginTop: 10 }}>
+              <View>
+              <View style={{ flex: 1, justifyContent: 'center', alignItems: 'center', marginTop: '5%' }}>
                 <View style={Style.TextContainer}>
                   <TextInput
-                    style={BasicStyles.formControl}
+                    style={[BasicStyles.formControl, {backgroundColor: '#e8e8e8'}]}
                     onChangeText={(search) => this.setState({ search })}
                     value={this.state.search}
                     placeholder={'Search'}
                   />
                 </View>
-                {this.state.isLoading ? <Spinner mode="overlay" /> : null}
                 <View>
-                  <CardList retrieve={() => {this.refresh()}} navigation={this.props.navigation} data={this.state.connections.length > 0 && this.state.connections} hasAction={false} actionType={'button'} actionContent={'icon'} ></CardList>
+                  <CardList level={1} retrieve={() => {this.refresh()}} navigation={this.props.navigation} data={this.state.connections.length > 0 && this.state.connections} hasAction={false} actionType={'button'} actionContent={'icon'} ></CardList>
                 </View>
               </View>
+                {this.state.connections.length == 0 && (<Empty refresh={true} onRefresh={() => this.retrieve(false)} />)}
+                </View>
             )
           }
         </ScrollView>
+        {this.state.isLoading ? <Spinner mode="overlay" /> : null}
         <Footer layer={1} {...this.props} />
       </View>
     );

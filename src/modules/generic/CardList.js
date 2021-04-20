@@ -24,6 +24,7 @@ class CardList extends Component {
     }
     this.setState({ isLoading: true });
     Api.request(Routes.circleCreate, parameter, response => {
+      console.log(response, 'this is the response');
       this.setState({ isLoading: false })
     });
   }
@@ -52,7 +53,7 @@ class CardList extends Component {
     const { setTempMembers } = this.props;
     let temp = this.props.state.tempMembers;
     temp.map((item, index) => {
-      if(id === item.account?.id) {
+      if (id === item.account?.id) {
         temp.splice(index, 1)
         setTempMembers(temp);
       }
@@ -66,7 +67,7 @@ class CardList extends Component {
         {
           this.props.data.length > 0 && this.props.data.map((el, idx) => {
             return (
-              <TouchableOpacity onPress={() => { this.props.navigation.navigate('viewProfileStack', { user: el }) }}>
+              <TouchableOpacity onPress={() => { this.props.navigation.navigate('viewProfileStack', { user: el, level: this.props.level }) }}>
                 <ListItem key={idx} style={{ width: width }}>
                   {el.account?.profile?.url !== null ? <Image
                     style={Style.circleImage}
@@ -113,7 +114,7 @@ class CardList extends Component {
                                   backgroundColor: 'gray'
                                 }}
                               >
-                                <Text style={{ color: 'white' }}>Remove</Text>
+                                <Text style={{ color: 'white' }}>Delete</Text>
                               </TouchableOpacity>
                             </View>
                           )
@@ -125,8 +126,8 @@ class CardList extends Component {
                           left: (width - 200),
                           flexDirection: 'row'
                         }}>
-                          <TouchableOpacity onPress={() => {this.remove(el.account?.id)}}>
-                            <Text style={{color: Color.success}}>Added</Text>
+                          <TouchableOpacity onPress={() => { this.remove(el.account?.id) }}>
+                            <Text style={{ color: Color.success }}>Added</Text>
                           </TouchableOpacity>
                         </View>
                         :
@@ -140,12 +141,11 @@ class CardList extends Component {
                             ) : (
                               <TouchableOpacity
                                 onPress={() => this.props.invite ? this.storePeople(el) : this.sendRequest(el)}
-                                style={this.props.actionContent == 'icon' ? Style.iconBtn : Style.button}
+                                style={[Style.button, {backgroundColor: this.props.actionContent == 'icon' ? 'gray' : Color.primary}]}
                               >
                                 {
                                   this.props.actionContent == 'icon' ? (
-                                    <FontAwesomeIcon icon={faEllipsisH} size={30}
-                                      color={'gray'}></FontAwesomeIcon>
+                                    <Text style={{ color: 'white' }}>Remove</Text>
                                   ) : (
                                     <Text style={{ color: 'white' }}>Add</Text>
                                   )

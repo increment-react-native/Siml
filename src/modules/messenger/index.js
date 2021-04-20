@@ -252,7 +252,7 @@ class Groups extends Component {
             paddingBottom: 10,
             margin: '2%',
           }}>
-            <Group style={{ marginLeft: 13 }} size={60} data={this.state.connections} />
+            <Group navigation={this.props.navigation} style={{ marginLeft: 13 }} size={60} data={this.state.connections} />
           </View>
         )}
         <ScrollView
