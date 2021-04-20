@@ -24,8 +24,6 @@ class ThemeSettingTile extends Component {
   };
 
   render() {
-    const { theme } = this.props
-    console.log('[THEM]', theme)
     return (
       <TouchableOpacity
         style={styles.SettingTileContainer}
