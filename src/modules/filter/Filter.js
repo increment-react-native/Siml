@@ -1,7 +1,7 @@
 import React, {Component} from 'react';
 import { View, TouchableOpacity, FlatList, Text, Dimensions, ScrollView} from 'react-native';
 import Modal from "react-native-modal";
-import { Color , BasicStyles} from 'common';
+import { Color , BasicStyles, Helper} from 'common';
 import Config from 'src/config.js';
 import {connect} from 'react-redux';
 import { SliderPicker } from 'react-native-slider-picker';
@@ -13,6 +13,8 @@ class Filter extends Component {
   constructor(props){
     super(props);
     this.state = {
+      cuisine: [],
+      categoriesCuisine: null,
       value: 0,
       data: []
     }
@@ -31,17 +33,12 @@ class Filter extends Component {
         amount : this.state.value
       })
       this.props.close()
+    }else if(this.props.from == 'categories'){
+      this.props.onFinish({
+        categories : this.state.categoriesCuisine
+      })
+      this.props.close()
     }
-    // const { setFilterData } = this.props
-    // const { target, type, date, value } = this.state
-    // let parameter = {
-    //   target: target,
-    //   money_type: type,
-    //   date: date,
-    //   amount: value
-    // }
-    // setFilterData(parameter)
-    // console.log('[parameter]', parameter);
   }
 
   amount() {
@@ -87,11 +84,36 @@ class Filter extends Component {
     return <View style={Style.Separator} />;
   };
 
+  gather = (item) => {
+    this.state.categoriesCuisine = []
+    const { cuisine } = this.state
+    cuisine.push(item)
+    var newArray = [];
+      var newArray = cuisine.filter(function(elem, pos) {
+        return cuisine.indexOf(elem) == pos;
+      })
+    this.state.categoriesCuisine.push(newArray)
+  }
+
   lists(){
     return(
-      <View>
-        <Text>Not yet</Text>
-      </View>
+      <ScrollView
+      style={{marginTop: '1%'}}
+      >
+        { 
+        (this.props.from == 'categories') && 
+          Helper.cuisines.map((item, index) => (
+            <View style={{borderWidth: 1, padding: '6%', marginLeft: '-1%', marginRight: '-5%', borderBottomColor: Color.gray, borderColor: Color.white}}
+            key={index}>
+              <TouchableOpacity
+              onPress={(index) => this.gather(item.type)}>
+                <Text style={{marginLeft: '5%'}}
+                >{item.type}</Text>
+              </TouchableOpacity>
+            </View>
+          ))
+        }
+      </ScrollView>
     )
   }
 

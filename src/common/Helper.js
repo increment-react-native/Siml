@@ -101,4 +101,36 @@ export default {
       return true;
     }
   },
+  cuisines: [
+    {
+      type: 'Filipino'
+    },
+    {
+      type: 'Chinese'
+    },
+    {
+      type: 'Japanese'
+    },
+    {
+      type: 'Indian'
+    },
+    {
+      type: 'Italian'
+    },
+    {
+      type: 'Thai'
+    },
+    {
+      type: 'Spanish'
+    },
+    {
+      type: 'French'
+    },
+    {
+      type: 'Korean'
+    },
+    {
+      type: 'Turkish'
+    }
+  ]
 };
