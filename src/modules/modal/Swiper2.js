@@ -55,7 +55,6 @@ class Cards extends React.Component {
     this.setState({ isLoading: true })
     Api.request(Routes.merchantsRetrieve, {}, response => {
       this.setState({ isLoading: false })
-      console.log(response, '----');
       if (response.data.length > 0) {
         this.setState({ data: response.data });
       }
