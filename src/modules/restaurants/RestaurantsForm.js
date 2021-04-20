@@ -14,29 +14,19 @@ import Api from 'services/api';
 import { Spinner } from 'components';
 
 
-const group = [
-  { user: { profile: { uri: require('assets/test.jpg') } } },
-  { user: { profile: { uri: require('assets/test.jpg') } } },
-  { user: { profile: { uri: require('assets/test.jpg') } } },
-  { user: { profile: { uri: require('assets/test.jpg') } } },
-  { user: { profile: { uri: require('assets/test.jpg') } } },
-  { user: { profile: { uri: require('assets/test.jpg') } } },
-  { user: { profile: { uri: require('assets/test.jpg') } } },
-  { user: { profile: { uri: require('assets/test.jpg') } } }
-]
-
 class Restaurants extends Component {
   constructor(props) {
     super(props);
     this.state = {
       location: null,
-      value: null,
+      value: 100,
       selectVal: null,
       val: 1,
       Date: null,
       Time: null,
       isLoading: false,
-      size: null
+      size: 1,
+      cuisines: null
     }
   }
   componentDidMount() {
@@ -208,10 +198,23 @@ class Restaurants extends Component {
                 title={'Party Size'} />
             </View>
             <View style={{ marginBottom: '23%' }}>
-              <Range title={'Price Range'} />
+              <Range 
+              onFinish={(amount) => {
+                  this.setState({
+                    value: amount
+                  })
+                }} title={'Price Range'} />
             </View>
             <View>
-              <InputSelect titles={'cuisines'} value={this.state.selectVal} title={'Cuisines'} />
+              <InputSelect 
+              onFinish={(cuisine) => {
+                  this.setState({
+                    cuisines: cuisine
+                  })
+                }} 
+                titles={'cuisines'}
+                placeholder={' '}
+                title={'Cuisines'} />
             </View>
             <Text style={{ color: 'black', marginBottom: 15, marginLeft: 20 }}>Radius</Text>
             <SliderPicker
