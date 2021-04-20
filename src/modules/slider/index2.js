@@ -104,8 +104,8 @@ class Slider2 extends Component {
                     {
                       user.account_profile != null && user.account_profile.url != null && (
                         <View style={{flex:1, flexDirection: 'row', marginTop: '10%', position: 'absolute', right: 0}}>
-                              <Text onPress={()=> console.log('dfsdfads')} style={{backgroundColor: 'red', color: Color.white, fontWeight: 'bold', marginTop: '8%', marginRight: 10}}>{user.account_information.first_name} {user.account_information.last_name}</Text>
-                              <TouchableOpacity onPress={() => this.props.navigation.navigate('viewProfileStack')}>
+                              <Text style={{color: Color.white, fontWeight: 'bold', marginTop: '8%', marginRight: 10}}>{user.account_information.first_name} {user.account_information.last_name}</Text>
+                              <TouchableOpacity onPress={() => this.props.navigation.navigate('profileStack')}>
                               <Image
                                   source={{uri: Config.BACKEND_URL  + user.account_profile.url}}
                                   style={[BasicStyles.profileImageSize, {
