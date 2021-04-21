@@ -18,8 +18,9 @@ export default {
   black: '#000',
   success: '#4BB543',
   goldenYellow: '#FFDF00',
+  orange: '#F89551', //logo color
   tertiary: tertiary,
-  blue: '#2F80ED',
+  blue: '#1B6F9C', //logo color
   containerBackground: '#fff',
   fourth: fourth,
   gradient: gradient,

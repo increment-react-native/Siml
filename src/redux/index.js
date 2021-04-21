@@ -20,7 +20,8 @@ const types = {
   SET_LOCATION: 'SET_LOCATION',
   SET_DEVICE_LOCATION: 'SET_DEVICE_LOCATION',
   SET_DEFAULT_ADDRESS: 'SET_DEFAULT_ADDRESS',
-  SET_TEMP_MEMBERS: 'SET_TEMP_MEMBERS'
+  SET_TEMP_MEMBERS: 'SET_TEMP_MEMBERS',
+  SET_SHOW_SETTINGS: 'SET_SHOW_SETTINGS'
 };
 
 export const actions = {
@@ -80,6 +81,9 @@ export const actions = {
   },
   setTempMembers(tempMembers) {
     return {type: types.SET_TEMP_MEMBERS, tempMembers}
+  },
+  setShowSettings(showSettings) {
+    return {type: types.SET_SHOW_SETTINGS, showSettings}
   }
 };
 
@@ -101,7 +105,8 @@ const initialState = {
   location: null,
   deviceLocation: null,
   defaultAddress: null,
-  tempMembers: []
+  tempMembers: [],
+  showSettings: false
 };
 
 storeData = async (key, value) => {
@@ -123,6 +128,7 @@ const reducer = (state = initialState, action) => {
   const {location, size} = action;
   const {deviceLocation} = action;
   const {tempMembers} = action;
+  const {showSettings} = action;
   switch (type) {
     case types.LOGOUT:
       AsyncStorage.clear();
@@ -274,6 +280,11 @@ const reducer = (state = initialState, action) => {
       return {
         ...state,
         tempMembers
+      }
+    case types.SET_SHOW_SETTINGS: 
+      return {
+        ...state,
+        showSettings
       }
     default:
       return {...state, nav: state.nav};
