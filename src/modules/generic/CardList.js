@@ -48,7 +48,7 @@ class CardList extends Component {
       this.props.retrieve();
     });
   }
-  
+
   deleteConnection = (id) => {
     let parameter = {
       id: id
@@ -80,7 +80,7 @@ class CardList extends Component {
             return (
               <TouchableOpacity onPress={() => { this.props.navigation.navigate('viewProfileStack', { user: el, level: this.props.level }) }}>
                 <ListItem key={idx} style={{ width: width }}>
-                  {el.account?.profile?.url !== null ? <Image
+                  {el.account?.profile?.url ? <Image
                     style={Style.circleImage}
                     source={{ uri: Config.BACKEND_URL + el.account?.profile?.url }}
                   /> :
@@ -97,7 +97,7 @@ class CardList extends Component {
                       paddingBottom: 8
                     }}><FontAwesomeIcon
                         icon={faUser}
-                        size={60}
+                        size={68}
                         color={Color.primary}
                       /></View>}
                   <View>
@@ -151,14 +151,14 @@ class CardList extends Component {
                               <Text style={{ marginLeft: 10 }}>{el.lastLogin}</Text>
                             ) : (
                               <TouchableOpacity
-                                onPress={() => this.props.invite ? this.storePeople(el) : this.props.actionContent == 'icon' ? this.deleteConnection(el.id) : this.sendRequest(el)}
-                                style={[Style.button, {backgroundColor: this.props.actionContent == 'icon' ? 'gray' : Color.primary}]}
+                                onPress={() => this.props.invite ? this.storePeople(el) : this.props.actionContent == 'icon' || el.is_added === true ?  this.deleteConnection(el.id) : this.sendRequest(el)}
+                                style={[Style.button, { backgroundColor: this.props.actionContent == 'icon' || el.is_added === true ? 'gray' : Color.primary }]}
                               >
                                 {
                                   this.props.actionContent == 'icon' ? (
                                     <Text style={{ color: 'white' }}>Remove</Text>
                                   ) : (
-                                    <Text style={{ color: 'white' }}>Add</Text>
+                                    <Text style={{ color: 'white' }}>{el.is_added ? 'Cancel' : 'Add'}</Text>
                                   )
                                 }
                               </TouchableOpacity>

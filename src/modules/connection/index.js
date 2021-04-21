@@ -55,19 +55,18 @@ class Connections extends Component {
       condition: [{
         value: user.id,
         column: this.state.currActive == 0 ? 'account' : 'account_id',
-        clause: '='
+        clause: 'or'
       }, {
         value: user.id,
         column: 'account',
-        clause: this.state.currActive == 0 ? '=' : 'or'
+        clause: this.state.currActive == 0 ? '=' : '='
       }, {
-        clause: "like",
+        clause: "=",
         column: "status",
         value: this.state.currActive == 0 ? 'pending' : 'accepted'
       }],
       offset: flag == true && this.state.offset > 0 ? (this.state.offset * this.state.limit) : this.state.offset,
     }
-    console.log(parameter, '');
     this.setState({ isLoading: true })
     Api.request(Routes.circleRetrieve, parameter, response => {
       this.setState({ isLoading: false })
@@ -86,10 +85,7 @@ class Connections extends Component {
   }
 
   retrieveRandomUsers = (flag) => {
-    const { user } = this.props.state
-    if (user == null) {
-      return
-    }
+    const { user } = this.props.state;
     let parameter = {
       account_id: user.id
     }
@@ -164,7 +160,7 @@ class Connections extends Component {
 
                 <View>
                   <CardList level={2} retrieve={() => {this.refresh()}} navigation={this.props.navigation} data={this.state.suggestions.length > 0 && this.state.suggestions} hasAction={false} actionType={'button'} actionContent={'text'}></CardList>
-                  {this.state.suggestions.length == 0 && (<Empty refresh={true} onRefresh={() => this.retrieve(false)} />)}
+                  {this.state.suggestions.length == 0 && (<Empty refresh={true} onRefresh={() => this.refresh()} />)}
                 </View>
 
               </View>
@@ -183,7 +179,7 @@ class Connections extends Component {
                   <CardList level={1} retrieve={() => {this.refresh()}} navigation={this.props.navigation} data={this.state.connections.length > 0 && this.state.connections} hasAction={false} actionType={'button'} actionContent={'icon'} ></CardList>
                 </View>
               </View>
-                {this.state.connections.length == 0 && (<Empty refresh={true} onRefresh={() => this.retrieve(false)} />)}
+                {this.state.connections.length == 0 && (<Empty refresh={true} onRefresh={() => this.refresh()} />)}
                 </View>
             )
           }

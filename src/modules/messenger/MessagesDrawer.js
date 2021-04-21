@@ -1,5 +1,5 @@
 import React, { Component } from 'react';
-import { View, TouchableOpacity, Text, Image } from 'react-native';
+import { View, TouchableOpacity, Text, Image, Alert } from 'react-native';
 import { createStackNavigator } from 'react-navigation-stack';
 import { FontAwesomeIcon } from '@fortawesome/react-native-fontawesome';
 import { faChevronLeft, faEllipsisV, faStar } from '@fortawesome/free-solid-svg-icons';
@@ -42,8 +42,7 @@ class HeaderOptions extends Component {
     Api.request(Routes.topChoiceRetrieve, parameter, response => {
       response.data.length > 0 && response.data.map(item => {
         item.members.length > 0 && item.members.map(i => {
-          console.log(i.account_id, this.props.state.user.id, 'accounts');
-          if(i.account_id === this.props.state.user.id) {
+          if(i.account_id == this.props.state.user.id) {
             this.setState({status: true})
             return
           }
@@ -61,6 +60,7 @@ class HeaderOptions extends Component {
   _card = () => {
     const {theme } = this.props.state;
     const { data } = this.props.navigationProps.state.params
+    const { setShowSettings } = this.props;
     return (
       <View style={{width: width}}>
         {
@@ -87,7 +87,14 @@ class HeaderOptions extends Component {
                       style={BasicStyles.iconStyle}/>
                   </View>
                 </TouchableOpacity>
-                <TouchableOpacity onPress={() => this.state.status === true ? console.log('yo') : this.redirect('menuStack')}>
+                <TouchableOpacity onPress={() => this.state.status === true ? Alert.alert(
+                    '',
+                    'Your choice has been submitted.',
+                    [
+                      { text: 'CLOSE', onPress: () => { return }, style: 'cancel' }
+                    ],
+                    { cancelable: false }
+                  ) : this.redirect('menuStack')}>
                   <View style={{borderWidth: 2, borderRadius: 20, height: 30, width: 30, borderColor: Color.primary, justifyContent: 'center', alignItems: 'center', marginLeft: 5}}>
                       <Image source={require('assets/logo.png')} style={{
                         height: 20,
@@ -95,7 +102,7 @@ class HeaderOptions extends Component {
                       }} />
                   </View>
                 </TouchableOpacity>
-                <TouchableOpacity>
+                <TouchableOpacity onPress={() => {setShowSettings(!this.props.state.showSettings)}}>
                   <View>
                     <FontAwesomeIcon
                     icon={ faEllipsisV }
@@ -137,6 +144,7 @@ const mapDispatchToProps = dispatch => {
   return {
     setMessagesOnGroup: (messagesOnGroup) => dispatch(actions.setMessagesOnGroup(messagesOnGroup)),
     setMessengerGroup: (messengerGroup) => dispatch(actions.setMessengerGroup(messengerGroup)),
+    setShowSettings: (showSettings) => dispatch(actions.setShowSettings(showSettings))
   };
 };
 

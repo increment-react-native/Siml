@@ -12,7 +12,8 @@ import {
   KeyboardAvoidingView,
   SafeAreaView,
   Dimensions,
-  Alert
+  Alert,
+  Modal
 } from 'react-native';
 import { Routes, Color, BasicStyles, Helper } from 'common';
 import { Spinner, UserImage } from 'components';
@@ -25,8 +26,8 @@ import ImageModal from 'components/Modal/ImageModal.js';
 import ImagePicker from 'react-native-image-picker';
 import CommonRequest from 'services/CommonRequest.js';
 import Style from 'modules/messenger/Style.js'
-import Modal from 'components/Modal/Sketch';
 import Group from 'modules/generic/GroupUsers.js';
+import Settings from './Settings';
 const DeviceHeight = Math.round(Dimensions.get('window').height);
 const DeviceWidth = Math.round(Dimensions.get('window').width);
 
@@ -49,7 +50,8 @@ class MessagesV3 extends Component {
       settingsBreadCrumbs: ['Settings'],
       group: null,
       request_id: null,
-      members: []
+      members: [],
+      isVisible: false
     }
   }
 
@@ -770,9 +772,28 @@ class MessagesV3 extends Component {
               url={imageModalUrl}
               action={() => this.setState({ isImageModal: false })}
             ></ImageModal>
-            <Modal send={this.sendSketch} close={this.closeSketch} visible={this.state.visible} />
           </View>
         </KeyboardAvoidingView>
+        {/* <Modal
+					animationType="slide"
+					transparent={true}
+					visible={true}
+					onRequestClose={() => {
+						this.setState({isVisible: false})
+					}}
+				>
+					<View style={{
+						flex: 1,
+						justifyContent: "center",
+						alignItems: "center",
+						backgroundColor: 'gray',
+            marginTop: '35%',
+            marginBottom: '90%'
+					}}>
+					<Text>Test</Text>
+					</View>
+				</Modal> */}
+        {this.props.state.showSettings && <Settings></Settings>}
       </SafeAreaView>
     );
   }
@@ -786,7 +807,7 @@ const mapDispatchToProps = dispatch => {
     setMessengerGroup: (messengerGroup) => dispatch(actions.setMessengerGroup(messengerGroup)),
     updateMessagesOnGroup: (message) => dispatch(actions.updateMessagesOnGroup(message)),
     updateMessageByCode: (message) => dispatch(actions.updateMessageByCode(message)),
-    viewMenu: (isViewing) => dispatch(actions.viewMenu(isViewing))
+    viewMenu: (isViewing) => dispatch(actions.viewMenu(isViewing)),
   };
 };
 
