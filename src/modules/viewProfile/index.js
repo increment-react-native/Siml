@@ -22,7 +22,7 @@ class ViewProfile extends Component {
       fullName: null,
       phoneNumber: null,
       email: null,
-      choice: 'SIML ACTIVITY',
+      choice: 'SYNQT ACTIVITIES',
       connections: [],
       isVisible: false,
       data: [],
@@ -33,11 +33,15 @@ class ViewProfile extends Component {
   }
 
   componentDidMount() {
-    this.retrieveActivity(false);
+    if(this.props.navigation.state?.params?.level === 1) {
+      this.retrieveActivity(false);
+    } else {
+      this.retrieveConnections(false);
+    }
+    this.setState({choice: this.props.navigation.state?.params?.level === 1 ? 'SYNQT ACTIVITIES' : 'CONNECTIONS'});
   }
 
   retrieveActivity = (flag) => {
-    let status = this.props.navigation.state.params && this.props.navigation.state.params.title && this.props.navigation.state.params.title.toLowerCase() === 'upcoming' ? 'pending' : 'completed'
     let parameter = {
       condition: [{
         value: this.props.navigation.state?.params?.user?.account?.id,
@@ -77,11 +81,11 @@ class ViewProfile extends Component {
       condition: [{
         value: this.props.navigation.state?.params?.user?.account_id,
         column: 'account_id',
-        clause: 'or'
+        clause: '='
       }, {
         value: this.props.navigation.state?.params?.user?.account_id,
         column: 'account',
-        clause: '='
+        clause: 'or'
       }, {
         clause: "like",
         column: "status",
@@ -257,7 +261,6 @@ class ViewProfile extends Component {
 
   render() {
     let user = this.props.navigation.state?.params?.user
-    console.log(this.props.navigation.state?.params?.user?.account?.username, 'level--------------');
     return (
       <View style={{
         backgroundColor: Color.containerBackground
@@ -290,7 +293,7 @@ class ViewProfile extends Component {
                 textAlign: 'center',
                 fontWeight: 'bold',
                 fontSize: 18
-              }}>{user?.account?.information?.first_name + user?.account?.information?.last_name || 'Unknow name'}</Text>
+              }}>{user?.account?.information?.first_name + user?.account?.information?.last_name || 'Unknown name'}</Text>
             </View>
             <View style={{
               width: '100%'

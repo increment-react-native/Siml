@@ -21,7 +21,8 @@ const types = {
   SET_DEVICE_LOCATION: 'SET_DEVICE_LOCATION',
   SET_DEFAULT_ADDRESS: 'SET_DEFAULT_ADDRESS',
   SET_TEMP_MEMBERS: 'SET_TEMP_MEMBERS',
-  SET_SHOW_SETTINGS: 'SET_SHOW_SETTINGS'
+  SET_SHOW_SETTINGS: 'SET_SHOW_SETTINGS',
+  SET_CURRENT_TITLE: 'SET_CURRENT_TITLE'
 };
 
 export const actions = {
@@ -84,6 +85,9 @@ export const actions = {
   },
   setShowSettings(showSettings) {
     return {type: types.SET_SHOW_SETTINGS, showSettings}
+  },
+  setCurrentTitle(currentTitle) {
+    return {type: types.SET_CURRENT_TITLE, currentTitle}
   }
 };
 
@@ -106,7 +110,8 @@ const initialState = {
   deviceLocation: null,
   defaultAddress: null,
   tempMembers: [],
-  showSettings: false
+  showSettings: false,
+  currentTitle: null
 };
 
 storeData = async (key, value) => {
@@ -129,6 +134,7 @@ const reducer = (state = initialState, action) => {
   const {deviceLocation} = action;
   const {tempMembers} = action;
   const {showSettings} = action;
+  const {currentTitle} = action;
   switch (type) {
     case types.LOGOUT:
       AsyncStorage.clear();
@@ -213,7 +219,7 @@ const reducer = (state = initialState, action) => {
       let updatedMessagesOnGroup = null;
       if (state.messagesOnGroup != null) {
         let oldMessages = state.messagesOnGroup.messages;
-        if (oldMessages == null) {
+        if (oldMessages == null || oldMessages.length == 0) {
           let temp = [];
           temp.push(message);
           updatedMessagesOnGroup = {
@@ -285,6 +291,11 @@ const reducer = (state = initialState, action) => {
       return {
         ...state,
         showSettings
+      }
+    case types.SET_CURRENT_TITLE: 
+      return {
+        ...state,
+        currentTitle
       }
     default:
       return {...state, nav: state.nav};

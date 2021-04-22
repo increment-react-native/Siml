@@ -9,6 +9,8 @@ import Group from 'modules/generic/PeopleList.js'
 import { connect } from 'react-redux';
 import Api from 'services/api/index.js';
 import { Spinner } from 'components';
+import Style from '../history/Style';
+import style from './Style';
 const width = Math.round(Dimensions.get('window').width)
 const height = Math.round(Dimensions.get('window').height)
 class EventName extends Component {
@@ -109,13 +111,7 @@ class EventName extends Component {
     console.log(data, 'hhhh');
     return (
       <ScrollView>
-        <View style={{
-          backgroundColor: 'white',
-          width: '100%',
-          backgroundColor: 'white',
-          paddingBottom: 15,
-          height: height - 70
-        }}>
+        <View style={style.Container}>
           <ImageBackground
             style={{
               width: '100%',
@@ -146,74 +142,18 @@ class EventName extends Component {
             {this.state.isLoading ? <Spinner mode="overlay" /> : null}
             <FontAwesomeIcon icon={faUser} size={20} color={Color.gray} style={{ marginRight: 10 }} />
             <Text style={{ color: Color.gray }}>{this.props.navigation.state?.params?.data.members.length} people</Text>
-            <View style={{
-              borderRadius: 6,
-              position: 'absolute',
-              right: width - 240,
-              height: 25,
-              width: '30%',
-              padding: 6,
-              borderWidth: .5,
-              borderColor: Color.warning,
-              justifyContent: 'center',
-              alignItems: 'center',
-              flexDirection: 'row'
-            }}>
+            <View style={style.Date}>
               <Text style={{ color: Color.primary }}>{data.synqt[0].date}</Text>
             </View>
-            <View style={{
-              backgroundColor: Color.primary,
-              borderRadius: 6,
-              height: 18,
-              position: 'absolute',
-              right: width - 300,
-              width: 55,
-              borderWidth: .5,
-              borderColor: Color.primary,
-              justifyContent: 'center',
-              alignItems: 'center',
-              flexDirection: 'row'
-            }}>
+            <View style={style.Distance}>
               <Text numberOfLines={1} style={{ fontSize: 10, color: 'white' }}>0.64 km</Text>
             </View>
-            <View style={{
-              backgroundColor: 'white',
-              borderRadius: 6,
-              height: 18,
-              position: 'absolute',
-              right: width - 360,
-              width: 55,
-              borderWidth: .5,
-              borderColor: Color.primary,
-              justifyContent: 'center',
-              alignItems: 'center',
-              flexDirection: 'row'
-            }}>
+            <View style={style.Rate}>
               <FontAwesomeIcon icon={faStar} color={Color.warning} style={{ marginRight: 2 }} size={8} />
               <Text numberOfLines={1} style={{ fontSize: 10, color: Color.primary }}>43</Text>
             </View>
-            <View style={{
-              backgroundColor: 'white',
-              borderRadius: 6,
-              height: 21,
-              position: 'absolute',
-              right: 10,
-              width: 50,
-              borderWidth: .5,
-              borderColor: Color.primary,
-              justifyContent: 'center',
-              alignItems: 'center',
-              flexDirection: 'row'
-            }}>
-              <TouchableOpacity style={{
-                height: 15,
-                width: 15,
-                borderRadius: 8,
-                backgroundColor: '#30F2F2',
-                justifyContent: 'center',
-                alignItems: 'center',
-                marginRight: 5
-              }}>
+            <View style={style.StarContainer}>
+              <TouchableOpacity style={style.Star}>
                 <FontAwesomeIcon icon={faStar} color={Color.white} size={8} />
               </TouchableOpacity>
               <Text numberOfLines={1} style={{ color: Color.warning }}>1</Text>
@@ -222,8 +162,7 @@ class EventName extends Component {
           <View style={{
             flexDirection: 'row',
             width: '100%',
-            marginTop: 25,
-            paddingLeft: 15
+            marginTop: 25
           }}>
             <Group navigation={this.props.navigation} style={{ marginLeft: 13 }} size={60} data={this.state.group} />
           </View>

@@ -17,7 +17,8 @@ class HeaderOptions extends Component {
   constructor(props){
     super(props);
     this.state = {
-      status: false
+      status: false,
+      finishLoad: false
     }
   }
 
@@ -40,6 +41,7 @@ class HeaderOptions extends Component {
       offset: 0
     }
     Api.request(Routes.topChoiceRetrieve, parameter, response => {
+      this.setState({finishLoad: true})
       response.data.length > 0 && response.data.map(item => {
         item.members.length > 0 && item.members.map(i => {
           if(i.account_id == this.props.state.user.id) {
@@ -74,11 +76,11 @@ class HeaderOptions extends Component {
               lineHeight: 30,
               paddingLeft: 1,
               // marginRight: 40
-            }}>{data ? data.title : null}</Text>
+            }}>{this.props.state.currentTitle}</Text>
           </View>
         )}
         <View style={{flex: 1, flexDirection: 'row', position: 'absolute', right: 40}}>
-                <TouchableOpacity onPress={() => this.redirect('topChoiceStack')}>
+                <TouchableOpacity disabled={!this.state.finishLoad} onPress={() => this.redirect('topChoiceStack')}>
                   <View style={{borderWidth: 2, borderRadius: 20, height: 30, width: 30, borderColor: Color.warning, justifyContent: 'center', alignItems: 'center'}}>
                       <FontAwesomeIcon
                       color={Color.warning}
@@ -87,7 +89,7 @@ class HeaderOptions extends Component {
                       style={BasicStyles.iconStyle}/>
                   </View>
                 </TouchableOpacity>
-                <TouchableOpacity onPress={() => this.state.status === true ? Alert.alert(
+                <TouchableOpacity disabled={!this.state.finishLoad} onPress={() => this.state.status === true ? Alert.alert(
                     '',
                     'Your choice has been submitted.',
                     [
@@ -102,7 +104,7 @@ class HeaderOptions extends Component {
                       }} />
                   </View>
                 </TouchableOpacity>
-                <TouchableOpacity onPress={() => {setShowSettings(!this.props.state.showSettings)}}>
+                <TouchableOpacity disabled={!this.state.finishLoad} onPress={() => {setShowSettings(!this.props.state.showSettings)}}>
                   <View>
                     <FontAwesomeIcon
                     icon={ faEllipsisV }

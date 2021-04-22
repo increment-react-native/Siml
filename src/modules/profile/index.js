@@ -159,9 +159,9 @@ class Profile extends Component {
     const { user } = this.props.state;
     return (
       <ScrollView>
-        <View style={[Style.MainContainer, {
+        <View style={{
           backgroundColor: Color.containerBackground
-        }]}>
+        }}>
           {this.state.isLoading ? <Spinner mode="overlay" /> : null}
           <View style={{ borderBottomWidth: 1, borderColor: Color.primary }}>
             <View style={Style.TopView}>
@@ -266,6 +266,14 @@ class Profile extends Component {
               placeholder='   Enter Phone Number'
             />
           </View>
+          <View style={{
+            padding: 25,
+            textAlign: 'center',
+            justifyContent: 'center',
+            paddingTop: 50
+          }}>
+          <CustomizedButton onClick={() => {this.update()}} title={'Update'}></CustomizedButton>
+          </View>
         </View>
         {this.state.isImageUpload ?
           <ImageUpload
@@ -277,14 +285,6 @@ class Profile extends Component {
             onClose={() => {
               this.setState({ isImageUpload: false, isLoading: false })
             }} /> : null}
-        <View style={{
-            padding: 25,
-            textAlign: 'center',
-            justifyContent: 'center',
-            paddingTop: 10
-          }}>
-          <CustomizedButton onClick={() => {this.update()}} title={'Update'}></CustomizedButton>
-          </View>
       </ScrollView>
     );
   }

@@ -105,8 +105,8 @@ class Groups extends Component {
   }
 
   viewMessages = (item) => {
-    const { setMessengerGroup } = this.props;
-    console.log('message group', item);
+    const { setMessengerGroup, setCurrentTitle } = this.props;
+    setCurrentTitle(item.title);
     this.updateLastMessageStatus(item)
     setMessengerGroup(item);
     setTimeout(() => {
@@ -286,6 +286,7 @@ const mapDispatchToProps = dispatch => {
   return {
     setMessengerGroup: (messengerGroup) => dispatch(actions.setMessengerGroup(messengerGroup)),
     setMessenger: (unread, messages) => dispatch(actions.setMessenger(unread, messages)),
+    setCurrentTitle: (currentTitle) => dispatch(actions.setCurrentTitle(currentTitle)),
   };
 };
 
