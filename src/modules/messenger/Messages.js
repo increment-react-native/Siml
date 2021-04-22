@@ -793,7 +793,7 @@ class MessagesV3 extends Component {
 					<Text>Test</Text>
 					</View>
 				</Modal> */}
-        {this.props.state.showSettings && <Settings></Settings>}
+        {this.props.state.showSettings && <Settings groupId={this.props.navigation?.state?.params.data?.id} title={this.props.navigation?.state?.params.data?.title}></Settings>}
       </SafeAreaView>
     );
   }

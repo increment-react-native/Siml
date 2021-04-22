@@ -33,8 +33,5 @@ export default {
     marginTop: 15,
     fontWeight: 'bold',
     fontSize: 15
-  },
-  MainContainer: {
-    height: height
   }
 }

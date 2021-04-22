@@ -25,6 +25,7 @@ export default {
   retrieveSavedAddresses: apiUrl + 'locations/retrieve',
   // messenger
   customMessengerGroupCreate: apiUrl + 'custom_messenger_groups/create',
+  messengerGroupUpdate: apiUrl + 'messenger_groups/update',
   messengerGroupRetrieve: apiUrl + 'messenger_groups/retrieve',
   messengerGroupCreate: apiUrl + 'messenger_groups/create_group_with_members',
   messengerGroupRetrieveByParams:
