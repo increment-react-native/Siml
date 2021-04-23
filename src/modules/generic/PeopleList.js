@@ -5,6 +5,7 @@ import { faPlusCircle, faTimes, faStar } from '@fortawesome/free-solid-svg-icons
 import { BasicStyles, Color } from 'common';
 import { connect } from 'react-redux';
 import UserImage from 'components/User/Image';
+import { TouchableOpacity } from 'react-native';
 const height = Math.round(Dimensions.get('window').height);
 
 class PeopleList extends Component {
@@ -24,40 +25,48 @@ class PeopleList extends Component {
         <ScrollView
           horizontal={true}
           showsHorizontalScrollIndicator={false}
-          style={{ marginRight: '5%' }}>
-          <FontAwesomeIcon
+          style={{ margin: '1%' }}>
+          {this.props.add === true && <FontAwesomeIcon
             icon={faPlusCircle}
-            size={45}
+            size={this.props.size ? this.props.size : 45}
             style={{
               color: Color.primary,
               marginLeft: 20,
               fontSize: 1
             }}
             onPress={() => this.props.redirectTo()}
-          />
+          />}
           {
             data && data.length > 0 && data.map((item, index) => (
-              <View style={{
-                borderWidth: 1,
-                borderColor: theme ? theme.primary : Color.primary,
-                borderRadius: 50,
-                width: 45,
-                height: 45,
+              <TouchableOpacity style={{
+                borderWidth: this.props.add === false ? 1 : 0,
+                borderColor: theme ? theme.secondary : Color.secondary,
+                borderRadius: this.props.size ? this.props.size : 45,
+                width: this.props.size ? this.props.size : 45,
+                height: this.props.size ? this.props.size : 45,
                 marginLeft: 3,
                 alignItems: 'center',
                 justifyContent: 'center'
-              }}>
+              }}
+                onPress={() => { this.props.navigation.navigate('viewProfileStack', { user: item, level: 1 }) }}>
                 <UserImage
                   key={index}
                   user={
                     item.account
                   }
                   color={Color.primary}
-                  size={45}
-                  borderColor={Color.primary}
-                  borderWidth={3}
-                  marginLeft={3} />
-              </View>
+                  size={this.props.size ? this.props.size : 45}
+                  borderWidth={this.props.add === false ? 1 : 0}
+                  borderColor={this.props.add === false ? theme ? theme.secondary : Color.secondary : null}
+                  style={{
+                    borderWidth: this.props.add === false ? 1 : 0,
+                    borderColor: theme ? theme.secondary : Color.secondary,
+                    borderRadius: this.props.size ? this.props.size : 45,
+                    width: this.props.size ? this.props.size : 45,
+                    height: this.props.size ? this.props.size : 45,
+                  }}
+                />
+              </TouchableOpacity>
             ))
           }
         </ScrollView>

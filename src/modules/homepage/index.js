@@ -46,7 +46,7 @@ class HomePage extends Component{
                     <Text style={{
                         textAlign: 'center',
                         color: Color.white
-                      }}>{user.account_information?.first_name + '  ' + user.account_information?.last_name}</Text>
+                      }}>{user?.account_information?.first_name + '  ' + user?.account_information?.last_name}</Text>
                     <Text style={{
                       textAlign: 'center',
                       fontWeight: 'bold',

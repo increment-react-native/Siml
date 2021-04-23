@@ -55,11 +55,11 @@ class Connections extends Component {
       condition: [{
         value: user.id,
         column: this.state.currActive == 0 ? 'account' : 'account_id',
-        clause: 'or'
+        clause: '='
       }, {
         value: user.id,
         column: 'account',
-        clause: this.state.currActive == 0 ? '=' : '='
+        clause: this.state.currActive == 0 ? '=' : 'or'
       }, {
         clause: "=",
         column: "status",
@@ -67,6 +67,7 @@ class Connections extends Component {
       }],
       offset: flag == true && this.state.offset > 0 ? (this.state.offset * this.state.limit) : this.state.offset,
     }
+    console.log(Routes.circleRetrieve, parameter, 'lalaine');
     this.setState({ isLoading: true })
     Api.request(Routes.circleRetrieve, parameter, response => {
       this.setState({ isLoading: false })

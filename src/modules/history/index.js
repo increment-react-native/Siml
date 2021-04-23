@@ -121,37 +121,7 @@ class History extends Component {
                   name: item.merchant?.name,
                   date: item.synqt.length > 0 && item.synqt[0]?.date,
                   superlike: true,
-                  users: [{
-                    account: {
-                      profile: {
-                        url: '/storage/image/11_2021-04-06_02_04_43_fries.jpg'
-                      }
-                    }
-                  }, {
-                    account: {
-                      profile: {
-                        url: '/storage/image/11_2021-04-06_02_04_43_fries.jpg'
-                      }
-                    }
-                  }, {
-                    account: {
-                      profile: {
-                        url: '/storage/image/11_2021-04-06_02_04_43_fries.jpg'
-                      }
-                    }
-                  }, {
-                    account: {
-                      profile: {
-                        url: '/storage/image/11_2021-04-06_02_04_43_fries.jpg'
-                      }
-                    }
-                  }, {
-                    account: {
-                      profile: {
-                        url: '/storage/image/11_2021-04-06_02_04_43_fries.jpg'
-                      }
-                    }
-                  }]
+                  users: item.group ? item.group: []
                 }}
                 style={{
                   marginBottom: 20

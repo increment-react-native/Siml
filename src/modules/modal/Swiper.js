@@ -117,7 +117,7 @@ class Cards extends React.Component {
             account_id: this.props.state.user.id,
             merchant_id: this.props.item.merchant.id,
             payload: 'synqt',
-            payload_value: this.props.item.synqt_id,
+            payload_value: this.props.item.synqt[0].id,
             details: this.props.item.synqt[0]?.details,
             datetime: this.props.item.synqt[0].date,
             status: 'pending'

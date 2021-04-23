@@ -300,13 +300,12 @@ export default {
       justifyContent: 'center',
       alignItems: 'center',
       fontSize: 12,
-      width: width
+      width: '86%'
     },
     headerTitleContainerStyle: {
       backgroundColor: Color.white,
       justifyContent: 'center',
-      alignItems: 'center',
-      paddingRight: 64
+      alignItems: 'center'
     },
     headerTitleStyle: {
       fontWeight: 'bold',

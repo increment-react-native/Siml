@@ -119,37 +119,7 @@ class TopChoice extends Component {
                     name: item.merchant.name,
                     date: item.synqt[0].date,
                     superlike: true,
-                    users: [{
-                      account: {
-                        profile: {
-                          url: '/storage/image/11_2021-04-06_02_04_43_fries.jpg'
-                        }
-                      }
-                    }, {
-                      account: {
-                        profile: {
-                          url: '/storage/image/11_2021-04-06_02_04_43_fries.jpg'
-                        }
-                      }
-                    }, {
-                      account: {
-                        profile: {
-                          url: '/storage/image/11_2021-04-06_02_04_43_fries.jpg'
-                        }
-                      }
-                    }, {
-                      account: {
-                        profile: {
-                          url: '/storage/image/11_2021-04-06_02_04_43_fries.jpg'
-                        }
-                      }
-                    }, {
-                      account: {
-                        profile: {
-                          url: '/storage/image/11_2021-04-06_02_04_43_fries.jpg'
-                        }
-                      }
-                    }]
+                    users: item.members.length > 0 || item.length !== null ? item.members : []
                   }}
                   style={{
                     marginBottom: 20

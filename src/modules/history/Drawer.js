@@ -46,7 +46,7 @@ const HistoryStack = createStackNavigator({
     navigationOptions: ({navigation}) => ({
       title: navigation.state.params && navigation.state.params.title,
       headerLeft: <HeaderOptionsConnect navigationProps={navigation} />,
-      ...BasicStyles.headerDrawerStyle
+      ...BasicStyles.drawerHeader1
     }),
   },
 });
