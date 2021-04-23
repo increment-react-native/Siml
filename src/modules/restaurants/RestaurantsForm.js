@@ -244,7 +244,7 @@ class Restaurants extends Component {
               maxValue={50}
             />
             <Text style={{ marginLeft: 20, marginBottom: 5 }}>People in this SYNQT</Text>
-            <Group style={{ marginLeft: 50, marginTop: -30 }} redirectTo={() => this.goesTo()} data={this.props.state.tempMembers} />
+            <Group add={true} style={{ marginLeft: 50, marginTop: -30 }} redirectTo={() => this.goesTo()} data={this.props.state.tempMembers} />
           </View>
 
           <View style={{

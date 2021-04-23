@@ -35,7 +35,8 @@ class GroupUsers extends Component{
                       borderRadius: 30,
                       marginRight: '2%',
                       borderColor: Color.secondary,
-                      borderWidth: 1
+                      borderWidth: 1,
+                      opacity: index === 4 ? 0.5 : 1
                     }}/>
                 </TouchableOpacity>
               )
@@ -43,7 +44,10 @@ class GroupUsers extends Component{
           })
         }{
           data.length > 5 && (
-            <Text style={{color: Color.gray, marginLeft: -3}}>+{data.length - 5}</Text>
+            <View style={{position: 'absolute', zIndex: 10, right: 25, top: 3, justifyContent: 'center', alignItems: 'center'}}>
+              <Text style={{color: '#6e6d6d', fontSize: 10}}>+{data.length - 5}</Text>
+              <Text style={{color: '#6e6d6d', fontSize: 8, marginTop: -5}}>more</Text>
+            </View>
           )
         }
 			</View>

@@ -9,17 +9,17 @@ import { connect } from 'react-redux';
 import Config from 'src/config.js';
 import CommonRequest from 'services/CommonRequest.js';
 import { Dimensions } from 'react-native';
-import Group from 'modules/generic/GroupUsers.js';
+import Group from 'modules/generic/PeopleList.js'
 import Footer from 'modules/generic/Footer';
 const height = Math.round(Dimensions.get('window').height);
-
+const width = Math.round(Dimensions.get('window').width);
 class Groups extends Component {
   constructor(props) {
     super(props);
     this.state = {
       isLoading: false,
       selected: null,
-      data: null,
+      data: [],
       connections: []
     }
   }
@@ -52,6 +52,7 @@ class Groups extends Component {
       }],
       offset: 0
     }
+    console.log(user.id);
     this.setState({ isLoading: true })
     Api.request(Routes.circleRetrieve, parameter, response => {
       this.setState({ isLoading: false })
@@ -72,7 +73,7 @@ class Groups extends Component {
       this.setState({ isLoading: false, data: response.data });
       const { setMessenger } = this.props;
       const { messenger } = this.props.state;
-      if (response.data !== null) {
+      if (response.data.length !== 0) {
         var counter = 0
         for (var i = 0; i < response.data.length; i++) {
           let item = response.data[i]
@@ -140,8 +141,8 @@ class Groups extends Component {
                   <Image
                     source={user && user.account_profile && user.account_profile.url ? { uri: Config.BACKEND_URL + user.account_profile.url } : require('assets/logo.png')}
                     style={[BasicStyles.profileImageSize, {
-                      height: '100%',
-                      width: '100%',
+                      height: 70,
+                      width: 70,
                       borderRadius: 100,
                       borderColor: Color.primary,
                       borderWidth: 2
@@ -149,7 +150,7 @@ class Groups extends Component {
                 )
               }
             </View>
-            <View style={{ flexDirection: 'row', marginTop: 5, paddingLeft: 10, paddingRight: 10 }}>
+            <View style={{ flexDirection: 'row', marginTop: 5, paddingLeft: '5%', paddingRight: 10 }}>
               <View style={{
                 paddingLeft: '23%',
                 width: '100%',
@@ -196,7 +197,7 @@ class Groups extends Component {
             </View>
             <Text style={{
               lineHeight: 30,
-              paddingLeft: '23%',
+              paddingLeft: '25%',
               width: '100%',
               fontStyle: 'italic'
             }}>Message: Last message here</Text>
@@ -220,7 +221,7 @@ class Groups extends Component {
         width: '100%'
       }}>
         {
-          data != null && user != null && (
+          data.length > 0 && user != null && (
             <FlatList
               data={data}
               extraData={selected}
@@ -244,19 +245,18 @@ class Groups extends Component {
   render() {
     const { isLoading, data } = this.state;
     return (
-      <View style={{ flex: 1 }}>
+      <View>
         { this.state.connections.length > 0 && (
           <View style={{
             borderBottomColor: Color.primary,
             borderBottomWidth: 1,
             paddingBottom: 10,
-            margin: '2%',
           }}>
-            <Group navigation={this.props.navigation} style={{ marginLeft: 13 }} size={60} data={this.state.connections} />
+            <Group add={false} navigation={this.props.navigation} size={70} data={this.state.connections} />
           </View>
         )}
         <ScrollView
-          style={Style.ScrollViewGroup}
+          style={{height: this.state.connections.length === 0 ? height - 54 : height - 150}}
           onScroll={(event) => {
             if (event.nativeEvent.contentOffset.y <= 0) {
               if (this.state.isLoading == false) {
@@ -271,7 +271,7 @@ class Groups extends Component {
           }}>
             {this._flatList()}
           </View>
-          {data == null && (<Empty refresh={true} onRefresh={() => this.retrieve()} />)}
+          {data.length === 0 && (<Empty refresh={true} onRefresh={() => this.retrieve()} />)}
           {isLoading ? <Spinner mode="overlay" /> : null}
         </ScrollView>
         <Footer layer={1} {...this.props} />

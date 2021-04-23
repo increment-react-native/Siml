@@ -26,7 +26,7 @@ import ImageModal from 'components/Modal/ImageModal.js';
 import ImagePicker from 'react-native-image-picker';
 import CommonRequest from 'services/CommonRequest.js';
 import Style from 'modules/messenger/Style.js'
-import Group from 'modules/generic/GroupUsers.js';
+import Group from 'modules/generic/PeopleList.js'
 import Settings from './Settings';
 const DeviceHeight = Math.round(Dimensions.get('window').height);
 const DeviceWidth = Math.round(Dimensions.get('window').width);
@@ -715,7 +715,7 @@ class MessagesV3 extends Component {
                 margin: '2%',
                 flexDirection: 'row'
               }}>
-                <Group navigation={this.props.navigation} style={{ marginLeft: 9 }} color={Color.primary} size={60} data={this.state.members} />
+                <Group  add={true} navigation={this.props.navigation} style={{ marginLeft: 9 }} color={Color.primary} size={70} data={this.state.members} />
               </View>
             )}
             <ScrollView
@@ -759,7 +759,7 @@ class MessagesV3 extends Component {
 
             <View style={{
               position: 'absolute',
-              bottom: this.state.members.length > 0 ? 250 : 0,
+              bottom: this.state.members.length > 0 ? 320 : 0,
               left: 0,
               borderTopColor: Color.lightGray,
               borderTopWidth: 1,

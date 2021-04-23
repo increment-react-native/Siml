@@ -7,8 +7,7 @@ export default {
     padding: 10
   },
   ScrollViewGroup: {
-    width: '100%',
-    height: height
+    width: '100%'
   },
   MainContainer: {
     width: '100%'

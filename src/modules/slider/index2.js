@@ -87,7 +87,7 @@ class Slider2 extends Component {
         locations={[0,-0.5,1]}
         start={{ x: 1, y: 0 }}
         end={{ x: 1, y: 1 }}
-        style={{height: height, paddingRight: 10, marginTop: '-1%'}}
+        style={{height: height, paddingRight: 10, marginTop: '-1%', width: width}}
         >
         <ScrollView showsVerticalScrollIndicator={false}>
             <View style={{flex:1, flexDirection: 'row'}}>

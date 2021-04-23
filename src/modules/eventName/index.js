@@ -5,7 +5,7 @@ import { FontAwesomeIcon } from '@fortawesome/react-native-fontawesome';
 import { faUser, faStar, faClock } from '@fortawesome/free-solid-svg-icons';
 import CustomizedButton from 'modules/generic/CustomizedButton';
 import Config from 'src/config.js';
-import Group from 'modules/generic/PeopleList.js'
+import Group from 'modules/generic/GroupUsers';
 import { connect } from 'react-redux';
 import Api from 'services/api/index.js';
 import { Spinner } from 'components';
@@ -24,16 +24,6 @@ class EventName extends Component {
       ],
       value: null,
       placeOrder: false,
-      group: [
-        { user: { profile: { uri: require('assets/test.jpg') } } },
-        { user: { profile: { uri: require('assets/test.jpg') } } },
-        { user: { profile: { uri: require('assets/test.jpg') } } },
-        { user: { profile: { uri: require('assets/test.jpg') } } },
-        { user: { profile: { uri: require('assets/test.jpg') } } },
-        { user: { profile: { uri: require('assets/test.jpg') } } },
-        { user: { profile: { uri: require('assets/test.jpg') } } },
-        { user: { profile: { uri: require('assets/test.jpg') } } }
-      ],
       isLoading: false
     }
   }
@@ -88,8 +78,10 @@ class EventName extends Component {
         {
           text: 'Okay', onPress: () => {
             this.setState({ isLoading: true })
+            console.log(this.props.navigation.state?.params?.parameter, 'lkasjdlfkjsaldkfj----------');
             Api.request(Routes.reservationCreate, this.props.navigation.state?.params?.parameter, response => {
               this.setState({ isLoading: false })
+              console.log(response, 'RESPONSE----------------');
               if (response.data !== null) {
                 this.props.navigation.navigate('historyStack', { title: 'History' })
               }
@@ -108,7 +100,6 @@ class EventName extends Component {
 
   render() {
     const { data } = this.props.navigation.state.params;
-    console.log(data, 'hhhh');
     return (
       <ScrollView>
         <View style={style.Container}>
@@ -161,10 +152,10 @@ class EventName extends Component {
           </View>
           <View style={{
             flexDirection: 'row',
-            width: '100%',
+            width: '105%',
             marginTop: 25
           }}>
-            <Group navigation={this.props.navigation} style={{ marginLeft: 13 }} size={60} data={this.state.group} />
+            <Group navigation={this.props.navigation} size={60} data={data.members.length > 0 || data.members !== null ? data.members : []} />
           </View>
           <CustomizedButton style={{marginLeft:-20}} onClick={this.onClick} title={this.props.navigation.state && this.props.navigation.state.params && this.props.navigation.state.params.buttonTitle && this.props.navigation.state.params.buttonTitle}></CustomizedButton>
         </View>
