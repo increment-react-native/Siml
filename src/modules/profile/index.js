@@ -98,7 +98,8 @@ class Profile extends Component {
       account_id: user.id,
       first_name: this.state.firstName,
       middle_name: this.state.middleName,
-      last_name: this.state.lastName
+      last_name: this.state.lastName,
+      cellular_number: this.state.cellularNumber
     }
     this.setState({ isLoading: true })
     Api.request(Routes.accountInformationUpdate, parameter, response => {
