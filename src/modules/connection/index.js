@@ -183,13 +183,13 @@ class Connections extends Component {
                 <View style={Style.TextContainer}>
                   <TextInput
                     style={[BasicStyles.formControl, {backgroundColor: '#e8e8e8'}]}
-                    onChangeText={(search) => this.setState({ search })}
+                    onChangeText={(search) => this.setState({ search: search })}
                     value={this.state.search}
                     placeholder={'Search'}
                   />
                 </View>
                 <View>
-                  <CardList level={1} retrieve={() => {this.refresh()}} navigation={this.props.navigation} data={this.state.connections.length > 0 && this.state.connections} hasAction={false} actionType={'button'} actionContent={'icon'} ></CardList>
+                  <CardList level={1} search={this.state.search} retrieve={() => {this.refresh()}} navigation={this.props.navigation} data={this.state.connections.length > 0 && this.state.connections} hasAction={false} actionType={'button'} actionContent={'icon'} ></CardList>
                 </View>
               </View>
                 {this.state.connections.length == 0 && (<Empty refresh={true} onRefresh={() => this.refresh()} />)}
