@@ -24,8 +24,8 @@ class CardList extends Component {
     }
     this.setState({ isLoading: true });
     Api.request(Routes.circleCreate, parameter, response => {
-      console.log(response, 'this is the response');
       this.setState({ isLoading: false })
+      this.props.retrieve();
     });
   }
 
@@ -56,6 +56,7 @@ class CardList extends Component {
     this.setState({ isLoading: true });
     Api.request(Routes.circleDelete, parameter, response => {
       this.setState({ isLoading: false })
+      console.log(response, 'lalaine', Routes.circleDelete, parameter);
       this.props.retrieve();
     });
   }
@@ -103,8 +104,8 @@ class CardList extends Component {
                   <View>
                     <View style={{ flexDirection: 'row' }}>
                       <View>
-                        <Text style={{ fontWeight: 'bold' }}>{el.account?.information?.first_name + ' ' + el.account?.information?.last_name}</Text>
-                        <Text style={{ fontStyle: 'italic' }}>{el.account?.information?.address}</Text>
+                        <Text style={{ fontWeight: 'bold' }}>{el.account?.information?.first_name !== null ? el.account?.information?.first_name + ' ' + el.account?.information?.last_name : el.account?.username}</Text>
+                        <Text style={{ fontStyle: 'italic' }}>{el.account?.information?.address || 'No address provided'}</Text>
                         <Text style={{ color: 'gray', fontSize: 10, marginBottom: 5 }}>{el.numberOfConnection} similar connections</Text>
                         {
                           this.props.hasAction && (

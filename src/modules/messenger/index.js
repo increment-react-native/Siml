@@ -245,7 +245,9 @@ class Groups extends Component {
   render() {
     const { isLoading, data } = this.state;
     return (
-      <View>
+      <View style={{
+        flex: 1
+      }}>
         { this.state.connections.length > 0 && (
           <View style={{
             borderBottomColor: Color.primary,
@@ -256,7 +258,7 @@ class Groups extends Component {
           </View>
         )}
         <ScrollView
-          style={{height: this.state.connections.length === 0 ? height - 54 : height - 150}}
+          style={{marginBottom: 50}}
           onScroll={(event) => {
             if (event.nativeEvent.contentOffset.y <= 0) {
               if (this.state.isLoading == false) {
