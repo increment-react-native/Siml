@@ -97,6 +97,8 @@ class Restaurants extends Component {
   }
 
   createMessengerGroup(id, date) {
+    const { tempMembers, user } = this.props.state
+    tempMembers.push({id: user.id})
     let parameter = {
       account_id: this.props.state.user.id,
       title: date,
@@ -105,7 +107,6 @@ class Restaurants extends Component {
     }
     this.setState({ isLoading: true })
     Api.request(Routes.messengerGroupCreate, parameter, response => {
-      console.log(response);
       this.setState({ isLoading: false })
       if (response.data !== null) {
         this.props.navigation.navigate('menuStack', { synqt_id: id })
@@ -126,8 +127,6 @@ class Restaurants extends Component {
       this.setState({ isLoading: true });
       Api.request(Routes.notificationCreate, parameter, response => {
         this.setState({ isLoading: false })
-        const { setTempMembers } = this.props;
-        setTempMembers([]);
       });
     })
   }

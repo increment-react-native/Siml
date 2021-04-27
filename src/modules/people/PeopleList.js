@@ -92,13 +92,13 @@ class Connections extends Component {
             <View style={Style.TextContainer}>
               <TextInput
                 style={BasicStyles.formControl}
-                onChangeText={(search) => this.setState({ search })}
+                onChangeText={(search) => this.setState({ search: search })}
                 value={this.state.search}
                 placeholder={'Search Connections'}
               />
             </View>
             {this.state.data.length > 0 && (<View>
-              <CardList navigation={this.props.navigation} data={this.state.data} invite={true} hasAction={false} actionType={'button'} actionContent={'text'}></CardList>
+              <CardList search={this.state.search} navigation={this.props.navigation} data={this.state.data} invite={true} hasAction={false} actionType={'button'} actionContent={'text'}></CardList>
             </View>)}
           </View>
         </ScrollView>

@@ -668,15 +668,7 @@ class MessagesV3 extends Component {
   }
 
   render() {
-    const {
-      isLoading,
-      isImageModal,
-      imageModalUrl,
-      photo,
-      keyRefresh,
-      isPullingMessages,
-      isLock
-    } = this.state;
+    const { isLoading, isImageModal, imageModalUrl, photo, keyRefresh, isPullingMessages, isLock } = this.state;
     const { data } = this.props.navigation.state.params;
     const { messengerGroup, user, isViewing } = this.props.state;
     return (
@@ -794,7 +786,7 @@ class MessagesV3 extends Component {
 					<Text>Test</Text>
 					</View>
 				</Modal> */}
-        {this.props.state.showSettings && <Settings groupId={this.props.navigation?.state?.params.data?.id} title={this.props.navigation?.state?.params.data?.title}></Settings>}
+        {this.props.state.showSettings && <Settings groupId={this.props.navigation?.state?.params.data?.id} title={this.props.navigation?.state?.params.data?.title} navigation={this.props.navigation}></Settings>}
       </SafeAreaView>
     );
   }

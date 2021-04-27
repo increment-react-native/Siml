@@ -17,7 +17,9 @@ class Footer extends Component {
   }
 
   navigateToScreen = (route) => {
-    this.props.navigation.toggleDrawer();
+    if(route != 'Status') {
+      this.props.navigation.toggleDrawer();
+    }
     const navigateAction = NavigationActions.navigate({
       routeName: 'drawerStack',
       action: StackActions.reset({
