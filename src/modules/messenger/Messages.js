@@ -28,6 +28,7 @@ import CommonRequest from 'services/CommonRequest.js';
 import Style from 'modules/messenger/Style.js'
 import Group from 'modules/generic/PeopleList.js'
 import Settings from './Settings';
+import moment from 'moment';
 const DeviceHeight = Math.round(Dimensions.get('window').height);
 const DeviceWidth = Math.round(Dimensions.get('window').width);
 
@@ -213,8 +214,8 @@ class MessagesV3 extends Component {
     let newMessageTemp = {
       ...parameter,
       account: user,
-      created_at_human: null,
-      sending_flag: true,
+      created_at_human: moment(new Date()).format('MMMM DD, YYYY hh:mm a'),
+      sending_flag: false,
       error: null
     }
     updateMessagesOnGroup(newMessageTemp);

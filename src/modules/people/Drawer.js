@@ -45,7 +45,7 @@ const PeopleListStack = createStackNavigator({
     navigationOptions: ({navigation}) => ({
       title: 'People in SYNQT',
       headerLeft: <HeaderOptionsConnect navigationProps={navigation} />,
-      ...BasicStyles.headerDrawerStyle
+      ...BasicStyles.drawerHeader1
     }),
   },
 });

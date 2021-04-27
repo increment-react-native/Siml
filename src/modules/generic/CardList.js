@@ -24,8 +24,8 @@ class CardList extends Component {
     }
     this.setState({ isLoading: true });
     Api.request(Routes.circleCreate, parameter, response => {
+      console.log(response, 'this is the response');
       this.setState({ isLoading: false })
-      this.props.retrieve();
     });
   }
 
@@ -56,7 +56,6 @@ class CardList extends Component {
     this.setState({ isLoading: true });
     Api.request(Routes.circleDelete, parameter, response => {
       this.setState({ isLoading: false })
-      console.log(response, 'lalaine', Routes.circleDelete, parameter);
       this.props.retrieve();
     });
   }
