@@ -3,8 +3,7 @@ import {View, TouchableOpacity, Text} from 'react-native';
 import {createStackNavigator} from 'react-navigation-stack';
 import {FontAwesomeIcon} from '@fortawesome/react-native-fontawesome';
 import {faChevronLeft, faBars} from '@fortawesome/free-solid-svg-icons';
-import Profile from 'modules/profile/index';
-import {NavigationActions} from 'react-navigation';
+import Rate from 'modules/rate';
 import {BasicStyles, Color} from 'common';
 import {connect} from 'react-redux';
 
@@ -40,11 +39,11 @@ const mapDispatchToProps = (dispatch) => {
 };
 let HeaderOptionsConnect  = connect(mapStateToProps, mapDispatchToProps)(HeaderOptions);
 
-const ProfileStack = createStackNavigator({
-  profileScreen: {
-    screen: Profile,
+const RateStack = createStackNavigator({
+  rateScreen: {
+    screen: Rate,
     navigationOptions: ({navigation}) => ({
-      title: 'Profile',
+      title: 'Rate',
       headerLeft: <HeaderOptionsConnect navigationProps={navigation} />,
       ...BasicStyles.drawerHeader1
     }),
@@ -54,4 +53,4 @@ const ProfileStack = createStackNavigator({
 export default connect(
   mapStateToProps,
   mapDispatchToProps,
-)(ProfileStack);
+)(RateStack);

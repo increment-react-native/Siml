@@ -73,7 +73,7 @@ class ImageCardWithUser extends Component {
                   marginTop: -7,
                   marginLeft: 6
                 }}>
-                  <GroupUsers size={30} data={data.users}/>
+                  <GroupUsers style={{flexDirection: 'row-reverse', marginLeft: -15}} size={30} data={data.users}/>
                 </View>
                 <View style={{
                     backgroundColor: 'white',
