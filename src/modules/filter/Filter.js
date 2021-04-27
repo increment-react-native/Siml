@@ -8,6 +8,8 @@ import { SliderPicker } from 'react-native-slider-picker';
 import PickerWithLabel from 'components/Form/PickerWithLabel';
 import DatePicker from 'components/DateTime/index.js';
 import Button from 'components/Form/Button';
+import { FontAwesomeIcon } from '@fortawesome/react-native-fontawesome';
+import { faCheck, faEdit } from '@fortawesome/free-solid-svg-icons';
 const height = Math.round(Dimensions.get('window').height);
 class Filter extends Component {
   constructor(props){
@@ -16,7 +18,9 @@ class Filter extends Component {
       cuisine: [],
       categoriesCuisine: null,
       value: 0,
-      data: []
+      data: [],
+      sel: [1],
+      check: false
     }
   }
   action = () => {  
@@ -84,15 +88,23 @@ class Filter extends Component {
     return <View style={Style.Separator} />;
   };
 
-  gather = (item) => {
-    this.state.categoriesCuisine = []
-    const { cuisine } = this.state
-    cuisine.push(item)
-    var newArray = [];
-      var newArray = cuisine.filter(function(elem, pos) {
-        return cuisine.indexOf(elem) == pos;
-      })
-    this.state.categoriesCuisine.push(newArray)
+  gather = (val, index) => {
+    // this.state.sel.push(val.id)
+    // if(Helper.cuisines.some(item => val.type === item.type)){
+    //   console.log('[iteeeeeeeeem]el', val.type)
+    if(val.id == index){
+      this.state.sel.push(index)
+      this.setState({sel: index})
+    }
+    // }
+    // this.state.categoriesCuisine = []
+    // const { cuisine } = this.state
+    // cuisine.push(item)
+    // var newArray = [];
+    //   var newArray = cuisine.filter(function(elem, pos) {
+    //     return cuisine.indexOf(elem) == pos;
+    //   })
+    // this.state.categoriesCuisine.push(newArray)
   }
 
   lists(){
@@ -106,7 +118,32 @@ class Filter extends Component {
             <View style={{borderWidth: 1, padding: '6%', marginLeft: '-1%', marginRight: '-5%', borderBottomColor: Color.gray, borderColor: Color.white}}
             key={index}>
               <TouchableOpacity
-              onPress={(index) => this.gather(item.type)}>
+              onPress={(index) => this.gather(item, item.id)}>
+                {
+                  item.id == this.state.sel ?
+                  // this.state.check == true ?
+                  <FontAwesomeIcon style={{
+                    borderColor: Color.primary,
+                    marginLeft: '90%',
+                    top: '90%',
+                    marginTop: '-8%'
+                  }}
+                  icon={faCheck}
+                  size={20}
+                  color={Color.primary}
+                  />
+                  :
+                  <FontAwesomeIcon style={{
+                    borderColor: Color.white,
+                    marginLeft: '90%',
+                    top: '90%',
+                    marginTop: '-8%'
+                  }}
+                  icon={faCheck}
+                  size={20}
+                  color={Color.white}
+                  />
+                }
                 <Text style={{marginLeft: '5%'}}
                 >{item.type}</Text>
               </TouchableOpacity>

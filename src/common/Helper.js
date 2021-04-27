@@ -103,34 +103,44 @@ export default {
   },
   cuisines: [
     {
-      type: 'Filipino'
+      type: 'Filipino',
+      id: 1
     },
     {
-      type: 'Chinese'
+      type: 'Chinese',
+      id: 2
     },
     {
-      type: 'Japanese'
+      type: 'Japanese',
+      id: 3
     },
     {
-      type: 'Indian'
+      type: 'Indian',
+      id: 4
     },
     {
-      type: 'Italian'
+      type: 'Italian',
+      id: 5
     },
     {
-      type: 'Thai'
+      type: 'Thai',
+      id: 6
     },
     {
-      type: 'Spanish'
+      type: 'Spanish',
+      id: 7
     },
     {
-      type: 'French'
+      type: 'French',
+      id: 8
     },
     {
-      type: 'Korean'
+      type: 'Korean',
+      id: 9
     },
     {
-      type: 'Turkish'
+      type: 'Turkish',
+      id: 10
     }
   ]
 };
