@@ -58,6 +58,7 @@ class MessagesV3 extends Component {
 
   componentDidMount() {
     const { user } = this.props.state
+    this.props.setShowSettings(false)
     if (user == null) return
     this.retrieveMembers();
     this.retrieve();
@@ -802,6 +803,7 @@ const mapDispatchToProps = dispatch => {
     updateMessagesOnGroup: (message) => dispatch(actions.updateMessagesOnGroup(message)),
     updateMessageByCode: (message) => dispatch(actions.updateMessageByCode(message)),
     viewMenu: (isViewing) => dispatch(actions.viewMenu(isViewing)),
+    setShowSettings: (showSettings) => dispatch(actions.setShowSettings(showSettings)),
   };
 };
 
