@@ -2,18 +2,16 @@ import React, { Component } from 'react';
 import { View, Image, Text, TouchableOpacity, ScrollView, TextInput, CheckBox, Modal, ImageBackground, Alert, Dimensions } from 'react-native';
 import { Routes, Color, Helper, BasicStyles } from 'common';
 import { FontAwesomeIcon } from '@fortawesome/react-native-fontawesome';
-import { faUser, faStar, faClock } from '@fortawesome/free-solid-svg-icons';
+import { faUser, faStar, faClock, faMapMarkerAlt } from '@fortawesome/free-solid-svg-icons';
 import CustomizedButton from 'modules/generic/CustomizedButton';
 import Config from 'src/config.js';
-import Group from 'modules/generic/GroupUsers';
+import Group from 'modules/generic/PeopleList.js'
 import { connect } from 'react-redux';
 import Api from 'services/api/index.js';
 import { Spinner } from 'components';
-import Style from '../history/Style';
-import style from './Style';
 const width = Math.round(Dimensions.get('window').width)
 const height = Math.round(Dimensions.get('window').height)
-class EventName extends Component {
+class Rate extends Component {
   constructor(props) {
     super(props);
     this.state = {
@@ -24,6 +22,16 @@ class EventName extends Component {
       ],
       value: null,
       placeOrder: false,
+      group: [
+        { user: { profile: { uri: require('assets/test.jpg') } } },
+        { user: { profile: { uri: require('assets/test.jpg') } } },
+        { user: { profile: { uri: require('assets/test.jpg') } } },
+        { user: { profile: { uri: require('assets/test.jpg') } } },
+        { user: { profile: { uri: require('assets/test.jpg') } } },
+        { user: { profile: { uri: require('assets/test.jpg') } } },
+        { user: { profile: { uri: require('assets/test.jpg') } } },
+        { user: { profile: { uri: require('assets/test.jpg') } } }
+      ],
       isLoading: false
     }
   }
@@ -81,7 +89,7 @@ class EventName extends Component {
             Api.request(Routes.reservationCreate, this.props.navigation.state?.params?.parameter, response => {
               this.setState({ isLoading: false })
               if (response.data !== null) {
-                this.props.navigation.navigate('historyStack', { title: 'Upcoming' })
+                this.props.navigation.navigate('historyStack', { title: 'History' })
               }
             },
               error => {
@@ -98,66 +106,78 @@ class EventName extends Component {
 
   render() {
     const { data } = this.props.navigation.state.params;
+    // console.log(data, 'hhhh');
     return (
       <ScrollView>
-        <View style={style.Container}>
-          <ImageBackground
+        <View style={{
+          backgroundColor: 'white',
+          width: '100%',
+          backgroundColor: 'white',
+          padding: 15,
+          height: height - (height / 2),
+        }}>
+          <Image
             style={{
               width: '100%',
-              height: '50%'
+              height: '80%',
+              borderRadius: 10
             }}
-            imageStyle={{ flex: 1, height: null, width: null, resizeMode: 'cover' }}
-            source={{ uri: Config.BACKEND_URL + data.merchant.logo }}>
-          </ImageBackground>
+            source={data?.merchant?.logo ? { uri: Config.BACKEND_URL + data?.merchant?.logo } : require('assets/test.jpg')}>
+          </Image>
           <View style={{ padding: 10 }}>
             <Text style={{
               fontSize: 16,
             }}>
-              SYNQT: RESTAURANT | {data.merchant.name}
+              SYNQT: RESTAURANT
             </Text>
-            <Text style={{
-              color: Color.gray,
-              marginTop: 5
+            <View style={{
+              marginTop: 5,
+              flexDirection: 'row'
             }}>
-              {data.merchant.address || 'no address provided'}
+              <FontAwesomeIcon icon={faMapMarkerAlt} size={13} style={{ marginTop: 3, marginRight: 5 }} />
+              <Text>
+                Cebu, City
             </Text>
+            </View>
+            <View style={{ position: 'absolute', top: 10, right: 0, flexDirection: 'row' }}>
+              <FontAwesomeIcon
+                icon={faStar}
+                size={20}
+                color={'#FFCC00'}
+              />
+              <FontAwesomeIcon
+                icon={faStar}
+                size={20}
+                color={'#FFCC00'}
+              />
+              <FontAwesomeIcon
+                icon={faStar}
+                size={20}
+                color={'#FFCC00'}
+              />
+              <FontAwesomeIcon
+                icon={faStar}
+                size={20}
+                color={'#FFCC00'}
+              />
+              <FontAwesomeIcon
+                icon={faStar}
+                size={20}
+                color={'#FFCC00'}
+              />
+            </View>
           </View>
-          <View style={{
-            flexDirection: 'row',
-            alignItems: 'center',
-            marginTop: 10,
-            paddingLeft: 20
-          }}>
-            {this.state.isLoading ? <Spinner mode="overlay" /> : null}
-            <FontAwesomeIcon icon={faUser} size={20} color={Color.gray} style={{ marginRight: 10 }} />
-            <Text style={{ color: Color.gray }}>{this.props.navigation.state?.params?.data?.members?.length} people</Text>
-            <View style={style.Date}>
-              <Text style={{ color: Color.primary }}>{data.synqt[0].date}</Text>
-            </View>
-            <View style={style.Distance}>
-              <Text numberOfLines={1} style={{ fontSize: 10, color: 'white' }}>0.64 km</Text>
-            </View>
-            <View style={style.Rate}>
-              <FontAwesomeIcon icon={faStar} color={Color.warning} style={{ marginRight: 2 }} size={8} />
-              <Text numberOfLines={1} style={{ fontSize: 10, color: Color.primary }}>43</Text>
-            </View>
-            <View style={style.StarContainer}>
-              <TouchableOpacity style={style.Star}>
-                <FontAwesomeIcon icon={faStar} color={Color.white} size={8} />
-              </TouchableOpacity>
-              <Text numberOfLines={1} style={{ color: Color.warning }}>1</Text>
-            </View>
-          </View>
-          <View style={{
-            flexDirection: 'row',
-            width: '100%',
-            marginTop: 25,
-            padding: 10
-          }}>
-            <Group navigation={this.props.navigation} size={45} data={data?.members?.length > 0 || data?.members !== null ? data?.members : []} />
-          </View>
-          <CustomizedButton style={{marginLeft:-20, marginBottom: 10}} onClick={this.onClick} title={this.props.navigation.state && this.props.navigation.state.params && this.props.navigation.state.params.buttonTitle && this.props.navigation.state.params.buttonTitle}></CustomizedButton>
+          {/* <CustomizedButton style={{marginLeft:-20}} onClick={this.onClick} title={this.props.navigation.state && this.props.navigation.state.params && this.props.navigation.state.params.buttonTitle && this.props.navigation.state.params.buttonTitle}></CustomizedButton> */}
         </View>
+          <View style={{
+            height: 50,
+            width: width,
+            borderTopWidth: 1,
+            borderBottomWidth: 1,
+            borderColor: Color.gray
+          }}>
+
+          </View>
       </ScrollView>
     );
   }
@@ -176,4 +196,4 @@ const mapDispatchToProps = dispatch => {
 export default connect(
   mapStateToProps,
   mapDispatchToProps
-)(EventName);
+)(Rate);

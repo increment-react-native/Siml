@@ -24,7 +24,7 @@ class HeaderOptions extends Component {
           <FontAwesomeIcon
             icon={faChevronLeft}
             size={BasicStyles.headerBackIconSize}
-            style={{color: theme ? theme.primary : Color.primary }}
+            style={BasicStyles.iconStyle}
           />
         </TouchableOpacity>
       </View>
@@ -46,7 +46,7 @@ const EventNameStack = createStackNavigator({
     navigationOptions: ({navigation}) => ({
       title: navigation.state?.params?.data?.merchant?.name || 'No name provided',
       headerLeft: <HeaderOptionsConnect navigationProps={navigation} />,
-      ...BasicStyles.headerDrawerStyle
+      ...BasicStyles.drawerHeader1
     }),
   },
 });

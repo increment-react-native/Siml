@@ -1,12 +1,11 @@
 import React, {Component} from 'react';
-import {View, Text, TouchableOpacity, Platform} from 'react-native';
+import {View, Text, TouchableOpacity, Platform, Image} from 'react-native';
 import {FontAwesomeIcon} from '@fortawesome/react-native-fontawesome';
 import {faUsers, faHome, faBell, faComment} from '@fortawesome/free-solid-svg-icons';
 import {createStackNavigator} from '@react-navigation/stack';
 import {NavigationActions, StackActions} from 'react-navigation';
 import {BasicStyles, Color} from 'common';
 import {connect} from 'react-redux';
-
 
 class Footer extends Component {
   constructor(props) {
@@ -18,7 +17,9 @@ class Footer extends Component {
   }
 
   navigateToScreen = (route) => {
-    this.props.navigation.toggleDrawer();
+    if(route != 'Status') {
+      this.props.navigation.toggleDrawer();
+    }
     const navigateAction = NavigationActions.navigate({
       routeName: 'drawerStack',
       action: StackActions.reset({
@@ -36,6 +37,7 @@ class Footer extends Component {
   }
 
   render (){
+    const { theme } = this.props.state;
     const { layer } = this.props;
     return(
       <View
@@ -66,7 +68,7 @@ class Footer extends Component {
                   style={[
                     BasicStyles.iconStyle,
                     {
-                      color: Color.gray,
+                      color: theme ? theme.primary : Color.primary,
                     },
                   ]}
                 />
@@ -90,7 +92,7 @@ class Footer extends Component {
                   style={[
                     BasicStyles.iconStyle,
                     {
-                      color: Color.gray,
+                      color: theme ? theme.primary : Color.primary,
                     },
                   ]}
                 />
@@ -108,16 +110,10 @@ class Footer extends Component {
             width: '33%'
           }}
           >
-          <FontAwesomeIcon
-            icon={faComment}
-            size={BasicStyles.iconSize}
-            style={[
-              BasicStyles.iconStyle,
-              {
-                color: Color.gray,
-              },
-            ]}
-          />
+            <Image source={require('assets/logo.png')} style={{
+                height: 30,
+                width: 30
+            }} />
           </TouchableOpacity>
 
           <TouchableOpacity
@@ -134,7 +130,7 @@ class Footer extends Component {
             style={[
               BasicStyles.iconStyle,
               {
-                color: Color.gray,
+                color: theme ? theme.primary : Color.primary,
               },
             ]}
           />

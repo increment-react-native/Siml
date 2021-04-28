@@ -3,13 +3,17 @@ import { View, Image, Text, TouchableOpacity, TextInput, ScrollView, SafeAreaVie
 import { ListItem } from 'react-native-elements'
 import { Routes, Color, Helper, BasicStyles } from 'common';
 import { FontAwesomeIcon } from '@fortawesome/react-native-fontawesome';
-import { faCheckCircle, faEdit } from '@fortawesome/free-solid-svg-icons';
+import { faCheckCircle, faEdit, faUserCircle } from '@fortawesome/free-solid-svg-icons';
 import Style from './Style';
 import CustomizedButton from 'modules/generic/CustomizedButton';
 import ImageCardWithUser from 'modules/generic/ImageCardWithUser';
 import Tab from 'modules/generic/TabOptions';
 import CardModal from 'modules/modal/Swipe.js';
 import { connect } from 'react-redux';
+import Config from 'src/config.js';
+import _ from 'lodash';
+import Api from 'services/api/index.js';
+import { Spinner, Empty } from 'components';
 
 class ViewProfile extends Component {
   constructor(props) {
@@ -18,19 +22,101 @@ class ViewProfile extends Component {
       fullName: null,
       phoneNumber: null,
       email: null,
-      choice: 'SIML ACTIVITY',
-      AcceptConnections: [
-        { name: 'John Doe', address: 'Cebu City', numberOfConnection: 3, lastLogin: '2 d', uri: require('assets/test.jpg') },
-        { name: 'John Doe', address: 'Cebu City', numberOfConnection: 3, lastLogin: '2 d', uri: require('assets/test.jpg') },
-        { name: 'John Doe', address: 'Cebu City', numberOfConnection: 3, lastLogin: '2 d', uri: require('assets/test.jpg') },
-        { name: 'John Doe', address: 'Cebu City', numberOfConnection: 3, lastLogin: '2 d', uri: require('assets/test.jpg') },
-      ],
-      isVisible: false
+      choice: 'SYNQT ACTIVITIES',
+      connections: [],
+      isVisible: false,
+      data: [],
+      limit: 5,
+      offset: 0,
+      isLoading: false
     }
+  }
+
+  componentDidMount() {
+    if (this.props.navigation.state?.params?.level === 1) {
+      this.retrieveActivity(false);
+    } else {
+      this.retrieveConnections(false);
+    }
+    this.setState({ choice: this.props.navigation.state?.params?.level === 1 ? 'SYNQT ACTIVITIES' : 'CONNECTIONS' });
+  }
+
+  retrieveActivity = (flag) => {
+    let parameter = {
+      condition: [{
+        value: this.props.navigation.state?.params?.user?.account?.id,
+        column: 'account_id',
+        clause: '='
+      }, {
+        value: 'completed',
+        column: 'status',
+        clause: '='
+      }],
+      limit: this.state.limit,
+      offset: flag == true && this.state.offset > 0 ? (this.state.offset * this.state.limit) : this.state.offset
+    }
+    this.setState({ isLoading: true })
+    Api.request(Routes.reservationRetrieve, parameter, response => {
+      this.setState({ isLoading: false })
+      if (response.data.length > 0) {
+        this.setState({
+          data: flag == false ? response.data : _.uniqBy([...this.state.data, ...response.data], 'id'),
+          offset: flag == false ? 1 : (this.state.offset + 1)
+        })
+      } else {
+        this.setState({
+          data: flag == false ? [] : this.state.data,
+          offset: flag == false ? 0 : this.state.offset,
+        })
+      }
+    });
+  }
+
+  retrieveConnections(flag) {
+    const { user } = this.props.state
+    if (user == null) {
+      return
+    }
+    let parameter = {
+      condition: [{
+        value: this.props.navigation.state?.params?.user?.account_id,
+        column: 'account_id',
+        clause: '='
+      }, {
+        value: this.props.navigation.state?.params?.user?.account_id,
+        column: 'account',
+        clause: 'or'
+      }, {
+        clause: "like",
+        column: "status",
+        value: 'accepted'
+      }],
+      offset: flag == true && this.state.offset > 0 ? (this.state.offset * this.state.limit) : this.state.offset,
+    }
+    this.setState({ isLoading: true })
+    Api.request(Routes.circleRetrieve, parameter, response => {
+      this.setState({ isLoading: false })
+      if (response.data.length > 0) {
+        this.setState({
+          connections: flag == false ? response.data : _.uniqBy([...this.state.connections, ...response.data], 'id'),
+          offset: flag == false ? 1 : (this.state.offset + 1)
+        })
+      } else {
+        this.setState({
+          connections: flag == false ? [] : this.state.connections,
+          offset: flag == false ? 0 : this.state.offset
+        })
+      }
+    });
   }
 
   choiceHandler = (value) => {
     this.setState({ choice: value })
+    if (value === 0) {
+      this.retrieveActivity(false);
+    } else {
+      this.retrieveConnections(false);
+    }
   }
 
   fullNameHandler = (value) => {
@@ -46,38 +132,32 @@ class ViewProfile extends Component {
   }
 
   renderConnections() {
-    const AcceptConnections = [
-      { name: 'John Doe', address: 'Cebu City', numberOfConnection: 3, lastLogin: '2 d', uri: require('assets/test.jpg') },
-      { name: 'John Doe', address: 'Cebu City', numberOfConnection: 3, lastLogin: '2 d', uri: require('assets/test.jpg') },
-      { name: 'John Doe', address: 'Cebu City', numberOfConnection: 3, lastLogin: '2 d', uri: require('assets/test.jpg') },
-      { name: 'John Doe', address: 'Cebu City', numberOfConnection: 3, lastLogin: '2 d', uri: require('assets/test.jpg') },
-    ]
-    console.log(this.props.navigation.state.params && this.props.navigation.state.params, "========");
     return (
       <View>
+        {this.state.connections.length === 0 && (<Empty refresh={true} onRefresh={() => this.retrieveConnections(false)} />)}
         {
-          AcceptConnections.map((el, idx) => {
+          this.state.connections.length > 0 && this.state.connections.map((el, idx) => {
             return (
-              <TouchableOpacity>
+              <TouchableOpacity onPress={()=> {this.props.navigation.navigate('viewProfileStack', { user: el, level: 1 })}}>
                 {/* <Card containerStyle={{padding:-5, borderRadius: 20}}> */}
                 <ListItem key={idx}>
                   <Image
                     style={Style.circleImage}
                     // resizeMode="cover"
-                    source={el.uri}
+                    source={el.account?.profile?.url ? { uri: Config.BACKEND_URL + el.account?.profile?.url } : require('assets/logo.png')}
                   />
                   <View>
                     <View style={{ flexDirection: 'row', width: '100%' }}>
                       <View style={{ width: '50%' }}>
-                        <Text style={{ fontWeight: 'bold' }}>{el.name}</Text>
-                        <Text style={{ fontStyle: 'italic' }}>{el.address}</Text>
+                        <Text style={{ fontWeight: 'bold' }}>{el?.account?.information?.first_name + ' ' + el?.account?.information?.last_name}</Text>
+                        <Text style={{ fontStyle: 'italic' }}>{el?.account?.information?.address}</Text>
                         <Text style={{ color: 'gray', fontSize: 10 }}>{el.numberOfConnection} similar connections</Text>
                       </View>
                       <TouchableOpacity
                         // onPress={() => this.changeTab(idx)}
                         style={{
                           ...Style.actionBtn,
-                          backgroundColor:'#4DD965'
+                          backgroundColor: '#4DD965'
                         }}
                       >
                         <Text style={{ color: 'white' }}>Add</Text>
@@ -97,55 +177,48 @@ class ViewProfile extends Component {
 
   renderSimlActivity() {
     const height = Math.round(Dimensions.get('window').height);
-    const data = [{
-      image: require('assets/test2.jpg'),
-      date: 'January 29, 2021',
-      location: 'Cebu City',
-      superlike: true,
-      users: [{
-        name: 'Test'
-      }, {
-        name: 'Test'
-      }]
-    }, {
-      image: require('assets/test.jpg'),
-      date: 'January 29, 2021',
-      location: 'Cebu City',
-      superlike: true,
-      users: [{
-        name: 'Test'
-      }]
-    }, {
-      image: require('assets/test.jpg'),
-      date: 'January 29, 2021',
-      location: 'Cebu City',
-      superlike: true,
-      users: [{
-        name: 'Test'
-      }]
-    }]
     return (
       <SafeAreaView>
         <ScrollView
           showsVerticalScrollIndicator={false}
+          onScroll={(event) => {
+            let scrollingHeight = event.nativeEvent.layoutMeasurement.height + event.nativeEvent.contentOffset.y
+            let totalHeight = event.nativeEvent.contentSize.height
+            if (event.nativeEvent.contentOffset.y <= 0) {
+              if (this.state.isLoading == false) {
+                // this.retrieve(false)
+              }
+            }
+            if (Math.round(scrollingHeight) >= Math.round(totalHeight)) {
+              if (this.state.isLoading === false) {
+                this.retrieve(true)
+              }
+            }
+          }}
         >
+          {this.state.data.length === 0 && (<Empty refresh={true} onRefresh={() => this.retrieveActivity(false)} />)}
           <View style={{
-            height: height,
-            marginTop: 50,
-            width: '90%',
-            marginLeft: '5%',
-            marginRight: '5%'
+            marginTop: 15,
+            flex: 1,
+            padding: 10
           }}>
             {
-              data.map((item, index) => (
+              this.state.data.length > 0 && this.state.data.map((item, index) => (
                 <ImageCardWithUser
-                  data={item} style={{
+                  data={{
+                    logo: item.merchant.logo,
+                    address: item.merchant.address || 'No address provided',
+                    name: item.merchant.name,
+                    date: item.synqt[0].date,
+                    superlike: true,
+                    users: item.members && item.members.length > 0 ? item.members : []
+                  }}
+                  style={{
                     marginBottom: 20
                   }}
-                  onClick={(item) => {
-                    this.setState({
-                      isVisible: true
-                    })
+                  redirectTo={this.props.navigation.state.params && this.props.navigation.state.params.title}
+                  onClick={() => {
+                    // this.onClick(item)
                   }}
                 />
               ))
@@ -157,25 +230,40 @@ class ViewProfile extends Component {
   }
 
   render() {
+    let user = this.props.navigation.state?.params?.user
     return (
-      <View style={[Style.MainContainer, {
+      <View style={{
         backgroundColor: Color.containerBackground
-      }]}>
+      }}>
         <ScrollView>
           <View>
             <View style={Style.TopView}>
-              <TouchableOpacity
-                style={{
-                  height: 180,
-                  width: 180,
-                  borderRadius: 100,
-                  borderColor: Color.primary,
-                  borderWidth: 2
-                }}>
-                <Image source={require('assets/logo.png')} style={{
-                  height: 180,
-                  width: 180
-                }} />
+              <TouchableOpacity>
+                {user.account?.profile?.url ? <Image
+                  style={[Style.circleImage, {
+                    height: 180,
+                    width: 180,
+                    borderRadius: 100,
+                    borderColor: Color.primary,
+                    borderWidth: 2
+                  }]}
+                  // resizeMode="cover"
+                  source={{ uri: Config.BACKEND_URL + user.account?.profile?.url }}
+                />
+                  :
+                  <FontAwesomeIcon
+                    icon={faUserCircle}
+                    size={182}
+                    style={{
+                      color: Color.primary,
+                      height: 180,
+                      width: 180,
+                      borderRadius: 100,
+                      borderColor: Color.primary,
+                      borderWidth: 2
+                    }}
+                  />
+                }
               </TouchableOpacity>
             </View>
             <View style={Style.BottomView}>
@@ -188,14 +276,14 @@ class ViewProfile extends Component {
                 textAlign: 'center',
                 fontWeight: 'bold',
                 fontSize: 18
-              }}>Lalaine Garrido</Text>
+              }}>{user?.account?.information?.first_name + user?.account?.information?.last_name || 'Unknown name'}</Text>
             </View>
             <View style={{
               width: '100%'
             }}>
               <Text style={{
                 textAlign: 'center',
-                color: '#333333'
+                color: Color.gray
               }}>3 similar connections</Text>
             </View>
 
@@ -205,21 +293,23 @@ class ViewProfile extends Component {
             textAlign: 'center',
             justifyContent: 'center'
           }}>
-            <Tab level={1} choice={['SIML ACTIVITY', 'CONNECTIONS']} onClick={this.choiceHandler}></Tab>
+            {this.props.navigation.state?.params?.level === 1 ? <Tab level={1} choice={['SYNQT ACTIVITIES', 'CONNECTIONS']} onClick={this.choiceHandler}></Tab> :
+              <Tab level={2} choice={['CONNECTIONS']} onClick={this.choiceHandler}></Tab>}
           </View>
           <View>
-            {this.state.choice === 'SIML ACTIVITY' ? (
+            {this.state.choice === 'SYNQT ACTIVITIES' ? (
               this.renderSimlActivity()
             ) :
               this.renderConnections()}
           </View>
+          {this.state.isLoading ? <Spinner mode="overlay" /> : null}
           {this.state.isVisible && <CardModal
-          visisble={this.state.isVisible}
-          onClose={() => {
-          this.setState({
-            isVisible: false
-          })
-        }}/>}
+            visisble={this.state.isVisible}
+            onClose={() => {
+              this.setState({
+                isVisible: false
+              })
+            }} />}
         </ScrollView>
       </View>
     );

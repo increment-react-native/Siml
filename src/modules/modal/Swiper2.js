@@ -75,7 +75,7 @@ class Cards extends React.Component {
         clause: '='
       }],
       account_id: menu.account_id,
-      sort: {title: 'asc'},
+      sort: { title: 'asc' },
       limit: this.state.limit,
       offset: this.state.offset,
       inventory_type: 'all'
@@ -86,7 +86,7 @@ class Cards extends React.Component {
       if (response.data.length > 0) {
         this.setState({ products: response.data });
       } else {
-        this.setState({ products: []})
+        this.setState({ products: [] })
       }
     },
       error => {
@@ -113,7 +113,7 @@ class Cards extends React.Component {
     Api.request(Routes.topChoiceCreate, parameter, response => {
       this.setState({ isLoading: false })
       if (response.data !== null) {
-        this.props.navigation.navigate('topChoiceStack');
+        this.deleteFromNotification(this.props.id);
       }
     },
       error => {
@@ -121,6 +121,17 @@ class Cards extends React.Component {
         console.log({ error });
       },
     );
+  }
+
+  deleteFromNotification = (id) => {
+    let parameter = {
+      id: id
+    }
+    this.setState({ isLoading: true });
+    Api.request(Routes.notificationDelete, parameter, response => {
+      this.setState({ isLoading: false })
+      this.props.navigation.navigate('topChoiceStack', { synqt_id: this.props.navigation.state.params?.synqt_id });
+    });
   }
 
   renderCard = () => {
@@ -153,13 +164,26 @@ class Cards extends React.Component {
                     source={el.logo ? { uri: Config.BACKEND_URL + el.logo } : require('assets/default.png')}>
                     <View style={{
                       position: 'absolute',
-                      bottom: this.props.topFloatButton === true ? 100 : 15,
+                      bottom: this.props.topFloatButton === true ? 100 : 25,
                       ...BasicStyles.standardWidth
                     }}>
-                      <Text style={{ color: el.logo ? Color.white : 'black', fontSize: BasicStyles.standardTitleFontSize, fontWeight: 'bold' }}>{el.name || 'No data'}</Text>
-                      <Text style={{ color: el.logo ? Color.white : 'black'}}>{el.address || 'No address'}</Text>
+                      <Text style={{
+                        color: el.logo ? Color.white : 'black',
+                        fontSize: BasicStyles.standardTitleFontSize,
+                        textShadowColor: 'black',
+                        textShadowOffset: { width: 1, height: 1 },
+                        textShadowRadius: 1,
+                        fontWeight: 'bold',
+                      }}>{el.name || 'No data'}</Text>
+                      <Text style={{
+                        color: el.logo ? Color.white : 'black',
+                        textShadowColor: 'black',
+                        textShadowOffset: { width: 1, height: 1 },
+                        textShadowRadius: 1,
+                        fontWeight: 'bold',
+                      }}>{el.address || 'No address'}</Text>
                     </View>
-                    <View style={{ position: 'absolute', bottom: 20, right: 15, flexDirection: 'row' }}>
+                    <View style={{ position: 'absolute', bottom: 15, right: 20, flexDirection: 'row' }}>
                       <FontAwesomeIcon
                         icon={faStar}
                         size={30}
@@ -256,16 +280,16 @@ class Cards extends React.Component {
           <View style={this.props.bottomFloatButton === true ? { marginBottom: 200 } : { marginBottom: 0 }}>
             {this.state.choice == 'Menu' ? (
               <View>
-              <MenuCards data={this.state.products.length > 0 && this.state.products}/>
-              {this.state.products.length === 0 && (
-                <View style={{
-                  alignItems: 'center',
-                  justifyContent: 'center',
-                  paddingTop: 40
-                }}>
-                  <Text>No available product.</Text>
-                </View>
-              )}
+                <MenuCards data={this.state.products.length > 0 && this.state.products} />
+                {this.state.products.length === 0 && (
+                  <View style={{
+                    alignItems: 'center',
+                    justifyContent: 'center',
+                    paddingTop: 40
+                  }}>
+                    <Text>No available product.</Text>
+                  </View>
+                )}
               </View>
             ) :
               <Information
@@ -275,7 +299,7 @@ class Cards extends React.Component {
               />}
           </View>
           {this.state.isLoading ? <Spinner mode="overlay" /> : null}
-          {this.props.bottomFloatButton === true > 0 && (<FLoatingButton onClick={() => {this.addToTopChoice()}}></FLoatingButton>)}
+          {this.props.bottomFloatButton === true > 0 && (<FLoatingButton onClick={() => { this.addToTopChoice() }}></FLoatingButton>)}
         </View>
       </View>
     )
@@ -288,8 +312,8 @@ class Cards extends React.Component {
         onScroll={(event) => {
           let scrollingHeight = event.nativeEvent.layoutMeasurement.height + event.nativeEvent.contentOffset.y
           let totalHeight = event.nativeEvent.contentSize.height
-          if(event.nativeEvent.contentOffset.y <= 0) {
-            if(isLoading == false){
+          if (event.nativeEvent.contentOffset.y <= 0) {
+            if (isLoading == false) {
               // this.retrieve(false)
             }
           }

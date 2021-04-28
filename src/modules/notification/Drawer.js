@@ -46,7 +46,7 @@ const TermsAndConditionsStack = createStackNavigator({
     navigationOptions: ({navigation}) => ({
       title: 'Invites',
       headerLeft: <HeaderOptionsConnect navigationProps={navigation} />,
-      ...BasicStyles.headerDrawerStyle
+      ...BasicStyles.drawerHeader1
     }),
   },
 });

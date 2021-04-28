@@ -47,7 +47,7 @@ const RestaurantStack = createStackNavigator({
     navigationOptions: ({navigation}) => ({
       title: 'Restaurants',
       headerLeft: <HeaderOptionsConnect navigationProps={navigation} />,
-      ...BasicStyles.headerDrawerStyle
+      ...BasicStyles.drawerHeader1
     }),
   },
 });

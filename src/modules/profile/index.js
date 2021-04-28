@@ -98,7 +98,8 @@ class Profile extends Component {
       account_id: user.id,
       first_name: this.state.firstName,
       middle_name: this.state.middleName,
-      last_name: this.state.lastName
+      last_name: this.state.lastName,
+      cellular_number: this.state.cellularNumber
     }
     this.setState({ isLoading: true })
     Api.request(Routes.accountInformationUpdate, parameter, response => {
@@ -159,11 +160,11 @@ class Profile extends Component {
     const { user } = this.props.state;
     return (
       <ScrollView>
-        <View style={[Style.MainContainer, {
+        <View style={{
           backgroundColor: Color.containerBackground
-        }]}>
+        }}>
           {this.state.isLoading ? <Spinner mode="overlay" /> : null}
-          <View style={{ borderBottomWidth: .3, borderColor: '#555555' }}>
+          <View style={{ borderBottomWidth: 1, borderColor: Color.primary }}>
             <View style={Style.TopView}>
               <TouchableOpacity
                 style={{
@@ -188,6 +189,8 @@ class Profile extends Component {
                   )
                 }
                 <View style={{
+                  borderColor: Color.primary,
+                  borderWidth: 1,
                   height: 50,
                   width: 50,
                   borderRadius: 100,
@@ -199,16 +202,6 @@ class Profile extends Component {
                   justifyContent: 'center',
                   alignItems: 'center'
                 }}>
-                  <View style={{
-                    height: 35,
-                    width: 35,
-                    borderRadius: 100,
-                    borderWidth: 2,
-                    borderColor: Color.primary,
-                    backgroundColor: 'white',
-                    justifyContent: 'center',
-                    alignItems: 'center'
-                  }}>
                     <FontAwesomeIcon style={{
                       borderColor: Color.primary
                     }}
@@ -216,7 +209,6 @@ class Profile extends Component {
                       size={20}
                       color={Color.primary}
                     />
-                  </View>
                 </View>
               </TouchableOpacity>
             </View>
@@ -233,12 +225,12 @@ class Profile extends Component {
               </TouchableOpacity>
             </View>
             <View style={Style.BottomView}>
-              <FontAwesomeIcon style={{ marginRight: 5 }} icon={faCheckCircle} size={20} color={Color.blue} />
+              <FontAwesomeIcon style={{ marginRight: 5 }} icon={faCheckCircle} size={20} color={Color.primary} />
               <Text style={{
                 textAlign: 'center',
                 fontWeight: 'bold',
                 fontSize: 18
-              }}>Lalaine Garrido</Text>
+              }}>{this.state.firstName && this.state.middleName && this.state.lastName && this.state.firstName + ' ' + this.state.middleName  +' ' + this.state.lastName}</Text>
             </View>
           </View>
           <View style={{
@@ -275,6 +267,14 @@ class Profile extends Component {
               placeholder='   Enter Phone Number'
             />
           </View>
+          <View style={{
+            padding: 25,
+            textAlign: 'center',
+            justifyContent: 'center',
+            paddingTop: 50
+          }}>
+          <CustomizedButton onClick={() => {this.update()}} title={'Update'}></CustomizedButton>
+          </View>
         </View>
         {this.state.isImageUpload ?
           <ImageUpload
@@ -286,14 +286,6 @@ class Profile extends Component {
             onClose={() => {
               this.setState({ isImageUpload: false, isLoading: false })
             }} /> : null}
-        <View style={{
-            padding: 25,
-            textAlign: 'center',
-            justifyContent: 'center',
-            paddingTop: 10
-          }}>
-          <CustomizedButton onClick={() => {this.update()}} title={'Update'}></CustomizedButton>
-          </View>
       </ScrollView>
     );
   }

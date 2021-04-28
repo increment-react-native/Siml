@@ -117,13 +117,14 @@ class AddLocation extends Component {
       locality: location.locality,
       region: location.region,
       country: location.country,
-      address_type: value
+      address_type: value,
+      merchant_id: user.sub_account?.merchant?.id
     }
     console.log("parameters: ", parameters)
     this.setState({isLoading: true, executing: true})
     Api.request(Routes.addAddress, parameters, response => {
       // const {setLocation} = this.props
-      console.log('=================== \nAdding Address Response: \n===================', response.error)
+      console.log('=================== \nAdding Address Response: \n===================', response)
       this.retrieveAddresses();
       this.setState({isAddingAddressName: false, addingAddress: false})
       this.setState({isLoading: false, executing: false, value: ''})
