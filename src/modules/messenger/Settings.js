@@ -48,8 +48,8 @@ class Settings extends Component {
       title: this.state.title
     }
     this.setState({ isLoading: true })
-    console.log(parameter, 'parameter', Routes.messengerGroupUpdate);
-    Api.request(Routes.messengerGroupUpdate, parameter, response => {
+    console.log(parameter, 'parameter', Routes.messengerGroupUpdateTitle);
+    Api.request(Routes.messengerGroupUpdateTitle, parameter, response => {
       this.setState({ isLoading: false })
       if (response.data !== null) {
         this.props.setCurrentTitle(this.state.title)
