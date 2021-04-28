@@ -35,6 +35,7 @@ export default {
   messengerMessagesRetrieve: apiUrl + 'messenger_messages/retrieve',
   messengerMessagesUpdate: apiUrl + 'messenger_messages/update_by_status',
   messengerMembersRetrieve: apiUrl + 'messenger_members/retrieve_members',
+  messengerMembersCreate: apiUrl + 'messenger_members/create',
   mmCreateWithImageWithoutPayload: apiUrl + 'messenger_messages/create_with_image_without_payload',
   imageUploadUnLink: apiUrl + 'images/upload_un_link',
   // referral

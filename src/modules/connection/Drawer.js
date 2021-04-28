@@ -73,7 +73,7 @@ class HeaderOptions extends Component {
   render() {
     const { theme } = this.props.state;
     return (
-      <View style={{right: width - 350, position: 'absolute'}}>
+      <View style={{right: 10, position: 'absolute'}}>
         <TouchableOpacity onPress={() => this.onShare()}>
           {/*Donute Button Image */}
           <FontAwesomeIcon

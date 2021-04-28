@@ -3,7 +3,7 @@ import { View, Image, Text, TouchableOpacity, TextInput, ScrollView, SafeAreaVie
 import { ListItem } from 'react-native-elements'
 import { Routes, Color, Helper, BasicStyles } from 'common';
 import { FontAwesomeIcon } from '@fortawesome/react-native-fontawesome';
-import { faCheckCircle, faEdit } from '@fortawesome/free-solid-svg-icons';
+import { faCheckCircle, faEdit, faUserCircle } from '@fortawesome/free-solid-svg-icons';
 import Style from './Style';
 import CustomizedButton from 'modules/generic/CustomizedButton';
 import ImageCardWithUser from 'modules/generic/ImageCardWithUser';
@@ -33,12 +33,12 @@ class ViewProfile extends Component {
   }
 
   componentDidMount() {
-    if(this.props.navigation.state?.params?.level === 1) {
+    if (this.props.navigation.state?.params?.level === 1) {
       this.retrieveActivity(false);
     } else {
       this.retrieveConnections(false);
     }
-    this.setState({choice: this.props.navigation.state?.params?.level === 1 ? 'SYNQT ACTIVITIES' : 'CONNECTIONS'});
+    this.setState({ choice: this.props.navigation.state?.params?.level === 1 ? 'SYNQT ACTIVITIES' : 'CONNECTIONS' });
   }
 
   retrieveActivity = (flag) => {
@@ -112,7 +112,7 @@ class ViewProfile extends Component {
 
   choiceHandler = (value) => {
     this.setState({ choice: value })
-    if(value === 0) {
+    if (value === 0) {
       this.retrieveActivity(false);
     } else {
       this.retrieveConnections(false);
@@ -138,7 +138,7 @@ class ViewProfile extends Component {
         {
           this.state.connections.length > 0 && this.state.connections.map((el, idx) => {
             return (
-              <TouchableOpacity>
+              <TouchableOpacity onPress={()=> {this.props.navigation.navigate('viewProfileStack', { user: el, level: 1 })}}>
                 {/* <Card containerStyle={{padding:-5, borderRadius: 20}}> */}
                 <ListItem key={idx}>
                   <Image
@@ -157,7 +157,7 @@ class ViewProfile extends Component {
                         // onPress={() => this.changeTab(idx)}
                         style={{
                           ...Style.actionBtn,
-                          backgroundColor:'#4DD965'
+                          backgroundColor: '#4DD965'
                         }}
                       >
                         <Text style={{ color: 'white' }}>Add</Text>
@@ -184,8 +184,8 @@ class ViewProfile extends Component {
           onScroll={(event) => {
             let scrollingHeight = event.nativeEvent.layoutMeasurement.height + event.nativeEvent.contentOffset.y
             let totalHeight = event.nativeEvent.contentSize.height
-            if(event.nativeEvent.contentOffset.y <= 0) {
-              if(this.state.isLoading == false){
+            if (event.nativeEvent.contentOffset.y <= 0) {
+              if (this.state.isLoading == false) {
                 // this.retrieve(false)
               }
             }
@@ -195,7 +195,7 @@ class ViewProfile extends Component {
               }
             }
           }}
-          >
+        >
           {this.state.data.length === 0 && (<Empty refresh={true} onRefresh={() => this.retrieveActivity(false)} />)}
           <View style={{
             marginTop: 15,
@@ -205,56 +205,26 @@ class ViewProfile extends Component {
             {
               this.state.data.length > 0 && this.state.data.map((item, index) => (
                 <ImageCardWithUser
-                data={{
-                  logo: item.merchant.logo,
-                  address: item.merchant.address || 'No address provided',
-                  name: item.merchant.name,
-                  date: item.synqt[0].date,
-                  superlike: true,
-                  users: [{
-                    account: {
-                      profile: {
-                        url: '/storage/image/11_2021-04-06_02_04_43_fries.jpg'
-                      }
-                    }
-                  }, {
-                    account: {
-                      profile: {
-                        url: '/storage/image/11_2021-04-06_02_04_43_fries.jpg'
-                      }
-                    }
-                  }, {
-                    account: {
-                      profile: {
-                        url: '/storage/image/11_2021-04-06_02_04_43_fries.jpg'
-                      }
-                    }
-                  }, {
-                    account: {
-                      profile: {
-                        url: '/storage/image/11_2021-04-06_02_04_43_fries.jpg'
-                      }
-                    }
-                  }, {
-                    account: {
-                      profile: {
-                        url: '/storage/image/11_2021-04-06_02_04_43_fries.jpg'
-                      }
-                    }
-                  }]
-                }}
-                style={{
-                  marginBottom: 20
-                }}
-                redirectTo={this.props.navigation.state.params && this.props.navigation.state.params.title}
-                onClick={() => {
-                  // this.onClick(item)
-                }}
+                  data={{
+                    logo: item.merchant.logo,
+                    address: item.merchant.address || 'No address provided',
+                    name: item.merchant.name,
+                    date: item.synqt[0].date,
+                    superlike: true,
+                    users: item.members && item.members.length > 0 ? item.members : []
+                  }}
+                  style={{
+                    marginBottom: 20
+                  }}
+                  redirectTo={this.props.navigation.state.params && this.props.navigation.state.params.title}
+                  onClick={() => {
+                    // this.onClick(item)
+                  }}
                 />
-                ))
-              }
+              ))
+            }
           </View>
-          </ScrollView>
+        </ScrollView>
       </SafeAreaView>
     )
   }
@@ -268,19 +238,32 @@ class ViewProfile extends Component {
         <ScrollView>
           <View>
             <View style={Style.TopView}>
-              <TouchableOpacity
-                style={{
-                  height: 180,
-                  width: 180,
-                  borderRadius: 100,
-                  borderColor: Color.primary,
-                  borderWidth: 2
-                }}>
-                <Image source={user && user?.account?.profile?.url ? { uri: Config.BACKEND_URL + user.account.profile.url } : require('assets/logo.png')} style={{
-                  height: 176,
-                  width: 176,
-                  borderRadius: 100,
-                }} />
+              <TouchableOpacity>
+                {user.account?.profile?.url ? <Image
+                  style={[Style.circleImage, {
+                    height: 180,
+                    width: 180,
+                    borderRadius: 100,
+                    borderColor: Color.primary,
+                    borderWidth: 2
+                  }]}
+                  // resizeMode="cover"
+                  source={{ uri: Config.BACKEND_URL + user.account?.profile?.url }}
+                />
+                  :
+                  <FontAwesomeIcon
+                    icon={faUserCircle}
+                    size={182}
+                    style={{
+                      color: Color.primary,
+                      height: 180,
+                      width: 180,
+                      borderRadius: 100,
+                      borderColor: Color.primary,
+                      borderWidth: 2
+                    }}
+                  />
+                }
               </TouchableOpacity>
             </View>
             <View style={Style.BottomView}>
@@ -311,7 +294,7 @@ class ViewProfile extends Component {
             justifyContent: 'center'
           }}>
             {this.props.navigation.state?.params?.level === 1 ? <Tab level={1} choice={['SYNQT ACTIVITIES', 'CONNECTIONS']} onClick={this.choiceHandler}></Tab> :
-            <Tab level={2} choice={['CONNECTIONS']} onClick={this.choiceHandler}></Tab> }
+              <Tab level={2} choice={['CONNECTIONS']} onClick={this.choiceHandler}></Tab>}
           </View>
           <View>
             {this.state.choice === 'SYNQT ACTIVITIES' ? (
@@ -321,12 +304,12 @@ class ViewProfile extends Component {
           </View>
           {this.state.isLoading ? <Spinner mode="overlay" /> : null}
           {this.state.isVisible && <CardModal
-          visisble={this.state.isVisible}
-          onClose={() => {
-          this.setState({
-            isVisible: false
-          })
-        }}/>}
+            visisble={this.state.isVisible}
+            onClose={() => {
+              this.setState({
+                isVisible: false
+              })
+            }} />}
         </ScrollView>
       </View>
     );

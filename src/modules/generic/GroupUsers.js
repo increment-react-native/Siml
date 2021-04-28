@@ -17,7 +17,7 @@ class GroupUsers extends Component{
 			<View style={{
         width: '100%',
         position: 'relative',
-        flexDirection: 'row',
+        flexDirection: 'row-reverse',
         ...this.props.style
       }}>
         {
@@ -36,14 +36,14 @@ class GroupUsers extends Component{
                       marginRight: '2%',
                       borderColor: Color.secondary,
                       borderWidth: 1,
-                      opacity: index === 0 ? 0.5 : 1
+                      opacity: data.length > 5 && index === 0 && this.props.cardUser ? 0.5 : 1
                     }}/>
                 </TouchableOpacity>
               )
             }
           })
         }{
-          data.length > 5 && (
+          data.length > 5 && this.props.cardUser && (
             <View style={{position: 'absolute', zIndex: 10, right: 5, top: 3, justifyContent: 'center', alignItems: 'center'}}>
               <Text style={{color: '#6e6d6d', fontSize: 10}}>+{data.length - 5}</Text>
               <Text style={{color: '#6e6d6d', fontSize: 8, marginTop: -5}}>more</Text>

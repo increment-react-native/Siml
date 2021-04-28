@@ -37,6 +37,21 @@ class CardList extends Component {
     setTempMembers(temp);
   }
 
+  inviteToGroup = () => {
+    let parameter = {
+      id: id
+    }
+    this.setState({ isLoading: true });
+    Api.request(Routes.messengerMembersCreate, parameter, response => {
+      this.setState({ isLoading: false })
+      if(response.data !== null) {
+        this.props.navigation.navigate('messagesStack', {
+          data: this.props.navigation?.state?.params?.data
+        });
+      }
+    });
+  }
+
   updateStatus = (item, status) => {
     let parameter = {
       id: item.id,
@@ -56,6 +71,7 @@ class CardList extends Component {
     this.setState({ isLoading: true });
     Api.request(Routes.circleDelete, parameter, response => {
       this.setState({ isLoading: false })
+      console.log(response, 'l', parameter);
       this.props.retrieve();
     });
   }

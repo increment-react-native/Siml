@@ -120,7 +120,7 @@ class History extends Component {
                   logo: item.merchant?.logo,
                   address: item.merchant?.address || 'No address provided',
                   name: item.merchant?.name,
-                  date: item.synqt.length > 0 && item.synqt[0]?.date,
+                  date: item.synqt.length > 0 && item.synqt[0]?.date_at_human,
                   superlike: true,
                   users: item.members && item.members.length > 0 ? item.members : []
                 }}
@@ -129,7 +129,15 @@ class History extends Component {
                 }}
                 redirectTo={this.props.navigation.state.params && this.props.navigation.state.params.title}
                 onClick={() => {
-                  this.props.navigation.navigate('menuStack', { synqt_id: item.synqt[0].id })
+                  this.props.navigation.navigate('eventNameStack', {parameter: {
+                    account_id: this.props.state.user?.id,
+                    merchant_id: item.merchant?.id,
+                    payload: 'synqt',
+                    payload_value: item?.synqt[0]?.id,
+                    details: item?.synqt[0]?.details,
+                    datetime: item?.synqt[0]?.date,
+                    status: 'pending'
+                  }, buttonTitle: this.props.navigation.state?.params?.title === 'Upcoming' ? "Cancel" : 'Make Reservation', data: item})
                 }}
               />
             ))
