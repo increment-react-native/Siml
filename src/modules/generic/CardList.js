@@ -34,7 +34,6 @@ class CardList extends Component {
     const { setTempMembers } = this.props;
     let temp = this.props.state.tempMembers;
     temp.push(item);
-    console.log(item, 'kldjfglksjdfgkjdfg');
     setTempMembers(temp);
   }
 

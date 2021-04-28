@@ -89,6 +89,7 @@ class MessagesV3 extends Component {
         'created_at': 'DESC'
       }
     }
+    console.log(Routes.messengerMembersRetrieve, parameter);
     Api.request(Routes.messengerMembersRetrieve, parameter, response => {
       this.setState({ isLoading: false});
       if (response.data.length > 0) {

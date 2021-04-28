@@ -22,7 +22,7 @@ class History extends Component {
       data: [],
       isLoading: false,
       isVisible: false,
-      limit: 6,
+      limit: 50,
       offset: 0
     };
   }
@@ -51,6 +51,7 @@ class History extends Component {
     Api.request(Routes.reservationRetrieve, parameter, response => {
       this.setState({ isLoading: false })
       if (response.data.length > 0) {
+        console.log(response.data[0]);
         this.setState({
           data: flag == false ? response.data : _.uniqBy([...this.state.data, ...response.data], 'id'),
           offset: flag == false ? 1 : (this.state.offset + 1)
@@ -121,7 +122,7 @@ class History extends Component {
                   name: item.merchant?.name,
                   date: item.synqt.length > 0 && item.synqt[0]?.date,
                   superlike: true,
-                  users: item.group ? item.group: []
+                  users: item.members && item.members.length > 0 ? item.members : []
                 }}
                 style={{
                   marginBottom: 20

@@ -48,6 +48,7 @@ class Settings extends Component {
       title: this.state.title
     }
     this.setState({ isLoading: true })
+    console.log(parameter, 'parameter', Routes.messengerGroupUpdate);
     Api.request(Routes.messengerGroupUpdate, parameter, response => {
       this.setState({ isLoading: false })
       if (response.data !== null) {

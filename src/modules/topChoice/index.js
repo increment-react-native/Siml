@@ -119,7 +119,7 @@ class TopChoice extends Component {
                     name: item.merchant.name,
                     date: item.synqt[0].date,
                     superlike: true,
-                    users: item.members.length > 0 || item.length !== null ? item.members : []
+                    users: item.members && item.members.length > 0 ? item.members : []
                   }}
                   style={{
                     marginBottom: 20

@@ -78,10 +78,8 @@ class EventName extends Component {
         {
           text: 'Okay', onPress: () => {
             this.setState({ isLoading: true })
-            console.log(this.props.navigation.state?.params?.parameter, 'lkasjdlfkjsaldkfj----------');
             Api.request(Routes.reservationCreate, this.props.navigation.state?.params?.parameter, response => {
               this.setState({ isLoading: false })
-              console.log(response, 'RESPONSE----------------');
               if (response.data !== null) {
                 this.props.navigation.navigate('historyStack', { title: 'History' })
               }
