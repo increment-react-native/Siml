@@ -61,13 +61,13 @@ class Restaurants extends Component {
       account_id: this.props.state.user.id,
       address_type: 'NULL',
       merchant_id: this.props.state.user.sub_account?.merchant?.id || null,
-      latitude: this.props.state.location.latitude,
-      longitude: this.props.state.location.longitude,
-      route: this.props.state.location.address,
+      latitude: this.props.state.location.latitude || 'NULL',
+      longitude: this.props.state.location.longitude || 'NULL',
+      route: this.props.state.location.address || 'NULL',
       // route: this.props.state.location.route,
-      locality: this.props.state.location.locality,
-      region: this.props.state.location.region,
-      country: this.props.state.location.country,
+      locality: this.props.state.location.locality || 'NULL',
+      region: this.props.state.location.region || 'NULL',
+      country: this.props.state.location.country || 'NULL',
     }
     this.setState({ isLoading: true })
     Api.request(Routes.locationCreate, param, response => {
@@ -86,7 +86,6 @@ class Restaurants extends Component {
       Api.request(Routes.synqtCreate, parameter, res => {
         this.setState({ isLoading: false })
         if (res.data !== null) {
-          this.sendInvitation(res.data);
           setDefaultAddress(null);
           setLocation(null);
           this.createMessengerGroup(res.data, parameter.date)
@@ -98,7 +97,7 @@ class Restaurants extends Component {
 
   createMessengerGroup(id, date) {
     const { tempMembers, user } = this.props.state
-    tempMembers.push({id: user.id})
+    tempMembers.push({account_id: user.id})
     let parameter = {
       account_id: this.props.state.user.id,
       title: date,
@@ -109,7 +108,7 @@ class Restaurants extends Component {
     Api.request(Routes.messengerGroupCreate, parameter, response => {
       this.setState({ isLoading: false })
       if (response.data !== null) {
-        this.props.navigation.navigate('menuStack', { synqt_id: id })
+        this.sendInvitation(id);
       }
     });
   }
@@ -127,6 +126,9 @@ class Restaurants extends Component {
       this.setState({ isLoading: true });
       Api.request(Routes.notificationCreate, parameter, response => {
         this.setState({ isLoading: false })
+        if(response.data !== null) {
+          this.props.navigation.navigate('menuStack', { synqt_id: id })
+        }
       });
     })
   }
