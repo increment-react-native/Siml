@@ -710,7 +710,7 @@ class MessagesV3 extends Component {
                 margin: '2%',
                 flexDirection: 'row'
               }}>
-                <Group  add={true} navigation={this.props.navigation} style={{ marginLeft: 9 }} color={Color.primary} size={70} data={this.state.members} />
+                <Group  add={true} navigation={this.props.navigation} style={{ marginLeft: 9 }} redirectTo={() => this.props.navigation.navigate('peopleListStack', {data: this.props.navigation.state?.params?.data})} color={Color.primary} size={60} data={this.state.members} />
               </View>
             )}
             <ScrollView
