@@ -17,7 +17,7 @@ class GroupUsers extends Component{
 			<View style={{
         width: '100%',
         position: 'relative',
-        flexDirection: 'row-reverse',
+        flexDirection: 'row',
         ...this.props.style
       }}>
         {
@@ -36,7 +36,7 @@ class GroupUsers extends Component{
                       marginRight: '2%',
                       borderColor: Color.secondary,
                       borderWidth: 1,
-                      opacity: data.length > 5 && index === 0 && this.props.cardUser ? 0.5 : 1
+                      opacity: data.length > 5 && index === 4 && this.props.cardUser ? 0.5 : 1
                     }}/>
                 </TouchableOpacity>
               )

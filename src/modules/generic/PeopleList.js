@@ -48,7 +48,15 @@ class PeopleList extends Component {
                 alignItems: 'center',
                 justifyContent: 'center'
               }}
-                onPress={() => { this.props.navigation.navigate('viewProfileStack', { user: item, level: 1 }) }}>
+                onPress={() => { this.props.navigation.navigate('viewProfileStack', { 
+                  user: {
+                    account: {
+                      profile: item.account.profile,
+                      username: 'Unknown Name',
+                      information: item.information
+                    }
+                  },
+                  level: 1 }) }}>
                 <UserImage
                   key={index}
                   user={

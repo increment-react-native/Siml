@@ -53,8 +53,10 @@ class Status extends Component {
         created_at: "desc"
       }
     }
+    console.log(parameter, 'hi');
     this.setState({ isLoading: true });
     Api.request(Routes.commentsRetrieve, parameter, response => {
+      console.log(response, 'yoooo');
       this.setState({ isLoading: false });
       if (response.data.length > 0) {
         this.setState({
@@ -63,8 +65,8 @@ class Status extends Component {
         })
       } else {
         this.setState({
-          data: this.state.data,
-          offset: 1
+          data: flag == false ? [] : this.state.data,
+          offset: flag == false ? 0 : this.state.offset,
         })
       }
     })
@@ -98,9 +100,9 @@ class Status extends Component {
     Api.request(Routes.commentsCreate, parameter, response => {
       this.setState({ isLoading: false });
       if (response.data !== null) {
+        this.retrieve(false);
         this.props.setCreateStatus(false)
         this.setState({status: null})
-        this.retrieve(false);
       }
     })
   }

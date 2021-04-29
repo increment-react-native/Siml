@@ -115,6 +115,7 @@ export default {
   addAddress: apiUrl + 'locations/create',
   removeAddress: apiUrl + 'locations/delete',
   synqtCreate: apiUrl + 'synqts/create',
+  synqtRetrieve: apiUrl + 'synqts/retrieve',
   reservationCreate: apiUrl + 'reservations/create',
   reservationRetrieve: apiUrl + 'reservations/retrieve',
   reservationDelete: apiUrl + 'reservations/delete',

@@ -128,7 +128,8 @@ class Notifications extends Component {
                     name: item.synqt.length > 0 && item.synqt[0]?.date_at_human,
                     date: item.synqt.length > 0 && item.synqt[0]?.date_at_human,
                     superlike: false,
-                    users: item.members && item.members.length > 0 ? item.members : []
+                    users: item.members && item.members.length > 0 ? item.members : [],
+                    details: false
                   }}
                   style={{
                     marginBottom: 20
