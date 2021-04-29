@@ -122,7 +122,7 @@ class CardList extends Component {
                         <View>
                           <View style={{ flexDirection: 'row' }}>
                             <View>
-                              <Text style={{ fontWeight: 'bold' }}>{el.account?.information?.first_name !== null ? el.account?.information?.first_name + ' ' + el.account?.information?.last_name : el.account?.username}</Text>
+                              <Text style={{ fontWeight: 'bold' }}>{el.account?.information?.first_name ? el.account?.information?.first_name + ' ' + el.account?.information?.last_name : el.account?.username}</Text>
                               <Text style={{ fontStyle: 'italic' }}>{el.account?.information?.address || 'No address provided'}</Text>
                               <Text style={{ color: 'gray', fontSize: 10, marginBottom: 5 }}>{el.numberOfConnection} similar connections</Text>
                               {
@@ -215,7 +215,7 @@ class CardList extends Component {
                       <View>
                         <View style={{ flexDirection: 'row' }}>
                           <View>
-                            <Text style={{ fontWeight: 'bold' }}>{el.account?.information?.first_name !== null ? el.account?.information?.first_name + ' ' + el.account?.information?.last_name : el.account?.username}</Text>
+                            <Text style={{ fontWeight: 'bold' }}>{el.account?.information?.first_name ? el.account?.information?.first_name + ' ' + el.account?.information?.last_name : el.account?.username}</Text>
                             <Text style={{ fontStyle: 'italic' }}>{el.account?.information?.address || 'No address provided'}</Text>
                             <Text style={{ color: 'gray', fontSize: 10, marginBottom: 5 }}>{el.numberOfConnection} similar connections</Text>
                             {

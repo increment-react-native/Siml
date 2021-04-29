@@ -92,6 +92,7 @@ class MessagesV3 extends Component {
     }
     console.log(Routes.messengerMembersRetrieve, parameter);
     Api.request(Routes.messengerMembersRetrieve, parameter, response => {
+      console.log(response, 'yeyeyeyeyeye');
       this.setState({ isLoading: false});
       if (response.data.length > 0) {
         this.setState({members: response.data})
@@ -788,7 +789,7 @@ class MessagesV3 extends Component {
 					<Text>Test</Text>
 					</View>
 				</Modal> */}
-        {this.props.state.showSettings && <Settings groupId={this.props.navigation?.state?.params.data?.id} title={this.props.navigation?.state?.params.data?.title} navigation={this.props.navigation}></Settings>}
+        {this.props.state.showSettings && <Settings groupId={this.props.navigation?.state?.params.data?.id} synqtId={this.props.navigation.state?.params?.data?.payload} title={this.props.navigation?.state?.params.data?.title} navigation={this.props.navigation}></Settings>}
       </SafeAreaView>
     );
   }

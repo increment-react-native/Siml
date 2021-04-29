@@ -149,8 +149,8 @@ class ViewProfile extends Component {
                   <View>
                     <View style={{ flexDirection: 'row', width: '100%' }}>
                       <View style={{ width: '50%' }}>
-                        <Text style={{ fontWeight: 'bold' }}>{el?.account?.information?.first_name + ' ' + el?.account?.information?.last_name}</Text>
-                        <Text style={{ fontStyle: 'italic' }}>{el?.account?.information?.address}</Text>
+                        <Text style={{ fontWeight: 'bold' }}>{el?.account?.information?.first_name ? el?.account?.information?.first_name + ' ' + el?.account?.information?.last_name : el?.account?.username}</Text>
+                        <Text style={{ fontStyle: 'italic' }}>{el?.account?.information?.address || 'No address provided'}</Text>
                         <Text style={{ color: 'gray', fontSize: 10 }}>{el.numberOfConnection} similar connections</Text>
                       </View>
                       <TouchableOpacity
@@ -211,7 +211,8 @@ class ViewProfile extends Component {
                     name: item.merchant.name,
                     date: item.synqt[0].date,
                     superlike: true,
-                    users: item.members && item.members.length > 0 ? item.members : []
+                    users: item.members && item.members.length > 0 ? item.members : [],
+                    details: true
                   }}
                   style={{
                     marginBottom: 20
@@ -231,6 +232,7 @@ class ViewProfile extends Component {
 
   render() {
     let user = this.props.navigation.state?.params?.user
+    console.log(user, 'USER');
     return (
       <View style={{
         backgroundColor: Color.containerBackground
@@ -276,7 +278,7 @@ class ViewProfile extends Component {
                 textAlign: 'center',
                 fontWeight: 'bold',
                 fontSize: 18
-              }}>{user?.account?.information?.first_name + user?.account?.information?.last_name || 'Unknown name'}</Text>
+              }}>{user?.account?.information?.first_name + user?.account?.information?.last_name || user?.account?.username}</Text>
             </View>
             <View style={{
               width: '100%'
