@@ -46,7 +46,7 @@ const ProfileStack = createStackNavigator({
     navigationOptions: ({navigation}) => ({
       title: 'Profile',
       headerLeft: <HeaderOptionsConnect navigationProps={navigation} />,
-      ...BasicStyles.headerDrawerStyle
+      ...BasicStyles.drawerHeader1
     }),
   },
 });

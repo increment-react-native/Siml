@@ -9,7 +9,7 @@ import CardList from 'modules/generic/CardList'
 import Share from 'components/Share'
 import Style from './Style'
 import { connect } from 'react-redux';
-import { Spinner } from 'components';
+import { Spinner, Empty } from 'components';
 import Api from 'services/api/index.js';
 import _ from 'lodash';
 
@@ -48,26 +48,27 @@ class Connections extends Component {
 
   retrieve(flag) {
     const { user } = this.props.state
+    console.log(user.id);
     if (user == null) {
       return
     }
     let parameter = {
       condition: [{
         value: user.id,
-        column: 'account_id',
-        clause: 'or'
+        column: this.state.currActive == 0 ? 'account' : 'account_id',
+        clause: '='
       }, {
         value: user.id,
         column: 'account',
-        clause: '='
+        clause: this.state.currActive == 0 ? '=' : 'or'
       }, {
-        clause: "like",
+        clause: "=",
         column: "status",
         value: this.state.currActive == 0 ? 'pending' : 'accepted'
       }],
       offset: flag == true && this.state.offset > 0 ? (this.state.offset * this.state.limit) : this.state.offset,
+      limit: this.state.limit
     }
-    console.log(parameter, Routes.circleRetrieve, "====");
     this.setState({ isLoading: true })
     Api.request(Routes.circleRetrieve, parameter, response => {
       this.setState({ isLoading: false })
@@ -86,18 +87,26 @@ class Connections extends Component {
   }
 
   retrieveRandomUsers = (flag) => {
-    const { user } = this.props.state
-    if (user == null) {
-      return
-    }
+    const { user } = this.props.state;
     let parameter = {
-      account_id: user.id
+      account_id: user.id,
+      offset: flag == true && this.state.offset > 0 ? (this.state.offset * this.state.limit) : this.state.offset,
+      limit: this.state.limit
     }
     this.setState({ isLoading: true })
-    Api.request(Routes.otherAccountsRetrieve, parameter, response => {          
+    Api.request(Routes.otherAccountsRetrieve, parameter, response => {
       this.setState({ isLoading: false })
       if (response.data.length > 0) {
-        this.setState({ suggestions: response.data})
+        console.log(response.data[response.data.length -1]);
+        this.setState({
+          suggestions: flag == false ? response.data : _.uniqBy([...this.state.suggestions, ...response.data], 'id'),
+          offset: flag == false ? 1 : (this.state.offset + 1)
+        })
+      } else {
+        this.setState({
+          suggestions: flag == false ? [] : this.state.suggestions,
+          offset: flag == false ? 0 : this.state.offset
+        })
       }
     });
   }
@@ -109,6 +118,7 @@ class Connections extends Component {
       navs[idx].flag = true
       await this.setState({ prevActive: idx })
     }
+    this.setState({connections: []})
     this.retrieve(false)
   }
 
@@ -134,8 +144,22 @@ class Connections extends Component {
           marginBottom: 50
         }}
           showsVerticalScrollIndicator={false}
+          onScroll={(event) => {
+            let scrollingHeight = event.nativeEvent.layoutMeasurement.height + event.nativeEvent.contentOffset.y
+            let totalHeight = event.nativeEvent.contentSize.height
+            if (event.nativeEvent.contentOffset.y <= 0) {
+              if (this.state.isLoading == false) {
+                // this.retrieve(false)
+              }
+            }
+            if (Math.round(scrollingHeight) >= Math.round(totalHeight)) {
+              if (this.state.isLoading === false) {
+                this.retrieveRandomUsers(true)
+              }
+            }
+          }}
         >
-          <View style={{ flex: 1, flexDirection: 'row' }}>
+          <View style={{ flex: 1, flexDirection: 'row', borderBottomWidth: 0.3, paddingBottom: 20, borderColor: Color.gray, marginTop: '7%' }}>
             {
               navs.map((el, idx) => {
                 return (
@@ -143,7 +167,7 @@ class Connections extends Component {
                     onPress={() => this.changeTab(idx)}
                     style={{
                       ...Style.standardButton,
-                      backgroundColor: el.flag == true ? Color.primary : 'gray',
+                      backgroundColor: el.flag == true ? Color.primary : '#BDBDBD',
                       marginLeft: 5
                     }}
                   >
@@ -156,35 +180,38 @@ class Connections extends Component {
           {
             this.state.currActive == 0 ? (
               <View>
-                {this.state.isLoading ? <Spinner mode="overlay" /> : null}
-                <CardList retrieve={() => {this.refresh()}} status={'pending'} navigation={this.props.navigation} data={this.state.connections.length > 0 && this.state.connections} hasAction={true} actionType={'text'}></CardList>
-                <View style={{ marginTop: 50, paddingLeft: 30 }}>
+                <CardList level={2} retrieve={() => {this.refresh()}} status={'pending'} navigation={this.props.navigation} data={this.state.connections.length > 0 && this.state.connections} hasAction={true} actionType={'text'}></CardList>
+                <View style={{ marginTop: 50, paddingLeft: 30, borderTopWidth: 0.3, paddingTop: 20, borderColor: Color.gray }}>
                   <Text style={{ fontWeight: 'bold' }}>Connections you may know</Text>
                 </View>
 
                 <View>
-                  <CardList retrieve={() => {this.refresh()}} navigation={this.props.navigation} data={this.state.suggestions.length > 0 && this.state.suggestions} hasAction={false} actionType={'button'} actionContent={'text'}></CardList>
+                  <CardList level={2} retrieve={() => {this.refresh()}} navigation={this.props.navigation} data={this.state.suggestions.length > 0 && this.state.suggestions} hasAction={false} actionType={'button'} actionContent={'text'}></CardList>
+                  {this.state.suggestions.length == 0 && (<Empty refresh={true} onRefresh={() => this.refresh()} />)}
                 </View>
 
               </View>
             ) : (
-              <View style={{ flex: 1, justifyContent: 'center', alignItems: 'center', marginTop: 10 }}>
+              <View>
+              <View style={{ flex: 1, justifyContent: 'center', alignItems: 'center', marginTop: '5%' }}>
                 <View style={Style.TextContainer}>
                   <TextInput
-                    style={BasicStyles.formControl}
-                    onChangeText={(search) => this.setState({ search })}
+                    style={[BasicStyles.formControl, {backgroundColor: '#e8e8e8'}]}
+                    onChangeText={(search) => this.setState({ search: search })}
                     value={this.state.search}
                     placeholder={'Search'}
                   />
                 </View>
-                {this.state.isLoading ? <Spinner mode="overlay" /> : null}
                 <View>
-                  <CardList retrieve={() => {this.refresh()}} navigation={this.props.navigation} data={this.state.connections.length > 0 && this.state.connections} hasAction={false} actionType={'button'} actionContent={'icon'} ></CardList>
+                  <CardList level={1} search={this.state.search} retrieve={() => {this.refresh()}} navigation={this.props.navigation} data={this.state.connections.length > 0 && this.state.connections} hasAction={false} actionType={'button'} actionContent={'icon'} ></CardList>
                 </View>
               </View>
+                {this.state.connections.length == 0 && (<Empty refresh={true} onRefresh={() => this.refresh()} />)}
+                </View>
             )
           }
         </ScrollView>
+        {this.state.isLoading ? <Spinner mode="overlay" /> : null}
         <Footer layer={1} {...this.props} />
       </View>
     );

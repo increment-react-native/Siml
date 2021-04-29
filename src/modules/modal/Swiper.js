@@ -117,23 +117,13 @@ class Cards extends React.Component {
             account_id: this.props.state.user.id,
             merchant_id: this.props.item.merchant.id,
             payload: 'synqt',
-            payload_value: this.props.item.synqt_id,
+            payload_value: this.props.item.synqt[0].id,
             details: this.props.item.synqt[0]?.details,
             datetime: this.props.item.synqt[0].date,
             status: 'pending'
           }
-          this.setState({ isLoading: true })
-          Api.request(Routes.reservationCreate, parameter, response => {
-            this.setState({ isLoading: false })
-            if (response.data !== null) {
-              this.props.onClose(this.props.item.id);
-            }
-          },
-            error => {
-              this.setState({ isLoading: false })
-              console.log({ error });
-            },
-          );
+          this.props.onClose(null);
+          this.props.navigation.navigate('eventNameStack', {parameter: parameter, buttonTitle: 'Make Reservation', data: this.props.item})
         }},
       ],
       { cancelable: false }

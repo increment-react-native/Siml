@@ -20,7 +20,9 @@ const types = {
   SET_LOCATION: 'SET_LOCATION',
   SET_DEVICE_LOCATION: 'SET_DEVICE_LOCATION',
   SET_DEFAULT_ADDRESS: 'SET_DEFAULT_ADDRESS',
-  SET_TEMP_MEMBERS: 'SET_TEMP_MEMBERS'
+  SET_TEMP_MEMBERS: 'SET_TEMP_MEMBERS',
+  SET_SHOW_SETTINGS: 'SET_SHOW_SETTINGS',
+  SET_CURRENT_TITLE: 'SET_CURRENT_TITLE'
 };
 
 export const actions = {
@@ -80,6 +82,12 @@ export const actions = {
   },
   setTempMembers(tempMembers) {
     return {type: types.SET_TEMP_MEMBERS, tempMembers}
+  },
+  setShowSettings(showSettings) {
+    return {type: types.SET_SHOW_SETTINGS, showSettings}
+  },
+  setCurrentTitle(currentTitle) {
+    return {type: types.SET_CURRENT_TITLE, currentTitle}
   }
 };
 
@@ -101,7 +109,9 @@ const initialState = {
   location: null,
   deviceLocation: null,
   defaultAddress: null,
-  tempMembers: []
+  tempMembers: [],
+  showSettings: false,
+  currentTitle: null
 };
 
 storeData = async (key, value) => {
@@ -115,15 +125,16 @@ storeData = async (key, value) => {
 const reducer = (state = initialState, action) => {
   const { type, user, token } = action;
   const { theme, layer } = action;
-  const { isViewing, request } = action;
+  const { isViewing, request, defaultAddress } = action;
   const {messengerGroup, messagesOnGroup} = action;
   const {messages, unread, message} = action;
   const { statusSearch } = action;
   const { createStatus } = action;
-  const {location} = action;
+  const {location, size} = action;
   const {deviceLocation} = action;
-  const {defaultAddress} = action;
   const {tempMembers} = action;
+  const {showSettings} = action;
+  const {currentTitle} = action;
   switch (type) {
     case types.LOGOUT:
       AsyncStorage.clear();
@@ -139,15 +150,25 @@ const reducer = (state = initialState, action) => {
         user,
       };
     case types.SET_THEME:
-      console.log('tertiary', theme.tertiary);
+      console.log('tertiary', theme);
       storeData('primary', theme.primary);
       storeData('secondary', theme.secondary);
       storeData('tertiary', theme.tertiary);
       storeData('fourth', theme.fourth);
+      storeData('gradient', JSON.stringify(theme.gradient));
       Color.setPrimary(theme.primary);
       Color.setSecondary(theme.secondary);
       Color.setTertiary(theme.tertiary);  
       Color.setFourth(theme.fourth);
+      if(theme.primary === '#4CCBA6'){
+        Color.setGradient(['#987BE7', '#b1f2e0', '#4CCBA6'])
+      }else if (theme.primary === '#FFCC00'){
+        Color.setGradient(['#987BE7', '#ffeb96', '#FFCC00'])
+      }else if(theme.primary === '#F88BFF'){
+        Color.setGradient(['#987BE7', '#eb97f0', '#f22bff'])
+      }else{
+        Color.setGradient(['#987BE7', '#9276E6', '#5741D7'])
+      }
       return {
         ...state,
         theme,
@@ -198,7 +219,7 @@ const reducer = (state = initialState, action) => {
       let updatedMessagesOnGroup = null;
       if (state.messagesOnGroup != null) {
         let oldMessages = state.messagesOnGroup.messages;
-        if (oldMessages == null) {
+        if (oldMessages == null || oldMessages.length == 0) {
           let temp = [];
           temp.push(message);
           updatedMessagesOnGroup = {
@@ -255,11 +276,26 @@ const reducer = (state = initialState, action) => {
       return {
         ...state,
         defaultAddress
+      };
+    case types.SET_SIZE: 
+      return {
+        ...state,
+        size
       }
     case types.SET_TEMP_MEMBERS: 
       return {
         ...state,
         tempMembers
+      }
+    case types.SET_SHOW_SETTINGS: 
+      return {
+        ...state,
+        showSettings
+      }
+    case types.SET_CURRENT_TITLE: 
+      return {
+        ...state,
+        currentTitle
       }
     default:
       return {...state, nav: state.nav};

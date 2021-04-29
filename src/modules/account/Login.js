@@ -23,8 +23,8 @@ import PasswordInputWithIconLeft from 'components/InputField/PasswordWithIcon.js
 import TextInputWithIcon from 'components/InputField/TextInputWithIcon.js';
 import {FontAwesomeIcon} from '@fortawesome/react-native-fontawesome';
 import {faComments, faArrowRight, faUser} from '@fortawesome/free-solid-svg-icons';
-import { Dimensions } from 'react-native';
 import Button from '../generic/Button.js'
+import { Dimensions } from 'react-native';
 const width = Math.round(Dimensions.get('window').width);
 class Login extends Component {
   //Screen1 Component
@@ -48,9 +48,10 @@ class Login extends Component {
   async componentDidMount(){
     this.getTheme()
     if(config.versionChecker == 'store'){
-      this.setState({isLoading: true})
+      // this.setState({isLoading: true})
       SystemVersion.checkVersion(response => {
-        this.setState({isLoading: false})
+        // this.setState({isLoading: false})
+        console.log(response);
         if(response == true){
           this.getData();
         }
@@ -71,13 +72,15 @@ class Login extends Component {
       const secondary = await AsyncStorage.getItem(Helper.APP_NAME + 'secondary');
       const tertiary = await AsyncStorage.getItem(Helper.APP_NAME + 'tertiary');
       const fourth = await AsyncStorage.getItem(Helper.APP_NAME + 'fourth');
+      const gradient = await AsyncStorage.getItem(Helper.APP_NAME + 'gradient');
       if(primary != null && secondary != null && tertiary != null) {
         const { setTheme } = this.props;
         setTheme({
           primary: primary,
           secondary: secondary,
           tertiary: tertiary,
-          fourth: fourth
+          fourth: fourth,
+          gradient: JSON.parse(gradient)
         })
       }
     } catch (e) {
@@ -394,12 +397,14 @@ class Login extends Component {
     const { isLoading, error, isResponseError } = this.state;
     const {  blockedFlag, isOtpModal } = this.state;
     const { theme } = this.props.state;
+    // console.log('[THEME]', theme);
     return (
       <LinearGradient
-        colors={['#987BE7', '#9276E6', '#5741D7']}
+        colors={theme && theme.gradient !== undefined  && theme.gradient !== null ? theme.gradient : Color.gradient}
         locations={[0,0.5,1]}
         start={{ x: 2, y: 0 }}
         end={{ x: 1, y: 1 }}
+        style={{height: '100%'}}
         >
         <ScrollView
           style={Style.ScrollView}
@@ -432,24 +437,19 @@ class Login extends Component {
                   password: input
                 })}
                 style={{width: '80%', borderColor: 'white'}}
-                placeholder={'Confirm Password'}
+                placeholder={'Password'}
                 />
 
 
-              <TouchableHighlight  style={[BasicStyles.btnRound, {
+              <Button content={
+                <View style={{flex: 1, flexDirection: 'row', marginTop: 5}}>
+                  <Text style={{color: 'white', fontSize: 15}}>Sign In</Text>
+                  <FontAwesomeIcon color={'white'} icon={faArrowRight} style={{marginLeft: 10, marginTop: 1}}/>
+                </View>
+              } styles={[BasicStyles.btnRound, {
                 marginTop: '5%',
                 marginLeft: '50%',
-                width: '50%'}]} 
-                underlayColor={Color.gray}
-                onPress={()=> this.submit()}
-                >
-                  <Button content={
-                    <View style={{flex: 1, flexDirection: 'row', marginTop: 5}}>
-                      <Text style={{color: 'white', fontSize: 15}}>Sign In</Text>
-                      <FontAwesomeIcon color={'white'} icon={faArrowRight} style={{marginLeft: 10, marginTop: 1}}/>
-                    </View>
-                  }/>
-              </TouchableHighlight>
+                width: '50%'}]} redirect={()=> this.submit()}/>
               
 
               <View style={{

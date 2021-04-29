@@ -57,10 +57,12 @@ class ForgotPassword extends Component {
     let parameter = {
       email: email
     }
+    this.setState({isLoading: true});
     Api.request(config.IS_DEV + '/accounts/request_reset', parameter, userInfo => {
       this.setState({
         successMessage: 'Successfully sent! Please check your e-mail address to continue.',
-        errorMessage: null
+        errorMessage: null,
+        isLoading: false
       })
     }, error => {
       //
@@ -212,17 +214,19 @@ class ForgotPassword extends Component {
         />
         <TouchableHighlight  style={[BasicStyles.btnRound, {
           marginTop: '5%',
-          marginLeft: '50%',
-          width: '50%'}]} 
+          width: '100%'}]} 
           underlayColor={Color.gray}
           onPress={()=> this.requestReset()}
           >
             <Button content={
-              <View style={{flex: 1, flexDirection: 'row', marginTop: 5}}>
-                <Text style={{color: 'white', fontSize: 15}}>Send Request</Text>
-                <FontAwesomeIcon color={'white'} icon={faArrowRight} style={{marginLeft: 10, marginTop: 1}}/>
-              </View>
-            }/>
+                <View style={{flex: 1, flexDirection: 'row', marginTop: 5}}>
+                  <Text style={{color: 'white', fontSize: 15}}>Send Request</Text>
+                  <FontAwesomeIcon color={'white'} icon={faArrowRight} style={{marginLeft: 10, marginTop: 1}}/>
+                </View>
+              } styles={[BasicStyles.btnRound, {
+                marginTop: '5%',
+                marginLeft: '40%',
+                width: '70%'}]} redirect={()=> this.requestReset()}/>
         </TouchableHighlight>
       </View>
     );
