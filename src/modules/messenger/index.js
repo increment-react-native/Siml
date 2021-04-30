@@ -106,15 +106,29 @@ class Groups extends Component {
   }
 
   viewMessages = (item) => {
-    const { setMessengerGroup, setCurrentTitle } = this.props;
-    setCurrentTitle(item.title);
-    this.updateLastMessageStatus(item)
-    setMessengerGroup(item);
-    setTimeout(() => {
-      this.props.navigation.navigate('messagesStack', {
-        data: item
-      });
-    }, 500)
+    this.setState({ isLoading: true });
+    const parameter = {
+      condition: [{
+        value: item.payload,
+        column: 'id',
+        clause: '='
+      }]
+    }
+    Api.request(Routes.synqtRetrieve, parameter, response => {
+      this.setState({ isLoading: false });
+      if (response.data.length > 0) {
+        const { setMessengerGroup, setCurrentTitle } = this.props;
+        setCurrentTitle(item.title);
+        this.updateLastMessageStatus(item)
+        setMessengerGroup(item);
+        setTimeout(() => {
+          this.props.navigation.navigate('messagesStack', {
+            data: item,
+            status: response.data[0].status
+          });
+        }, 500)
+      }
+    })
   }
 
   _card = (item) => {
@@ -258,7 +272,7 @@ class Groups extends Component {
           </View>
         )}
         <ScrollView
-          style={{marginBottom: 50}}
+          style={{ marginBottom: 50 }}
           onScroll={(event) => {
             if (event.nativeEvent.contentOffset.y <= 0) {
               if (this.state.isLoading == false) {
@@ -274,8 +288,8 @@ class Groups extends Component {
             {this._flatList()}
           </View>
           {data.length === 0 && (<Empty refresh={true} onRefresh={() => this.retrieve()} />)}
-          {isLoading ? <Spinner mode="overlay" /> : null}
         </ScrollView>
+          {isLoading ? <Spinner mode="overlay" /> : null}
         <Footer layer={1} {...this.props} />
       </View>
     );
