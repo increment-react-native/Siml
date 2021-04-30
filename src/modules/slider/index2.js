@@ -160,7 +160,7 @@ class Slider2 extends Component {
                   )
                 })
               }
-              <View style={[styles.navSectionStyle, { borderBottomWidth: 0, flex: 1, position: 'absolute', bottom: - 150, borderTopWidth: 1, width: width, borderColor: 'white'}]}>
+              <View style={[styles.navSectionStyle, { borderBottomWidth: 0, flex: 1, position: 'absolute', bottom: - 100, borderTopWidth: 1, width: width, borderColor: 'white'}]}>
               <TouchableOpacity onPress={() => this.navigateToScreen('TermsAndConditions')} style={{flexDirection: 'row-reverse', paddingTop: 20}}>
                   <FontAwesomeIcon style={styles.navItemStyle} icon={faCopy} size={BasicStyles.iconSize}></FontAwesomeIcon>
                   <Text style={{ color: Color.white, marginRight: 10}}> Terms and Conditions</Text>

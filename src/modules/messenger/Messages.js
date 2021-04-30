@@ -82,7 +82,7 @@ class MessagesV3 extends Component {
     this.setState({ isLoading: true });
     const parameter = {
       condition: [{
-        value: this.props.navigation.state.params.data.id,
+        value: this.props.navigation.state.params.data.messenger_group_id,
         column: 'messenger_group_id',
         clause: '='
       }],
