@@ -275,6 +275,12 @@ class CardList extends Component {
                                   >
                                     <Text style={{ color: 'white' }}>Remove</Text>
                                   </TouchableOpacity>}
+                                  {this.props.invite === true && <TouchableOpacity
+                                    onPress={() => this.storePeople(el)}
+                                    style={[Style.button, { backgroundColor: this.props.actionContent == 'icon' || el.is_added === true ? 'gray' : Color.primary }]}
+                                  >
+                                    <Text style={{ color: 'white' }}>Add</Text>
+                                  </TouchableOpacity>}
                                 </View>
                               }
                             </View>

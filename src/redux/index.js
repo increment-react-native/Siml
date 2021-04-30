@@ -229,7 +229,7 @@ const reducer = (state = initialState, action) => {
         } else {
           if (
             parseInt(message.id) !=
-            parseInt(oldMessages[oldMessages.length - 1].id)
+            parseInt(oldMessages[oldMessages?.length - 1].id)
           ) {
             updatedMessagesOnGroup = {
               ...state.messagesOnGroup,
