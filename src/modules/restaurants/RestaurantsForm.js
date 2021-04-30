@@ -30,8 +30,9 @@ class Restaurants extends Component {
     }
   }
   componentDidMount() {
-    const { setDefaultAddress, setTempMembers } = this.props;
+    const { setDefaultAddress, setTempMembers, setLocation } = this.props;
     setDefaultAddress(null);
+    setLocation(null);
     setTempMembers([]);
   }
 
