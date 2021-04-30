@@ -63,7 +63,6 @@ class MessagesV3 extends Component {
     if (user == null) return
     this.retrieveMembers();
     this.retrieve();
-    this.isCompleted();
   }
 
   componentWillUnmount() {
@@ -77,23 +76,6 @@ class MessagesV3 extends Component {
     if (data == null) {
       return
     }
-  }
-
-  isCompleted = () => {
-    this.setState({ isLoading: true });
-    const parameter = {
-      condition: [{
-        value: this.props.navigation.state.params.data.payload,
-        column: 'id',
-        clause: '='
-      }]
-    }
-    Api.request(Routes.synqtRetrieve, parameter, response => {
-      this.setState({ isLoading: false});
-      if (response.data.length > 0) {
-        this.setState({status: response.data[0].status})
-      }
-    })
   }
 
   retrieveMembers = () => {
@@ -723,7 +705,7 @@ class MessagesV3 extends Component {
                 margin: '2%',
                 flexDirection: 'row'
               }}>
-                <Group  add={true} navigation={this.props.navigation} style={{ marginLeft: 9 }} redirectTo={() => this.props.navigation.navigate('peopleListStack', {data: this.props.navigation.state?.params?.data})} color={Color.primary} size={60} data={this.state.members} />
+                <Group  add={true} navigation={this.props.navigation} style={{ marginLeft: 9 }} redirectTo={() => this.props.navigation.navigate('peopleListStack', {data: this.props.navigation.state?.params?.data, addMember: this.props.navigation.state.params.data.messenger_group_id})} color={Color.primary} size={60} data={this.state.members} />
               </View>
             )}
             <ScrollView
@@ -773,7 +755,7 @@ class MessagesV3 extends Component {
               borderTopWidth: 1,
               backgroundColor: Color.white
             }}>
-              {this._footer()}
+              {this.props.navigation?.state.params?.status !== 'completed' && this._footer()}
             </View>
             <ImageModal
               visible={isImageModal}
