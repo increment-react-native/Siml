@@ -73,7 +73,9 @@ export default {
   filters: apiUrl + 'dashboard/categories',
   // ratings
   ratingsCreate: apiUrl + 'ratings/create',
+  ratingsUpdate: apiUrl + 'ratings/update',
   ratingsRetrieve: apiUrl + 'ratings/retrieve',
+  ratingsMerchantRetrieve: apiUrl + 'merchants/retrieve_with_rating',
   // valid-id
   getValidID: apiUrl + 'payloads/get_valid_id',
   uploadValidID: apiUrl + 'payloads/upload_valid_id',

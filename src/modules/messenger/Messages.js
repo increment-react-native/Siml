@@ -52,7 +52,8 @@ class MessagesV3 extends Component {
       group: null,
       request_id: null,
       members: [],
-      isVisible: false
+      isVisible: false,
+      status: null
     }
   }
 
@@ -62,6 +63,7 @@ class MessagesV3 extends Component {
     if (user == null) return
     this.retrieveMembers();
     this.retrieve();
+    this.isCompleted();
   }
 
   componentWillUnmount() {
@@ -77,6 +79,23 @@ class MessagesV3 extends Component {
     }
   }
 
+  isCompleted = () => {
+    this.setState({ isLoading: true });
+    const parameter = {
+      condition: [{
+        value: this.props.navigation.state.params.data.payload,
+        column: 'id',
+        clause: '='
+      }]
+    }
+    Api.request(Routes.synqtRetrieve, parameter, response => {
+      this.setState({ isLoading: false});
+      if (response.data.length > 0) {
+        this.setState({status: response.data[0].status})
+      }
+    })
+  }
+
   retrieveMembers = () => {
     const { offset, limit } = this.state;
     this.setState({ isLoading: true });
@@ -90,9 +109,7 @@ class MessagesV3 extends Component {
         'created_at': 'DESC'
       }
     }
-    console.log(Routes.messengerMembersRetrieve, parameter);
     Api.request(Routes.messengerMembersRetrieve, parameter, response => {
-      console.log(response, 'yeyeyeyeyeye');
       this.setState({ isLoading: false});
       if (response.data.length > 0) {
         this.setState({members: response.data})
@@ -108,7 +125,7 @@ class MessagesV3 extends Component {
     setMessengerGroup(this.props.navigation.state.params.data)
     const parameter = {
       condition: [{
-        value: this.props.navigation.state.params.data.id,
+        value: this.props.navigation.state.params.data.messenger_group_id,
         column: 'messenger_group_id',
         clause: '='
       }],
@@ -148,7 +165,7 @@ class MessagesV3 extends Component {
 
     const parameter = {
       condition: [{
-        value: messengerGroup.id,
+        value: this.props.navigation.state.params.data.messenger_group_id,
         column: 'messenger_group_id',
         clause: '='
       }],
@@ -172,47 +189,42 @@ class MessagesV3 extends Component {
     });
   }
 
-  retrieveGroup = (flag = null) => {
-    const { user, messengerGroup } = this.props.state;
-    const { setMessengerGroup } = this.props;
-    if (messengerGroup == null || user == null) {
-      return
-    }
-    let parameter = {
-      condition: [{
-        value: messengerGroup.id,
-        column: 'id',
-        clause: '='
-      }],
-      account_id: user.id
-    }
-    CommonRequest.retrieveMessengerGroup(messengerGroup, user, response => {
-      if (response.data != null) {
-        setMessengerGroup(response.data);
-        setTimeout(() => {
-          this.retrieve(response.data)
-          this.setState({ keyRefresh: this.state.keyRefresh + 1 })
-        }, 500)
-      }
-    })
-  }
+  // retrieveGroup = (flag = null) => {
+  //   const { user, messengerGroup } = this.props.state;
+  //   const { setMessengerGroup } = this.props;
+  //   if (messengerGroup == null || user == null) {
+  //     return
+  //   }
+  //   let parameter = {
+  //     condition: [{
+  //       value: messengerGroup.id,
+  //       column: 'id',
+  //       clause: '='
+  //     }],
+  //     account_id: user.id
+  //   }
+  //   CommonRequest.retrieveMessengerGroup(messengerGroup, user, response => {
+  //     if (response.data != null) {
+  //       setMessengerGroup(response.data);
+  //       setTimeout(() => {
+  //         this.retrieve(response.data)
+  //         this.setState({ keyRefresh: this.state.keyRefresh + 1 })
+  //       }, 500)
+  //     }
+  //   })
+  // }
 
   sendNewMessage = () => {
     const { messengerGroup, user, messagesOnGroup } = this.props.state;
     const { updateMessagesOnGroup, updateMessageByCode } = this.props;
-
-    if (messengerGroup == null || user == null || this.state.newMessage == null) {
-      return
-    }
-
     let parameter = {
-      messenger_group_id: messengerGroup.id,
+      messenger_group_id: this.props.navigation.state.params.data.messenger_group_id,
       message: this.state.newMessage,
       account_id: user.id,
       status: 0,
       payload: 'text',
       payload_value: null,
-      code: messagesOnGroup.messages.length + 1
+      code: messagesOnGroup?.messages?.length + 1
     }
     let newMessageTemp = {
       ...parameter,
@@ -289,7 +301,7 @@ class MessagesV3 extends Component {
           payload: 'image',
           payload_value: null,
           url: uri,
-          code: messagesOnGroup.messages.length + 1
+          code: messagesOnGroup?.messages?.length + 1
         }
         let newMessageTemp = {
           ...parameter,
@@ -567,7 +579,7 @@ class MessagesV3 extends Component {
     return (
       <View style={{
         width: '100%',
-        marginBottom: index == (messagesOnGroup.messages.length - 1) ? 50 : 0
+        marginBottom: index == (messagesOnGroup?.messages?.length - 1) ? 50 : 0
       }}>
         <View style={{
           alignItems: 'flex-end'
@@ -700,7 +712,7 @@ class MessagesV3 extends Component {
           keyboardVerticalOffset={
             Platform.select({
               ios: () => 65,
-              android: () => -200
+              android: () => -450
             })()}
         >
           <View key={keyRefresh}>
@@ -755,7 +767,7 @@ class MessagesV3 extends Component {
 
             <View style={{
               position: 'absolute',
-              bottom: this.state.members.length > 0 ? 320 : 0,
+              bottom: this.state.members.length > 0 ? 300 : 0,
               left: 0,
               borderTopColor: Color.lightGray,
               borderTopWidth: 1,

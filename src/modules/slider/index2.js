@@ -124,17 +124,23 @@ class Slider2 extends Component {
                             }]} />
                         </TouchableOpacity>
                       </View>
+
                     )
                   }
                   {
                     (user.account_profile == null || (user.account_profile != null && user.account_profile.url == null)) && (
-                      <FontAwesomeIcon
-                        icon={faUserCircle}
-                        size={100}
-                        style={{
-                          color: Color.white
-                        }}
-                      />
+                      <View style={{ flex: 1, flexDirection: 'row', marginTop: '10%', position: 'absolute', right: 0 }}>
+                        <Text style={{ color: Color.white, fontWeight: 'bold', marginTop: '8%', marginRight: 10 }}>{user.username}</Text>
+                        <TouchableOpacity onPress={() => this.props.navigation.navigate('profileStack')}>
+                          <FontAwesomeIcon
+                            icon={faUserCircle}
+                            size={50}
+                            style={{
+                              color: Color.white
+                            }}
+                          />
+                        </TouchableOpacity>
+                      </View>
                     )
                   }
                 </View>
@@ -160,18 +166,18 @@ class Slider2 extends Component {
                   )
                 })
               }
-              <View style={[styles.navSectionStyle, { borderBottomWidth: 0, flex: 1, position: 'absolute', bottom: - 100, borderTopWidth: 1, width: width, borderColor: 'white'}]}>
-              <TouchableOpacity onPress={() => this.navigateToScreen('TermsAndConditions')} style={{flexDirection: 'row-reverse', paddingTop: 20}}>
+              <View style={[styles.navSectionStyle, { borderBottomWidth: 0, flex: 1, position: 'absolute', bottom: -50, borderTopWidth: 1, width: width, borderColor: 'white' }]}>
+                <TouchableOpacity onPress={() => this.navigateToScreen('TermsAndConditions')} style={{ flexDirection: 'row-reverse', paddingTop: 20 }}>
                   <FontAwesomeIcon style={styles.navItemStyle} icon={faCopy} size={BasicStyles.iconSize}></FontAwesomeIcon>
-                  <Text style={{ color: Color.white, marginRight: 10}}> Terms and Conditions</Text>
+                  <Text style={{ color: Color.white, marginRight: 10 }}> Terms and Conditions</Text>
                 </TouchableOpacity>
-                <TouchableOpacity onPress={() => this.navigateToScreen('Privacy')} style={{flexDirection: 'row-reverse', paddingTop: 20}}>
+                <TouchableOpacity onPress={() => this.navigateToScreen('Privacy')} style={{ flexDirection: 'row-reverse', paddingTop: 20 }}>
                   <FontAwesomeIcon style={styles.navItemStyle} icon={faShieldAlt} size={BasicStyles.iconSize}></FontAwesomeIcon>
                   <Text style={{ color: Color.white, marginRight: 10 }}> Privacy Policy</Text>
                 </TouchableOpacity>
-                <TouchableOpacity onPress={() => this.logoutAction()} style={{flexDirection: 'row-reverse', paddingTop: 20}}>
+                <TouchableOpacity onPress={() => this.logoutAction()} style={{ flexDirection: 'row-reverse', paddingTop: 20 }}>
                   <FontAwesomeIcon style={styles.navItemStyle} icon={faSignOutAlt} size={BasicStyles.iconSize}></FontAwesomeIcon>
-                  <Text style={{ color: Color.white, marginRight: 10}}>Logout</Text>
+                  <Text style={{ color: Color.white, marginRight: 10 }}>Logout</Text>
                 </TouchableOpacity>
               </View>
             </View>
