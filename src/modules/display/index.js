@@ -39,7 +39,7 @@ class Display extends Component {
   componentDidMount(){
     const { theme } = this.props.state;
     dummyThemeData.map((item, index) => {
-      if(item.colors[0] === theme.primary) {
+      if(item.colors[0] === theme?.primary) {
         this.setState({selectedTile: index})
       }
     })

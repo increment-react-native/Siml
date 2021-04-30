@@ -261,20 +261,20 @@ class CardList extends Component {
                               {
                                 this.props.actionType == 'text' ? (
                                   <Text style={{ marginLeft: 10 }}>{el.lastLogin}</Text>
-                                ) : (
-                                  <TouchableOpacity
+                                ) : 
+                                <View>
+                                  {el.is_added === false && this.props.actionContent !== 'icon' ? <TouchableOpacity
                                     onPress={() => this.props.invite ? this.storePeople(el) : this.props.actionContent == 'icon' || el.is_added === true ? this.deleteConnection(el.id) : this.sendRequest(el)}
                                     style={[Style.button, { backgroundColor: this.props.actionContent == 'icon' || el.is_added === true ? 'gray' : Color.primary }]}
                                   >
-                                    {
-                                      this.props.actionContent == 'icon' ? (
-                                        <Text style={{ color: 'white' }}>Remove</Text>
-                                      ) : (
-                                        <Text style={{ color: 'white' }}>{el.is_added ? 'Cancel' : 'Add'}</Text>
-                                      )
-                                    }
-                                  </TouchableOpacity>
-                                )
+                                    <Text style={{ color: 'white' }}>{el.is_added ? 'Cancel' : 'Add'}</Text>
+                                  </TouchableOpacity> : <TouchableOpacity
+                                    onPress={() => this.deleteConnection(el.id)}
+                                    style={[Style.button, { backgroundColor: this.props.actionContent == 'icon' || el.is_added === true ? 'gray' : Color.primary }]}
+                                  >
+                                    <Text style={{ color: 'white' }}>Remove</Text>
+                                  </TouchableOpacity>}
+                                </View>
                               }
                             </View>
                           }
