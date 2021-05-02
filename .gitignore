@@ -63,6 +63,7 @@ buck-out/
 src/components/
 src/modules/basics/
 src/services/api/
+src/services/broadcasting/
 /ios/Agricord.xcodeproj/project.pbxproj
 /ios/Podfile.lock
 android/java_pid10028.hprof

@@ -73,7 +73,9 @@ export default {
   filters: apiUrl + 'dashboard/categories',
   // ratings
   ratingsCreate: apiUrl + 'ratings/create',
+  ratingsUpdate: apiUrl + 'ratings/update',
   ratingsRetrieve: apiUrl + 'ratings/retrieve',
+  ratingsMerchantRetrieve: apiUrl + 'merchants/retrieve_with_rating',
   // valid-id
   getValidID: apiUrl + 'payloads/get_valid_id',
   uploadValidID: apiUrl + 'payloads/upload_valid_id',
@@ -115,6 +117,7 @@ export default {
   addAddress: apiUrl + 'locations/create',
   removeAddress: apiUrl + 'locations/delete',
   synqtCreate: apiUrl + 'synqts/create',
+  synqtRetrieve: apiUrl + 'synqts/retrieve',
   reservationCreate: apiUrl + 'reservations/create',
   reservationRetrieve: apiUrl + 'reservations/retrieve',
   reservationDelete: apiUrl + 'reservations/delete',
