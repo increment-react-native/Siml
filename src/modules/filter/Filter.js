@@ -2,15 +2,15 @@ import React, {Component} from 'react';
 import { View, TouchableOpacity, FlatList, Text, Dimensions, ScrollView} from 'react-native';
 import Modal from "react-native-modal";
 import { Color , BasicStyles, Helper} from 'common';
-import Config from 'src/config.js';
 import {connect} from 'react-redux';
 import { SliderPicker } from 'react-native-slider-picker';
-import PickerWithLabel from 'components/Form/PickerWithLabel';
-import DatePicker from 'components/DateTime/index.js';
 import Button from 'components/Form/Button';
 import { FontAwesomeIcon } from '@fortawesome/react-native-fontawesome';
-import { faCheck, faEdit } from '@fortawesome/free-solid-svg-icons';
+import { faCheck, faCross, faEdit } from '@fortawesome/free-solid-svg-icons';
+import CustomMultiPicker from "./multipleSelect";
+// import PropTypes from 'prop-types';
 const height = Math.round(Dimensions.get('window').height);
+
 class Filter extends Component {
   constructor(props){
     super(props);
@@ -19,8 +19,8 @@ class Filter extends Component {
       categoriesCuisine: null,
       value: 0,
       data: [],
-      sel: [1],
-      check: false
+      check: false,
+      selecte: ['Filipino']
     }
   }
   action = () => {  
@@ -88,71 +88,95 @@ class Filter extends Component {
     return <View style={Style.Separator} />;
   };
 
-  gather = (val, index) => {
-    // this.state.sel.push(val.id)
-    // if(Helper.cuisines.some(item => val.type === item.type)){
-    //   console.log('[iteeeeeeeeem]el', val.type)
-    if(val.id == index){
-      this.state.sel.push(index)
-      this.setState({sel: index})
-    }
-    // }
-    // this.state.categoriesCuisine = []
-    // const { cuisine } = this.state
-    // cuisine.push(item)
-    // var newArray = [];
-    //   var newArray = cuisine.filter(function(elem, pos) {
-    //     return cuisine.indexOf(elem) == pos;
-    //   })
-    // this.state.categoriesCuisine.push(newArray)
-  }
-
-  lists(){
+  selectList() {
     return(
-      <ScrollView
-      style={{marginTop: '1%'}}
-      >
-        { 
-        (this.props.from == 'categories') && 
-          Helper.cuisines.map((item, index) => (
-            <View style={{borderWidth: 1, padding: '6%', marginLeft: '-1%', marginRight: '-5%', borderBottomColor: Color.gray, borderColor: Color.white}}
-            key={index}>
-              <TouchableOpacity
-              onPress={(index) => this.gather(item, item.id)}>
-                {
-                  item.id == this.state.sel ?
-                  // this.state.check == true ?
-                  <FontAwesomeIcon style={{
-                    borderColor: Color.primary,
-                    marginLeft: '90%',
-                    top: '90%',
-                    marginTop: '-8%'
-                  }}
-                  icon={faCheck}
-                  size={20}
-                  color={Color.primary}
-                  />
-                  :
-                  <FontAwesomeIcon style={{
-                    borderColor: Color.white,
-                    marginLeft: '90%',
-                    top: '90%',
-                    marginTop: '-8%'
-                  }}
-                  icon={faCheck}
-                  size={20}
-                  color={Color.white}
-                  />
-                }
-                <Text style={{marginLeft: '5%'}}
-                >{item.type}</Text>
-              </TouchableOpacity>
-            </View>
-          ))
-        }
-      </ScrollView>
+      <View style={{
+        width: '100%',
+        marginTop: '5%',
+        marginLeft: '2%'
+      }}>
+      <CustomMultiPicker
+        options={Helper.cuisines}
+        search={false} // should show search bar?
+        multiple={true} //
+        placeholder={"Search"}
+        placeholderTextColor={Color.white}
+        returnValue={"label"} // label or value
+        callback={(res)=>{ this.setState({categoriesCuisine: res}) }} // callback, array of selected items
+        rowBackgroundColor={Color.white}
+        rowHeight={40}
+        rowRadius={5}
+        searchIconName="ios-checkmark"
+        searchIconColor="red"
+        searchIconSize={30}
+        iconColor={Color.danger}
+        iconSize={30}
+        selectedIconName={faCheck}
+        unselectedIconName={faCross}
+        scrollViewHeight={'100%'}
+        selected={this.state.categoriesCuisine != null ? this.state.categoriesCuisine : this.state.selecte} // list of options which are selected by default
+      />
+      </View>
     )
   }
+
+  gather = (val) => {
+    console.log('[val]', val)
+    this.setState
+    // if(val.id == index){
+    //   this.state.sel.push(index)
+    //   this.setState({sel: index})
+    // }
+  }
+
+  // lists(){
+  //   return(
+  //     <ScrollView
+  //     style={{marginTop: '1%'}}
+  //     >
+  //       { 
+  //       (this.props.from == 'categories') && 
+  //         Helper.cuisines.map((item, index) => (
+  //           <View style={{borderWidth: 1, padding: '6%', marginLeft: '-1%', marginRight: '-5%', borderBottomColor: Color.gray, borderColor: Color.white}}
+  //           key={index}>
+  //             <TouchableOpacity
+  //             onPress={(index) => this.gather(item, item.id)}>
+  //               {
+  //                 item.id == this.state.sel ?
+  //                 // this.state.check == true ?
+  //                 <FontAwesomeIcon style={{
+  //                   borderColor: Color.primary,
+  //                   marginLeft: '90%',
+  //                   top: '90%',
+  //                   marginTop: '-8%'
+  //                 }}
+  //                 icon={faCheck}
+  //                 size={20}
+  //                 color={Color.primary}
+  //                 />
+  //                 :
+  //                 <FontAwesomeIcon style={{
+  //                   borderColor: Color.white,
+  //                   marginLeft: '90%',
+  //                   top: '90%',
+  //                   marginTop: '-8%'
+  //                 }}
+  //                 icon={faCheck}
+  //                 size={20}
+  //                 color={Color.white}
+  //                 />
+  //               }
+  //               <Text style={{marginLeft: '5%'}}
+  //               >{item.type}</Text>
+  //             </TouchableOpacity>
+  //           </View>
+  //         ))
+  //       }
+  //     </ScrollView>
+  //   )
+  // }
+
+
 
   header(){
     const { theme } = this.props.state;
@@ -211,7 +235,7 @@ class Filter extends Component {
             }}>
               {this.header()}
               {(this.props.from == 'restaurant') && this.amount()}
-              {(this.props.from == 'categories') && this.lists()}
+              {(this.props.from == 'categories') && this.selectList()}
 
               <View style={{
                 width: '100%',

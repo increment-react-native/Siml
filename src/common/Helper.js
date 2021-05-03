@@ -101,46 +101,17 @@ export default {
       return true;
     }
   },
-  cuisines: [
-    {
-      type: 'Filipino',
-      id: 1
-    },
-    {
-      type: 'Chinese',
-      id: 2
-    },
-    {
-      type: 'Japanese',
-      id: 3
-    },
-    {
-      type: 'Indian',
-      id: 4
-    },
-    {
-      type: 'Italian',
-      id: 5
-    },
-    {
-      type: 'Thai',
-      id: 6
-    },
-    {
-      type: 'Spanish',
-      id: 7
-    },
-    {
-      type: 'French',
-      id: 8
-    },
-    {
-      type: 'Korean',
-      id: 9
-    },
-    {
-      type: 'Turkish',
-      id: 10
-    }
-  ]
+  cuisines:
+  {
+    1:'Filipino',
+    2: 'Chinese',
+    3: 'Japanese',
+    4: 'Indian',
+    5: 'Italian',
+    6: 'Thai',
+    7: 'Spanish',
+    8: 'French',
+    9: 'Korean',
+    10: 'Turkish'
+  }
 };
