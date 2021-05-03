@@ -105,8 +105,8 @@ class CardList extends Component {
                         /> :
                           <View style={{
                             borderColor: Color.primary,
-                            width: 90,
-                            height: 90,
+                            width: 75,
+                            height: 75,
                             borderRadius: 50,
                             borderColor: Color.primary,
                             borderWidth: 3,
@@ -116,7 +116,7 @@ class CardList extends Component {
                             paddingBottom: 8
                           }}><FontAwesomeIcon
                               icon={faUser}
-                              size={68}
+                              size={53}
                               color={Color.primary}
                             /></View>}
                         <View>
@@ -198,8 +198,8 @@ class CardList extends Component {
                       /> :
                         <View style={{
                           borderColor: Color.primary,
-                          width: 90,
-                          height: 90,
+                          width: 75,
+                          height: 75,
                           borderRadius: 50,
                           borderColor: Color.primary,
                           borderWidth: 3,
@@ -209,7 +209,7 @@ class CardList extends Component {
                           paddingBottom: 8
                         }}><FontAwesomeIcon
                             icon={faUser}
-                            size={68}
+                            size={53}
                             color={Color.primary}
                           /></View>}
                       <View>
@@ -347,8 +347,8 @@ const Style = StyleSheet.create({
     marginLeft: 80
   },
   circleImage: {
-    width: 90,
-    height: 90,
+    width: 75,
+    height: 75,
     borderRadius: 50,
     borderColor: Color.primary,
     borderWidth: 3,

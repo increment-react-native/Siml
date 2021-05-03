@@ -705,7 +705,7 @@ class MessagesV3 extends Component {
                 margin: '2%',
                 flexDirection: 'row'
               }}>
-                <Group  add={true} navigation={this.props.navigation} style={{ marginLeft: 9 }} redirectTo={() => this.props.navigation.navigate('peopleListStack', {data: this.props.navigation.state?.params?.data, addMember: this.props.navigation.state.params.data.messenger_group_id})} color={Color.primary} size={60} data={this.state.members} />
+                <Group  add={true} navigation={this.props.navigation} style={{ marginLeft: 9 }} redirectTo={() => this.props.navigation.navigate('peopleListStack', {data: this.props.navigation.state?.params?.data, addMember: this.props.navigation.state.params.data.messenger_group_id})} color={Color.primary} size={55} data={this.state.members} />
               </View>
             )}
             <ScrollView
@@ -783,7 +783,7 @@ class MessagesV3 extends Component {
 					<Text>Test</Text>
 					</View>
 				</Modal> */}
-        {this.props.state.showSettings && <Settings groupId={this.props.navigation?.state?.params.data?.id} synqtId={this.props.navigation.state?.params?.data?.payload} title={this.props.navigation?.state?.params.data?.title} navigation={this.props.navigation}></Settings>}
+        {this.props.state.showSettings && <Settings groupId={this.props.navigation?.state?.params.data?.messenger_group_id} synqtId={this.props.navigation.state?.params?.data?.payload} title={this.props.navigation?.state?.params.data?.title} navigation={this.props.navigation}></Settings>}
       </SafeAreaView>
     );
   }

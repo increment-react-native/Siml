@@ -11,6 +11,9 @@ import CommonRequest from 'services/CommonRequest.js';
 import { Dimensions } from 'react-native';
 import Group from 'modules/generic/PeopleList.js'
 import Footer from 'modules/generic/Footer';
+import { FontAwesomeIcon } from '@fortawesome/react-native-fontawesome';
+import { faUser } from '@fortawesome/free-solid-svg-icons';
+
 const height = Math.round(Dimensions.get('window').height);
 const width = Math.round(Dimensions.get('window').width);
 class Groups extends Component {
@@ -151,17 +154,33 @@ class Groups extends Component {
               left: 20
             }}>
               {
-                user.account_profile && user.account_profile.url && (
+                user.account_profile && user.account_profile.url ? (
                   <Image
                     source={user && user.account_profile && user.account_profile.url ? { uri: Config.BACKEND_URL + user.account_profile.url } : require('assets/logo.png')}
                     style={[BasicStyles.profileImageSize, {
-                      height: 70,
-                      width: 70,
+                      height: 60,
+                      width: 60,
                       borderRadius: 100,
                       borderColor: Color.primary,
                       borderWidth: 2
                     }]} />
-                )
+                ) :
+                  <View style={{
+                    borderColor: Color.primary,
+                    width: 60,
+                    height: 60,
+                    borderRadius: 50,
+                    borderColor: Color.primary,
+                    borderWidth: 3,
+                    overflow: "hidden",
+                    justifyContent: 'center',
+                    alignItems: 'center',
+                    paddingBottom: 8
+                  }}><FontAwesomeIcon
+                      icon={faUser}
+                      size={40}
+                      color={Color.primary}
+                    /></View>
               }
             </View>
             <View style={{ flexDirection: 'row', marginTop: 5, paddingLeft: '5%', paddingRight: 10 }}>
@@ -268,7 +287,7 @@ class Groups extends Component {
             borderBottomWidth: 1,
             paddingBottom: 10,
           }}>
-            <Group add={false} navigation={this.props.navigation} size={70} data={this.state.connections} />
+            <Group add={false} navigation={this.props.navigation} size={60} data={this.state.connections} />
           </View>
         )}
         <ScrollView
@@ -289,7 +308,7 @@ class Groups extends Component {
           </View>
           {data.length === 0 && (<Empty refresh={true} onRefresh={() => this.retrieve()} />)}
         </ScrollView>
-          {isLoading ? <Spinner mode="overlay" /> : null}
+        {isLoading ? <Spinner mode="overlay" /> : null}
         <Footer layer={1} {...this.props} />
       </View>
     );

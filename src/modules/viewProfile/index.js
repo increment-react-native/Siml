@@ -3,7 +3,7 @@ import { View, Image, Text, TouchableOpacity, TextInput, ScrollView, SafeAreaVie
 import { ListItem } from 'react-native-elements'
 import { Routes, Color, Helper, BasicStyles } from 'common';
 import { FontAwesomeIcon } from '@fortawesome/react-native-fontawesome';
-import { faCheckCircle, faEdit, faUserCircle } from '@fortawesome/free-solid-svg-icons';
+import { faCheckCircle, faEdit, faUserCircle, faUser } from '@fortawesome/free-solid-svg-icons';
 import Style from './Style';
 import CustomizedButton from 'modules/generic/CustomizedButton';
 import ImageCardWithUser from 'modules/generic/ImageCardWithUser';
@@ -141,11 +141,26 @@ class ViewProfile extends Component {
               <TouchableOpacity onPress={()=> {this.props.navigation.navigate('viewProfileStack', { user: el, level: 1 })}}>
                 {/* <Card containerStyle={{padding:-5, borderRadius: 20}}> */}
                 <ListItem key={idx}>
-                  <Image
-                    style={Style.circleImage}
-                    // resizeMode="cover"
-                    source={el.account?.profile?.url ? { uri: Config.BACKEND_URL + el.account?.profile?.url } : require('assets/logo.png')}
-                  />
+                {el.account?.profile?.url ? <Image
+                  style={Style.circleImage}
+                  source={{ uri: Config.BACKEND_URL + el.account?.profile?.url }}
+                /> :
+                  <View style={{
+                    borderColor: Color.primary,
+                    width: 75,
+                    height: 75,
+                    borderRadius: 50,
+                    borderColor: Color.primary,
+                    borderWidth: 3,
+                    overflow: "hidden",
+                    justifyContent: 'center',
+                    alignItems: 'center',
+                    paddingBottom: 8
+                  }}><FontAwesomeIcon
+                      icon={faUser}
+                      size={53}
+                      color={Color.primary}
+                    /></View>}
                   <View>
                     <View style={{ flexDirection: 'row', width: '100%' }}>
                       <View style={{ width: '50%' }}>
