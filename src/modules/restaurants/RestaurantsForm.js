@@ -75,23 +75,6 @@ class Restaurants extends Component {
     let param = {
       account_id: user.id,
       address_type: 'NULL',
-<<<<<<< HEAD
-      merchant_id: user.sub_account?.merchant?.id || null,
-      latitude: location.latitude,
-      longitude: location.longitude,
-      route: location.address,
-      // route: this.props.state.location.route,
-      locality: location.locality,
-      region: location.region,
-      country: location.country
-    }
-    let detail = {
-      type: 'restaurant',
-      size: this.state.size?.count != null ? this.state.size?.count : this.state.size,
-      val: this.state.val,
-      value: this.state.value?.amount != null ? this.state.value?.amount : this.state.value,
-      category: this.state.cuisines?.categories != null ? this.state.cuisines.categories : this.state.cuisines
-=======
       merchant_id: this.props.state.user.sub_account?.merchant?.id || null,
       latitude: this.props.state.location.latitude || 'NULL',
       longitude: this.props.state.location.longitude || 'NULL',
@@ -100,9 +83,14 @@ class Restaurants extends Component {
       locality: this.props.state.location.locality || 'NULL',
       region: this.props.state.location.region || 'NULL',
       country: this.props.state.location.country || 'NULL',
->>>>>>> f6e1464e7cf564589b2dc0debf194fd3eef84f15
     }
-    console.log('[]', detail)
+    let detail = {
+      type: 'restaurant',
+      size: this.state.size?.count != null ? this.state.size?.count : this.state.size,
+      val: this.state.val,
+      value: this.state.value?.amount != null ? this.state.value?.amount : this.state.value,
+      category: this.state.cuisines?.categories != null ? this.state.cuisines.categories : this.state.cuisines
+   }
     this.setState({ isLoading: true })
     Api.request(Routes.locationCreate, param, response => {
       this.setState({ isLoading: false })
@@ -120,6 +108,7 @@ class Restaurants extends Component {
       Api.request(Routes.synqtCreate, parameter, res => {
         this.setState({ isLoading: false })
         if (res.data !== null) {
+          this.sendInvitation(res.data);
           setDefaultAddress(null);
           setLocation(null);
           this.createMessengerGroup(res.data, parameter.date)
@@ -210,8 +199,6 @@ class Restaurants extends Component {
   }
 
   createMessengerGroup(id, date) {
-    const { tempMembers, user } = this.props.state
-    tempMembers.push({account_id: user.id})
     let parameter = {
       account_id: this.props.state.user.id,
       title: date,
@@ -222,13 +209,15 @@ class Restaurants extends Component {
     Api.request(Routes.messengerGroupCreate, parameter, response => {
       this.setState({ isLoading: false })
       if (response.data !== null) {
+        this.props.navigation.navigate('menuStack', { synqt_id: id })
         this.sendInvitation(id);
       }
     });
   }
 
   sendInvitation = (id) => {
-    const { tempMembers } = this.props.state;
+    const { tempMembers, user } = this.props.state
+    tempMembers.push({account_id: user.id})
     tempMembers.length > 0 && tempMembers.map((item, index) => {
       let parameter = {
         from: this.props.state.user.id,
@@ -241,7 +230,7 @@ class Restaurants extends Component {
       Api.request(Routes.notificationCreate, parameter, response => {
         this.setState({ isLoading: false })
         if(response.data !== null) {
-          this.props.navigation.navigate('menuStack', { synqt_id: id })
+          
         }
       });
     })
@@ -329,7 +318,7 @@ class Restaurants extends Component {
                   })
                 }}
                 titles={'cuisines'}
-                placeholder={this.state.cuisines?.categories != null ? this.state.cuisines.categories.join(',') : 'Brain' }
+                placeholder={this.state.cuisines?.categories != null ? this.state.cuisines.categories.join(',') : 'Filipino' }
                 title={'Cuisines'} />
             </View>
             <Text style={{ color: 'black', marginBottom: 15, marginLeft: 20 }}>Radius</Text>
