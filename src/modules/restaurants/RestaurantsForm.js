@@ -20,13 +20,13 @@ class Restaurants extends Component {
     this.state = {
       location: null,
       value: 100,
-      selectVal: null,
       val: 1,
       Date: null,
       Time: null,
       isLoading: false,
       size: 1,
-      cuisines: null
+      cuisines: null,
+      currentDate: null
     }
   }
   componentDidMount() {
@@ -34,6 +34,10 @@ class Restaurants extends Component {
     setDefaultAddress(null);
     setLocation(null);
     setTempMembers([]);
+    let date = new Date()
+    this.setState({
+      currentDate: date.setDate(date.getDate())
+    })
   }
 
   redirect(route) {
@@ -44,23 +48,50 @@ class Restaurants extends Component {
     this.redirect('peopleListStack')
   }
 
+  cuis = () => {
+    this.state.cuisines.categories.map(el => {
+      console.log('[el]', el)
+    })
+  }
+
   createSynqt = () => {
     const { setDefaultAddress, setLocation } = this.props;
-    if(this.props.state.tempMembers.length === 0) {
+    const { user, location } = this.props.state;
+    if(user == null){
+      return
+    }
+    if(location == null){
       Alert.alert(
         'Oopps',
-        'Please invite atleast 1 person to your SYNQT. Thank you.',
+        'Please select your location.',
         [
-          {text: 'Cancel'},
           {text: 'Ok'}
         ],
         { cancelable: false }
       )
       return
     }
+    this.validate()
     let param = {
-      account_id: this.props.state.user.id,
+      account_id: user.id,
       address_type: 'NULL',
+<<<<<<< HEAD
+      merchant_id: user.sub_account?.merchant?.id || null,
+      latitude: location.latitude,
+      longitude: location.longitude,
+      route: location.address,
+      // route: this.props.state.location.route,
+      locality: location.locality,
+      region: location.region,
+      country: location.country
+    }
+    let detail = {
+      type: 'restaurant',
+      size: this.state.size?.count != null ? this.state.size?.count : this.state.size,
+      val: this.state.val,
+      value: this.state.value?.amount != null ? this.state.value?.amount : this.state.value,
+      category: this.state.cuisines?.categories != null ? this.state.cuisines.categories : this.state.cuisines
+=======
       merchant_id: this.props.state.user.sub_account?.merchant?.id || null,
       latitude: this.props.state.location.latitude || 'NULL',
       longitude: this.props.state.location.longitude || 'NULL',
@@ -69,7 +100,9 @@ class Restaurants extends Component {
       locality: this.props.state.location.locality || 'NULL',
       region: this.props.state.location.region || 'NULL',
       country: this.props.state.location.country || 'NULL',
+>>>>>>> f6e1464e7cf564589b2dc0debf194fd3eef84f15
     }
+    console.log('[]', detail)
     this.setState({ isLoading: true })
     Api.request(Routes.locationCreate, param, response => {
       this.setState({ isLoading: false })
@@ -77,11 +110,11 @@ class Restaurants extends Component {
         return
       }
       let parameter = {
-        account_id: this.props.state.user.id,
+        account_id: user.id,
         location_id: response.data,
         date: this.state.Date?.date + ' ' + this.state.Date?.time,
         status: 'pending',
-        details: "{ 'type': 'restaurant',  'parameter': { 'size': '1' }"
+        details: JSON.stringify(detail)
       }
       this.setState({ isLoading: true })
       Api.request(Routes.synqtCreate, parameter, res => {
@@ -94,6 +127,86 @@ class Restaurants extends Component {
         }
       });
     });
+  }
+
+  validate(){
+    if(this.state.Date == null){
+      Alert.alert(
+        'Oopps',
+        'Please specify the date and time.',
+        [
+          {text: 'Ok'}
+        ],
+        { cancelable: false }
+      )
+      return
+    }
+    if(this.state.value == null){
+      Alert.alert(
+        'Oopps',
+        'Please range the price.',
+        [
+          {text: 'Ok'}
+        ],
+        { cancelable: false }
+      )
+      return
+    }
+    if(this.state.value <= 0){
+      Alert.alert(
+        'Oopps',
+        'Price must be greater than 0',
+        [
+          {text: 'Ok'}
+        ],
+        { cancelable: false }
+      )
+      return
+    }
+    if(this.state.range <= 0){
+      Alert.alert(
+        'Oopps',
+        'Range must be greater than 0',
+        [
+          {text: 'Ok'}
+        ],
+        { cancelable: false }
+      )
+      return
+    }
+    if( this.state.cuisines == null){
+      Alert.alert(
+        'Oopps',
+        'Please select at least one cuisine',
+        [
+          {text: 'Ok'}
+        ],
+        { cancelable: false }
+      )
+      return
+    }
+    if( this.state.Date == null ||  this.state.Date?.time == null || this.state.size == null || this.state.value == null || this.state.cuisines == null || this.state.val == null){
+      Alert.alert(
+        'Oopps',
+        'Please fill up all of the fields',
+        [
+          {text: 'Ok'}
+        ],
+        { cancelable: false }
+      )
+      return
+    }
+    if(this.props.state.tempMembers.length === 0) {
+      Alert.alert(
+        'Oopps',
+        'Please invite atleast 1 person to your SYNQT. Thank you.',
+        [
+          {text: 'Ok'}
+        ],
+        { cancelable: false }
+      )
+      return
+    }
   }
 
   createMessengerGroup(id, date) {
@@ -186,6 +299,7 @@ class Restaurants extends Component {
                     Date: date
                   })
                 }}
+                minimumDate={this.state.currentDate}
                 style={{
                   marginTop: '-5%'
                 }} />
@@ -209,13 +323,13 @@ class Restaurants extends Component {
             </View>
             <View>
               <InputSelect 
-              onFinish={(cuisine) => {
+                onFinish={(categories) => {
                   this.setState({
-                    cuisines: cuisine
+                    cuisines: categories
                   })
-                }} 
+                }}
                 titles={'cuisines'}
-                placeholder={' '}
+                placeholder={this.state.cuisines?.categories != null ? this.state.cuisines.categories.join(',') : 'Brain' }
                 title={'Cuisines'} />
             </View>
             <Text style={{ color: 'black', marginBottom: 15, marginLeft: 20 }}>Radius</Text>
