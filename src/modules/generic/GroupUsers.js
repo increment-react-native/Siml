@@ -36,15 +36,15 @@ class GroupUsers extends Component{
                       marginRight: '2%',
                       borderColor: Color.secondary,
                       borderWidth: 1,
-                      opacity: index === 4 ? 0.5 : 1
+                      opacity: data.length > 5 && index === 4 && this.props.cardUser ? 0.5 : 1
                     }}/>
                 </TouchableOpacity>
               )
             }
           })
         }{
-          data.length > 5 && (
-            <View style={{position: 'absolute', zIndex: 10, right: 25, top: 3, justifyContent: 'center', alignItems: 'center'}}>
+          data.length > 5 && this.props.cardUser && (
+            <View style={{position: 'absolute', zIndex: 10, right: 5, top: 3, justifyContent: 'center', alignItems: 'center'}}>
               <Text style={{color: '#6e6d6d', fontSize: 10}}>+{data.length - 5}</Text>
               <Text style={{color: '#6e6d6d', fontSize: 8, marginTop: -5}}>more</Text>
             </View>

@@ -1,12 +1,12 @@
-import React, {Component} from 'react';
-import {View, TouchableOpacity, Text, Share} from 'react-native';
-import {createStackNavigator} from 'react-navigation-stack';
-import {FontAwesomeIcon} from '@fortawesome/react-native-fontawesome';
-import {faChevronLeft, faBars, faShare} from '@fortawesome/free-solid-svg-icons';
+import React, { Component } from 'react';
+import { View, TouchableOpacity, Text, Share } from 'react-native';
+import { createStackNavigator } from 'react-navigation-stack';
+import { FontAwesomeIcon } from '@fortawesome/react-native-fontawesome';
+import { faChevronLeft, faBars, faShare } from '@fortawesome/free-solid-svg-icons';
 import Connection from 'modules/connection';
-import {NavigationActions} from 'react-navigation';
-import {BasicStyles, Color} from 'common';
-import {connect} from 'react-redux';
+import { NavigationActions } from 'react-navigation';
+import { BasicStyles, Color } from 'common';
+import { connect } from 'react-redux';
 import { Dimensions } from 'react-native';
 const width = Math.round(Dimensions.get('window').width);
 
@@ -21,7 +21,7 @@ class HeaderOptions extends Component {
 
   onShare = async () => {
     const { user } = this.props.state;
-    if(user == null){
+    if (user == null) {
       return
     }
     try {
@@ -47,14 +47,14 @@ class HeaderOptions extends Component {
     viewMenu(!this.props.state.isViewing) // new
   }
 
-  async onShare(){
+  onShare = async () => {
     const { user } = this.props.state;
     if(user == null){
       return
     }
     try {
       const result = await Share.share({
-        message: 'https://payhiram.ph/profile/' + user.code
+        message: 'http://app.wearesiml.com/'
       });
       if (result.action === Share.sharedAction) {
         if (result.activityType) {
@@ -73,34 +73,31 @@ class HeaderOptions extends Component {
   render() {
     const { theme } = this.props.state;
     return (
-      <View style={{right: width - 350, position: 'absolute'}}>
-        <TouchableOpacity onPress={() => this.onShare()}>
-          {/*Donute Button Image */}
-          <FontAwesomeIcon
-            icon={faShare}
-            size={BasicStyles.headerBackIconSize}
-            style={{color: Color.gray}}
-          />
-        </TouchableOpacity>
-      </View>
+      <TouchableOpacity onPress={() => {
+        this.onShare()
+      }}>
+        <View style={{ paddingRight: 8, marginRight: 55 }} >
+          <FontAwesomeIcon icon={faShare} size={BasicStyles.iconSize + 5} style={{ color: Color.gray, marginRight: 10 }} />
+        </View>
+      </TouchableOpacity>
     );
   }
 }
 
-const mapStateToProps = (state) => ({state: state});
+const mapStateToProps = (state) => ({ state: state });
 
 const mapDispatchToProps = (dispatch) => {
-  const {actions} = require('@redux');
+  const { actions } = require('@redux');
   return {
     viewMenu: (isViewing) => dispatch(actions.viewMenu(isViewing))
   };
 };
-let HeaderOptionsConnect  = connect(mapStateToProps, mapDispatchToProps)(HeaderOptions);
+let HeaderOptionsConnect = connect(mapStateToProps, mapDispatchToProps)(HeaderOptions);
 
 const TermsAndConditionsStack = createStackNavigator({
   termsAndConditionsScreen: {
     screen: Connection,
-    navigationOptions: ({navigation}) => ({
+    navigationOptions: ({ navigation }) => ({
       title: 'Connections',
       headerRight: <HeaderOptionsConnect navigationProps={navigation} />,
       ...{
@@ -122,7 +119,7 @@ const TermsAndConditionsStack = createStackNavigator({
         },
         headerTitleStyle: {
           fontWeight: 'bold',
-        },  
+        },
       }
     }),
   },

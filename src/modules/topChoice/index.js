@@ -84,7 +84,6 @@ class TopChoice extends Component {
   }
 
   renderData() {
-    console.log(this.state.data.length > 0 && this.state.data[0], 'jjjj-------------------------');
     return (
       <SafeAreaView>
         <ScrollView
@@ -117,9 +116,10 @@ class TopChoice extends Component {
                     logo: item.merchant.logo,
                     address: item.merchant.address || 'No address provided',
                     name: item.merchant.name,
-                    date: item.synqt[0].date,
+                    date: item.synqt[0].date_at_human,
                     superlike: true,
-                    users: item.members.length > 0 || item.length !== null ? item.members : []
+                    users: item.members && item.members.length > 0 ? item.members : [],
+                    details: true
                   }}
                   style={{
                     marginBottom: 20

@@ -9,6 +9,7 @@ import ImageCardWithUser from 'modules/generic/ImageCardWithUser';
 import CardModal from 'modules/modal/Swipe.js';
 import Api from 'services/api';
 import { Spinner } from 'components';
+import _ from 'lodash';
 
 const height = Math.round(Dimensions.get('window').height);
 class Notifications extends Component {
@@ -31,10 +32,10 @@ class Notifications extends Component {
   }
 
   componentDidMount() {
-    this.retrieve()
+    this.retrieve(false)
   }
 
-  retrieve = () => {
+  retrieve = (flag) => {
     let parameter = {
       condition: [{
         value: this.props.state.user.id,
@@ -42,14 +43,21 @@ class Notifications extends Component {
         clause: '='
       }],
       limit: this.state.limit,
-      offset: this.state.offset
+      offset: flag == true && this.state.offset > 0 ? (this.state.offset * this.state.limit) : this.state.offset
     }
-    console.log(Routes.notificationsRetrieve, parameter, 'klklklk');
     this.setState({ isLoading: true })
     Api.request(Routes.notificationsRetrieve, parameter, response => {
       this.setState({ isLoading: false })
       if (response.data.length > 0) {
-        this.setState({ data: response.data });
+        this.setState({
+          data: flag == false ? response.data : _.uniqBy([...this.state.data, ...response.data], 'id'),
+          offset: flag == false ? 1 : (this.state.offset + 1)
+        })
+      } else {
+        this.setState({
+          data: flag == false ? [] : this.state.data,
+          offset: flag == false ? 0 : this.state.offset,
+        })
       }
     });
   }
@@ -60,6 +68,20 @@ class Notifications extends Component {
       <SafeAreaView>
         <ScrollView
           showsVerticalScrollIndicator={false}
+          onScroll={(event) => {
+            let scrollingHeight = event.nativeEvent.layoutMeasurement.height + event.nativeEvent.contentOffset.y
+            let totalHeight = event.nativeEvent.contentSize.height
+            if (event.nativeEvent.contentOffset.y <= 0) {
+              if (this.state.isLoading == false) {
+                // this.retrieve(false)
+              }
+            }
+            if (Math.round(scrollingHeight) >= Math.round(totalHeight)) {
+              if (this.state.isLoading === false) {
+                this.retrieve(true)
+              }
+            }
+          }}
         >
           <View style={{
             width: '90%',
@@ -101,54 +123,13 @@ class Notifications extends Component {
               this.state.data.length > 0 && this.state.data.map((item, index) => (
                 <ImageCardWithUser
                   data={{
-                    logo: item.merchant?.logo,
-                    address: item.merchant?.address || 'No address provided',
-                    name: item.merchant?.name,
-                    date: item.synqt.length > 0 && item.synqt[0]?.date,
-                    superlike: true,
-                    users: [{
-                      account: {
-                        profile: {
-                          url: '/storage/image/11_2021-04-06_02_04_43_fries.jpg'
-                        }
-                      }
-                    }, {
-                      account: {
-                        profile: {
-                          url: '/storage/image/11_2021-04-06_02_04_43_fries.jpg'
-                        }
-                      }
-                    }, {
-                      account: {
-                        profile: {
-                          url: '/storage/image/11_2021-04-06_02_04_43_fries.jpg'
-                        }
-                      }
-                    }, {
-                      account: {
-                        profile: {
-                          url: '/storage/image/11_2021-04-06_02_04_43_fries.jpg'
-                        }
-                      }
-                    }, {
-                      account: {
-                        profile: {
-                          url: '/storage/image/11_2021-04-06_02_04_43_fries.jpg'
-                        }
-                      }
-                    }, {
-                      account: {
-                        profile: {
-                          url: '/storage/image/11_2021-04-06_02_04_43_fries.jpg'
-                        }
-                      }
-                    }, {
-                      account: {
-                        profile: {
-                          url: '/storage/image/11_2021-04-06_02_04_43_fries.jpg'
-                        }
-                      }
-                    }]
+                    logo: null,
+                    address: item.location[0]?.route || 'No address provided',
+                    name: item.synqt.length > 0 && item.synqt[0]?.date_at_human,
+                    date: item.synqt.length > 0 && item.synqt[0]?.date_at_human,
+                    superlike: false,
+                    users: item.members && item.members.length > 0 ? item.members : [],
+                    details: false
                   }}
                   style={{
                     marginBottom: 20

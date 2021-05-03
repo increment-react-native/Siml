@@ -30,8 +30,9 @@ class Restaurants extends Component {
     }
   }
   componentDidMount() {
-    const { setDefaultAddress, setTempMembers } = this.props;
+    const { setDefaultAddress, setTempMembers, setLocation } = this.props;
     setDefaultAddress(null);
+    setLocation(null);
     setTempMembers([]);
     let date = new Date()
     this.setState({
@@ -74,6 +75,7 @@ class Restaurants extends Component {
     let param = {
       account_id: user.id,
       address_type: 'NULL',
+<<<<<<< HEAD
       merchant_id: user.sub_account?.merchant?.id || null,
       latitude: location.latitude,
       longitude: location.longitude,
@@ -89,6 +91,16 @@ class Restaurants extends Component {
       val: this.state.val,
       value: this.state.value?.amount != null ? this.state.value?.amount : this.state.value,
       category: this.state.cuisines?.categories != null ? this.state.cuisines.categories : this.state.cuisines
+=======
+      merchant_id: this.props.state.user.sub_account?.merchant?.id || null,
+      latitude: this.props.state.location.latitude || 'NULL',
+      longitude: this.props.state.location.longitude || 'NULL',
+      route: this.props.state.location.address || 'NULL',
+      // route: this.props.state.location.route,
+      locality: this.props.state.location.locality || 'NULL',
+      region: this.props.state.location.region || 'NULL',
+      country: this.props.state.location.country || 'NULL',
+>>>>>>> f6e1464e7cf564589b2dc0debf194fd3eef84f15
     }
     console.log('[]', detail)
     this.setState({ isLoading: true })
@@ -108,7 +120,6 @@ class Restaurants extends Component {
       Api.request(Routes.synqtCreate, parameter, res => {
         this.setState({ isLoading: false })
         if (res.data !== null) {
-          this.sendInvitation(res.data);
           setDefaultAddress(null);
           setLocation(null);
           this.createMessengerGroup(res.data, parameter.date)
@@ -199,6 +210,8 @@ class Restaurants extends Component {
   }
 
   createMessengerGroup(id, date) {
+    const { tempMembers, user } = this.props.state
+    tempMembers.push({account_id: user.id})
     let parameter = {
       account_id: this.props.state.user.id,
       title: date,
@@ -207,10 +220,9 @@ class Restaurants extends Component {
     }
     this.setState({ isLoading: true })
     Api.request(Routes.messengerGroupCreate, parameter, response => {
-      console.log(response);
       this.setState({ isLoading: false })
       if (response.data !== null) {
-        this.props.navigation.navigate('menuStack', { synqt_id: id })
+        this.sendInvitation(id);
       }
     });
   }
@@ -228,8 +240,9 @@ class Restaurants extends Component {
       this.setState({ isLoading: true });
       Api.request(Routes.notificationCreate, parameter, response => {
         this.setState({ isLoading: false })
-        const { setTempMembers } = this.props;
-        setTempMembers([]);
+        if(response.data !== null) {
+          this.props.navigation.navigate('menuStack', { synqt_id: id })
+        }
       });
     })
   }
@@ -347,7 +360,7 @@ class Restaurants extends Component {
               maxValue={50}
             />
             <Text style={{ marginLeft: 20, marginBottom: 5 }}>People in this SYNQT</Text>
-            <Group add={true} style={{ marginLeft: 50, marginTop: -30 }} redirectTo={() => this.goesTo()} data={this.props.state.tempMembers} />
+            <Group navigation={this.props.navigation} add={true} style={{ marginLeft: 50, marginTop: -30 }} redirectTo={() => this.goesTo()} data={this.props.state.tempMembers} />
           </View>
 
           <View style={{

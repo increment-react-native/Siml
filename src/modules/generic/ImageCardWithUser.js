@@ -7,6 +7,7 @@ import GroupUsers from 'modules/generic/GroupUsers';
 import Config from 'src/config.js';
 
 const height = Math.round(Dimensions.get('window').height);
+const width = Math.round(Dimensions.get('window').width);
 
 class ImageCardWithUser extends Component {
   constructor(props) {
@@ -35,7 +36,7 @@ class ImageCardWithUser extends Component {
             >
               <View>
                 <Image
-                  source={{ uri: Config.BACKEND_URL + data.logo }}
+                  source={data.logo ? { uri: Config.BACKEND_URL + data.logo } : require('assets/synqt.png')}
                   style={{
                     width: '100%',
                     height: height / 3.5,
@@ -73,32 +74,33 @@ class ImageCardWithUser extends Component {
                   marginTop: -7,
                   marginLeft: 6
                 }}>
-                  <GroupUsers size={30} data={data.users}/>
+                  <GroupUsers cardUser={true} style={{ marginLeft: -15 }} size={30} data={data.users} />
                 </View>
-                <View style={{
-                    backgroundColor: 'white',
-                    borderRadius: 6,
-                    height: 18,
-                    position: 'absolute',
-                    bottom: 10,
-                    right: 10,
-                    width: 55,
-                    borderWidth: .5,
-                    borderColor: Color.primary,
-                    justifyContent: 'center',
-                    alignItems: 'center',
-                    flexDirection: 'row'
-                  }}>
-                    <FontAwesomeIcon icon={faStar} color={Color.warning} style={{marginRight: 2}} size={8} />
+                {data.details === true && <View style={{
+                  flexDirection: 'row',
+                  width: '50%',
+                  position: 'absolute',
+                  bottom: 10,
+                  right: width - (width + 50),
+                }}><View style={{
+                  backgroundColor: 'white',
+                  borderRadius: 6,
+                  height: 18,
+                  width: 55,
+                  borderWidth: .5,
+                  borderColor: Color.primary,
+                  justifyContent: 'center',
+                  alignItems: 'center',
+                  flexDirection: 'row',
+                  marginRight: 5
+                }}>
+                    <FontAwesomeIcon icon={faStar} color={Color.warning} style={{ marginRight: 2 }} size={8} />
                     <Text numberOfLines={1} style={{ fontSize: 10, color: Color.primary }}>43</Text>
                   </View>
                   <View style={{
                     backgroundColor: Color.primary,
                     borderRadius: 6,
                     height: 18,
-                    position: 'absolute',
-                    bottom: 10,
-                    right: 70,
                     width: 55,
                     borderWidth: .5,
                     borderColor: Color.primary,
@@ -107,7 +109,7 @@ class ImageCardWithUser extends Component {
                     flexDirection: 'row'
                   }}>
                     <Text numberOfLines={1} style={{ fontSize: 10, color: 'white' }}>0.64 km</Text>
-                  </View>
+                  </View></View>}
               </View>
               {
                 data.superlike == true && (

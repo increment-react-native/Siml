@@ -28,6 +28,7 @@ import CommonRequest from 'services/CommonRequest.js';
 import Style from 'modules/messenger/Style.js'
 import Group from 'modules/generic/PeopleList.js'
 import Settings from './Settings';
+import moment from 'moment';
 const DeviceHeight = Math.round(Dimensions.get('window').height);
 const DeviceWidth = Math.round(Dimensions.get('window').width);
 
@@ -51,12 +52,14 @@ class MessagesV3 extends Component {
       group: null,
       request_id: null,
       members: [],
-      isVisible: false
+      isVisible: false,
+      status: null
     }
   }
 
   componentDidMount() {
     const { user } = this.props.state
+    this.props.setShowSettings(false)
     if (user == null) return
     this.retrieveMembers();
     this.retrieve();
@@ -80,7 +83,7 @@ class MessagesV3 extends Component {
     this.setState({ isLoading: true });
     const parameter = {
       condition: [{
-        value: this.props.navigation.state.params.data.id,
+        value: this.props.navigation.state.params.data.messenger_group_id,
         column: 'messenger_group_id',
         clause: '='
       }],
@@ -104,7 +107,7 @@ class MessagesV3 extends Component {
     setMessengerGroup(this.props.navigation.state.params.data)
     const parameter = {
       condition: [{
-        value: this.props.navigation.state.params.data.id,
+        value: this.props.navigation.state.params.data.messenger_group_id,
         column: 'messenger_group_id',
         clause: '='
       }],
@@ -144,7 +147,7 @@ class MessagesV3 extends Component {
 
     const parameter = {
       condition: [{
-        value: messengerGroup.id,
+        value: this.props.navigation.state.params.data.messenger_group_id,
         column: 'messenger_group_id',
         clause: '='
       }],
@@ -168,53 +171,48 @@ class MessagesV3 extends Component {
     });
   }
 
-  retrieveGroup = (flag = null) => {
-    const { user, messengerGroup } = this.props.state;
-    const { setMessengerGroup } = this.props;
-    if (messengerGroup == null || user == null) {
-      return
-    }
-    let parameter = {
-      condition: [{
-        value: messengerGroup.id,
-        column: 'id',
-        clause: '='
-      }],
-      account_id: user.id
-    }
-    CommonRequest.retrieveMessengerGroup(messengerGroup, user, response => {
-      if (response.data != null) {
-        setMessengerGroup(response.data);
-        setTimeout(() => {
-          this.retrieve(response.data)
-          this.setState({ keyRefresh: this.state.keyRefresh + 1 })
-        }, 500)
-      }
-    })
-  }
+  // retrieveGroup = (flag = null) => {
+  //   const { user, messengerGroup } = this.props.state;
+  //   const { setMessengerGroup } = this.props;
+  //   if (messengerGroup == null || user == null) {
+  //     return
+  //   }
+  //   let parameter = {
+  //     condition: [{
+  //       value: messengerGroup.id,
+  //       column: 'id',
+  //       clause: '='
+  //     }],
+  //     account_id: user.id
+  //   }
+  //   CommonRequest.retrieveMessengerGroup(messengerGroup, user, response => {
+  //     if (response.data != null) {
+  //       setMessengerGroup(response.data);
+  //       setTimeout(() => {
+  //         this.retrieve(response.data)
+  //         this.setState({ keyRefresh: this.state.keyRefresh + 1 })
+  //       }, 500)
+  //     }
+  //   })
+  // }
 
   sendNewMessage = () => {
     const { messengerGroup, user, messagesOnGroup } = this.props.state;
     const { updateMessagesOnGroup, updateMessageByCode } = this.props;
-
-    if (messengerGroup == null || user == null || this.state.newMessage == null) {
-      return
-    }
-
     let parameter = {
-      messenger_group_id: messengerGroup.id,
+      messenger_group_id: this.props.navigation.state.params.data.messenger_group_id,
       message: this.state.newMessage,
       account_id: user.id,
       status: 0,
       payload: 'text',
       payload_value: null,
-      code: messagesOnGroup.messages.length + 1
+      code: messagesOnGroup?.messages?.length + 1
     }
     let newMessageTemp = {
       ...parameter,
       account: user,
-      created_at_human: null,
-      sending_flag: true,
+      created_at_human: moment(new Date()).format('MMMM DD, YYYY hh:mm a'),
+      sending_flag: false,
       error: null
     }
     updateMessagesOnGroup(newMessageTemp);
@@ -285,7 +283,7 @@ class MessagesV3 extends Component {
           payload: 'image',
           payload_value: null,
           url: uri,
-          code: messagesOnGroup.messages.length + 1
+          code: messagesOnGroup?.messages?.length + 1
         }
         let newMessageTemp = {
           ...parameter,
@@ -563,7 +561,7 @@ class MessagesV3 extends Component {
     return (
       <View style={{
         width: '100%',
-        marginBottom: index == (messagesOnGroup.messages.length - 1) ? 50 : 0
+        marginBottom: index == (messagesOnGroup?.messages?.length - 1) ? 50 : 0
       }}>
         <View style={{
           alignItems: 'flex-end'
@@ -667,15 +665,7 @@ class MessagesV3 extends Component {
   }
 
   render() {
-    const {
-      isLoading,
-      isImageModal,
-      imageModalUrl,
-      photo,
-      keyRefresh,
-      isPullingMessages,
-      isLock
-    } = this.state;
+    const { isLoading, isImageModal, imageModalUrl, photo, keyRefresh, isPullingMessages, isLock } = this.state;
     const { data } = this.props.navigation.state.params;
     const { messengerGroup, user, isViewing } = this.props.state;
     return (
@@ -704,7 +694,7 @@ class MessagesV3 extends Component {
           keyboardVerticalOffset={
             Platform.select({
               ios: () => 65,
-              android: () => -200
+              android: () => -450
             })()}
         >
           <View key={keyRefresh}>
@@ -715,7 +705,7 @@ class MessagesV3 extends Component {
                 margin: '2%',
                 flexDirection: 'row'
               }}>
-                <Group  add={true} navigation={this.props.navigation} style={{ marginLeft: 9 }} color={Color.primary} size={70} data={this.state.members} />
+                <Group  add={true} navigation={this.props.navigation} style={{ marginLeft: 9 }} redirectTo={() => this.props.navigation.navigate('peopleListStack', {data: this.props.navigation.state?.params?.data, addMember: this.props.navigation.state.params.data.messenger_group_id})} color={Color.primary} size={60} data={this.state.members} />
               </View>
             )}
             <ScrollView
@@ -759,13 +749,13 @@ class MessagesV3 extends Component {
 
             <View style={{
               position: 'absolute',
-              bottom: this.state.members.length > 0 ? 320 : 0,
+              bottom: this.state.members.length > 0 ? 300 : 0,
               left: 0,
               borderTopColor: Color.lightGray,
               borderTopWidth: 1,
               backgroundColor: Color.white
             }}>
-              {this._footer()}
+              {this.props.navigation?.state.params?.status !== 'completed' && this._footer()}
             </View>
             <ImageModal
               visible={isImageModal}
@@ -793,7 +783,7 @@ class MessagesV3 extends Component {
 					<Text>Test</Text>
 					</View>
 				</Modal> */}
-        {this.props.state.showSettings && <Settings groupId={this.props.navigation?.state?.params.data?.id} title={this.props.navigation?.state?.params.data?.title}></Settings>}
+        {this.props.state.showSettings && <Settings groupId={this.props.navigation?.state?.params.data?.id} synqtId={this.props.navigation.state?.params?.data?.payload} title={this.props.navigation?.state?.params.data?.title} navigation={this.props.navigation}></Settings>}
       </SafeAreaView>
     );
   }
@@ -808,6 +798,7 @@ const mapDispatchToProps = dispatch => {
     updateMessagesOnGroup: (message) => dispatch(actions.updateMessagesOnGroup(message)),
     updateMessageByCode: (message) => dispatch(actions.updateMessageByCode(message)),
     viewMenu: (isViewing) => dispatch(actions.viewMenu(isViewing)),
+    setShowSettings: (showSettings) => dispatch(actions.setShowSettings(showSettings)),
   };
 };
 

@@ -48,9 +48,11 @@ class Settings extends Component {
       title: this.state.title
     }
     this.setState({ isLoading: true })
-    Api.request(Routes.messengerGroupUpdate, parameter, response => {
+    console.log(parameter, 'parameter', Routes.messengerGroupUpdateTitle);
+    Api.request(Routes.messengerGroupUpdateTitle, parameter, response => {
+      console.log(response, 'resonse');
       this.setState({ isLoading: false })
-      if (response.data !== null) {
+      if (response.data === true) {
         this.props.setCurrentTitle(this.state.title)
         this.setState({ visible: false, title: null })
       }
@@ -164,7 +166,7 @@ class Settings extends Component {
                 }}
                   onPress={() => {
                     if (item.title === 'Rate Now') {
-                      this.props.navigation.navigate('rateStack', { data: [] })
+                      this.props.navigation.navigate('rateStack', { data: [], synqtId: this.props.synqtId })
                     } else if (item.title === 'Close') {
                       this.props.setShowSettings(!this.props.state.showSettings);
                     }

@@ -7,6 +7,7 @@ import Style from './Style'
 import { connect } from 'react-redux';
 import { Spinner } from 'components';
 import Api from 'services/api/index.js';
+import CustomizedButton from 'modules/generic/CustomizedButton';
 import _ from 'lodash';
 
 class Connections extends Component {
@@ -57,7 +58,7 @@ class Connections extends Component {
         response.data.map(i => {
           tempMembers.length > 0 && tempMembers.map(item => {
             console.log(item.account?.id, i.account?.id, 'kasdf');
-            if(item.account?.id === i.account?.id) {
+            if (item.account?.id === i.account?.id) {
               i['added'] = true;
             } else {
               i['added'] = false;
@@ -77,6 +78,26 @@ class Connections extends Component {
     });
   }
 
+  addMember = () => {
+    console.log(this.props.state.tempMembers);
+    this.props.state.tempMembers.length > 0 && this.props.state.tempMembers.map((item, index) => {
+      let parameter = {
+        messenger_group_id: this.props.navigation?.state?.params?.addMember,
+        account_id: item.account?.id,
+        status: 'MEMBER'
+      }
+      this.setState({ isLoading: true })
+      Api.request(Routes.messengerMembersCreate, parameter, response => {
+        this.setState({ isLoading: false })
+        if (response.data !== null) {
+          this.props.navigation.navigate('messagesStack', {
+            data: this.props.navigation.state?.params?.data
+          });
+        }
+      });
+    })
+  }
+
   render() {
     return (
       <View style={{
@@ -92,17 +113,25 @@ class Connections extends Component {
             <View style={Style.TextContainer}>
               <TextInput
                 style={BasicStyles.formControl}
-                onChangeText={(search) => this.setState({ search })}
+                onChangeText={(search) => this.setState({ search: search })}
                 value={this.state.search}
                 placeholder={'Search Connections'}
               />
             </View>
             {this.state.data.length > 0 && (<View>
-              <CardList navigation={this.props.navigation} data={this.state.data} invite={true} hasAction={false} actionType={'button'} actionContent={'text'}></CardList>
+              <CardList search={this.state.search} navigation={this.props.navigation} data={this.state.data} invite={true} hasAction={false} actionType={'button'} actionContent={'text'}></CardList>
             </View>)}
           </View>
         </ScrollView>
         {this.state.isLoading ? <Spinner mode="overlay" /> : null}
+        {this.props.navigation?.state?.params?.addMember && <View style={{
+          padding: 25,
+          textAlign: 'center',
+          justifyContent: 'center',
+          paddingTop: 50
+        }}>
+          <CustomizedButton onClick={() => { this.addMember() }} title={'Add member/s'}></CustomizedButton>
+        </View>}
         {/* <Footer layer={1} {...this.props}/> */}
       </View>
     );

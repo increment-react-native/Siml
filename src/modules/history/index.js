@@ -22,7 +22,7 @@ class History extends Component {
       data: [],
       isLoading: false,
       isVisible: false,
-      limit: 6,
+      limit: 50,
       offset: 0
     };
   }
@@ -51,6 +51,7 @@ class History extends Component {
     Api.request(Routes.reservationRetrieve, parameter, response => {
       this.setState({ isLoading: false })
       if (response.data.length > 0) {
+        console.log(response.data[0]);
         this.setState({
           data: flag == false ? response.data : _.uniqBy([...this.state.data, ...response.data], 'id'),
           offset: flag == false ? 1 : (this.state.offset + 1)
@@ -119,16 +120,25 @@ class History extends Component {
                   logo: item.merchant?.logo,
                   address: item.merchant?.address || 'No address provided',
                   name: item.merchant?.name,
-                  date: item.synqt.length > 0 && item.synqt[0]?.date,
+                  date: item.synqt.length > 0 && item.synqt[0]?.date_at_human,
                   superlike: true,
-                  users: item.group ? item.group: []
+                  users: item.members && item.members.length > 0 ? item.members : [],
+                  details: true
                 }}
                 style={{
                   marginBottom: 20
                 }}
                 redirectTo={this.props.navigation.state.params && this.props.navigation.state.params.title}
                 onClick={() => {
-                  this.props.navigation.navigate('menuStack', { synqt_id: item.synqt[0].id })
+                  this.props.navigation.navigate('eventNameStack', {parameter: {
+                    account_id: this.props.state.user?.id,
+                    merchant_id: item.merchant?.id,
+                    payload: 'synqt',
+                    payload_value: item?.synqt[0]?.id,
+                    details: item?.synqt[0]?.details,
+                    datetime: item?.synqt[0]?.date,
+                    status: 'pending'
+                  }, buttonTitle: this.props.navigation.state?.params?.title === 'Upcoming' ? "Cancel" : 'Make Reservation', data: item})
                 }}
               />
             ))

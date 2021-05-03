@@ -50,20 +50,20 @@ export default {
       route: 'share',
       icon: faShareSquare,
       borderBottom: true
-    },
-    {
-      title: 'Terms & Conditions',
-      route: 'TermsAndConditions',
-      icon: faCopy,
-      borderBottom: false
-    },
-    {
-      title: 'Privacy Policy',
-      route: 'Privacy',
-      icon: faShieldAlt,
-      borderBottom: false
     }
   ],
+  DrawerMenu1: [{
+    title: 'Terms & Conditions',
+    route: 'TermsAndConditions',
+    icon: faCopy,
+    borderBottom: false
+  },
+  {
+    title: 'Privacy Policy',
+    route: 'Privacy',
+    icon: faShieldAlt,
+    borderBottom: false
+  }],
   tutorials: [
     // {
     //   key: 1,

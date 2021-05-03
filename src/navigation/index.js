@@ -22,6 +22,7 @@ import EventNameStack from 'src/modules/eventName/Drawer'
 import MessagesStack from 'modules/messenger/MessagesDrawer.js';
 import MainMessageStack from 'modules/messenger/Drawer.js';
 import Welcome from 'src/modules/account/Landing'
+import RateStack from 'src/modules/rate/Drawer';
 import Drawer from './Drawer';
 
 const WelcomeStack = createStackNavigator(
@@ -104,7 +105,8 @@ const PrimaryNav = createStackNavigator(
     eventNameStack: {screen: EventNameStack},
     messagesStack: {screen: MessagesStack},
     peopleListStack: {screen: PeopleListStack},
-    mainMessageStack: {screen: MainMessageStack}
+    mainMessageStack: {screen: MainMessageStack},
+    rateStack: {screen: RateStack}
   },
   {
     // Default config for all screens

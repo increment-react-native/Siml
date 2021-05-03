@@ -26,7 +26,8 @@ export default {
   // messenger
   customMessengerGroupCreate: apiUrl + 'custom_messenger_groups/create',
   messengerGroupUpdate: apiUrl + 'messenger_groups/update',
-  messengerGroupRetrieve: apiUrl + 'messenger_groups/retrieve',
+  messengerGroupUpdateTitle: apiUrl + 'messenger_groups/update_title',
+  messengerGroupRetrieve: apiUrl + 'messenger_groups/retrieve_by_member',
   messengerGroupCreate: apiUrl + 'messenger_groups/create_group_with_members',
   messengerGroupRetrieveByParams:
     apiUrl + 'messenger_groups/retrieve_by_params',
@@ -34,6 +35,7 @@ export default {
   messengerMessagesRetrieve: apiUrl + 'messenger_messages/retrieve',
   messengerMessagesUpdate: apiUrl + 'messenger_messages/update_by_status',
   messengerMembersRetrieve: apiUrl + 'messenger_members/retrieve_members',
+  messengerMembersCreate: apiUrl + 'messenger_members/create',
   mmCreateWithImageWithoutPayload: apiUrl + 'messenger_messages/create_with_image_without_payload',
   imageUploadUnLink: apiUrl + 'images/upload_un_link',
   // referral
@@ -71,7 +73,9 @@ export default {
   filters: apiUrl + 'dashboard/categories',
   // ratings
   ratingsCreate: apiUrl + 'ratings/create',
+  ratingsUpdate: apiUrl + 'ratings/update',
   ratingsRetrieve: apiUrl + 'ratings/retrieve',
+  ratingsMerchantRetrieve: apiUrl + 'merchants/retrieve_with_rating',
   // valid-id
   getValidID: apiUrl + 'payloads/get_valid_id',
   uploadValidID: apiUrl + 'payloads/upload_valid_id',
@@ -113,6 +117,7 @@ export default {
   addAddress: apiUrl + 'locations/create',
   removeAddress: apiUrl + 'locations/delete',
   synqtCreate: apiUrl + 'synqts/create',
+  synqtRetrieve: apiUrl + 'synqts/retrieve',
   reservationCreate: apiUrl + 'reservations/create',
   reservationRetrieve: apiUrl + 'reservations/retrieve',
   reservationDelete: apiUrl + 'reservations/delete',

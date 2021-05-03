@@ -61,7 +61,7 @@ class HeaderOptions extends Component {
 
   _card = () => {
     const {theme } = this.props.state;
-    const { data } = this.props.navigationProps.state.params
+    const { data, status } = this.props.navigationProps.state.params
     const { setShowSettings } = this.props;
     return (
       <View style={{width: width}}>
@@ -80,7 +80,11 @@ class HeaderOptions extends Component {
           </View>
         )}
         <View style={{flex: 1, flexDirection: 'row', position: 'absolute', right: 40}}>
-                <TouchableOpacity disabled={!this.state.finishLoad} onPress={() => this.redirect('topChoiceStack')}>
+                <TouchableOpacity disabled={!this.state.finishLoad} onPress={() => {
+                  if(status !== 'completed') {
+                    this.redirect('topChoiceStack')
+                  }
+                }}>
                   <View style={{borderWidth: 2, borderRadius: 20, height: 30, width: 30, borderColor: Color.warning, justifyContent: 'center', alignItems: 'center'}}>
                       <FontAwesomeIcon
                       color={Color.warning}
@@ -89,7 +93,7 @@ class HeaderOptions extends Component {
                       style={BasicStyles.iconStyle}/>
                   </View>
                 </TouchableOpacity>
-                <TouchableOpacity disabled={!this.state.finishLoad} onPress={() => this.state.status === true ? Alert.alert(
+                <TouchableOpacity disabled={!this.state.finishLoad} onPress={() => this.state.status === true && status !== 'completed' ? Alert.alert(
                     '',
                     'Your choice has been submitted.',
                     [
@@ -104,7 +108,11 @@ class HeaderOptions extends Component {
                       }} />
                   </View>
                 </TouchableOpacity>
-                <TouchableOpacity disabled={!this.state.finishLoad} onPress={() => {setShowSettings(!this.props.state.showSettings)}}>
+                <TouchableOpacity disabled={!this.state.finishLoad} onPress={() => {
+                  if(status !== 'completed') {
+                    setShowSettings(!this.props.state.showSettings)
+                  }
+                }}>
                   <View>
                     <FontAwesomeIcon
                     icon={ faEllipsisV }

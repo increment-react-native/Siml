@@ -2,7 +2,7 @@ import React, { Component } from 'react';
 import { View, Image, Text, TouchableOpacity, TextInput, ScrollView, Alert } from 'react-native';
 import { Routes, Color, Helper, BasicStyles } from 'common';
 import { FontAwesomeIcon } from '@fortawesome/react-native-fontawesome';
-import { faCheckCircle, faEdit } from '@fortawesome/free-solid-svg-icons';
+import { faCheckCircle, faEdit, faUserCircle } from '@fortawesome/free-solid-svg-icons';
 import Style from './Style';
 import CustomizedButton from 'modules/generic/CustomizedButton';
 import { connect } from 'react-redux';
@@ -178,7 +178,7 @@ class Profile extends Component {
                   this.setState({ isImageUpload: true })
                 }}>
                 {
-                  user.account_profile && user.account_profile.url && (
+                  user.account_profile && user.account_profile.url ? (
                     <Image
                       source={user && user.account_profile && user.account_profile.url ? { uri: Config.BACKEND_URL + user.account_profile.url } : require('assets/logo.png') }
                       style={[BasicStyles.profileImageSize, {
@@ -186,7 +186,13 @@ class Profile extends Component {
                         width: '100%',
                         borderRadius: 100
                       }]} />
-                  )
+                  ) : <FontAwesomeIcon
+                  icon={faUserCircle}
+                  size={176}
+                  style={{
+                    color: Color.primary
+                  }}
+                />
                 }
                 <View style={{
                   borderColor: Color.primary,
