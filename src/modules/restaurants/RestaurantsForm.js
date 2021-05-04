@@ -199,11 +199,17 @@ class Restaurants extends Component {
   }
 
   createMessengerGroup(id, date) {
+    const { tempMembers } = this.props.state;
+    let members = [];
+    tempMembers.length > 0 && tempMembers.map((item, index) => {
+      members.push({account_id: item.account?.id})
+    })
+    members.push({account_id: this.props.state?.user?.id});
     let parameter = {
       account_id: this.props.state.user.id,
       title: date,
       payload: id,
-      members: this.props.state.tempMembers
+      members: members
     }
     this.setState({ isLoading: true })
     Api.request(Routes.messengerGroupCreate, parameter, response => {
@@ -216,7 +222,6 @@ class Restaurants extends Component {
 
   sendInvitation = (id) => {
     const { tempMembers, user } = this.props.state
-    tempMembers.push({account_id: user.id})
     tempMembers.length > 0 && tempMembers.map((item, index) => {
       let parameter = {
         from: this.props.state.user.id,

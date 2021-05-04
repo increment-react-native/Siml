@@ -80,7 +80,8 @@ class CardList extends Component {
     const { setTempMembers } = this.props;
     let temp = this.props.state.tempMembers;
     temp.map((item, index) => {
-      if (id === item.account?.id) {
+      if (id === item.account.id) {
+        item['added'] = false
         temp.splice(index, 1)
         setTempMembers(temp);
       }
@@ -157,7 +158,7 @@ class CardList extends Component {
                                 flexDirection: 'row'
                               }}>
                                 <TouchableOpacity onPress={() => { this.remove(el.account?.id) }}>
-                                  <Text style={{ color: Color.success }}>Added</Text>
+                                  <Text style={{ color: Color.danger }}>Remove</Text>
                                 </TouchableOpacity>
                               </View>
                               :
@@ -250,7 +251,7 @@ class CardList extends Component {
                               flexDirection: 'row'
                             }}>
                               <TouchableOpacity onPress={() => { this.remove(el.account?.id) }}>
-                                <Text style={{ color: Color.success }}>Added</Text>
+                                <Text style={{ color: Color.danger }}>Remove</Text>
                               </TouchableOpacity>
                             </View>
                             :
