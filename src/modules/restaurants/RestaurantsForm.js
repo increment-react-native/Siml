@@ -108,7 +108,7 @@ class Restaurants extends Component {
       Api.request(Routes.synqtCreate, parameter, res => {
         this.setState({ isLoading: false })
         if (res.data !== null) {
-          this.sendInvitation(res.data);
+          
           setDefaultAddress(null);
           setLocation(null);
           this.createMessengerGroup(res.data, parameter.date)
@@ -209,7 +209,6 @@ class Restaurants extends Component {
     Api.request(Routes.messengerGroupCreate, parameter, response => {
       this.setState({ isLoading: false })
       if (response.data !== null) {
-        this.props.navigation.navigate('menuStack', { synqt_id: id })
         this.sendInvitation(id);
       }
     });
@@ -230,7 +229,7 @@ class Restaurants extends Component {
       Api.request(Routes.notificationCreate, parameter, response => {
         this.setState({ isLoading: false })
         if(response.data !== null) {
-          
+          this.props.navigation.navigate('menuStack', { synqt_id: id })
         }
       });
     })
