@@ -15,6 +15,9 @@
 		2D02E4BD1E0B4A84006451C7 /* Images.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 13B07FB51A68108700A75B9A /* Images.xcassets */; };
 		2D02E4BF1E0B4AB3006451C7 /* main.m in Sources */ = {isa = PBXBuildFile; fileRef = 13B07FB71A68108700A75B9A /* main.m */; };
 		2DCD954D1E0B4F2C00145EB5 /* SimlTests.m in Sources */ = {isa = PBXBuildFile; fileRef = 00E356F21AD99517003FC87E /* SimlTests.m */; };
+		3C48EE9BD163821A0E5A13D2 /* libPods-Siml.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 770A49DBE27F1A24BA6C808F /* libPods-Siml.a */; };
+		525E26E526419CC400F68343 /* main.jsbundle in Resources */ = {isa = PBXBuildFile; fileRef = 008F07F21AC5B25A0029DE68 /* main.jsbundle */; };
+		525E27BC2641A59000F68343 /* File.swift in Sources */ = {isa = PBXBuildFile; fileRef = 525E27BB2641A59000F68343 /* File.swift */; };
 		81AB9BB82411601600AC10FF /* LaunchScreen.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 81AB9BB72411601600AC10FF /* LaunchScreen.storyboard */; };
 		8BE0478D3CB83DC024981899 /* libPods-Siml-tvOSTests.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 13BE01569BD73C55092D312B /* libPods-Siml-tvOSTests.a */; };
 		91EE3F5C262A3383A8477572 /* libPods-Siml-SimlTests.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 6C9A1BE49C7AF8D74C41D9FE /* libPods-Siml-SimlTests.a */; };
@@ -56,6 +59,8 @@
 		2FD53452094948EE5BD95EB4 /* libPods-Siml-tvOS.a */ = {isa = PBXFileReference; explicitFileType = archive.ar; includeInIndex = 0; path = "libPods-Siml-tvOS.a"; sourceTree = BUILT_PRODUCTS_DIR; };
 		3D8EF1F8238E3AB7CDF39D9B /* Pods-Siml-SimlTests.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-Siml-SimlTests.debug.xcconfig"; path = "Target Support Files/Pods-Siml-SimlTests/Pods-Siml-SimlTests.debug.xcconfig"; sourceTree = "<group>"; };
 		413407427F6B27D7A9F9B886 /* Pods-Siml-tvOS.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-Siml-tvOS.debug.xcconfig"; path = "Target Support Files/Pods-Siml-tvOS/Pods-Siml-tvOS.debug.xcconfig"; sourceTree = "<group>"; };
+		525E27BA2641A59000F68343 /* Siml-Bridging-Header.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = "Siml-Bridging-Header.h"; sourceTree = "<group>"; };
+		525E27BB2641A59000F68343 /* File.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = File.swift; sourceTree = "<group>"; };
 		5542E396486CA526A33B57E2 /* Pods-Siml-tvOSTests.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-Siml-tvOSTests.debug.xcconfig"; path = "Target Support Files/Pods-Siml-tvOSTests/Pods-Siml-tvOSTests.debug.xcconfig"; sourceTree = "<group>"; };
 		6C9A1BE49C7AF8D74C41D9FE /* libPods-Siml-SimlTests.a */ = {isa = PBXFileReference; explicitFileType = archive.ar; includeInIndex = 0; path = "libPods-Siml-SimlTests.a"; sourceTree = BUILT_PRODUCTS_DIR; };
 		770A49DBE27F1A24BA6C808F /* libPods-Siml.a */ = {isa = PBXFileReference; explicitFileType = archive.ar; includeInIndex = 0; path = "libPods-Siml.a"; sourceTree = BUILT_PRODUCTS_DIR; };
@@ -81,6 +86,7 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				3C48EE9BD163821A0E5A13D2 /* libPods-Siml.a in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -145,6 +151,8 @@
 				13B07FB61A68108700A75B9A /* Info.plist */,
 				81AB9BB72411601600AC10FF /* LaunchScreen.storyboard */,
 				13B07FB71A68108700A75B9A /* main.m */,
+				525E27BB2641A59000F68343 /* File.swift */,
+				525E27BA2641A59000F68343 /* Siml-Bridging-Header.h */,
 			);
 			name = Siml;
 			sourceTree = "<group>";
@@ -203,12 +211,10 @@
 			buildConfigurationList = 00E357021AD99517003FC87E /* Build configuration list for PBXNativeTarget "SimlTests" */;
 			buildPhases = (
 				01F9684A1AA498BCA489483E /* [CP] Check Pods Manifest.lock */,
-				711E6202421EABA3F6B734F6 /* [CP] Prepare Artifacts */,
 				00E356EA1AD99517003FC87E /* Sources */,
 				00E356EB1AD99517003FC87E /* Frameworks */,
 				00E356EC1AD99517003FC87E /* Resources */,
 				D8E99CB65DF52150D0910DA7 /* [CP] Copy Pods Resources */,
-				C42F3D3D6EC9BD30AD6A7842 /* [CP] Embed Pods Frameworks */,
 			);
 			buildRules = (
 			);
@@ -226,13 +232,11 @@
 			buildPhases = (
 				BA3B199585FD1C4208B38416 /* [CP] Check Pods Manifest.lock */,
 				FD10A7F022414F080027D42C /* Start Packager */,
-				6E1FC75616EDC192706F9BDD /* [CP] Prepare Artifacts */,
 				13B07F871A680F5B00A75B9A /* Sources */,
 				13B07F8C1A680F5B00A75B9A /* Frameworks */,
 				13B07F8E1A680F5B00A75B9A /* Resources */,
 				00DD1BFF1BD5951E006B06BC /* Bundle React Native code and images */,
 				1F78B36192B734FB75CE5DBA /* [CP] Copy Pods Resources */,
-				396E912B600326E9C5B55282 /* [CP] Embed Pods Frameworks */,
 			);
 			buildRules = (
 			);
@@ -296,7 +300,7 @@
 					};
 					13B07F861A680F5B00A75B9A = {
 						DevelopmentTeam = QZW8TLN78F;
-						LastSwiftMigration = 1120;
+						LastSwiftMigration = 1200;
 					};
 					2D02E47A1E0B4A5D006451C7 = {
 						CreatedOnToolsVersion = 8.2.1;
@@ -342,6 +346,7 @@
 			isa = PBXResourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				525E26E526419CC400F68343 /* main.jsbundle in Resources */,
 				81AB9BB82411601600AC10FF /* LaunchScreen.storyboard in Resources */,
 				13B07FBF1A68108700A75B9A /* Images.xcassets in Resources */,
 			);
@@ -409,6 +414,7 @@
 			inputPaths = (
 				"${PODS_ROOT}/Target Support Files/Pods-Siml/Pods-Siml-resources.sh",
 				"${PODS_ROOT}/FBSDKCoreKit/FacebookSDKStrings.bundle",
+				"${PODS_ROOT}/GoogleMaps/Maps/Frameworks/GoogleMaps.framework/Resources/GoogleMaps.bundle",
 				"${PODS_ROOT}/../../node_modules/react-native-vector-icons/Fonts/AntDesign.ttf",
 				"${PODS_ROOT}/../../node_modules/react-native-vector-icons/Fonts/Entypo.ttf",
 				"${PODS_ROOT}/../../node_modules/react-native-vector-icons/Fonts/EvilIcons.ttf",
@@ -430,6 +436,7 @@
 			name = "[CP] Copy Pods Resources";
 			outputPaths = (
 				"${TARGET_BUILD_DIR}/${UNLOCALIZED_RESOURCES_FOLDER_PATH}/FacebookSDKStrings.bundle",
+				"${TARGET_BUILD_DIR}/${UNLOCALIZED_RESOURCES_FOLDER_PATH}/GoogleMaps.bundle",
 				"${TARGET_BUILD_DIR}/${UNLOCALIZED_RESOURCES_FOLDER_PATH}/AntDesign.ttf",
 				"${TARGET_BUILD_DIR}/${UNLOCALIZED_RESOURCES_FOLDER_PATH}/Entypo.ttf",
 				"${TARGET_BUILD_DIR}/${UNLOCALIZED_RESOURCES_FOLDER_PATH}/EvilIcons.ttf",
@@ -466,59 +473,6 @@
 			runOnlyForDeploymentPostprocessing = 0;
 			shellPath = /bin/sh;
 			shellScript = "export NODE_BINARY=node\n../node_modules/react-native/scripts/react-native-xcode.sh";
-		};
-		396E912B600326E9C5B55282 /* [CP] Embed Pods Frameworks */ = {
-			isa = PBXShellScriptBuildPhase;
-			buildActionMask = 2147483647;
-			files = (
-			);
-			inputPaths = (
-				"${PODS_ROOT}/Target Support Files/Pods-Siml/Pods-Siml-frameworks.sh",
-				"${BUILT_PRODUCTS_DIR}/cocoapods-artifacts-${CONFIGURATION}.txt",
-			);
-			name = "[CP] Embed Pods Frameworks";
-			outputPaths = (
-			);
-			runOnlyForDeploymentPostprocessing = 0;
-			shellPath = /bin/sh;
-			shellScript = "\"${PODS_ROOT}/Target Support Files/Pods-Siml/Pods-Siml-frameworks.sh\"\n";
-			showEnvVarsInLog = 0;
-		};
-		6E1FC75616EDC192706F9BDD /* [CP] Prepare Artifacts */ = {
-			isa = PBXShellScriptBuildPhase;
-			buildActionMask = 2147483647;
-			files = (
-			);
-			inputPaths = (
-				"${PODS_ROOT}/Target Support Files/Pods-Siml/Pods-Siml-artifacts.sh",
-				"${PODS_ROOT}/OpenSSL-Universal/Frameworks/OpenSSL.xcframework",
-			);
-			name = "[CP] Prepare Artifacts";
-			outputPaths = (
-				"${BUILT_PRODUCTS_DIR}/cocoapods-artifacts-${CONFIGURATION}.txt",
-			);
-			runOnlyForDeploymentPostprocessing = 0;
-			shellPath = /bin/sh;
-			shellScript = "\"${PODS_ROOT}/Target Support Files/Pods-Siml/Pods-Siml-artifacts.sh\"\n";
-			showEnvVarsInLog = 0;
-		};
-		711E6202421EABA3F6B734F6 /* [CP] Prepare Artifacts */ = {
-			isa = PBXShellScriptBuildPhase;
-			buildActionMask = 2147483647;
-			files = (
-			);
-			inputPaths = (
-				"${PODS_ROOT}/Target Support Files/Pods-Siml-SimlTests/Pods-Siml-SimlTests-artifacts.sh",
-				"${PODS_ROOT}/OpenSSL-Universal/Frameworks/OpenSSL.xcframework",
-			);
-			name = "[CP] Prepare Artifacts";
-			outputPaths = (
-				"${BUILT_PRODUCTS_DIR}/cocoapods-artifacts-${CONFIGURATION}.txt",
-			);
-			runOnlyForDeploymentPostprocessing = 0;
-			shellPath = /bin/sh;
-			shellScript = "\"${PODS_ROOT}/Target Support Files/Pods-Siml-SimlTests/Pods-Siml-SimlTests-artifacts.sh\"\n";
-			showEnvVarsInLog = 0;
 		};
 		8E3941DEBCCF243F3C8E8DAC /* [CP] Check Pods Manifest.lock */ = {
 			isa = PBXShellScriptBuildPhase;
@@ -564,23 +518,6 @@
 			shellScript = "diff \"${PODS_PODFILE_DIR_PATH}/Podfile.lock\" \"${PODS_ROOT}/Manifest.lock\" > /dev/null\nif [ $? != 0 ] ; then\n    # print error to STDERR\n    echo \"error: The sandbox is not in sync with the Podfile.lock. Run 'pod install' or update your CocoaPods installation.\" >&2\n    exit 1\nfi\n# This output is used by Xcode 'outputs' to avoid re-running this script phase.\necho \"SUCCESS\" > \"${SCRIPT_OUTPUT_FILE_0}\"\n";
 			showEnvVarsInLog = 0;
 		};
-		C42F3D3D6EC9BD30AD6A7842 /* [CP] Embed Pods Frameworks */ = {
-			isa = PBXShellScriptBuildPhase;
-			buildActionMask = 2147483647;
-			files = (
-			);
-			inputPaths = (
-				"${PODS_ROOT}/Target Support Files/Pods-Siml-SimlTests/Pods-Siml-SimlTests-frameworks.sh",
-				"${BUILT_PRODUCTS_DIR}/cocoapods-artifacts-${CONFIGURATION}.txt",
-			);
-			name = "[CP] Embed Pods Frameworks";
-			outputPaths = (
-			);
-			runOnlyForDeploymentPostprocessing = 0;
-			shellPath = /bin/sh;
-			shellScript = "\"${PODS_ROOT}/Target Support Files/Pods-Siml-SimlTests/Pods-Siml-SimlTests-frameworks.sh\"\n";
-			showEnvVarsInLog = 0;
-		};
 		C46236EE4E3247ECE224DCEB /* [CP] Check Pods Manifest.lock */ = {
 			isa = PBXShellScriptBuildPhase;
 			buildActionMask = 2147483647;
@@ -611,6 +548,7 @@
 			inputPaths = (
 				"${PODS_ROOT}/Target Support Files/Pods-Siml-SimlTests/Pods-Siml-SimlTests-resources.sh",
 				"${PODS_ROOT}/FBSDKCoreKit/FacebookSDKStrings.bundle",
+				"${PODS_ROOT}/GoogleMaps/Maps/Frameworks/GoogleMaps.framework/Resources/GoogleMaps.bundle",
 				"${PODS_ROOT}/../../node_modules/react-native-vector-icons/Fonts/AntDesign.ttf",
 				"${PODS_ROOT}/../../node_modules/react-native-vector-icons/Fonts/Entypo.ttf",
 				"${PODS_ROOT}/../../node_modules/react-native-vector-icons/Fonts/EvilIcons.ttf",
@@ -632,6 +570,7 @@
 			name = "[CP] Copy Pods Resources";
 			outputPaths = (
 				"${TARGET_BUILD_DIR}/${UNLOCALIZED_RESOURCES_FOLDER_PATH}/FacebookSDKStrings.bundle",
+				"${TARGET_BUILD_DIR}/${UNLOCALIZED_RESOURCES_FOLDER_PATH}/GoogleMaps.bundle",
 				"${TARGET_BUILD_DIR}/${UNLOCALIZED_RESOURCES_FOLDER_PATH}/AntDesign.ttf",
 				"${TARGET_BUILD_DIR}/${UNLOCALIZED_RESOURCES_FOLDER_PATH}/Entypo.ttf",
 				"${TARGET_BUILD_DIR}/${UNLOCALIZED_RESOURCES_FOLDER_PATH}/EvilIcons.ttf",
@@ -709,6 +648,7 @@
 			buildActionMask = 2147483647;
 			files = (
 				13B07FBC1A68108700A75B9A /* AppDelegate.m in Sources */,
+				525E27BC2641A59000F68343 /* File.swift in Sources */,
 				13B07FC11A68108700A75B9A /* main.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
@@ -750,6 +690,7 @@
 			isa = XCBuildConfiguration;
 			baseConfigurationReference = 3D8EF1F8238E3AB7CDF39D9B /* Pods-Siml-SimlTests.debug.xcconfig */;
 			buildSettings = {
+				ALWAYS_EMBED_SWIFT_STANDARD_LIBRARIES = YES;
 				BUNDLE_LOADER = "$(TEST_HOST)";
 				GCC_PREPROCESSOR_DEFINITIONS = (
 					"DEBUG=1",
@@ -773,6 +714,7 @@
 			isa = XCBuildConfiguration;
 			baseConfigurationReference = C5132A16441385E1F7D7312A /* Pods-Siml-SimlTests.release.xcconfig */;
 			buildSettings = {
+				ALWAYS_EMBED_SWIFT_STANDARD_LIBRARIES = YES;
 				BUNDLE_LOADER = "$(TEST_HOST)";
 				COPY_PHASE_STRIP = NO;
 				INFOPLIST_FILE = SimlTests/Info.plist;
@@ -808,6 +750,7 @@
 				);
 				PRODUCT_BUNDLE_IDENTIFIER = com.wearesiml.siml;
 				PRODUCT_NAME = Siml;
+				SWIFT_OBJC_BRIDGING_HEADER = "Siml-Bridging-Header.h";
 				SWIFT_OPTIMIZATION_LEVEL = "-Onone";
 				SWIFT_VERSION = 5.0;
 				VERSIONING_SYSTEM = "apple-generic";
@@ -832,6 +775,7 @@
 				);
 				PRODUCT_BUNDLE_IDENTIFIER = com.wearesiml.siml;
 				PRODUCT_NAME = Siml;
+				SWIFT_OBJC_BRIDGING_HEADER = "Siml-Bridging-Header.h";
 				SWIFT_VERSION = 5.0;
 				VERSIONING_SYSTEM = "apple-generic";
 			};
