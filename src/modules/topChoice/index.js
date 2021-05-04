@@ -130,6 +130,7 @@ class TopChoice extends Component {
                       item: item
                     })
                   }}
+                  navigation={this.props.navigation}
                 />
               ))
             }
