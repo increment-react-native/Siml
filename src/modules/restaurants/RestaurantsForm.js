@@ -108,7 +108,7 @@ class Restaurants extends Component {
       Api.request(Routes.synqtCreate, parameter, res => {
         this.setState({ isLoading: false })
         if (res.data !== null) {
-          this.sendInvitation(res.data);
+          
           setDefaultAddress(null);
           setLocation(null);
           this.createMessengerGroup(res.data, parameter.date)
@@ -199,17 +199,22 @@ class Restaurants extends Component {
   }
 
   createMessengerGroup(id, date) {
+    const { tempMembers } = this.props.state;
+    let members = [];
+    tempMembers.length > 0 && tempMembers.map((item, index) => {
+      members.push({account_id: item.account?.id})
+    })
+    members.push({account_id: this.props.state?.user?.id});
     let parameter = {
       account_id: this.props.state.user.id,
       title: date,
       payload: id,
-      members: this.props.state.tempMembers
+      members: members
     }
     this.setState({ isLoading: true })
     Api.request(Routes.messengerGroupCreate, parameter, response => {
       this.setState({ isLoading: false })
       if (response.data !== null) {
-        this.props.navigation.navigate('menuStack', { synqt_id: id })
         this.sendInvitation(id);
       }
     });
@@ -217,7 +222,6 @@ class Restaurants extends Component {
 
   sendInvitation = (id) => {
     const { tempMembers, user } = this.props.state
-    tempMembers.push({account_id: user.id})
     tempMembers.length > 0 && tempMembers.map((item, index) => {
       let parameter = {
         from: this.props.state.user.id,
@@ -230,7 +234,7 @@ class Restaurants extends Component {
       Api.request(Routes.notificationCreate, parameter, response => {
         this.setState({ isLoading: false })
         if(response.data !== null) {
-          
+          this.props.navigation.navigate('menuStack', { synqt_id: id })
         }
       });
     })
