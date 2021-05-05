@@ -16,11 +16,11 @@ class Filter extends Component {
     super(props);
     this.state = {
       cuisine: [],
-      categoriesCuisine: null,
+      categoriesCuisine: [],
       value: 0,
       data: [],
       check: false,
-      selecte: ['Filipino']
+      selecte: []
     }
   }
   action = () => {  
@@ -114,69 +114,11 @@ class Filter extends Component {
         selectedIconName={faCheck}
         unselectedIconName={faCross}
         scrollViewHeight={'100%'}
-        selected={this.state.categoriesCuisine != null ? this.state.categoriesCuisine : this.state.selecte} // list of options which are selected by default
+        selected={this.state.categoriesCuisine?.length >= 1 ? this.state.categoriesCuisine : this.state.selecte} // list of options which are selected by default
       />
       </View>
     )
   }
-
-  gather = (val) => {
-    console.log('[val]', val)
-    this.setState
-    // if(val.id == index){
-    //   this.state.sel.push(index)
-    //   this.setState({sel: index})
-    // }
-  }
-
-  // lists(){
-  //   return(
-  //     <ScrollView
-  //     style={{marginTop: '1%'}}
-  //     >
-  //       { 
-  //       (this.props.from == 'categories') && 
-  //         Helper.cuisines.map((item, index) => (
-  //           <View style={{borderWidth: 1, padding: '6%', marginLeft: '-1%', marginRight: '-5%', borderBottomColor: Color.gray, borderColor: Color.white}}
-  //           key={index}>
-  //             <TouchableOpacity
-  //             onPress={(index) => this.gather(item, item.id)}>
-  //               {
-  //                 item.id == this.state.sel ?
-  //                 // this.state.check == true ?
-  //                 <FontAwesomeIcon style={{
-  //                   borderColor: Color.primary,
-  //                   marginLeft: '90%',
-  //                   top: '90%',
-  //                   marginTop: '-8%'
-  //                 }}
-  //                 icon={faCheck}
-  //                 size={20}
-  //                 color={Color.primary}
-  //                 />
-  //                 :
-  //                 <FontAwesomeIcon style={{
-  //                   borderColor: Color.white,
-  //                   marginLeft: '90%',
-  //                   top: '90%',
-  //                   marginTop: '-8%'
-  //                 }}
-  //                 icon={faCheck}
-  //                 size={20}
-  //                 color={Color.white}
-  //                 />
-  //               }
-  //               <Text style={{marginLeft: '5%'}}
-  //               >{item.type}</Text>
-  //             </TouchableOpacity>
-  //           </View>
-  //         ))
-  //       }
-  //     </ScrollView>
-  //   )
-  // }
-
-
 
   header(){
     const { theme } = this.props.state;

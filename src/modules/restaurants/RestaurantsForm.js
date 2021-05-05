@@ -2,11 +2,9 @@ import React, { Component } from 'react';
 import { ScrollView, View, Text, StyleSheet, TouchableOpacity, Image, Alert } from 'react-native';
 import { SliderPicker } from 'react-native-slider-picker';
 import { BasicStyles, Color, Routes } from 'common'
-import LocationInput from 'components/InputField/LocationInput'
 import NumberInput from 'components/InputField/NumberInput'
 import InputSelect from 'components/InputField/InputSelect'
 import Range from 'components/InputField/Range'
-import Slider from 'components/InputField/Slider'
 import DateTimePicker from 'components/DateTime/index.js'
 import Group from 'modules/generic/PeopleList.js'
 import { connect } from 'react-redux';
@@ -22,7 +20,6 @@ class Restaurants extends Component {
       value: 100,
       val: 1,
       Date: null,
-      Time: null,
       isLoading: false,
       size: 1,
       cuisines: null,
@@ -46,12 +43,6 @@ class Restaurants extends Component {
 
   goesTo = () => {
     this.redirect('peopleListStack')
-  }
-
-  cuis = () => {
-    this.state.cuisines.categories.map(el => {
-      console.log('[el]', el)
-    })
   }
 
   createSynqt = () => {
@@ -89,7 +80,7 @@ class Restaurants extends Component {
       size: this.state.size?.count != null ? this.state.size?.count : this.state.size,
       val: this.state.val,
       value: this.state.value?.amount != null ? this.state.value?.amount : this.state.value,
-      category: this.state.cuisines?.categories != null ? this.state.cuisines.categories : this.state.cuisines
+      category: this.state.cuisines?.categories?.length >= 1 ? this.state.cuisines.categories : ["Filipino", "Chinese", "Japanese", "Indian", "Italian", "Thai", "Spanish", "French", "Korean", "Turkish"]
    }
     this.setState({ isLoading: true })
     Api.request(Routes.locationCreate, param, response => {
@@ -100,7 +91,7 @@ class Restaurants extends Component {
       let parameter = {
         account_id: user.id,
         location_id: response.data,
-        date: this.state.Date?.date + ' ' + this.state.Date?.time,
+        date: this.state.Date?.date,
         status: 'pending',
         details: JSON.stringify(detail)
       }
@@ -122,7 +113,7 @@ class Restaurants extends Component {
     if(this.state.Date == null){
       Alert.alert(
         'Oopps',
-        'Please specify the date and time.',
+        'Please specify the date.',
         [
           {text: 'Ok'}
         ],
@@ -163,18 +154,7 @@ class Restaurants extends Component {
       )
       return
     }
-    if( this.state.cuisines == null){
-      Alert.alert(
-        'Oopps',
-        'Please select at least one cuisine',
-        [
-          {text: 'Ok'}
-        ],
-        { cancelable: false }
-      )
-      return
-    }
-    if( this.state.Date == null ||  this.state.Date?.time == null || this.state.size == null || this.state.value == null || this.state.cuisines == null || this.state.val == null){
+    if( this.state.Date == null || this.state.size == null || this.state.value == null || this.state.val == null){
       Alert.alert(
         'Oopps',
         'Please fill up all of the fields',
@@ -279,14 +259,14 @@ class Restaurants extends Component {
               marginLeft: 20,
               marginRight: 20
             }}>
-              <Text>Date and Time</Text>
+              <Text>Date</Text>
               <DateTimePicker
                 borderBottomColor={Color.gray}
                 icon={true}
                 textStyle={{ marginRight: '-7%' }}
                 borderColor={'white'}
-                type={'datetime'}
-                placeholder={'Select Date and Time'}
+                type={'date'}
+                placeholder={'Select Date'}
                 onFinish={(date) => {
                   this.setState({
                     Date: date
@@ -322,7 +302,7 @@ class Restaurants extends Component {
                   })
                 }}
                 titles={'cuisines'}
-                placeholder={this.state.cuisines?.categories != null ? this.state.cuisines.categories.join(',') : 'Filipino' }
+                placeholder={(this.state.cuisines?.categories == null|| this.state.cuisines?.categories?.length == 10 || this.state.cuisines?.categories?.length < 1 ) ? ' ' : this.state.cuisines.categories.join(',') }
                 title={'Cuisines'} />
             </View>
             <Text style={{ color: 'black', marginBottom: 15, marginLeft: 20 }}>Radius</Text>
