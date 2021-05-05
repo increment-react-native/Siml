@@ -74,7 +74,7 @@ class ImageCardWithUser extends Component {
                   marginTop: -7,
                   marginLeft: 6
                 }}>
-                  <GroupUsers cardUser={true} style={{ marginLeft: -15 }} size={30} data={data.users} />
+                  <GroupUsers navigation={this.props.navigation} cardUser={true} style={{ marginLeft: -15 }} size={30} data={data.users} />
                 </View>
                 {data.details === true && <View style={{
                   flexDirection: 'row',

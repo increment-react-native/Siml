@@ -138,6 +138,7 @@ class Notifications extends Component {
                   onClick={() => {
                     this.props.navigation.navigate('menuStack', {synqt_id: item.synqt[0].id, id: item.id})
                   }}
+                  navigation={this.props.navigation}
                 />
               ))
             }

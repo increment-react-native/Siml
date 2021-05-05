@@ -207,7 +207,7 @@ class Connections extends Component {
                 </View>
 
                 <View>
-                  <CardList level={2} retrieve={() => {this.refresh()}} navigation={this.props.navigation} data={this.state.suggestions.length > 0 && this.state.suggestions} hasAction={false} actionType={'button'} actionContent={'text'}></CardList>
+                  <CardList level={2} invite={false} retrieve={() => {this.refresh()}} navigation={this.props.navigation} data={this.state.suggestions.length > 0 && this.state.suggestions} hasAction={true} actionType={'button'} actionContent={'text'}></CardList>
                   {this.state.suggestions.length == 0 && (<Empty refresh={true} onRefresh={() => this.refresh()} />)}
                 </View>
 

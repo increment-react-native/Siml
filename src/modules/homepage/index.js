@@ -77,7 +77,7 @@ class HomePage extends Component {
                         source={user && user.account_profile && user.account_profile.url ? { uri: Config.BACKEND_URL + user.account_profile.url } : require('assets/logo.png')}
                         style={[BasicStyles.profileImageSize, {
                           height: '100%',
-                          width: '100%',
+                          width: '101%',
                           borderRadius: 100
                         }]} />
                     ) : <FontAwesomeIcon

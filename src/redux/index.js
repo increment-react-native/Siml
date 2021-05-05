@@ -220,11 +220,10 @@ const reducer = (state = initialState, action) => {
       if (state.messagesOnGroup != null) {
         let oldMessages = state.messagesOnGroup.messages;
         if (oldMessages == null || oldMessages.length == 0) {
-          let temp = [];
-          temp.push(message);
+          console.log(message, 'message');
           updatedMessagesOnGroup = {
             ...state.messagesOnGroup,
-            messages: temp,
+            messages: oldMessages.push(message),
           };
         } else {
           if (

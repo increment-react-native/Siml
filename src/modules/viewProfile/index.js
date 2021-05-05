@@ -236,6 +236,7 @@ class ViewProfile extends Component {
                   onClick={() => {
                     // this.onClick(item)
                   }}
+                  navigation={this.props.navigation}
                 />
               ))
             }
