@@ -24,6 +24,7 @@ class Swipe extends Component {
             marginBottom: 100
           }}>
             <Swiper
+              messengerGroup={this.props.messengerGroup}
               item={this.props.item}
               history={this.props.history}
               navigation={this.props.navigation}

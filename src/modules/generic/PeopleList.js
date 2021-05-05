@@ -48,12 +48,13 @@ class PeopleList extends Component {
                 alignItems: 'center',
                 justifyContent: 'center'
               }}
-                onPress={() => { this.props.navigation.navigate('viewProfileStack', { 
+                onPress={() => {
+                  this.props.navigation.navigate('viewProfileStack', { 
                   user: {
                     account: {
-                      profile: item.account.profile,
-                      username: 'Unknown Name',
-                      information: item.information
+                      profile: item.account?.profile,
+                      username: item.account?.username,
+                      information: item.account?.information
                     }
                   },
                   level: 1 }) }}>

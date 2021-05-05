@@ -132,6 +132,7 @@ class ViewProfile extends Component {
   }
 
   renderConnections() {
+    console.log(this.state.connections.length > 0 && this.state.connections[0]);
     return (
       <View>
         {this.state.connections.length === 0 && (<Empty refresh={true} onRefresh={() => this.retrieveConnections(false)} />)}
@@ -164,11 +165,11 @@ class ViewProfile extends Component {
                   <View>
                     <View style={{ flexDirection: 'row', width: '100%' }}>
                       <View style={{ width: '50%' }}>
-                        <Text style={{ fontWeight: 'bold' }}>{el?.account?.information?.first_name ? el?.account?.information?.first_name + ' ' + el?.account?.information?.last_name : el?.account?.username}</Text>
-                        <Text style={{ fontStyle: 'italic' }}>{el?.account?.information?.address || 'No address provided'}</Text>
-                        <Text style={{ color: 'gray', fontSize: 10 }}>{el.numberOfConnection} similar connections</Text>
+                        <Text style={{ fontWeight: 'bold', width: '110%' }} numberOfLines={1}>{el?.account?.information?.first_name ? el?.account?.information?.first_name + ' ' + el?.account?.information?.last_name : el?.account?.username}</Text>
+                        <Text style={{ fontStyle: 'italic' }} numberOfLines={1}>{el?.account?.information?.address || 'No address provided'}</Text>
+                        <Text style={{ color: 'gray', fontSize: 10 }} numberOfLines={1}>{el.numberOfConnection} similar connections</Text>
                       </View>
-                      <TouchableOpacity
+                      {el.account?.id !== this.props.state.user.id && <TouchableOpacity
                         // onPress={() => this.changeTab(idx)}
                         style={{
                           ...Style.actionBtn,
@@ -176,7 +177,7 @@ class ViewProfile extends Component {
                         }}
                       >
                         <Text style={{ color: 'white' }}>Add</Text>
-                      </TouchableOpacity>
+                      </TouchableOpacity>}
                     </View>
                   </View>
                 </ListItem>
@@ -248,7 +249,6 @@ class ViewProfile extends Component {
 
   render() {
     let user = this.props.navigation.state?.params?.user
-    console.log(user, 'USER');
     return (
       <View style={{
         backgroundColor: Color.containerBackground
