@@ -2,7 +2,7 @@
 import PropTypes from 'prop-types';
 import React, { Component } from 'react';
 import styles from './Style';
-import { NavigationActions, StackActions } from 'react-navigation';
+import { NavigationActions, SafeAreaView, StackActions } from 'react-navigation';
 import { ScrollView, Text, View, Image, Share, TouchableOpacity } from 'react-native';
 import { connect } from 'react-redux';
 import { Helper, BasicStyles, Color } from 'common';
@@ -89,6 +89,7 @@ class Slider2 extends Component {
     const { colors } = this.state
     console.log('[COLOR]', theme)
     return (
+      <SafeAreaView>
       <LinearGradient
         colors={theme && theme.gradient !== undefined && theme.gradient !== null ? theme.gradient : Color.gradient}
         locations={[0, -0.5, 1]}
@@ -184,6 +185,7 @@ class Slider2 extends Component {
           </View>
         </ScrollView>
       </LinearGradient>
+      </SafeAreaView>
     );
   }
 }
