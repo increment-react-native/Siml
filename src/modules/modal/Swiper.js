@@ -107,27 +107,17 @@ class Cards extends React.Component {
   }
 
   addToReservation = () => {
-    Alert.alert(
-      '',
-      'Please click "Okay" to continue',
-      [
-        {text: 'Cancel', onPress: () => {return}, style: 'cancel'},
-        {text: 'Okay', onPress: () => {
-          let parameter = {
-            account_id: this.props.state.user.id,
-            merchant_id: this.props.item.merchant.id,
-            payload: 'synqt',
-            payload_value: this.props.item.synqt[0].id,
-            details: this.props.item.synqt[0]?.details,
-            datetime: this.props.item.synqt[0].date,
-            status: 'pending'
-          }
-          this.props.onClose(null);
-          this.props.navigation.navigate('eventNameStack', {parameter: parameter, buttonTitle: 'Make Reservation', data: this.props.item})
-        }},
-      ],
-      { cancelable: false }
-    )
+    let parameter = {
+      account_id: this.props.state.user.id,
+      merchant_id: this.props.item.merchant.id,
+      payload: 'synqt',
+      payload_value: this.props.item.synqt[0].id,
+      details: this.props.item.synqt[0]?.details,
+      datetime: this.props.item.synqt[0].date,
+      status: 'pending'
+    }
+    this.props.onClose(null);
+    this.props.navigation.navigate('eventNameStack', {parameter: parameter, buttonTitle: 'Make Reservation', data: this.props.item, messenger_group_id: this.props.messengerGroup})
   }
 
   renderCard = (data) => {

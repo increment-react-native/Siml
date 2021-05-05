@@ -24,15 +24,44 @@ class EventName extends Component {
       ],
       value: null,
       placeOrder: false,
-      isLoading: false
+      isLoading: false,
+      members: []
     }
   }
+
+  componentDidMount() {
+    this.retrieveMembers();
+  }
+
   onClick = () => {
     if (this.props.navigation.state?.params?.buttonTitle === 'Cancel') {
       this.deleteItem();
     } else {
       this.addToReservation();
     }
+  }
+
+  retrieveMembers = () => {
+    const { offset, limit } = this.state;
+    this.setState({ isLoading: true });
+    const parameter = {
+      condition: [{
+        value: this.props.navigation.state?.params?.messenger_group_id,
+        column: 'messenger_group_id',
+        clause: '='
+      }],
+      sort: {
+        'created_at': 'DESC'
+      }
+    }
+    console.log(parameter, 'paramter');
+    Api.request(Routes.messengerMembersRetrieve, parameter, response => {
+      this.setState({ isLoading: false });
+      console.log(response, 'response')
+      if (response.data.length > 0) {
+        this.setState({ members: response.data })
+      }
+    })
   }
 
   redirect(route) {
@@ -72,11 +101,11 @@ class EventName extends Component {
   addToReservation = () => {
     Alert.alert(
       '',
-      'Please click "OKAY" to continue',
+      'Kindly confirm to continue',
       [
         { text: 'Cancel', onPress: () => { return }, style: 'cancel' },
         {
-          text: 'Okay', onPress: () => {
+          text: 'Confirm', onPress: () => {
             this.setState({ isLoading: true })
             Api.request(Routes.reservationCreate, this.props.navigation.state?.params?.parameter, response => {
               this.setState({ isLoading: false })
@@ -113,7 +142,7 @@ class EventName extends Component {
             <Text style={{
               fontSize: 16,
             }}>
-              SYNQT: RESTAURANT | {data.merchant.name}
+              {data.merchant.name}
             </Text>
             <Text style={{
               color: Color.gray,
@@ -130,9 +159,9 @@ class EventName extends Component {
           }}>
             {this.state.isLoading ? <Spinner mode="overlay" /> : null}
             <FontAwesomeIcon icon={faUser} size={20} color={Color.gray} style={{ marginRight: 10 }} />
-            <Text style={{ color: Color.gray }}>{this.props.navigation.state?.params?.data?.members?.length} people</Text>
+            <Text style={{ color: Color.gray }}>{this.state.members.length} people</Text>
             <View style={style.Date}>
-              <Text style={{ color: Color.primary }}>{data.synqt[0].date}</Text>
+              <Text style={{ color: Color.primary, fontSize: 10 }}>{data.synqt[0].date}</Text>
             </View>
             <View style={style.Distance}>
               <Text numberOfLines={1} style={{ fontSize: 10, color: 'white' }}>0.64 km</Text>
@@ -154,7 +183,7 @@ class EventName extends Component {
             marginTop: 25,
             padding: 10
           }}>
-            <Group navigation={this.props.navigation} size={45} data={data?.members?.length > 0 || data?.members !== null ? data?.members : []} />
+            <Group navigation={this.props.navigation} size={45} data={this.state.members.length > 0 ? this.state.members : []} />
           </View>
           <CustomizedButton style={{marginLeft:-20, marginBottom: 10}} onClick={this.onClick} title={this.props.navigation.state && this.props.navigation.state.params && this.props.navigation.state.params.buttonTitle && this.props.navigation.state.params.buttonTitle}></CustomizedButton>
         </View>

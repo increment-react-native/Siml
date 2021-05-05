@@ -56,9 +56,7 @@ class Groups extends Component {
       offset: 0
     }
     console.log(user.id);
-    this.setState({ isLoading: true })
     Api.request(Routes.circleRetrieve, parameter, response => {
-      this.setState({ isLoading: false })
       if (response.data.length > 0) {
         this.setState({ connections: response.data })
       }
@@ -158,17 +156,15 @@ class Groups extends Component {
                   <Image
                     source={user && user.account_profile && user.account_profile.url ? { uri: Config.BACKEND_URL + user.account_profile.url } : require('assets/logo.png')}
                     style={[BasicStyles.profileImageSize, {
-                      height: 60,
-                      width: 60,
-                      borderRadius: 100,
-                      borderColor: Color.primary,
-                      borderWidth: 2
+                      height: 50,
+                      width: 50,
+                      borderRadius: 100
                     }]} />
                 ) :
                   <View style={{
                     borderColor: Color.primary,
-                    width: 60,
-                    height: 60,
+                    width: 50,
+                    height: 50,
                     borderRadius: 50,
                     borderColor: Color.primary,
                     borderWidth: 3,
@@ -287,7 +283,10 @@ class Groups extends Component {
             borderBottomWidth: 1,
             paddingBottom: 10,
           }}>
-            <Group add={false} navigation={this.props.navigation} size={60} data={this.state.connections} />
+            <Group add={false} style={{
+              borderColor: Color.primary,
+              borderWidth: 2
+            }} navigation={this.props.navigation} size={50} data={this.state.connections} />
           </View>
         )}
         <ScrollView

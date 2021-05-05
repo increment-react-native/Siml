@@ -45,7 +45,7 @@ class MessagesV3 extends Component {
       keyRefresh: 0,
       isPullingMessages: false,
       offset: 0,
-      limit: 10,
+      limit: 13,
       isLock: false,
       settingsMenu: [],
       settingsBreadCrumbs: ['Settings'],
@@ -92,9 +92,9 @@ class MessagesV3 extends Component {
       }
     }
     Api.request(Routes.messengerMembersRetrieve, parameter, response => {
-      this.setState({ isLoading: false});
+      this.setState({ isLoading: false });
       if (response.data.length > 0) {
-        this.setState({members: response.data})
+        this.setState({ members: response.data })
       }
     })
   }
@@ -114,7 +114,7 @@ class MessagesV3 extends Component {
       sort: {
         'created_at': 'DESC'
       },
-      limit,
+      limit: limit,
       offset: offset * limit,
     }
     Api.request(Routes.messengerMessagesRetrieve, parameter, response => {
@@ -219,7 +219,6 @@ class MessagesV3 extends Component {
     this.setState({ newMessage: null })
     Api.request(Routes.messengerMessagesCreate, parameter, response => {
       if (response.data != null) {
-        console.log('[responseByUpdatingMessages]', response.data);
         updateMessageByCode(response.data);
       }
     });
@@ -633,7 +632,8 @@ class MessagesV3 extends Component {
     return (
       <View style={{
         width: '100%',
-        height: '100%'
+        height: '100%',
+        paddingBottom: 70
       }}>
         {
           messagesOnGroup != null && messagesOnGroup.messages != null && user != null && (
@@ -665,6 +665,7 @@ class MessagesV3 extends Component {
   }
 
   render() {
+    console.log(this.props.navigation.state.params.data, 'id');
     const { isLoading, isImageModal, imageModalUrl, photo, keyRefresh, isPullingMessages, isLock } = this.state;
     const { data } = this.props.navigation.state.params;
     const { messengerGroup, user, isViewing } = this.props.state;
@@ -689,6 +690,15 @@ class MessagesV3 extends Component {
             </View>
           )
         }
+        {this.state.members.length > 0 && (
+          <View style={{
+            paddingBottom: 10,
+            margin: '2%',
+            flexDirection: 'row'
+          }}>
+            <Group add={true} navigation={this.props.navigation} style={{ marginLeft: 9 }} redirectTo={() => this.props.navigation.navigate('peopleListStack', { data: this.props.navigation.state?.params?.data, addMember: this.props.navigation.state.params.data.messenger_group_id })} color={Color.primary} size={55} data={this.state.members} />
+          </View>
+        )}
         <KeyboardAvoidingView
           behavior={'padding'}
           keyboardVerticalOffset={
@@ -699,15 +709,6 @@ class MessagesV3 extends Component {
         >
           <View key={keyRefresh}>
             {isLoading ? <Spinner mode="full" /> : null}
-            {this.state.members.length > 0 && (
-              <View style={{
-                paddingBottom: 10,
-                margin: '2%',
-                flexDirection: 'row'
-              }}>
-                <Group  add={true} navigation={this.props.navigation} style={{ marginLeft: 9 }} redirectTo={() => this.props.navigation.navigate('peopleListStack', {data: this.props.navigation.state?.params?.data, addMember: this.props.navigation.state.params.data.messenger_group_id})} color={Color.primary} size={55} data={this.state.members} />
-              </View>
-            )}
             <ScrollView
               ref={ref => this.scrollView = ref}
               onContentSizeChange={(contentWidth, contentHeight) => {
@@ -741,7 +742,8 @@ class MessagesV3 extends Component {
             >
               <View style={{
                 flexDirection: 'row',
-                width: '100%'
+                width: '100%',
+                marginBottom: 100
               }}>
                 {this._flatList()}
               </View>
@@ -749,7 +751,7 @@ class MessagesV3 extends Component {
 
             <View style={{
               position: 'absolute',
-              bottom: this.state.members.length > 0 ? 300 : 0,
+              bottom: this.state.members.length > 0 ? 180 : 0,
               left: 0,
               borderTopColor: Color.lightGray,
               borderTopWidth: 1,

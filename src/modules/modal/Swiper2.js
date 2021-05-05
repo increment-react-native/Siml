@@ -98,7 +98,7 @@ class Cards extends React.Component {
 
   swipeHandler = () => {
     this.props.header(this.state.index >= this.state.data.length - 2 ? true : false);
-    this.setState({ index: this.state.index + 1 === this.state.data.length ? 0 : this.state.index + 1 })
+    this.setState({ index: this.state.index + 1 === this.state.data.length ? 0 : this.state.index + 1, products: [] })
   }
 
   addToTopChoice = () => {
