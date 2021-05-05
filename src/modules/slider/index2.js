@@ -92,7 +92,7 @@ class Slider2 extends Component {
       <SafeAreaView>
       <LinearGradient
         colors={theme && theme.gradient !== undefined && theme.gradient !== null ? theme.gradient : Color.gradient}
-        locations={[0, -0.5, 1]}
+        locations={[0, 0.5, 1]}
         start={{ x: 1, y: 0 }}
         end={{ x: 1, y: 1 }}
         style={{ height: height, paddingRight: 10, marginTop: '-1%', width: width }}

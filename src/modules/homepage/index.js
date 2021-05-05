@@ -37,7 +37,7 @@ class HomePage extends Component {
           <SafeAreaView>
             <LinearGradient
               colors={theme && theme.gradient !== undefined && theme.gradient !== null ? theme.gradient : Color.gradient}
-              locations={[0, -0.5, 1]}
+              locations={[0, 0.5, 1]}
               start={{ x: 1, y: 0 }}
               end={{ x: 1, y: 1 }}
               style={{ borderRadius: 20, width: '90%', marginLeft: 'auto', marginRight: 'auto', marginTop: '15%', paddingRight: 250, paddingLeft: 10 }}
