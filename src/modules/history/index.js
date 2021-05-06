@@ -140,6 +140,7 @@ class History extends Component {
                     status: 'pending'
                   }, buttonTitle: this.props.navigation.state?.params?.title === 'Upcoming' ? "Cancel" : 'Make Reservation', data: item})
                 }}
+                navigation={this.props.navigation}
               />
             ))
           }

@@ -15,7 +15,8 @@ import _ from 'lodash';
 
 const navs = [
   { name: "Suggestions", flag: true },
-  { name: "Connections", flag: false }
+  { name: "Connections", flag: false },
+  { name: "Sent Requests", flag: false }
 ]
 
 class Connections extends Component {
@@ -32,39 +33,40 @@ class Connections extends Component {
       isLoading: false,
       pending: [],
       suggestions: [],
-      connections: []
+      connections: [],
+      sentRequests: []
     }
   }
 
   componentDidMount() {
     this.retrieveRandomUsers(false);
-    this.retrieve(false);
+    this.retrieveConnections(false);
+    this.retrieveSuggestions(false);
+    this.retrieveSentRequests(false);
   }
 
   refresh = () => {
     this.retrieveRandomUsers(false);
-    this.retrieve(false);
+    this.retrieveConnections(false);
+    this.retrieveSuggestions(false);
+    this.retrieveSentRequests(false);
   }
 
-  retrieve(flag) {
+  retrieveConnections(flag) {
     const { user } = this.props.state
-    console.log(user.id);
-    if (user == null) {
-      return
-    }
     let parameter = {
       condition: [{
         value: user.id,
-        column: this.state.currActive == 0 ? 'account' : 'account_id',
+        column: 'account_id',
         clause: '='
       }, {
         value: user.id,
         column: 'account',
-        clause: this.state.currActive == 0 ? '=' : 'or'
+        clause: 'or'
       }, {
         clause: "=",
         column: "status",
-        value: this.state.currActive == 0 ? 'pending' : 'accepted'
+        value: 'accepted'
       }],
       offset: flag == true && this.state.offset > 0 ? (this.state.offset * this.state.limit) : this.state.offset,
       limit: this.state.limit
@@ -86,6 +88,78 @@ class Connections extends Component {
     });
   }
 
+  retrieveSentRequests(flag) {
+    const { user } = this.props.state
+    let parameter = {
+      condition: [{
+        value: user.id,
+        column: 'account_id',
+        clause: '='
+      }, {
+        value: user.id,
+        column: 'account_id',
+        clause: '='
+      }, {
+        clause: "=",
+        column: "status",
+        value: 'pending'
+      }],
+      offset: flag == true && this.state.offset > 0 ? (this.state.offset * this.state.limit) : this.state.offset,
+      limit: this.state.limit
+    }
+    this.setState({ isLoading: true })
+    Api.request(Routes.circleRetrieve, parameter, response => {
+      this.setState({ isLoading: false })
+      if (response.data.length > 0) {
+        this.setState({
+          sentRequests: flag == false ? response.data : _.uniqBy([...this.state.sentRequests, ...response.data], 'id'),
+          offset: flag == false ? 1 : (this.state.offset + 1)
+        })
+      } else {
+        this.setState({
+          sentRequests: flag == false ? [] : this.state.sentRequests,
+          offset: flag == false ? 0 : this.state.offset
+        })
+      }
+    });
+  }
+
+  retrieveSuggestions(flag) {
+    const { user } = this.props.state
+    let parameter = {
+      condition: [{
+        value: user.id,
+        column: 'account',
+        clause: '='
+      }, {
+        value: user.id,
+        column: 'account',
+        clause: '='
+      }, {
+        clause: "=",
+        column: "status",
+        value: 'pending'
+      }],
+      offset: flag == true && this.state.offset > 0 ? (this.state.offset * this.state.limit) : this.state.offset,
+      limit: this.state.limit
+    }
+    this.setState({ isLoading: true })
+    Api.request(Routes.circleRetrieve, parameter, response => {
+      this.setState({ isLoading: false })
+      if (response.data.length > 0) {
+        this.setState({
+          pending: flag == false ? response.data : _.uniqBy([...this.state.connections, ...response.data], 'id'),
+          offset: flag == false ? 1 : (this.state.offset + 1)
+        })
+      } else {
+        this.setState({
+          pending: flag == false ? [] : this.state.connections,
+          offset: flag == false ? 0 : this.state.offset
+        })
+      }
+    });
+  }
+
   retrieveRandomUsers = (flag) => {
     const { user } = this.props.state;
     let parameter = {
@@ -97,7 +171,6 @@ class Connections extends Component {
     Api.request(Routes.otherAccountsRetrieve, parameter, response => {
       this.setState({ isLoading: false })
       if (response.data.length > 0) {
-        console.log(response.data[response.data.length -1]);
         this.setState({
           suggestions: flag == false ? response.data : _.uniqBy([...this.state.suggestions, ...response.data], 'id'),
           offset: flag == false ? 1 : (this.state.offset + 1)
@@ -118,23 +191,14 @@ class Connections extends Component {
       navs[idx].flag = true
       await this.setState({ prevActive: idx })
     }
-    this.setState({connections: []})
-    this.retrieve(false)
-  }
-
-  group = () => {
-    const { pending, connections } = this.state;
-    this.state.data && this.state.data.length > 0 && this.state.data.map((item, index) => {
-      if(item.status === 'pending') {
-        pending.push(item);
-      } else if(item.status === 'accepted') {
-        connections.push(item);
-      }
-    })
+    if(idx === 0) {
+      this.refresh();
+    }
+    // this.setState({connections: []})
+    // this.retrieve(false)
   }
 
   render() {
-    this.group();
     return (
       <View style={{
         flex: 1
@@ -159,7 +223,7 @@ class Connections extends Component {
             }
           }}
         >
-          <View style={{ flex: 1, flexDirection: 'row', borderBottomWidth: 0.3, paddingBottom: 20, borderColor: Color.gray, marginTop: '7%' }}>
+          <View style={{ flex: 1, flexDirection: 'row', borderBottomWidth: this.state.pending.length > 0 ? 0.3 : 0, marginBottom: this.state.pending.length > 0 ? 20 : 10, borderColor: Color.gray, marginTop: '7%' }}>
             {
               navs.map((el, idx) => {
                 return (
@@ -180,34 +244,45 @@ class Connections extends Component {
           {
             this.state.currActive == 0 ? (
               <View>
-                <CardList level={2} retrieve={() => {this.refresh()}} status={'pending'} navigation={this.props.navigation} data={this.state.connections.length > 0 && this.state.connections} hasAction={true} actionType={'text'}></CardList>
-                <View style={{ marginTop: 50, paddingLeft: 30, borderTopWidth: 0.3, paddingTop: 20, borderColor: Color.gray }}>
+                <CardList level={2} retrieve={() => { this.refresh() }} status={'pending'} navigation={this.props.navigation} data={this.state.pending.length > 0 && this.state.pending} hasAction={true} actionType={'text'}></CardList>
+                <View style={{ marginTop: 50, paddingLeft: 30, borderBottomWidth: this.state.pending.length > 0 ? 0.3 : 0, marginTop: this.state.pending.length > 0 ? 20 : 0, borderColor: Color.gray }}>
                   <Text style={{ fontWeight: 'bold' }}>Connections you may know</Text>
                 </View>
 
                 <View>
-                  <CardList level={2} retrieve={() => {this.refresh()}} navigation={this.props.navigation} data={this.state.suggestions.length > 0 && this.state.suggestions} hasAction={false} actionType={'button'} actionContent={'text'}></CardList>
+                  <CardList level={2} invite={false} retrieve={() => { this.refresh() }} navigation={this.props.navigation} data={this.state.suggestions.length > 0 && this.state.suggestions} hasAction={false} actionType={'button'} actionContent={'text'}></CardList>
                   {this.state.suggestions.length == 0 && (<Empty refresh={true} onRefresh={() => this.refresh()} />)}
                 </View>
 
               </View>
             ) : (
               <View>
-              <View style={{ flex: 1, justifyContent: 'center', alignItems: 'center', marginTop: '5%' }}>
-                <View style={Style.TextContainer}>
-                  <TextInput
-                    style={[BasicStyles.formControl, {backgroundColor: '#e8e8e8'}]}
-                    onChangeText={(search) => this.setState({ search: search })}
-                    value={this.state.search}
-                    placeholder={'Search'}
-                  />
-                </View>
-                <View>
-                  <CardList level={1} search={this.state.search} retrieve={() => {this.refresh()}} navigation={this.props.navigation} data={this.state.connections.length > 0 && this.state.connections} hasAction={false} actionType={'button'} actionContent={'icon'} ></CardList>
-                </View>
+                {this.state.currActive == 1 ? (
+                  <View>
+                    <View style={{ flex: 1, justifyContent: 'center', alignItems: 'center', marginTop: '5%' }}>
+                      <View style={Style.TextContainer}>
+                        <TextInput
+                          style={[BasicStyles.formControl, { backgroundColor: '#e8e8e8' }]}
+                          onChangeText={(search) => this.setState({ search: search })}
+                          value={this.state.search}
+                          placeholder={'Search'}
+                        />
+                      </View>
+                      <View>
+                        <CardList level={1} search={this.state.search} retrieve={() => { this.refresh() }} navigation={this.props.navigation} data={this.state.connections.length > 0 && this.state.connections} hasAction={false} actionType={'button'} actionContent={'icon'} ></CardList>
+                      </View>
+                    </View>
+                    {this.state.connections.length == 0 && (<Empty refresh={true} onRefresh={() => this.refresh()} />)}
+                  </View>)
+                  : <View>
+                    <View style={{ flex: 1, justifyContent: 'center', alignItems: 'center', marginTop: '5%' }}>
+                      <View>
+                        <CardList level={2} search={this.state.search} retrieve={() => { this.refresh() }} navigation={this.props.navigation} data={this.state.sentRequests.length > 0 && this.state.sentRequests} hasAction={false} actionType={'button'} actionContent={'icon'} ></CardList>
+                      </View>
+                    </View>
+                    {this.state.sentRequests.length == 0 && (<Empty refresh={true} onRefresh={() => this.refresh()} />)}
+                  </View>}
               </View>
-                {this.state.connections.length == 0 && (<Empty refresh={true} onRefresh={() => this.refresh()} />)}
-                </View>
             )
           }
         </ScrollView>

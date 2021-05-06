@@ -130,6 +130,7 @@ class TopChoice extends Component {
                       item: item
                     })
                   }}
+                  navigation={this.props.navigation}
                 />
               ))
             }
@@ -159,6 +160,7 @@ class TopChoice extends Component {
         {this.state.isLoading ? <Spinner mode="overlay" /> : null}
         {this.state.data && this.renderData()}
         <CardModal
+          messengerGroup={this.props.navigation.state?.params?.messenger_group_id}
           history={true}
           item={this.state.item && this.state.item}
           navigation={this.props.navigation}

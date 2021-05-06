@@ -47,7 +47,9 @@ class ImageCardWithUser extends Component {
               <View style={{
                 flexDirection: 'row',
                 backgroundColor: 'white',
-                padding: 15,
+                paddingTop: 15,
+                paddingRight: 15,
+                paddingLeft: 15,
                 elevation: 1,
                 borderBottomLeftRadius: BasicStyles.standardBorderRadius,
                 borderBottomRightRadius: BasicStyles.standardBorderRadius
@@ -63,7 +65,7 @@ class ImageCardWithUser extends Component {
                     numberOfLines={1}
                   >{data.name}</Text>
                   <Text style={{
-                    color: Color.gray,
+                    color: 'gray',
                     marginBottom: 10
                   }}
                     numberOfLines={1}
@@ -74,7 +76,7 @@ class ImageCardWithUser extends Component {
                   marginTop: -7,
                   marginLeft: 6
                 }}>
-                  <GroupUsers cardUser={true} style={{ marginLeft: -15 }} size={30} data={data.users} />
+                  <GroupUsers navigation={this.props.navigation} cardUser={true} style={{ marginLeft: -15 }} size={30} data={data.users} />
                 </View>
                 {data.details === true && <View style={{
                   flexDirection: 'row',

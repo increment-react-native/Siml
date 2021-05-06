@@ -1,6 +1,6 @@
 import React, { Component } from 'react';
 import Style from './Style.js';
-import { View, Image, Text, TouchableOpacity, ScrollView } from 'react-native';
+import { View, Image, Text, TouchableOpacity, ScrollView, SafeAreaView } from 'react-native';
 import { Routes, Color, Helper, BasicStyles } from 'common';
 import { FontAwesomeIcon } from '@fortawesome/react-native-fontawesome';
 import { faBars, faUtensils, faChevronLeft, faTicketAlt, faShoppingBag, faEdit, faUserCircle } from '@fortawesome/free-solid-svg-icons';
@@ -34,95 +34,97 @@ class HomePage extends Component {
             backgroundColor: Color.containerBackground
           }}
         >
-          <LinearGradient
-            colors={theme && theme.gradient !== undefined && theme.gradient !== null ? theme.gradient : Color.gradient}
-            locations={[0, -0.5, 1]}
-            start={{ x: 1, y: 0 }}
-            end={{ x: 1, y: 1 }}
-            style={{ borderRadius: 20, width: '90%', marginLeft: 'auto', marginRight: 'auto', marginTop: '15%', paddingRight: 250, paddingLeft: 10 }}
-          >
-            <View style={{ flex: 1, flexDirection: 'row' }}>
-              <View style={{ marginTop: 50 }}>
-                <Text style={{
-                  textAlign: 'center',
-                  color: Color.white
-                }}>{user?.account_information?.first_name ? user?.account_information?.first_name + '  ' + user?.account_information?.last_name : user?.username}</Text>
-                <Text style={{
-                  textAlign: 'center',
-                  fontWeight: 'bold',
-                  color: Color.white,
-                  fontSize: 25,
-                  width: 200
-                }}>What's the Consensus.</Text>
-              </View>
-              <View style={{
-                justifyContent: 'center',
-                alignItems: 'center',
-                height: 200,
-                width: '100%'
-              }}
-              >
-                <TouchableOpacity
-                  style={{
-                    height: 135,
-                    width: 135,
-                    borderRadius: 100,
-                    borderColor: Color.white,
-                    borderWidth: 2
-                  }}
-                  onPress={() => this.props.navigation.push('profileStack')}>
-                  {
-                    user?.account_profile && user?.account_profile.url ? (
-                      <Image
-                        source={user && user.account_profile && user.account_profile.url ? { uri: Config.BACKEND_URL + user.account_profile.url } : require('assets/logo.png')}
-                        style={[BasicStyles.profileImageSize, {
-                          height: '100%',
-                          width: '100%',
-                          borderRadius: 100
-                        }]} />
-                    ) : <FontAwesomeIcon
-                      icon={faUserCircle}
-                      size={132}
-                      style={{
-                        color: Color.white
-                      }}
-                    />
-                  }
-                  <View style={{
-                    height: 40,
-                    width: 40,
-                    borderRadius: 100,
-                    marginRight: 5,
-                    position: 'absolute',
-                    right: 5,
-                    bottom: -2,
-                    backgroundColor: 'white',
-                    justifyContent: 'center',
-                    alignItems: 'center'
-                  }}>
-                    <View style={{
-                      height: 25,
-                      width: 25,
+          <SafeAreaView>
+            <LinearGradient
+              colors={theme && theme.gradient !== undefined && theme.gradient !== null ? theme.gradient : Color.gradient}
+              locations={[0, 0.5, 1]}
+              start={{ x: 1, y: 0 }}
+              end={{ x: 1, y: 1 }}
+              style={{ borderRadius: 20, width: '90%', marginLeft: 'auto', marginRight: 'auto', marginTop: '15%', paddingRight: 250, paddingLeft: 10 }}
+            >
+              <View style={{ flex: 1, flexDirection: 'row' }}>
+                <View style={{ marginTop: 50 }}>
+                  <Text style={{
+                    textAlign: 'center',
+                    color: Color.white
+                  }}>{user?.account_information?.first_name ? user?.account_information?.first_name + '  ' + user?.account_information?.last_name : user?.username}</Text>
+                  <Text style={{
+                    textAlign: 'center',
+                    fontWeight: 'bold',
+                    color: Color.white,
+                    fontSize: 25,
+                    width: 200
+                  }}>What's the Consensus.</Text>
+                </View>
+                <View style={{
+                  justifyContent: 'center',
+                  alignItems: 'center',
+                  height: 200,
+                  width: '100%'
+                }}
+                >
+                  <TouchableOpacity
+                    style={{
+                      height: 135,
+                      width: 135,
                       borderRadius: 100,
-                      borderWidth: 2,
-                      borderColor: Color.primary,
+                      borderColor: Color.white,
+                      borderWidth: 2
+                    }}
+                    onPress={() => this.props.navigation.push('profileStack')}>
+                    {
+                      user?.account_profile && user?.account_profile.url ? (
+                        <Image
+                          source={user && user.account_profile && user.account_profile.url ? { uri: Config.BACKEND_URL + user.account_profile.url } : require('assets/logo.png')}
+                          style={[BasicStyles.profileImageSize, {
+                            height: '100%',
+                            width: '101%',
+                            borderRadius: 100
+                          }]} />
+                      ) : <FontAwesomeIcon
+                        icon={faUserCircle}
+                        size={132}
+                        style={{
+                          color: Color.white
+                        }}
+                      />
+                    }
+                    <View style={{
+                      height: 40,
+                      width: 40,
+                      borderRadius: 100,
+                      marginRight: 5,
+                      position: 'absolute',
+                      right: 5,
+                      bottom: -2,
                       backgroundColor: 'white',
                       justifyContent: 'center',
                       alignItems: 'center'
                     }}>
-                      <FontAwesomeIcon style={{
-                        borderColor: Color.primary
-                      }}
-                        icon={faEdit}
-                        size={12}
-                        color={Color.primary}
-                      />
+                      <View style={{
+                        height: 25,
+                        width: 25,
+                        borderRadius: 100,
+                        borderWidth: 2,
+                        borderColor: Color.primary,
+                        backgroundColor: 'white',
+                        justifyContent: 'center',
+                        alignItems: 'center'
+                      }}>
+                        <FontAwesomeIcon style={{
+                          borderColor: Color.primary
+                        }}
+                          icon={faEdit}
+                          size={12}
+                          color={Color.primary}
+                        />
+                      </View>
                     </View>
-                  </View>
-                </TouchableOpacity>
+                  </TouchableOpacity>
+                </View>
               </View>
-            </View>
-          </LinearGradient>
+            </LinearGradient>
+          </SafeAreaView>
 
           {/* <View style={{
               width: '80%',

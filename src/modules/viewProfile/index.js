@@ -3,7 +3,7 @@ import { View, Image, Text, TouchableOpacity, TextInput, ScrollView, SafeAreaVie
 import { ListItem } from 'react-native-elements'
 import { Routes, Color, Helper, BasicStyles } from 'common';
 import { FontAwesomeIcon } from '@fortawesome/react-native-fontawesome';
-import { faCheckCircle, faEdit, faUserCircle } from '@fortawesome/free-solid-svg-icons';
+import { faCheckCircle, faEdit, faUserCircle, faUser } from '@fortawesome/free-solid-svg-icons';
 import Style from './Style';
 import CustomizedButton from 'modules/generic/CustomizedButton';
 import ImageCardWithUser from 'modules/generic/ImageCardWithUser';
@@ -132,6 +132,7 @@ class ViewProfile extends Component {
   }
 
   renderConnections() {
+    console.log(this.state.connections.length > 0 && this.state.connections[0]);
     return (
       <View>
         {this.state.connections.length === 0 && (<Empty refresh={true} onRefresh={() => this.retrieveConnections(false)} />)}
@@ -141,19 +142,34 @@ class ViewProfile extends Component {
               <TouchableOpacity onPress={()=> {this.props.navigation.navigate('viewProfileStack', { user: el, level: 1 })}}>
                 {/* <Card containerStyle={{padding:-5, borderRadius: 20}}> */}
                 <ListItem key={idx}>
-                  <Image
-                    style={Style.circleImage}
-                    // resizeMode="cover"
-                    source={el.account?.profile?.url ? { uri: Config.BACKEND_URL + el.account?.profile?.url } : require('assets/logo.png')}
-                  />
+                {el.account?.profile?.url ? <Image
+                  style={Style.circleImage}
+                  source={{ uri: Config.BACKEND_URL + el.account?.profile?.url }}
+                /> :
+                  <View style={{
+                    borderColor: Color.primary,
+                    width: 75,
+                    height: 75,
+                    borderRadius: 50,
+                    borderColor: Color.primary,
+                    borderWidth: 3,
+                    overflow: "hidden",
+                    justifyContent: 'center',
+                    alignItems: 'center',
+                    paddingBottom: 8
+                  }}><FontAwesomeIcon
+                      icon={faUser}
+                      size={53}
+                      color={Color.primary}
+                    /></View>}
                   <View>
                     <View style={{ flexDirection: 'row', width: '100%' }}>
                       <View style={{ width: '50%' }}>
-                        <Text style={{ fontWeight: 'bold' }}>{el?.account?.information?.first_name ? el?.account?.information?.first_name + ' ' + el?.account?.information?.last_name : el?.account?.username}</Text>
-                        <Text style={{ fontStyle: 'italic' }}>{el?.account?.information?.address || 'No address provided'}</Text>
-                        <Text style={{ color: 'gray', fontSize: 10 }}>{el.numberOfConnection} similar connections</Text>
+                        <Text style={{ fontWeight: 'bold', width: '110%' }} numberOfLines={1}>{el?.account?.information?.first_name ? el?.account?.information?.first_name + ' ' + el?.account?.information?.last_name : el?.account?.username}</Text>
+                        <Text style={{ fontStyle: 'italic' }} numberOfLines={1}>{el?.account?.information?.address || 'No address provided'}</Text>
+                        <Text style={{ color: 'gray', fontSize: 10 }} numberOfLines={1}>{el.numberOfConnection} similar connections</Text>
                       </View>
-                      <TouchableOpacity
+                      {el.account?.id !== this.props.state.user.id && <TouchableOpacity
                         // onPress={() => this.changeTab(idx)}
                         style={{
                           ...Style.actionBtn,
@@ -161,7 +177,7 @@ class ViewProfile extends Component {
                         }}
                       >
                         <Text style={{ color: 'white' }}>Add</Text>
-                      </TouchableOpacity>
+                      </TouchableOpacity>}
                     </View>
                   </View>
                 </ListItem>
@@ -221,6 +237,7 @@ class ViewProfile extends Component {
                   onClick={() => {
                     // this.onClick(item)
                   }}
+                  navigation={this.props.navigation}
                 />
               ))
             }
@@ -232,12 +249,11 @@ class ViewProfile extends Component {
 
   render() {
     let user = this.props.navigation.state?.params?.user
-    console.log(user, 'USER');
     return (
       <View style={{
         backgroundColor: Color.containerBackground
       }}>
-        <ScrollView>
+        <ScrollView showsVerticalScrollIndicator={false}>
           <View>
             <View style={Style.TopView}>
               <TouchableOpacity>

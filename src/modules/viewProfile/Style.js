@@ -33,8 +33,8 @@ export default {
     fontSize: 15
   },
   circleImage: {
-    width: 80,
-    height: 80,
+    width: 70,
+    height: 70,
     borderRadius: 50,
     borderColor: Color.primary,
     borderWidth: 3,

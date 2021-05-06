@@ -132,12 +132,13 @@ class Notifications extends Component {
                     details: false
                   }}
                   style={{
-                    marginBottom: 20
+                    marginBottom: 10
                   }}
                   redirectTo={this.props.navigation.state.params && this.props.navigation.state.params.title}
                   onClick={() => {
                     this.props.navigation.navigate('menuStack', {synqt_id: item.synqt[0].id, id: item.id})
                   }}
+                  navigation={this.props.navigation}
                 />
               ))
             }

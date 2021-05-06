@@ -2,21 +2,25 @@ import React, {Component} from 'react';
 import { View, TouchableOpacity, FlatList, Text, Dimensions, ScrollView} from 'react-native';
 import Modal from "react-native-modal";
 import { Color , BasicStyles, Helper} from 'common';
-import Config from 'src/config.js';
 import {connect} from 'react-redux';
 import { SliderPicker } from 'react-native-slider-picker';
-import PickerWithLabel from 'components/Form/PickerWithLabel';
-import DatePicker from 'components/DateTime/index.js';
 import Button from 'components/Form/Button';
+import { FontAwesomeIcon } from '@fortawesome/react-native-fontawesome';
+import { faCheck, faCross, faEdit } from '@fortawesome/free-solid-svg-icons';
+import CustomMultiPicker from "./multipleSelect";
+// import PropTypes from 'prop-types';
 const height = Math.round(Dimensions.get('window').height);
+
 class Filter extends Component {
   constructor(props){
     super(props);
     this.state = {
       cuisine: [],
-      categoriesCuisine: null,
+      categoriesCuisine: [],
       value: 0,
-      data: []
+      data: [],
+      check: false,
+      selecte: []
     }
   }
   action = () => {  
@@ -84,36 +88,35 @@ class Filter extends Component {
     return <View style={Style.Separator} />;
   };
 
-  gather = (item) => {
-    this.state.categoriesCuisine = []
-    const { cuisine } = this.state
-    cuisine.push(item)
-    var newArray = [];
-      var newArray = cuisine.filter(function(elem, pos) {
-        return cuisine.indexOf(elem) == pos;
-      })
-    this.state.categoriesCuisine.push(newArray)
-  }
-
-  lists(){
+  selectList() {
     return(
-      <ScrollView
-      style={{marginTop: '1%'}}
-      >
-        { 
-        (this.props.from == 'categories') && 
-          Helper.cuisines.map((item, index) => (
-            <View style={{borderWidth: 1, padding: '6%', marginLeft: '-1%', marginRight: '-5%', borderBottomColor: Color.gray, borderColor: Color.white}}
-            key={index}>
-              <TouchableOpacity
-              onPress={(index) => this.gather(item.type)}>
-                <Text style={{marginLeft: '5%'}}
-                >{item.type}</Text>
-              </TouchableOpacity>
-            </View>
-          ))
-        }
-      </ScrollView>
+      <View style={{
+        width: '100%',
+        marginTop: '5%',
+        marginLeft: '2%'
+      }}>
+      <CustomMultiPicker
+        options={Helper.cuisines}
+        search={false} // should show search bar?
+        multiple={true} //
+        placeholder={"Search"}
+        placeholderTextColor={Color.white}
+        returnValue={"label"} // label or value
+        callback={(res)=>{ this.setState({categoriesCuisine: res}) }} // callback, array of selected items
+        rowBackgroundColor={Color.white}
+        rowHeight={40}
+        rowRadius={5}
+        searchIconName="ios-checkmark"
+        searchIconColor="red"
+        searchIconSize={30}
+        iconColor={Color.danger}
+        iconSize={30}
+        selectedIconName={faCheck}
+        unselectedIconName={faCross}
+        scrollViewHeight={'100%'}
+        selected={this.state.categoriesCuisine?.length >= 1 ? this.state.categoriesCuisine : this.state.selecte} // list of options which are selected by default
+      />
+      </View>
     )
   }
 
@@ -174,7 +177,7 @@ class Filter extends Component {
             }}>
               {this.header()}
               {(this.props.from == 'restaurant') && this.amount()}
-              {(this.props.from == 'categories') && this.lists()}
+              {(this.props.from == 'categories') && this.selectList()}
 
               <View style={{
                 width: '100%',

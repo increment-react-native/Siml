@@ -10,8 +10,8 @@ export default {
     overflow: 'hidden'
   },
   Image: {
-    width: 170,
-    height: 120,
+    width: '45%',
+    height: '100%',
     borderRadius: 15
   },
   Text: {

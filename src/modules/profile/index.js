@@ -159,7 +159,7 @@ class Profile extends Component {
   render() {
     const { user } = this.props.state;
     return (
-      <ScrollView>
+      <ScrollView showsVerticalScrollIndicator={false}>
         <View style={{
           backgroundColor: Color.containerBackground
         }}>
@@ -230,14 +230,14 @@ class Profile extends Component {
                 }}>Tap to edit profile</Text>
               </TouchableOpacity>
             </View>
-            <View style={Style.BottomView}>
+            {this.state.loading === false && <View style={Style.BottomView}>
               <FontAwesomeIcon style={{ marginRight: 5 }} icon={faCheckCircle} size={20} color={Color.primary} />
               <Text style={{
                 textAlign: 'center',
                 fontWeight: 'bold',
                 fontSize: 18
               }}>{this.state.firstName && this.state.middleName && this.state.lastName && this.state.firstName + ' ' + this.state.middleName  +' ' + this.state.lastName}</Text>
-            </View>
+            </View>}
           </View>
           <View style={{
             padding: 25,

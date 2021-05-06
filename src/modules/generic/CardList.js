@@ -1,5 +1,5 @@
 import React, { Component } from 'react';
-import { ScrollView, View, Text, StyleSheet, TouchableOpacity, Image, TextInput } from 'react-native';;
+import { ScrollView, View, Text, StyleSheet, TouchableOpacity, Image, TextInput, Alert } from 'react-native';;
 import { Card, ListItem, Button, Icon } from 'react-native-elements'
 import { Color, Routes } from 'common';
 import { Dimensions } from 'react-native';
@@ -7,6 +7,7 @@ import { FontAwesomeIcon } from '@fortawesome/react-native-fontawesome';
 import { faEllipsisH, faUser, faCheckCircle, fasTimesCircle, faTimesCircle } from '@fortawesome/free-solid-svg-icons';
 import Config from 'src/config.js';
 import { connect } from 'react-redux';
+import { Spinner } from 'components';
 import Api from 'services/api/index.js';
 
 const width = Math.round(Dimensions.get('window').width)
@@ -14,19 +15,35 @@ const width = Math.round(Dimensions.get('window').width)
 class CardList extends Component {
   constructor(props) {
     super(props);
+    this.state = {
+      isLoading: false
+    }
   }
 
   sendRequest = (el) => {
-    let parameter = {
-      account_id: this.props.state.user.id,
-      to_email: el.email,
-      content: "This is an invitation for you to join my connections."
-    }
-    this.setState({ isLoading: true });
-    Api.request(Routes.circleCreate, parameter, response => {
-      console.log(response, 'this is the response');
-      this.setState({ isLoading: false })
-    });
+    Alert.alert(
+      'Confirmation',
+      'Are you sure you want to add this person?',
+      [
+        {text: 'Cancel'},
+        {text: 'Add', onPress: () => {
+          let parameter = {
+            account_id: this.props.state.user.id,
+            to_email: el.email,
+            content: "This is an invitation for you to join my connections."
+          }
+          this.setState({ isLoading: true });
+          Api.request(Routes.circleCreate, parameter, response => {
+            console.log(response, 'response');
+            this.setState({ isLoading: false })
+            if(response.data !== null) {
+              el.is_added = true
+            }
+          });
+        }, style: 'cancel'}
+      ],
+      { cancelable: false }
+    )
   }
 
   storePeople = (item) => {
@@ -80,7 +97,8 @@ class CardList extends Component {
     const { setTempMembers } = this.props;
     let temp = this.props.state.tempMembers;
     temp.map((item, index) => {
-      if (id === item.account?.id) {
+      if (id === item.account.id) {
+        item['added'] = false
         temp.splice(index, 1)
         setTempMembers(temp);
       }
@@ -91,13 +109,14 @@ class CardList extends Component {
   render() {
     return (
       <View>
+        {this.state.isLoading ? <Spinner mode="overlay" /> : null}
         {
           this.props.data.length > 0 && this.props.data.map((el, idx) => {
             return (
               <View>
                 {this.props.search ?
                   <View>
-                    {this.props.search && (this.props.search !== null || this.props.search !== '') && ((el.account?.information?.first_name + ' ' + el.account?.information?.last_name).includes(this.props.search) || el.account?.username.includes(this.props.search)) && <TouchableOpacity onPress={() => { this.props.navigation.navigate('viewProfileStack', { user: el, level: this.props.level }) }}>
+                    {this.props.search && (this.props.search !== null || this.props.search !== '') && (((el.account?.information?.first_name + ' ' + el.account?.information?.last_name).toLowerCase()).includes(this.props.search.toLowerCase()) || (el.account?.username).toLowerCase().includes(this.props.search.toLowerCase())) && <TouchableOpacity onPress={() => { this.props.navigation.navigate('viewProfileStack', { user: el, level: this.props.level }) }}>
                       <ListItem key={idx} style={{ width: width }}>
                         {el.account?.profile?.url ? <Image
                           style={Style.circleImage}
@@ -105,8 +124,8 @@ class CardList extends Component {
                         /> :
                           <View style={{
                             borderColor: Color.primary,
-                            width: 90,
-                            height: 90,
+                            width: 75,
+                            height: 75,
                             borderRadius: 50,
                             borderColor: Color.primary,
                             borderWidth: 3,
@@ -116,7 +135,7 @@ class CardList extends Component {
                             paddingBottom: 8
                           }}><FontAwesomeIcon
                               icon={faUser}
-                              size={68}
+                              size={53}
                               color={Color.primary}
                             /></View>}
                         <View>
@@ -157,7 +176,7 @@ class CardList extends Component {
                                 flexDirection: 'row'
                               }}>
                                 <TouchableOpacity onPress={() => { this.remove(el.account?.id) }}>
-                                  <Text style={{ color: Color.success }}>Added</Text>
+                                  <Text style={{ color: Color.danger }}>Remove</Text>
                                 </TouchableOpacity>
                               </View>
                               :
@@ -198,8 +217,8 @@ class CardList extends Component {
                       /> :
                         <View style={{
                           borderColor: Color.primary,
-                          width: 90,
-                          height: 90,
+                          width: 75,
+                          height: 75,
                           borderRadius: 50,
                           borderColor: Color.primary,
                           borderWidth: 3,
@@ -209,7 +228,7 @@ class CardList extends Component {
                           paddingBottom: 8
                         }}><FontAwesomeIcon
                             icon={faUser}
-                            size={68}
+                            size={53}
                             color={Color.primary}
                           /></View>}
                       <View>
@@ -250,7 +269,7 @@ class CardList extends Component {
                               flexDirection: 'row'
                             }}>
                               <TouchableOpacity onPress={() => { this.remove(el.account?.id) }}>
-                                <Text style={{ color: Color.success }}>Added</Text>
+                                <Text style={{ color: Color.danger }}>Remove</Text>
                               </TouchableOpacity>
                             </View>
                             :
@@ -347,8 +366,8 @@ const Style = StyleSheet.create({
     marginLeft: 80
   },
   circleImage: {
-    width: 90,
-    height: 90,
+    width: 75,
+    height: 75,
     borderRadius: 50,
     borderColor: Color.primary,
     borderWidth: 3,

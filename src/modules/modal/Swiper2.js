@@ -98,7 +98,7 @@ class Cards extends React.Component {
 
   swipeHandler = () => {
     this.props.header(this.state.index >= this.state.data.length - 2 ? true : false);
-    this.setState({ index: this.state.index + 1 === this.state.data.length ? 0 : this.state.index + 1 })
+    this.setState({ index: this.state.index + 1 === this.state.data.length ? 0 : this.state.index + 1, products: [] })
   }
 
   addToTopChoice = () => {
@@ -152,7 +152,7 @@ class Cards extends React.Component {
             this.state.data && this.state.data.map((el, idx) => {
               return (
                 <Card style={[styles.card]}>
-                  <ImageBackground style={{ flex: 1, flexDirection: 'row', height: height - 150, width: null, resizeMode: 'cover', marginTop: this.props.bottomFloatButton === true ? 50 : height * 0.25 }}
+                  <ImageBackground style={{ resizeMode: 'contain', flex: 1, flexDirection: 'row', height: height - 150, width: null, marginTop: this.props.bottomFloatButton === true ? 50 : height * 0.25 }}
                     imageStyle={{
                       flex: 1,
                       height: null,

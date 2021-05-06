@@ -101,36 +101,17 @@ export default {
       return true;
     }
   },
-  cuisines: [
-    {
-      type: 'Filipino'
-    },
-    {
-      type: 'Chinese'
-    },
-    {
-      type: 'Japanese'
-    },
-    {
-      type: 'Indian'
-    },
-    {
-      type: 'Italian'
-    },
-    {
-      type: 'Thai'
-    },
-    {
-      type: 'Spanish'
-    },
-    {
-      type: 'French'
-    },
-    {
-      type: 'Korean'
-    },
-    {
-      type: 'Turkish'
-    }
-  ]
+  cuisines:
+  {
+    1:'Filipino',
+    2: 'Chinese',
+    3: 'Japanese',
+    4: 'Indian',
+    5: 'Italian',
+    6: 'Thai',
+    7: 'Spanish',
+    8: 'French',
+    9: 'Korean',
+    10: 'Turkish'
+  }
 };
