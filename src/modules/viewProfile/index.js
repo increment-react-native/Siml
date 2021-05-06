@@ -253,7 +253,7 @@ class ViewProfile extends Component {
       <View style={{
         backgroundColor: Color.containerBackground
       }}>
-        <ScrollView>
+        <ScrollView showsVerticalScrollIndicator={false}>
           <View>
             <View style={Style.TopView}>
               <TouchableOpacity>
