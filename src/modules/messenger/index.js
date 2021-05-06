@@ -298,6 +298,7 @@ class Groups extends Component {
               }
             }
           }}
+          showsVerticalScrollIndicator={false}
         >
           <View stle={{
             flexDirection: 'row',

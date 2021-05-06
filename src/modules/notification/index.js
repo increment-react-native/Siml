@@ -132,7 +132,7 @@ class Notifications extends Component {
                     details: false
                   }}
                   style={{
-                    marginBottom: 20
+                    marginBottom: 10
                   }}
                   redirectTo={this.props.navigation.state.params && this.props.navigation.state.params.title}
                   onClick={() => {

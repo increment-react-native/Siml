@@ -191,6 +191,9 @@ class Connections extends Component {
       navs[idx].flag = true
       await this.setState({ prevActive: idx })
     }
+    if(idx === 0) {
+      this.refresh();
+    }
     // this.setState({connections: []})
     // this.retrieve(false)
   }
@@ -220,7 +223,7 @@ class Connections extends Component {
             }
           }}
         >
-          <View style={{ flex: 1, flexDirection: 'row', borderBottomWidth: 0.3, paddingBottom: 20, borderColor: Color.gray, marginTop: '7%' }}>
+          <View style={{ flex: 1, flexDirection: 'row', borderBottomWidth: this.state.pending.length > 0 ? 0.3 : 0, marginBottom: this.state.pending.length > 0 ? 20 : 10, borderColor: Color.gray, marginTop: '7%' }}>
             {
               navs.map((el, idx) => {
                 return (
@@ -242,7 +245,7 @@ class Connections extends Component {
             this.state.currActive == 0 ? (
               <View>
                 <CardList level={2} retrieve={() => { this.refresh() }} status={'pending'} navigation={this.props.navigation} data={this.state.pending.length > 0 && this.state.pending} hasAction={true} actionType={'text'}></CardList>
-                <View style={{ marginTop: 50, paddingLeft: 30, borderTopWidth: 0.3, paddingTop: 20, borderColor: Color.gray }}>
+                <View style={{ marginTop: 50, paddingLeft: 30, borderBottomWidth: this.state.pending.length > 0 ? 0.3 : 0, marginTop: this.state.pending.length > 0 ? 20 : 0, borderColor: Color.gray }}>
                   <Text style={{ fontWeight: 'bold' }}>Connections you may know</Text>
                 </View>
 

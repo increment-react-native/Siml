@@ -117,7 +117,7 @@ class Cards extends React.Component {
       status: 'pending'
     }
     this.props.onClose(null);
-    this.props.navigation.navigate('eventNameStack', {parameter: parameter, buttonTitle: 'Make Reservation', data: this.props.item, messenger_group_id: this.props.messengerGroup})
+    this.props.navigation.navigate('eventNameStack', {parameter: parameter, buttonTitle: 'Make Reservation', data: this.props.item, messenger_group_id: this.props.messengerGroup?.messenger_group_id})
   }
 
   renderCard = (data) => {
@@ -220,7 +220,20 @@ class Cards extends React.Component {
                     backgroundColor: Color.warning,
                     borderRadius: 40
                   }}
-                  onPress={() => {this.addToReservation()}}
+                  onPress={() => {
+                    if(this.props.navigation.state?.params?.messenger_group_id.status === 'ADMIN') {
+                      this.addToReservation()
+                    } else {
+                      Alert.alert(
+                        "",
+                        "Sorry you are not allowed to proceed to reservation.",
+                        [
+                          { text: "OK"}
+                        ],
+                        { cancelable: false }
+                      );
+                    }
+                  }}
                 >
                   <FontAwesomeIcon
                     icon={faCheck}

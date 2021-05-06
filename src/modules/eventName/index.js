@@ -128,7 +128,7 @@ class EventName extends Component {
   render() {
     const { data } = this.props.navigation.state.params;
     return (
-      <ScrollView>
+      <ScrollView showsVerticalScrollIndicator={false}>
         <View style={style.Container}>
           <ImageBackground
             style={{

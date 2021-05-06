@@ -50,10 +50,11 @@ class Rate extends Component {
     }
     this.setState({ isLoading: true })
     Api.request(Routes.ratingsMerchantRetrieve, parameter, response => {
-      if (response.data !== null || response.data.length > 0) {
-        this.setState({ isLoading: false, data: response.data[0] })
+      this.setState({ isLoading: false })
+      if (response.data !== null) {
         let count = 0;
         if (response.data[0].rating?.length > 0) {
+          this.setState({data: response.data[0]})
           response.data[0].rating.map(item => {
             if (item.account_id === this.props.state.user.id) {
               this.setState({
@@ -102,6 +103,16 @@ class Rate extends Component {
     this.setState({ isLoading: true })
     Api.request(Routes.ratingsUpdate, parameter, response => {
       this.setState({ isLoading: false })
+      if(response.data === true) {
+        Alert.alert(
+          "",
+          "Rate submitted. Thank you.",
+          [
+            { text: "OK"}
+          ],
+          { cancelable: false }
+        );
+      }
     });
   }
 
@@ -159,7 +170,7 @@ class Rate extends Component {
             <Text style={{
               fontSize: 16,
             }}>
-              {'SYNQT: ' + data?.name}
+              {data?.name}
             </Text>
             <View style={{
               marginTop: 5,
@@ -263,12 +274,13 @@ class Rate extends Component {
         {this.state.isLoading ? <Spinner mode="overlay" /> : null}
         <ScrollView style={{ height: height - 50 }}>
           {this.state.data && this.renderRateView()}
-          {this.state.data === null && this.state.isLoading === false && <Text>Make reservation first to rate the merchant.</Text>}
+          {this.state.data === null && this.state.isLoading === false && <Text>Book for a reservation first to rate the merchant.</Text>}
         </ScrollView>
         <View style={{
           justifyContent: 'center',
           alignItems: 'center',
-          marginLeft: -50
+          marginLeft: -50,
+          marginBottom: 20
         }}>
           {this.state.data && <CustomizedButton onClick={() => { this.state.data ? this.update() : this.onClick }} title={this.state.data ? 'Update' : 'Submit'}></CustomizedButton>}
         </View>

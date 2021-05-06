@@ -1,14 +1,16 @@
 import React, { Component } from 'react';
 import { View, TouchableOpacity, Image, Dimensions, Text, TextInput } from 'react-native'
-import {FontAwesomeIcon} from '@fortawesome/react-native-fontawesome';
-import {faCheck, faTimes, faStar, faCheckCircle, faEllipsisH} from '@fortawesome/free-solid-svg-icons';
+import { FontAwesomeIcon } from '@fortawesome/react-native-fontawesome';
+import { faCheck, faTimes, faStar, faUserCircle, faEllipsisH } from '@fortawesome/free-solid-svg-icons';
 import { BasicStyles, Color } from 'common';
 import { connect } from 'react-redux';
-const height = Math.round(Dimensions.get('window').height);
+import Config from 'src/config.js';
 import UserImage from 'components/User/Image';
 
-class PostCard extends Component{
-  constructor(props){
+const height = Math.round(Dimensions.get('window').height);
+
+class PostCard extends Component {
+  constructor(props) {
     super(props);
     this.state = {
       reply: null
@@ -21,14 +23,14 @@ class PostCard extends Component{
   }
 
   renderHeader = (data) => {
-    return(
+    return (
       <View style={{
-          ...BasicStyles.standardWidth,
-          flexDirection: 'row',
-          alignItems: 'center',
-          paddingTop: 20,
-        }}>
-        <UserImage user={data.user} size={30}/>
+        ...BasicStyles.standardWidth,
+        flexDirection: 'row',
+        alignItems: 'center',
+        paddingTop: 20,
+      }}>
+        <UserImage user={data.user} size={30} />
         <View style={{
           paddingLeft: 5,
           justifyContent: 'space-between',
@@ -56,74 +58,74 @@ class PostCard extends Component{
   }
 
   renderBody = (data) => {
-    return(
+    return (
       <View style={{
-          ...BasicStyles.standardWidth,
-          flexDirection: 'row',
-          alignItems: 'center',
-          paddingTop: 20,
-          paddingBottom: 20,
-        }}>
-          <Text style={{
-            fontSize: BasicStyles.standardFontSize
-          }}>{data.message}</Text>
-        
+        ...BasicStyles.standardWidth,
+        flexDirection: 'row',
+        alignItems: 'center',
+        paddingTop: 20,
+        paddingBottom: 20,
+      }}>
+        <Text style={{
+          fontSize: BasicStyles.standardFontSize
+        }}>{data.message}</Text>
+
       </View>
     )
   }
 
   renderActions = (data) => {
-    return(
+    return (
       <View style={{
-          ...BasicStyles.standardWidth,
-          flexDirection: 'row',
+        ...BasicStyles.standardWidth,
+        flexDirection: 'row',
+        alignItems: 'center',
+        paddingBottom: 20,
+        flexDirection: 'row'
+      }}>
+        <TouchableOpacity style={{
+          width: 70,
           alignItems: 'center',
-          paddingBottom: 20,
-          flexDirection: 'row'
-        }}>
-          <TouchableOpacity style={{
-            width: 70,
-            alignItems: 'center',
-            justifyContent: 'center',
-            borderRadius: 20,
-            borderColor: data.like_status == true ? Color.primary : Color.lightGray,
-            borderWidth: 1,
-            height: 40,
-            marginRight: 5,
-            backgroundColor: data.like_status == true ? Color.primary : Color.white
-          }}
-            onPress={() => this.props.onLike({
-              ...data,
-              like_status: !data.like_status
-            })}
-          >
-            <Text style={{
-              color: data.like_status == true ? Color.white : Color.black
-            }}>{data.like_status == true ? 'Liked' : 'Like'}</Text>
-          </TouchableOpacity>
+          justifyContent: 'center',
+          borderRadius: 20,
+          borderColor: data.like_status == true ? Color.primary : Color.lightGray,
+          borderWidth: 1,
+          height: 40,
+          marginRight: 5,
+          backgroundColor: data.like_status == true ? Color.primary : Color.white
+        }}
+          onPress={() => this.props.onLike({
+            ...data,
+            like_status: !data.like_status
+          })}
+        >
+          <Text style={{
+            color: data.like_status == true ? Color.white : Color.black
+          }}>{data.like_status == true ? 'Liked' : 'Like'}</Text>
+        </TouchableOpacity>
 
 
-          <TouchableOpacity style={{
-            width: 70,
-            alignItems: 'center',
-            justifyContent: 'center',
-            borderRadius: 20,
-            borderColor: data.joined_status == true ? Color.primary : Color.lightGray,
-            borderWidth: 1,
-            height: 40,
-            marginRight: 5,
-            backgroundColor: data.joined_status == true ? Color.primary : Color.white
-          }}
+        <TouchableOpacity style={{
+          width: 70,
+          alignItems: 'center',
+          justifyContent: 'center',
+          borderRadius: 20,
+          borderColor: data.joined_status == true ? Color.primary : Color.lightGray,
+          borderWidth: 1,
+          height: 40,
+          marginRight: 5,
+          backgroundColor: data.joined_status == true ? Color.primary : Color.white
+        }}
           onPress={() => this.props.onJoin({
             ...data,
             joined_status: !data.joined_status
           })}>
-            <Text style={{
-              color: data.joined_status == true ? Color.white : Color.black
-            }}>{data.joined_status == true ? 'Joined' : 'Join'}</Text>
-          </TouchableOpacity>
+          <Text style={{
+            color: data.joined_status == true ? Color.white : Color.black
+          }}>{data.joined_status == true ? 'Joined' : 'Join'}</Text>
+        </TouchableOpacity>
 
-          <Text>24 joined</Text>
+        <Text>24 joined</Text>
       </View>
     )
   }
@@ -131,48 +133,64 @@ class PostCard extends Component{
 
   renderComments = (comments) => {
     const { user } = this.props.state;
-    return(
+    return (
       <View style={{
-          width: '100%',
-          alignItems: 'center',
-          borderTopColor: Color.lightGray,
-          borderTopWidth: 1
-        }}>
-          {
-            comments && comments.map((item, index) => (
-              <View 
+        width: '100%',
+        alignItems: 'center',
+        borderTopColor: Color.lightGray,
+        borderTopWidth: 1
+      }}>
+        {
+          comments && comments.map((item, index) => (
+            <View
               key={index}
               style={{
                 ...BasicStyles.standardWidth
               }}>
-                {this.renderHeader({user: item.account, date: item.created_at_human})}
-                {this.renderBody({message: item.text})}
-              </View>
-            ))
-          }
+              {this.renderHeader({ user: item.account, date: item.created_at_human })}
+              {this.renderBody({ message: item.text })}
+            </View>
+          ))
+        }
 
-          {
-            user && (
-              <View style={{
-                width: '90%',
-                borderTopColor: Color.lightGray,
-                flexDirection: 'row',
-                alignItems: 'center',
-                marginLeft: '5%',
-                marginRight: '5%'
-              }}>
-                <UserImage user={user} size={30}/>
-                <TextInput style={{
-                  width: '100%',
-                  height: 50
-                }}
-                onSubmitEditing={ () => this.props.postReply(comments) }
+        {
+          user && (
+            <View style={{
+              width: '90%',
+              borderTopColor: Color.lightGray,
+              flexDirection: 'row',
+              alignItems: 'center',
+              marginLeft: '5%',
+              marginRight: '5%'
+            }}>
+              {
+                user?.account_profile && user?.account_profile.url ? (
+                  <Image
+                    source={user && user.account_profile && user.account_profile.url ? { uri: Config.BACKEND_URL + user.account_profile.url } : require('assets/logo.png')}
+                    style={[BasicStyles.profileImageSize, {
+                      height: 30,
+                      width: 30,
+                      borderRadius: 100
+                    }]} />
+                ) : <FontAwesomeIcon
+                  icon={faUserCircle}
+                  size={30}
+                  style={{
+                    color: Color.white
+                  }}
+                />
+              }
+              <TextInput style={{
+                width: '100%',
+                height: 50
+              }}
+                onSubmitEditing={() => this.props.postReply(comments)}
                 onChangeText={(value) => this.replyHandler(value)}
                 placeholder={'Type reply here'}
-                />
-              </View>
-            )
-          }
+              />
+            </View>
+          )
+        }
       </View>
     )
   }
@@ -181,7 +199,7 @@ class PostCard extends Component{
   render() {
     const { data } = this.props;
     return (
-			<View style={{
+      <View style={{
         ...BasicStyles.standardWidth,
         borderRadius: BasicStyles.standardBorderRadius,
         borderColor: Color.lightGray,
@@ -192,15 +210,15 @@ class PostCard extends Component{
         {this.renderBody(data)}
         {this.renderActions(data)}
         {this.renderComments(data.comments)}
-			</View>
+      </View>
     )
   }
 }
 
-const mapStateToProps = state => ({state: state});
+const mapStateToProps = state => ({ state: state });
 
 const mapDispatchToProps = dispatch => {
-  const {actions} = require('@redux');
+  const { actions } = require('@redux');
   return {};
 };
 
