@@ -16,6 +16,7 @@ import { faUser } from '@fortawesome/free-solid-svg-icons';
 
 const height = Math.round(Dimensions.get('window').height);
 const width = Math.round(Dimensions.get('window').width);
+
 class Groups extends Component {
   constructor(props) {
     super(props);

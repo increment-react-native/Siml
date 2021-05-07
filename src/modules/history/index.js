@@ -111,7 +111,7 @@ class History extends Component {
           marginLeft: '5%',
           marginRight: '5%',
           marginBottom: 150,
-          marginTop: 20
+          marginTop: 10
         }}>
           {
             this.state.data.length > 0 && this.state.data.map((item, index) => (
@@ -126,7 +126,7 @@ class History extends Component {
                   details: true
                 }}
                 style={{
-                  marginBottom: 20
+                  marginBottom: 10
                 }}
                 redirectTo={this.props.navigation.state.params && this.props.navigation.state.params.title}
                 onClick={() => {
@@ -183,7 +183,7 @@ class History extends Component {
         </View> */}
         <ScrollView>
           <View style={{
-            marginTop: 50
+            marginTop: 10
           }}>
             <View style={{
               justifyContent: 'center',
@@ -211,14 +211,16 @@ class History extends Component {
               </TouchableOpacity>
             </View>
             <View style={{
-              padding: 30,
+              paddingLeft: 30,
+              paddingRight: 30,
+              padingTop: 10,
               justifyContent: 'center',
               alignItems: 'center',
             }}>
               <Text style={{
                 fontWeight: 'bold',
                 color: Color.primary,
-                marginBottom: 20,
+                marginBottom: 10,
                 fontSize: BasicStyles.standardTitleFontSize
               }}>{this.props.navigation.state?.params?.title === 'Upcoming' ? "Here's what's coming!" : "Here's your previous activities!"}</Text>
               <Text>{this.props.navigation.state?.params?.title === 'Upcoming' ? "You have upcoming restaurant reservations from your SYNQT! Click the photo and see where to go." : "You have the following completed SYNQT actvities! Click the photo and see where you’ve gone."}</Text>

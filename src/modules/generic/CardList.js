@@ -145,7 +145,7 @@ class CardList extends Component {
                               <Text style={{ fontStyle: 'italic' }}>{el.account?.information?.address || 'No address provided'}</Text>
                               <Text style={{ color: 'gray', fontSize: 10, marginBottom: 5 }}>{el.numberOfConnection} similar connections</Text>
                               {
-                                this.props.hasAction && (
+                                this.props.hasAction && this.props.state.user.id != el.account_id && (
                                   <View style={{ flexDirection: 'row' }}>
                                     <TouchableOpacity
                                       onPress={() => this.updateStatus(el, 'accepted')}
@@ -166,6 +166,19 @@ class CardList extends Component {
                                       <Text style={{ color: 'white' }}>Delete</Text>
                                     </TouchableOpacity>
                                   </View>
+                                )
+                              }
+                              { this.props.hasAction === true && this.props.state.user.id == el.account_id &&
+                                (
+                                  <TouchableOpacity
+                                      onPress={() => this.remove(el.account?.id)}
+                                      style={{
+                                        ...Style.actionBtn,
+                                        backgroundColor: 'gray'
+                                      }}
+                                    >
+                                      <Text style={{ color: 'white' }}>Cancel</Text>
+                                    </TouchableOpacity>
                                 )
                               }
                             </View>
@@ -238,7 +251,7 @@ class CardList extends Component {
                             <Text style={{ fontStyle: 'italic' }}>{el.account?.information?.address || 'No address provided'}</Text>
                             <Text style={{ color: 'gray', fontSize: 10, marginBottom: 5 }}>{el.numberOfConnection} similar connections</Text>
                             {
-                              this.props.hasAction && (
+                              this.props.hasAction && this.props.state.user.id != el.account_id && (
                                 <View style={{ flexDirection: 'row' }}>
                                   <TouchableOpacity
                                     onPress={() => this.updateStatus(el, 'accepted')}
@@ -261,6 +274,19 @@ class CardList extends Component {
                                 </View>
                               )
                             }
+                            { this.props.hasAction === true && this.props.state.user.id == el.account_id &&
+                                (
+                                  <TouchableOpacity
+                                      onPress={() => this.remove(el.account?.id)}
+                                      style={{
+                                        ...Style.actionBtn,
+                                        backgroundColor: 'gray'
+                                      }}
+                                    >
+                                      <Text style={{ color: 'white' }}>Cancel</Text>
+                                    </TouchableOpacity>
+                                )
+                              }
                           </View>
                           {el.added && el.added === true || this.props.data.length === this.props.state.tempMembers.length ?
                             <View style={{
@@ -342,7 +368,7 @@ const Style = StyleSheet.create({
   actionBtn: {
     height: 30,
     backgroundColor: Color.primary,
-    width: '35%',
+    width: '50%',
     alignItems: 'center',
     justifyContent: 'center',
     borderRadius: 25,

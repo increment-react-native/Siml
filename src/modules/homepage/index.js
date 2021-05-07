@@ -69,7 +69,7 @@ class HomePage extends Component {
                       width: 135,
                       borderRadius: 100,
                       borderColor: Color.white,
-                      borderWidth: 2
+                      borderWidth: user?.account_profile && user?.account_profile.url ? 0 : 2
                     }}
                     onPress={() => this.props.navigation.push('profileStack')}>
                     {
@@ -79,7 +79,9 @@ class HomePage extends Component {
                           style={[BasicStyles.profileImageSize, {
                             height: '100%',
                             width: '101%',
-                            borderRadius: 100
+                            borderRadius: 100,
+                            borderColor: Color.white,
+                            borderWidth: 2
                           }]} />
                       ) : <FontAwesomeIcon
                         icon={faUserCircle}
