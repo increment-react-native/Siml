@@ -15,8 +15,7 @@ import _ from 'lodash';
 
 const navs = [
   { name: "Suggestions", flag: true },
-  { name: "Connections", flag: false },
-  { name: "Sent Requests", flag: false }
+  { name: "Connections", flag: false }
 ]
 
 class Connections extends Component {
@@ -42,14 +41,12 @@ class Connections extends Component {
     this.retrieveRandomUsers(false);
     this.retrieveConnections(false);
     this.retrieveSuggestions(false);
-    this.retrieveSentRequests(false);
   }
 
   refresh = () => {
     this.retrieveRandomUsers(false);
     this.retrieveConnections(false);
     this.retrieveSuggestions(false);
-    this.retrieveSentRequests(false);
   }
 
   retrieveConnections(flag) {
@@ -88,53 +85,17 @@ class Connections extends Component {
     });
   }
 
-  retrieveSentRequests(flag) {
-    const { user } = this.props.state
-    let parameter = {
-      condition: [{
-        value: user.id,
-        column: 'account_id',
-        clause: '='
-      }, {
-        value: user.id,
-        column: 'account_id',
-        clause: '='
-      }, {
-        clause: "=",
-        column: "status",
-        value: 'pending'
-      }],
-      offset: flag == true && this.state.offset > 0 ? (this.state.offset * this.state.limit) : this.state.offset,
-      limit: this.state.limit
-    }
-    this.setState({ isLoading: true })
-    Api.request(Routes.circleRetrieve, parameter, response => {
-      this.setState({ isLoading: false })
-      if (response.data.length > 0) {
-        this.setState({
-          sentRequests: flag == false ? response.data : _.uniqBy([...this.state.sentRequests, ...response.data], 'id'),
-          offset: flag == false ? 1 : (this.state.offset + 1)
-        })
-      } else {
-        this.setState({
-          sentRequests: flag == false ? [] : this.state.sentRequests,
-          offset: flag == false ? 0 : this.state.offset
-        })
-      }
-    });
-  }
-
   retrieveSuggestions(flag) {
     const { user } = this.props.state
     let parameter = {
       condition: [{
         value: user.id,
-        column: 'account',
+        column: 'account_id',
         clause: '='
       }, {
         value: user.id,
         column: 'account',
-        clause: '='
+        clause: 'or'
       }, {
         clause: "=",
         column: "status",
@@ -145,6 +106,7 @@ class Connections extends Component {
     }
     this.setState({ isLoading: true })
     Api.request(Routes.circleRetrieve, parameter, response => {
+      console.log(response.data[2], 'response');
       this.setState({ isLoading: false })
       if (response.data.length > 0) {
         this.setState({
@@ -223,7 +185,7 @@ class Connections extends Component {
             }
           }}
         >
-          <View style={{ flex: 1, flexDirection: 'row', borderBottomWidth: this.state.pending.length > 0 ? 0.3 : 0, marginBottom: this.state.pending.length > 0 ? 20 : 10, borderColor: Color.gray, marginTop: '7%' }}>
+          <View style={{ flex: 1, flexDirection: 'row', borderBottomWidth: this.state.pending.length > 0 ? 0.3 : 0, paddingBottom: this.state.pending.length === 0 ? 0 : 20, borderColor: Color.gray, marginTop: '7%' }}>
             {
               navs.map((el, idx) => {
                 return (
@@ -245,7 +207,7 @@ class Connections extends Component {
             this.state.currActive == 0 ? (
               <View>
                 <CardList level={2} retrieve={() => { this.refresh() }} status={'pending'} navigation={this.props.navigation} data={this.state.pending.length > 0 && this.state.pending} hasAction={true} actionType={'text'}></CardList>
-                <View style={{ marginTop: 50, paddingLeft: 30, borderBottomWidth: this.state.pending.length > 0 ? 0.3 : 0, marginTop: this.state.pending.length > 0 ? 20 : 0, borderColor: Color.gray }}>
+                <View style={{ paddingLeft: 30, borderBottomWidth: this.state.pending.length > 0 ? 0.3 : 0, padding: this.state.pending.length === 0 ? 10 : 20, borderColor: Color.gray }}>
                   <Text style={{ fontWeight: 'bold' }}>Connections you may know</Text>
                 </View>
 
@@ -256,8 +218,6 @@ class Connections extends Component {
 
               </View>
             ) : (
-              <View>
-                {this.state.currActive == 1 ? (
                   <View>
                     <View style={{ flex: 1, justifyContent: 'center', alignItems: 'center', marginTop: '5%' }}>
                       <View style={Style.TextContainer}>
@@ -273,15 +233,7 @@ class Connections extends Component {
                       </View>
                     </View>
                     {this.state.connections.length == 0 && (<Empty refresh={true} onRefresh={() => this.refresh()} />)}
-                  </View>)
-                  : <View>
-                    <View style={{ flex: 1, justifyContent: 'center', alignItems: 'center', marginTop: '5%' }}>
-                      <View>
-                        <CardList level={2} search={this.state.search} retrieve={() => { this.refresh() }} navigation={this.props.navigation} data={this.state.sentRequests.length > 0 && this.state.sentRequests} hasAction={false} actionType={'button'} actionContent={'icon'} ></CardList>
-                      </View>
-                    </View>
-                    {this.state.sentRequests.length == 0 && (<Empty refresh={true} onRefresh={() => this.refresh()} />)}
-                  </View>}
+                  )
               </View>
             )
           }

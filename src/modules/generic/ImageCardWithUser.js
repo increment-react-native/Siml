@@ -47,9 +47,10 @@ class ImageCardWithUser extends Component {
               <View style={{
                 flexDirection: 'row',
                 backgroundColor: 'white',
-                paddingTop: 15,
-                paddingRight: 15,
                 paddingLeft: 15,
+                paddingTop: 15,
+                paddingBottom: data.details === true ? 15 : 0,
+                paddingRight: 15,
                 elevation: 1,
                 borderBottomLeftRadius: BasicStyles.standardBorderRadius,
                 borderBottomRightRadius: BasicStyles.standardBorderRadius
@@ -83,7 +84,7 @@ class ImageCardWithUser extends Component {
                   width: '50%',
                   position: 'absolute',
                   bottom: 10,
-                  right: width - (width + 50),
+                  right: width - (width + 40),
                 }}><View style={{
                   backgroundColor: 'white',
                   borderRadius: 6,
