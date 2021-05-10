@@ -49,6 +49,10 @@ class Connections extends Component {
     this.retrieveSuggestions(false);
   }
 
+  loading = (loading) => {
+    this.setState({isLoading: loading})
+  }
+
   retrieveConnections(flag) {
     const { user } = this.props.state
     let parameter = {
@@ -206,13 +210,13 @@ class Connections extends Component {
           {
             this.state.currActive == 0 ? (
               <View>
-                <CardList level={2} retrieve={() => { this.refresh() }} status={'pending'} navigation={this.props.navigation} data={this.state.pending.length > 0 && this.state.pending} hasAction={true} actionType={'text'}></CardList>
+                <CardList loading={() => {this.loading}} level={2} retrieve={() => { this.refresh() }} status={'pending'} navigation={this.props.navigation} data={this.state.pending.length > 0 && this.state.pending} hasAction={true} actionType={'text'}></CardList>
                 <View style={{ paddingLeft: 30, borderBottomWidth: this.state.pending.length > 0 ? 0.3 : 0, padding: this.state.pending.length === 0 ? 10 : 20, borderColor: Color.gray }}>
                   <Text style={{ fontWeight: 'bold' }}>Connections you may know</Text>
                 </View>
 
                 <View>
-                  <CardList level={2} invite={false} retrieve={() => { this.refresh() }} navigation={this.props.navigation} data={this.state.suggestions.length > 0 && this.state.suggestions} hasAction={false} actionType={'button'} actionContent={'text'}></CardList>
+                  <CardList loading={() => {this.loading}} level={2} invite={false} retrieve={() => { this.refresh() }} navigation={this.props.navigation} data={this.state.suggestions.length > 0 && this.state.suggestions} hasAction={false} actionType={'button'} actionContent={'text'}></CardList>
                   {this.state.suggestions.length == 0 && (<Empty refresh={true} onRefresh={() => this.refresh()} />)}
                 </View>
 
@@ -229,11 +233,10 @@ class Connections extends Component {
                         />
                       </View>
                       <View>
-                        <CardList level={1} search={this.state.search} retrieve={() => { this.refresh() }} navigation={this.props.navigation} data={this.state.connections.length > 0 && this.state.connections} hasAction={false} actionType={'button'} actionContent={'icon'} ></CardList>
+                        <CardList loading={() => {this.loading}} level={1} search={this.state.search} retrieve={() => { this.refresh() }} navigation={this.props.navigation} data={this.state.connections.length > 0 && this.state.connections} hasAction={false} actionType={'button'} actionContent={'icon'} ></CardList>
                       </View>
                     </View>
                     {this.state.connections.length == 0 && (<Empty refresh={true} onRefresh={() => this.refresh()} />)}
-                  )
               </View>
             )
           }

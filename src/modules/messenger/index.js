@@ -72,6 +72,7 @@ class Groups extends Component {
     }
     this.setState({ isLoading: true });
     CommonRequest.retrieveMessengerGroups(user, response => {
+      console.log(user, 'yo');
       this.setState({ isLoading: false, data: response.data });
       const { setMessenger } = this.props;
       const { messenger } = this.props.state;

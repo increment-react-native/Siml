@@ -29,6 +29,10 @@ class Connections extends Component {
     this.retrieve(false);
   }
 
+  loading = (loading) => {
+    this.setState({isLoading: loading})
+  }
+
   retrieve(flag) {
     const { user, tempMembers } = this.props.state
     if (user == null) {
@@ -57,7 +61,6 @@ class Connections extends Component {
       if (response.data.length > 0) {
         response.data.map(i => {
           tempMembers.length > 0 && tempMembers.map(item => {
-            console.log(item.account?.id, i.account?.id, 'kasdf');
             if (item.account?.id === i.account?.id) {
               i['added'] = true;
             } else {
@@ -119,7 +122,7 @@ class Connections extends Component {
               />
             </View>
             {this.state.data.length > 0 && (<View>
-              <CardList search={this.state.search} navigation={this.props.navigation} data={this.state.data} invite={true} hasAction={false} actionType={'button'} actionContent={'text'}></CardList>
+              <CardList loading={() => {this.loading}} search={this.state.search} navigation={this.props.navigation} data={this.state.data} invite={true} hasAction={false} actionType={'button'} actionContent={'text'}></CardList>
             </View>)}
           </View>
         </ScrollView>
