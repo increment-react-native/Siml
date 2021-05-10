@@ -48,7 +48,6 @@ class Restaurants extends Component {
   createSynqt = () => {
     const { setDefaultAddress, setLocation, setSelected } = this.props;
     const { user, location, selects } = this.props.state;
-    setSelected([])
     if(user == null){
       return
     }
@@ -86,6 +85,7 @@ class Restaurants extends Component {
     this.setState({ isLoading: true })
     Api.request(Routes.locationCreate, param, response => {
       this.setState({ isLoading: false })
+      setSelected([])
       if (response.data === null) {
         return
       }
@@ -148,6 +148,17 @@ class Restaurants extends Component {
       Alert.alert(
         'Oopps',
         'Range must be greater than 0',
+        [
+          {text: 'Ok'}
+        ],
+        { cancelable: false }
+      )
+      return
+    }
+    if(this.state.size <= 0){
+      Alert.alert(
+        'Oopps',
+        'Size must be greater than 0',
         [
           {text: 'Ok'}
         ],
@@ -303,10 +314,11 @@ class Restaurants extends Component {
                   })
                 }}
                 titles={'cuisines'}
-                placeholder={(this.state.cuisines?.categories == null|| this.state.cuisines?.categories?.length == 10 || this.state.cuisines?.categories?.length < 1 ) ? ' ' : this.state.cuisines.categories.join(',') }
+                placeholder={(this.state.cuisines?.categories == null|| this.state.cuisines?.categories?.length == 10 || this.state.cuisines?.categories?.length < 1 ) ? ' ' : this.state.cuisines?.categories?.join(',') }
                 title={'Cuisines'} />
             </View>
             <Text style={{ color: 'black', marginBottom: 15, marginLeft: 20 }}>Radius</Text>
+            <Text style={{ color: 'black', marginTop: -35, marginBottom: 5, marginLeft: '90%' }}>{this.state.val}</Text>
             <SliderPicker
               callback={position => {
                 this.setState({ val: position })
