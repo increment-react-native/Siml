@@ -12,6 +12,7 @@ import Api from 'services/api/index.js';
 import { constant } from 'lodash';
 import { connect } from 'react-redux';
 import _ from 'lodash';
+import moment from 'moment';
 const height = Math.round(Dimensions.get('window').height);
 
 class Status extends Component {
@@ -53,10 +54,8 @@ class Status extends Component {
         created_at: "desc"
       }
     }
-    console.log(parameter, 'hi');
     this.setState({ isLoading: true });
     Api.request(Routes.commentsRetrieve, parameter, response => {
-      console.log(response, 'yoooo');
       this.setState({ isLoading: false });
       if (response.data.length > 0) {
         this.setState({
@@ -96,13 +95,29 @@ class Status extends Component {
       payload_value: "1",
       text: this.state.status
     }
+    console.log(this.props.state.user);
     this.setState({ isLoading: true });
     Api.request(Routes.commentsCreate, parameter, response => {
       this.setState({ isLoading: false });
       if (response.data !== null) {
-        this.retrieve(false);
+        let data = {
+          account: {
+            email: this.props.state.user.email,
+            id: this.props.state.user.id,
+            profile: {
+              account_id: this.props.state.user.id,
+              url: this.props.state.user.account_profile?.url || null
+            },
+            username: this.props.state.user.username
+          },
+          account_id: this.props.state.user.id,
+          comment_replies: [],
+          text: this.state.text,
+          created_at_human: moment(new Date()).format('MMMM DD, YYYY hh:mm a')
+        }
+        this.setState({data: [data, ...this.state.data]})
         this.props.setCreateStatus(false)
-        this.setState({status: null})
+        this.setState({ status: null })
       }
     })
   }
@@ -174,7 +189,7 @@ class Status extends Component {
                       onJoin={(params) => this.onChangeDataHandler(params)}
                     />
                     : <View>
-                      { item.account && item.account.username && item.account.username.toLowerCase().includes(this.props.state.statusSearch && this.props.state.statusSearch.toLowerCase()) === true && (
+                      {item.account && item.account.username && item.account.username.toLowerCase().includes(this.props.state.statusSearch && this.props.state.statusSearch.toLowerCase()) === true && (
                         <PostCard
                           data={{
                             user: item.account,
@@ -251,7 +266,7 @@ class Status extends Component {
                   borderRadius: 25,
                   justifyContent: 'center'
                 }}
-                  onPress={() => { this.props.setCreateStatus(false), this.setState({status: null}) }}
+                  onPress={() => { this.props.setCreateStatus(false), this.setState({ status: null }) }}
                 >
                   <Text style={{ color: 'white' }}>Cancel</Text>
                 </TouchableOpacity>

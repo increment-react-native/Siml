@@ -15,9 +15,6 @@ const width = Math.round(Dimensions.get('window').width)
 class CardList extends Component {
   constructor(props) {
     super(props);
-    this.state = {
-      isLoading: false
-    }
   }
 
   sendRequest = (el) => {
@@ -32,10 +29,10 @@ class CardList extends Component {
             to_email: el.email,
             content: "This is an invitation for you to join my connections."
           }
-          this.setState({ isLoading: true });
+          this.props.loading(true);
           Api.request(Routes.circleCreate, parameter, response => {
             console.log(response, 'response');
-            this.setState({ isLoading: false })
+            this.props.loading(false);
             if(response.data !== null) {
               el.is_added = true
             }
@@ -48,6 +45,7 @@ class CardList extends Component {
 
   storePeople = (item) => {
     item['added'] = true
+    console.log(item);
     const { setTempMembers } = this.props;
     let temp = this.props.state.tempMembers;
     temp.push(item);
@@ -58,9 +56,9 @@ class CardList extends Component {
     let parameter = {
       id: id
     }
-    this.setState({ isLoading: true });
+    this.props.loading(true);
     Api.request(Routes.messengerMembersCreate, parameter, response => {
-      this.setState({ isLoading: false })
+      this.props.loading(false);
       if(response.data !== null) {
         this.props.navigation.navigate('messagesStack', {
           data: this.props.navigation?.state?.params?.data
@@ -74,9 +72,9 @@ class CardList extends Component {
       id: item.id,
       status: status
     }
-    this.setState({ isLoading: true });
+    this.props.loading(true);
     Api.request(Routes.circleUpdate, parameter, response => {
-      this.setState({ isLoading: false })
+      this.props.loading(false);
       this.props.retrieve();
     });
   }
@@ -85,15 +83,15 @@ class CardList extends Component {
     let parameter = {
       id: id
     }
-    this.setState({ isLoading: true });
+    this.props.loading(true);
     Api.request(Routes.circleDelete, parameter, response => {
-      this.setState({ isLoading: false })
-      console.log(response, 'l', parameter);
+      this.props.loading(false);
       this.props.retrieve();
     });
   }
 
   remove = (id) => {
+    console.log(id);
     const { setTempMembers } = this.props;
     let temp = this.props.state.tempMembers;
     temp.map((item, index) => {
@@ -109,7 +107,6 @@ class CardList extends Component {
   render() {
     return (
       <View>
-        {this.state.isLoading ? <Spinner mode="overlay" /> : null}
         {
           this.props.data.length > 0 && this.props.data.map((el, idx) => {
             return (
@@ -171,7 +168,7 @@ class CardList extends Component {
                               { this.props.hasAction === true && this.props.state.user.id == el.account_id &&
                                 (
                                   <TouchableOpacity
-                                      onPress={() => this.remove(el.account?.id)}
+                                      onPress={() => this.deleteConnection(el.account?.id)}
                                       style={{
                                         ...Style.actionBtn,
                                         backgroundColor: 'gray'
@@ -277,7 +274,7 @@ class CardList extends Component {
                             { this.props.hasAction === true && this.props.state.user.id == el.account_id &&
                                 (
                                   <TouchableOpacity
-                                      onPress={() => this.remove(el.account?.id)}
+                                      onPress={() => this.deleteConnection(el.account?.id)}
                                       style={{
                                         ...Style.actionBtn,
                                         backgroundColor: 'gray'
@@ -368,7 +365,7 @@ const Style = StyleSheet.create({
   actionBtn: {
     height: 30,
     backgroundColor: Color.primary,
-    width: '50%',
+    width: '40%',
     alignItems: 'center',
     justifyContent: 'center',
     borderRadius: 25,

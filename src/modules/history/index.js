@@ -190,7 +190,7 @@ class History extends Component {
               alignItems: 'center',
             }}>
               <TouchableOpacity
-                onPress={() => this.redirect('restaurantStack')}
+                // onPress={() => this.redirect('restaurantStack')}
                 style={{
                   height: 120,
                   width: 120,
