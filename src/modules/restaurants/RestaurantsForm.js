@@ -46,8 +46,9 @@ class Restaurants extends Component {
   }
 
   createSynqt = () => {
-    const { setDefaultAddress, setLocation } = this.props;
-    const { user, location } = this.props.state;
+    const { setDefaultAddress, setLocation, setSelected } = this.props;
+    const { user, location, selects } = this.props.state;
+    setSelected([])
     if(user == null){
       return
     }
