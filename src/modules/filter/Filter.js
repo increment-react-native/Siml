@@ -58,6 +58,7 @@ class Filter extends Component {
         alignItems: 'center',
         marginLeft: '2%'
       }}>
+        <Text>{this.state.value}</Text>
         <SliderPicker 
           callback={position => {
             this.setState({ value: position })
@@ -93,6 +94,7 @@ class Filter extends Component {
 
   selectList() {
     const { selects } = this.props.state
+    const { setSelected } = this.props
     return(
       <View style={{
         width: '100%',
@@ -106,7 +108,7 @@ class Filter extends Component {
         placeholder={"Search"}
         placeholderTextColor={Color.white}
         returnValue={"label"} // label or value
-        callback={(res)=>{ res.length >= 1 ? this.setState({ categoriesCuisine: res }) : this.setState({ categoriesCuisine: selects }) }} // callback, array of selected items
+        callback={(res)=>{this.setState({ categoriesCuisine: res }) }} // callback, array of selected items
         rowBackgroundColor={Color.white}
         rowHeight={40}
         rowRadius={5}
