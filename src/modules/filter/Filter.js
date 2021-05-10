@@ -8,6 +8,7 @@ import Button from 'components/Form/Button';
 import { FontAwesomeIcon } from '@fortawesome/react-native-fontawesome';
 import { faCheck, faCross, faEdit } from '@fortawesome/free-solid-svg-icons';
 import CustomMultiPicker from "./multipleSelect";
+import { set } from 'react-native-reanimated';
 // import PropTypes from 'prop-types';
 const height = Math.round(Dimensions.get('window').height);
 
@@ -19,8 +20,7 @@ class Filter extends Component {
       categoriesCuisine: [],
       value: 0,
       data: [],
-      check: false,
-      selecte: []
+      check: false
     }
   }
   action = () => {  
@@ -32,12 +32,15 @@ class Filter extends Component {
   }
 
   apply() {
+    const { setSelected } = this.props
+    const { selects } = this.props.state
     if(this.props.from == 'restaurant'){
       this.props.onFinish({
         amount : this.state.value
       })
       this.props.close()
     }else if(this.props.from == 'categories'){
+      setSelected(this.state.categoriesCuisine)
       this.props.onFinish({
         categories : this.state.categoriesCuisine
       })
@@ -89,6 +92,7 @@ class Filter extends Component {
   };
 
   selectList() {
+    const { selects } = this.props.state
     return(
       <View style={{
         width: '100%',
@@ -102,7 +106,7 @@ class Filter extends Component {
         placeholder={"Search"}
         placeholderTextColor={Color.white}
         returnValue={"label"} // label or value
-        callback={(res)=>{ this.setState({categoriesCuisine: res}) }} // callback, array of selected items
+        callback={(res)=>{ res.length >= 1 ? this.setState({ categoriesCuisine: res }) : this.setState({ categoriesCuisine: selects }) }} // callback, array of selected items
         rowBackgroundColor={Color.white}
         rowHeight={40}
         rowRadius={5}
@@ -111,10 +115,10 @@ class Filter extends Component {
         searchIconSize={30}
         iconColor={Color.danger}
         iconSize={30}
-        selectedIconName={faCheck}
+        selectedIconName={faCheck}  
         unselectedIconName={faCross}
         scrollViewHeight={'100%'}
-        selected={this.state.categoriesCuisine?.length >= 1 ? this.state.categoriesCuisine : this.state.selecte} // list of options which are selected by default
+        selected={this.state.categoriesCuisine.length >= 1 ? this.state.categoriesCuisine : selects} // list of options which are selected by default
       />
       </View>
     )
@@ -209,7 +213,8 @@ const mapStateToProps = state => ({state: state});
 const mapDispatchToProps = dispatch => {
   const {actions} = require('@redux');
   return {
-    setFilterData: (filterData) => dispatch(actions.setFilterData(filterData))
+    setFilterData: (filterData) => dispatch(actions.setFilterData(filterData)),
+    setSelected: (selects) => dispatch(actions.setSelected(selects))
   };
 };
 
