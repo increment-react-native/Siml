@@ -95,27 +95,27 @@ class Status extends Component {
       payload_value: "1",
       text: this.state.status
     }
-    console.log(this.props.state.user);
+    let data = {
+      account: {
+        email: this.props.state.user.email,
+        id: this.props.state.user.id,
+        profile: {
+          account_id: this.props.state.user.id,
+          url: this.props.state.user.account_profile?.url || null
+        },
+        username: this.props.state.user.username
+      },
+      account_id: this.props.state.user.id,
+      comment_replies: [],
+      text: this.state.status,
+      created_at_human: moment(new Date()).format('MMMM DD, YYYY hh:mm a')
+    }
+    this.setState({data: [data, ...this.state.data]})
     this.setState({ isLoading: true });
     Api.request(Routes.commentsCreate, parameter, response => {
+      console.log(response, 'RESPONSE');
       this.setState({ isLoading: false });
       if (response.data !== null) {
-        let data = {
-          account: {
-            email: this.props.state.user.email,
-            id: this.props.state.user.id,
-            profile: {
-              account_id: this.props.state.user.id,
-              url: this.props.state.user.account_profile?.url || null
-            },
-            username: this.props.state.user.username
-          },
-          account_id: this.props.state.user.id,
-          comment_replies: [],
-          text: this.state.text,
-          created_at_human: moment(new Date()).format('MMMM DD, YYYY hh:mm a')
-        }
-        this.setState({data: [data, ...this.state.data]})
         this.props.setCreateStatus(false)
         this.setState({ status: null })
       }
@@ -231,9 +231,10 @@ class Status extends Component {
                     borderRadius: 15,
                     width: '90%',
                     marginTop: 10,
+                    height: 100
                   }}
                   multiline={true}
-                  numberOfLines={5}
+                  // numberOfLines={5}
                   onChangeText={text => this.statusHandler(text)}
                   value={this.state.status}
                   placeholder="Express what's on your mind!"
