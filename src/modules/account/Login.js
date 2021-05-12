@@ -25,6 +25,9 @@ import {FontAwesomeIcon} from '@fortawesome/react-native-fontawesome';
 import {faComments, faArrowRight, faUser} from '@fortawesome/free-solid-svg-icons';
 import Button from '../generic/Button.js'
 import { Dimensions } from 'react-native';
+import { fcmService } from 'services/broadcasting/FCMService';
+import { localNotificationService } from 'services/broadcasting/LocalNotificationService';
+
 const width = Math.round(Dimensions.get('window').width);
 class Login extends Component {
   //Screen1 Component
@@ -266,7 +269,6 @@ class Login extends Component {
           Pusher.listen(response => {
             this.managePusherResponse(response)
           });
-          // this.props.navigation.replace('loginScreen')
           this.checkOtp()
         }, error => {
           this.setState({isResponseError: true})
@@ -275,6 +277,99 @@ class Login extends Component {
         this.setState({isResponseError: true})
       })
     }
+  }
+
+  onRegister = (token) => {
+    console.log("[App] onRegister", token)
+  }
+
+  onOpenNotification = (notify) => {
+  }
+
+  onNotification = (notify) => {
+    const { user } = this.props.state;
+    let data = null
+    if(user == null || !notify.data){
+      return
+    }
+    data = notify.data
+    let topic = data.topic.split('-')
+    switch(topic[0].toLowerCase()){
+      case 'message': {
+          const { messengerGroup } = this.props.state;
+          let members = JSON.parse(data.members)
+          console.log('members', members)
+          if(messengerGroup == null && members.indexOf(user.id) > -1){
+            console.log('[messengerGroup] on empty', data)
+            const { setUnReadMessages } = this.props;
+            setUnReadMessages(data)
+            return
+          }
+          if(parseInt(data.messenger_group_id) === messengerGroup.id && members.indexOf(user.id) > -1){
+            if(parseInt(data.account_id) != user.id){
+              const { updateMessagesOnGroup } = this.props;
+              updateMessagesOnGroup(data); 
+            }
+            return
+          }
+        }
+        break
+      case 'comments': {
+        const { setComments } = this.props;
+        let topicId = topic.length > 1 ? topic[1] : null
+        console.log('[comments]', data)
+        if(topicId && parseInt(topicId) == user.id){
+          setComments(data)
+        }else{
+
+        }
+        
+      }
+      break
+    }
+  }
+
+  firebaseNotification(){
+    const { user } = this.props.state;
+    if(user == null){
+      return
+    }
+    fcmService.registerAppWithFCM()
+    fcmService.register(this.onRegister, this.onNotification, this.onOpenNotification)
+    localNotificationService.configure(this.onOpenNotification, Helper.APP_NAME)
+    fcmService.subscribeTopic('Message-' + user.id)
+    // fcmService.subscribeTopic('Notifications-' + user.id)
+    // fcmService.subscribeTopic('Requests')
+    // fcmService.subscribeTopic('Payments-' + user.id)
+    fcmService.subscribeTopic('Comments-' + user.id)
+    this.retrieveNotification()
+    return () => {
+      console.log("[App] unRegister")
+      fcmService.unRegister()
+      localNotificationService.unRegister()
+    }
+  }
+
+  retrieveNotification = () => {
+    const { setNotifications } = this.props;
+    const { user } = this.props.state;
+    if(user == null){
+      return
+    }
+    let parameter = {
+      condition: [{
+        value: user.id,
+        clause: '=',
+        column: 'to'
+      }],
+      limit: 10,
+      offset: 0
+    }
+    Api.request(Routes.notificationsRetrieve, parameter, notifications => {
+      console.log("[RESTRIEVE]", notifications.data)
+      setNotifications(notifications.size, notifications.data)
+    }, error => {
+    })
   }
 
   login = () => {
@@ -296,6 +391,7 @@ class Login extends Component {
           if(userInfo.data.length > 0){
             login(userInfo.data[0], this.state.token);
             this.retrieveUserData(userInfo.data[0].id)
+            this.firebaseNotification()
           }else{
             this.setState({isLoading: false});
             login(null, null)

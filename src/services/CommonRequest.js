@@ -57,6 +57,7 @@ export default {
       account_id: user.id,
       code: null
     }
+    console.log(parameter, Routes.messengerGroupRetrieve);
     Api.request(Routes.messengerGroupRetrieve, parameter, response => {
       if(callback){
         callback(response)

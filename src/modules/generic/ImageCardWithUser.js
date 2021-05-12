@@ -13,12 +13,17 @@ class ImageCardWithUser extends Component {
   constructor(props) {
     super(props);
     this.state = {
-      isActive: false
+      isActive: false,
+      background: [require('assets/synqt.png'), require('assets/new.png')]
     }
+  }
+  random = () => {
+    return Math.round(Math.random()) * 1;
   }
 
   render() {
     const { data } = this.props;
+    console.log(Math.round(Math.random()) * 1, 'random');
     return (
       <View style={{
         width: '100%',
@@ -36,12 +41,13 @@ class ImageCardWithUser extends Component {
             >
               <View>
                 <Image
-                  source={data.logo ? { uri: Config.BACKEND_URL + data.logo } : require('assets/synqt.png')}
+                  source={data.logo ? { uri: Config.BACKEND_URL + data.logo } : data.details === false ? this.state.background[this.random()] : require('assets/synqt.png')}
                   style={{
                     width: '100%',
                     height: height / 3.5,
                     borderTopLeftRadius: BasicStyles.standardBorderRadius,
-                    borderTopRightRadius: BasicStyles.standardBorderRadius
+                    borderTopRightRadius: BasicStyles.standardBorderRadius,
+                    marginTop: 5
                   }} />
               </View>
               <View style={{
