@@ -165,7 +165,7 @@ class Settings extends Component {
                 }}
                   onPress={() => {
                     if (item.title === 'Rate Now') {
-                      this.props.navigation.navigate('rateStack', { data: [], synqtId: this.props.synqtId })
+                      this.props.navigation.navigate('rateStack', { data: [], synqtId: this.props.synqtId, status: this.props.status })
                     } else if (item.title === 'Close') {
                       this.props.setShowSettings(!this.props.state.showSettings);
                     }

@@ -17,7 +17,8 @@ export default {
     width: width,
     borderRadius: 5,
     paddingLeft: 15,
-    paddingRight: 15
+    paddingRight: 15,
+    height: height * 0.9
   },
   label: {
     lineHeight: 400,

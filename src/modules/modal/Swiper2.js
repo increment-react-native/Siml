@@ -137,6 +137,7 @@ class Cards extends React.Component {
   }
 
   renderCard = () => {
+    console.log(this.state.data[this.state.index]?.rating, 'ratings');
     return (
       <View style={{ flex: 1, marginTop: '91%' }}>
         <CardStack
@@ -155,7 +156,7 @@ class Cards extends React.Component {
             this.state.data.length > 0 && this.state.data.map((el, idx) => {
               return (
                 <Card style={[styles.card]}>
-                  <ImageBackground style={{ resizeMode: 'cover', flex: 1, flexDirection: 'row', height: height - 150, width: null, marginTop: this.props.bottomFloatButton === true ? 50 : height * 0.25 }}
+                  <ImageBackground style={{ resizeMode: 'cover', flex: 1, flexDirection: 'row', height: height - 140, width: null, marginTop: this.props.bottomFloatButton === true ? 50 : height * 0.25 }}
                     imageStyle={{
                       flex: 1,
                       resizeMode: 'cover',
@@ -189,27 +190,27 @@ class Cards extends React.Component {
                       <FontAwesomeIcon
                         icon={faStar}
                         size={30}
-                        color={'#FFCC00'}
+                        color={this.state.data[this.state.index]?.rating?.stars >= 1 ? '#FFCC00' : '#ededed'}
                       />
                       <FontAwesomeIcon
                         icon={faStar}
                         size={30}
-                        color={'#FFCC00'}
+                        color={this.state.data[this.state.index]?.rating?.stars >= 2 ? '#FFCC00' : '#ededed'}
                       />
                       <FontAwesomeIcon
                         icon={faStar}
                         size={30}
-                        color={'#FFCC00'}
+                        color={this.state.data[this.state.index]?.rating?.stars >= 3 ? '#FFCC00' : '#ededed'}
                       />
                       <FontAwesomeIcon
                         icon={faStar}
                         size={30}
-                        color={'white'}
+                        color={this.state.data[this.state.index]?.rating?.stars >= 4 ? '#FFCC00' : '#ededed'}
                       />
                       <FontAwesomeIcon
                         icon={faStar}
                         size={30}
-                        color={'white'}
+                        color={this.state.data[this.state.index]?.rating?.stars >= 5 ? '#FFCC00' : '#ededed'}
                       />
                     </View>
                     {this.props.topFloatButton === true && (<View style={{

@@ -630,6 +630,7 @@ const mapDispatchToProps = dispatch => {
     updateMessagesOnGroupByPayload: (messages) => dispatch(actions.updateMessagesOnGroupByPayload(messages)),
     setSearchParameter: (searchParameter) => dispatch(actions.setSearchParameter(searchParameter)),
     setSystemNotification: (systemNotification) => dispatch(actions.setSystemNotification(systemNotification)),
+    setComments: (comments) => dispatch(actions.setComments(comments)),
   };
 };
 
