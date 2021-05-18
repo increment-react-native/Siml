@@ -27,7 +27,7 @@ class Connections extends Component {
       search: null,
       isShow: false,
       data: [],
-      limit: 5,
+      limit: 7,
       offset: 0,
       isLoading: false,
       pending: [],
@@ -105,17 +105,14 @@ class Connections extends Component {
         column: "status",
         value: 'pending'
       }],
-      offset: this.state.offset,
-      limit: flag ? '' : this.state.limit
+      offset: 0,
+      limit: this.state.limit
     }
     this.setState({ isLoading: true })
     Api.request(Routes.circleRetrieve, parameter, response => {
       this.setState({ isLoading: false })
       if (response.data.length > 0) {
-        this.setState({
-          pending: response.data,
-          offset: 1
-        })
+        this.setState({pending: response.data})
       }
     });
   }

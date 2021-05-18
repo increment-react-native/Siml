@@ -66,6 +66,17 @@ class Profile extends Component {
 
   updateAccount = () => {
     const { user } = this.props.state;
+    if(this.state.password && this.state.password.length < 6) {
+      Alert.alert(
+        "Opps",
+        "Passwords should be atleast 6 characters.",
+        [
+          { text: "OK" }
+        ],
+        { cancelable: false }
+      );
+      return
+    }
     if((this.state.password !== null || this.state.confirmPassword !== null
       || this.state.password !== '' || this.state.confirmPassword !== '') && this.state.password !== this.state.confirmPassword) {
       Alert.alert(
@@ -77,7 +88,8 @@ class Profile extends Component {
         { cancelable: false }
       );
       return
-    } else if(this.state.password === null || this.state.confirmPassword === null
+    }
+    if(this.state.password === null || this.state.confirmPassword === null
       || this.state.password === '' || this.state.confirmPassword === '') {
         return
     }

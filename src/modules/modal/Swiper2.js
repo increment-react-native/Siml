@@ -24,6 +24,7 @@ import Api from 'services/api/index.js';
 import { Spinner } from 'components';
 import styles from './Swiper2Style';
 import { connect } from 'react-redux';
+import _ from 'lodash';
 
 const height = Math.round(Dimensions.get('window').height);
 const width = Math.round(Dimensions.get('window').width);
@@ -79,16 +80,17 @@ class Cards extends React.Component {
       account_id: menu.account_id,
       sort: { title: 'asc' },
       limit: this.state.limit,
-      offset: this.state.offset,
+      offset: this.state.offset > 0 ? (this.state.offset * this.state.limit) : this.state.offset,
       inventory_type: 'all'
     }
     this.setState({ isLoading: true })
     Api.request(Routes.productsRetrieve, parameter, response => {
       this.setState({ isLoading: false })
       if (response.data.length > 0) {
-        this.setState({ products: response.data });
-      } else {
-        this.setState({ products: [] })
+        this.setState({
+          offset: this.state.offset + 1,
+          products:  _.uniqBy([...this.state.products, ...response.data], 'id')
+        })
       }
     },
       error => {

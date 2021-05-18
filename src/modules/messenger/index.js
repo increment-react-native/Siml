@@ -158,7 +158,7 @@ class Groups extends Component {
                 item?.members && item.members.length > 0 ? (
                   <View>
                     <Image
-                      source={item.members[1]?.profile?.url ? { uri: Config.BACKEND_URL + item.members[0].profile.url } : require('assets/test.jpg')}
+                      source={item.members.length > 0 && item.members[1]?.profile?.url ? { uri: Config.BACKEND_URL + item.members[0]?.profile?.url } : require('assets/test.jpg')}
                       style={[BasicStyles.profileImageSize, {
                         height: 30,
                         width: 30,
@@ -176,7 +176,7 @@ class Groups extends Component {
                       alignItems: 'center'
                     }}>
                       <Image
-                        source={item.members[0]?.profile?.url ? { uri: Config.BACKEND_URL + item.members[0].profile.url } : user?.account_profile?.url ? { uri: Config.BACKEND_URL + user.account_profile.url } : require('assets/logo_white.png')}
+                        source={item.members.length > 0 && item.members[0]?.profile?.url ? { uri: Config.BACKEND_URL + item.members[0]?.profile?.url } : user?.account_profile?.url ? { uri: Config.BACKEND_URL + user.account_profile.url } : require('assets/logo_white.png')}
                         style={[BasicStyles.profileImageSize, {
                           height: 30,
                           width: 30,
