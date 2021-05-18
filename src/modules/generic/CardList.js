@@ -29,6 +29,10 @@ class CardList extends Component {
       if(response.data !== null) {
         this.props.retrieve();
       }
+    }, error => {
+      console.log('error', error)
+      this.props.loading(false);
+      this.props.retrieve();
     });
   }
 
@@ -53,6 +57,9 @@ class CardList extends Component {
           data: this.props.navigation?.state?.params?.data
         });
       }
+    }, error => {
+      console.log('error', error)
+      this.props.loading(false);
     });
   }
 
@@ -65,6 +72,10 @@ class CardList extends Component {
     Api.request(Routes.circleUpdate, parameter, response => {
       this.props.loading(false);
       this.props.retrieve();
+    }, error => {
+      console.log('error', error)
+      this.props.loading(false);
+      this.props.retrieve();
     });
   }
 
@@ -74,9 +85,18 @@ class CardList extends Component {
     }
     this.props.loading(true);
     Api.request(Routes.circleDelete, parameter, response => {
-      this.props.loading(false);
-      el.is_added = false
-      this.props.retrieve();
+      console.log(response, 'response');
+      if(this.props.data.length === 1) {
+        this.props.data = []
+      } else {
+        this.props.retrieve();
+      }
+    }, error => {
+      if(this.props.data.length === 1) {
+        this.props.data = []
+      } else {
+        this.props.retrieve();
+      }
     });
   }
 
